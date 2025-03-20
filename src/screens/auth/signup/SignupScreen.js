@@ -1,0 +1,455 @@
+import React, { useState, useMemo, useEffect } from 'react';
+import {
+    View,
+    Text,
+    TouchableOpacity,
+    ImageBackground,
+    KeyboardAvoidingView,
+    Image,
+    ScrollView,
+    Alert,
+    Platform
+} from 'react-native';
+import { SignupStyles } from './SignupStyles';
+import { AddressInput, CustomTextInput } from '../../../components/input';
+import { LoginStyles } from '../login/LoginStyles';
+import { ResponsiveFont, Colors, Images } from '../../../assets';
+import { CustomButton, UploadFileButton } from '../../../components/button';
+import { ProgressBar } from 'react-native-paper';
+import { CustomDropdown } from '../../../components/dropdown';
+import { SuccessModal, Loader } from '../../../components/modal';
+import { SignupAction ,ClearErrorStatus} from '../../../Redux/actions/auth';
+import { connect } from 'react-redux';
+import useFileUpload from '../../../components/customhooks/UseFileUpload';
+import { useTranslation } from '../../../components/customhooks';
+import { ToastMsg } from '../../../components/Toast';
+import {
+    validateFirstName,
+    validateLastName,
+    validateEmail,
+    validatePhoneNumber,
+    validatePassword,
+
+
+} from '../../../utility/Validator';
+
+const NexttextStyle = {
+    fontSize: ResponsiveFont(18),
+    lineHeight: ResponsiveFont(49),
+}
+const ProfileOptions = [
+    'profile 1 ',
+    'profile 2',
+    'profile 3',
+    'profile 4',
+    'profile 5',
+];
+const SpecializationOptions = [
+    'specialization 1 ',
+    'specialization 2',
+    'specialization 3',
+    'specialization 4',
+    'specialization 5',
+];
+const ContryOptions = [
+    'country 1 ',
+    'country 2',
+    'country 3',
+    'country 4',
+    'country 5',
+];
+
+const formatUri = (uri) => {
+    if (Platform.OS === "android" && uri.startsWith("content://")) {
+        return uri.replace("content://", "file://");
+    }
+    return uri;
+};
+
+
+const SignupScreen = (props) => {
+    const t = useTranslation()
+    const [responseData, setResponseData] = useState(null);
+    const [step, setStep] = useState(1);
+    const [password, setPassword] = useState('');
+    const [userName, setUserName] = useState('');
+    const [firstName, setFirstName] = useState('');
+    const [lastName, setLastName] = useState('');
+    const [email, setEmail] = useState('');
+    const [phone, setPhone] = useState('');
+    const [cv, setCv] = useState(null);
+    const [profile, setProfile] = useState('');
+    const [specialization, setSpecialization] = useState('');
+    const [country, setCountry] = useState('');
+    const [address, setAddress] = useState('');
+    const [termsAccepted, setTermsAccepted] = useState(false);
+    const [isModal, setIsmodal] = useState(false);
+    const handleGoBack = () => {
+        props.navigation.goBack();
+    }
+    const handleNavigation = (target) => {
+        props.navigation.navigate(target);
+    }
+    const handleSubmit = async () => {
+        console.log('vaishhhhh')
+        if (!firstName) {
+            ToastMsg('Please Enter First Name', 'bottom');
+            return false;
+        }
+        if (!validateFirstName(firstName)) {
+            ToastMsg('Please Enter Valid First Name', 'bottom');
+            return false;
+        }
+
+        if (!lastName) {
+            ToastMsg('Please Enter Last Name', 'bottom');
+            return false;
+        }
+        if (!validateLastName(lastName)) {
+            ToastMsg('Please Enter Valid Last Name', 'bottom');
+            return false;
+        }
+
+        if (!email) {
+            ToastMsg('Please Enter Email Id', 'bottom');
+            return false;
+        }
+        if (!validateEmail(email)) {
+            ToastMsg('Please Enter Valid Email Id', 'bottom');
+            return false;
+        }
+
+        if (!phone) {
+            ToastMsg('Please Enter Mobile Number', 'bottom');
+            return false;
+        }
+
+        if (!validatePhoneNumber(phone)) {
+            ToastMsg('Please Enter Valid Mobile Number', 'bottom');
+            return false;
+        }
+        if (!password) {
+            ToastMsg('Please Enter your password ', 'bottom');
+            return false;
+        }
+        if (!validatePassword(password)) {
+            ToastMsg("Password must be at least 8 characters long, contain at least one uppercase letter, one lowercase letter, and one special character (.@#$%^&+=)", 'bottom');
+            return false;
+        }
+        if (!termsAccepted) {
+            ToastMsg('Please accept term and conditions before register', 'bottom');
+            return false;
+        }
+        if (profile=='') {
+            ToastMsg('Please Select Your Profile', 'bottom');
+            return false;
+        }
+        if (specialization=='') {
+            ToastMsg('Please Select Your specialization', 'bottom');
+            return false;
+        }
+        if (country=='') {
+            ToastMsg('Please Select Your Country', 'bottom');
+            return false;
+        }
+      
+        
+
+        const reqParams = {
+            "userName": userName,
+            "password": password,
+            "firstName": firstName,
+            "lastName": lastName,
+            "email": email,
+            "mobileNo": phone,
+            "profile": profile,
+            "cv": cv,
+            "specialization": specialization,
+            "country": country,
+            "address": address
+        }
+        await props.SignupAction(reqParams);
+    }
+
+    const handleNext = () => {
+        if (step < 2) setStep(step + 1);
+    };
+
+    const handleSignup = () => {
+        setIsmodal(true);
+        setTimeout(() => {
+            setIsmodal(false)
+            props.navigation.navigate('BottomTabNavigator');
+        }, 4000)
+    };
+    const ClearReducer = async () => {
+        await props.ClearErrorStatus()
+    }
+
+
+    useEffect(() => {
+        if (props.responseCode == 200) {
+            handleSignup()
+        }
+        else {
+            if (props.errMsg !== null) {
+                ToastMsg(props.errMsg, 'bottom');
+            }
+        }
+        if (props.errMsg !== null) {
+            ClearReducer();
+        }
+    }, [props.responseCode]);
+
+    const handleFileUpload = () => {
+        console.log('file upload')
+    }
+
+    const totalFields = 11;
+    const filledFields = useMemo(() => {
+        let count = 0;
+        if (firstName) count++;
+        if (lastName) count++;
+        if (email) count++;
+        if (phone) count++;
+        if (password) count++;
+        if (cv) count++;
+        if (profile) count++;
+        if (specialization) count++;
+        if (country) count++;
+        if (address) count++;
+        if (termsAccepted) count++;
+        return count;
+    }, [
+        firstName,
+        lastName,
+        email,
+        phone,
+        password,
+        cv,
+        profile,
+        specialization,
+        country,
+        address,
+        termsAccepted
+    ]);
+    const progress = filledFields / totalFields;
+
+    return (
+        <ImageBackground
+            source={Images.login_background_scroll}
+            style={LoginStyles.background}
+            resizeMode="cover"
+        >
+            <KeyboardAvoidingView
+                style={LoginStyles.container}
+                behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+            >
+                <ScrollView
+                    keyboardShouldPersistTaps="handled"
+                    contentContainerStyle={LoginStyles.scrollContainer}
+                >
+                    <View style={LoginStyles.topView}>
+                        <TouchableOpacity onPress={() => { handleGoBack() }} style={LoginStyles.arrowContainer} >
+                            <Image
+                                source={Images.icon_arrow_back}
+                                style={LoginStyles.backArrow}
+                            />
+                        </TouchableOpacity>
+                        <View style={LoginStyles.textContainer}>
+                            <Text style={LoginStyles.boldText}>{t('sign')} </Text>
+                            <Text style={LoginStyles.heading}>{t('up')}</Text>
+                        </View>
+
+                        <View style={LoginStyles.textContainer}>
+                            <Text style={LoginStyles.subHeading}>{t('alreadyHaveAnAccount')} </Text>
+                            <TouchableOpacity onPress={() => { handleNavigation('LoginScreen') }}>
+                                <Text style={LoginStyles.subBoldText}>{t('login')}</Text>
+                            </TouchableOpacity>
+                        </View>
+
+
+                        <View style={SignupStyles.pageContainer}>
+                            <TouchableOpacity onPress={() => setStep(1)} style={SignupStyles.headingName}>
+                                <Text style={{ ...SignupStyles.pageName, color: Colors.blue }}>{t('personnel')}</Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity onPress={() => setStep(2)}>
+                                <Text style={
+                                    {
+                                        ...SignupStyles.pageName,
+                                        color: step === 2 || step === 3 ? Colors.blue : Colors.gray,
+                                    }}>{t('professional')}</Text>
+                            </TouchableOpacity>
+                        </View>
+
+                        <View style={SignupStyles.progressBarContainer}>
+                            <ProgressBar
+                                progress={progress}
+                                color={Colors.blue}
+                                style={SignupStyles.progressBar}
+                            />
+                        </View>
+
+                    </View>
+                    <View style={SignupStyles.bottomView}>
+
+                        {step === 1 && (
+                            <>
+
+                                <CustomTextInput
+                                    heading={t('firstName')}
+                                    placeholder={t('EnterFirstName')}
+                                    value={firstName}
+                                    onChangeText={setFirstName}
+                                    type="text"
+                                    width='100%'
+                                />
+                                <CustomTextInput
+                                    heading={t('lastName')}
+                                    placeholder={t('EnterlastName')}
+                                    value={lastName}
+                                    onChangeText={setLastName}
+                                    type="text"
+                                    width='100%'
+                                />
+                                <CustomTextInput
+                                    heading={t('Email')}
+                                    placeholder={t('enterEmail')}
+                                    value={email}
+                                    onChangeText={setEmail}
+                                    type="email"
+                                    width='100%'
+                                />
+                                <CustomTextInput
+                                    heading={t('mobileNo')}
+                                    placeholder={t('EnterMobileNumber')}
+                                    value={phone}
+                                    onChangeText={setPhone}
+                                    type="phone"
+                                    width='100%'
+                                />
+                                <CustomTextInput
+                                    heading={t('password')}
+                                    placeholder={t('enterPassword')}
+                                    value={password}
+                                    onChangeText={setPassword}
+                                    type="password"
+                                    width='100%'
+                                />
+
+                            </>
+                        )}
+
+                        {step === 2 && (
+                            <>
+                                <UploadFileButton
+                                    heading={t('CV')}
+                                    title={t('UploadCV')}
+                                    onPress={() => { }}
+                                    width='100%'
+                                />
+                                <CustomDropdown
+                                    heading={t('SelectProfile')}
+                                    placeholder={t('Select')}
+                                    selectedValue={profile}
+                                    onValueChange={setProfile}
+                                    options={ProfileOptions}
+                                    width='100%'
+                                    type="profile"
+                                />
+                                <CustomDropdown
+                                    heading={t('EnterSpecialization')}
+                                    placeholder={t('Select')}
+                                    selectedValue={specialization}
+                                    onValueChange={setSpecialization}
+                                    options={SpecializationOptions}
+                                    width='100%'
+                                    type="specialization"
+                                />
+                                <CustomDropdown
+                                    heading={t('SelectCountry')}
+                                    placeholder={t('Select')}
+                                    selectedValue={country}
+                                    onValueChange={setCountry}
+                                    options={ContryOptions}
+                                    width='100%'
+                                    type="country"
+                                />
+                                <AddressInput
+                                    heading={t('Address')}
+                                    placeholder={t('EnterAddress')}
+                                    value={address}
+                                    onChangeText={setAddress}
+                                    width='100%'
+                                />
+                                <TouchableOpacity
+                                    onPress={() => setTermsAccepted(!termsAccepted)}
+                                    style={SignupStyles.iconContainer}
+                                >
+                                    <Image
+                                        style={SignupStyles.iconStyle}
+                                        source={termsAccepted ? 
+                                            Images.icon_chat2 : 
+                                            Images.icon_checkbox
+                                        }
+                                    />
+                                    <Text style={SignupStyles.termText}>{t('termscondition')}</Text>
+                                </TouchableOpacity>
+                            </>
+                        )}
+
+
+                        <CustomButton
+                            // title={step < 2 ? "Next" : "Sign Up"}
+                            title={step < 2 ? t('Next') : t('signup')}
+                            onPress={() => {
+                                if (step < 2) {
+                                    handleNext()
+                                } else {
+                                    handleSubmit()
+                                }
+                            }}
+                            backgroundColor={Colors.blue}
+                            textColor={Colors.white}
+                            textStyle={NexttextStyle}
+                            width='100%'
+                        />
+                        <SuccessModal
+                            heading={t('SignUpSuccessful')}
+                            subHeading={t('welcomeToMedicineApp')}
+                            isModalOpen={isModal}
+                            onClose={() => {
+                                setIsmodal(false)
+                            }}
+                        />
+
+                        {responseData && (
+                            <View style={{ marginTop: 20, padding: 10, backgroundColor: "#f0f0f0", borderRadius: 8 }}>
+                                <Text style={{ fontWeight: "bold" }}>Response Data:</Text>
+                                <Text>{JSON.stringify(responseData, null, 2)}</Text>
+                            </View>
+                        )}
+
+                    </View>
+                    <Loader
+                        visible={props.loading}
+                    />
+                </ScrollView>
+            </KeyboardAvoidingView>
+        </ImageBackground>
+    )
+};
+
+const mapStateToProps = state => {
+    return {
+        loading: state.authReducer.loading,
+        errMsg: state.authReducer.errMsg,
+        responseCode: state.authReducer.responseCode,
+    };
+};
+
+const mapDispatchToProps = {
+    SignupAction,
+    ClearErrorStatus,
+};
+export default connect(mapStateToProps, mapDispatchToProps)(SignupScreen);
