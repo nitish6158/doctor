@@ -18,21 +18,20 @@ import { CustomButton, UploadFileButton } from '../../../components/button';
 import { ProgressBar } from 'react-native-paper';
 import { CustomDropdown } from '../../../components/dropdown';
 import { SuccessModal, Loader } from '../../../components/modal';
-import { SignupAction ,ClearErrorStatus} from '../../../Redux/actions/auth';
+import { SignupAction, ClearStatusSignup } from '../../../Redux/actions/auth';
 import { connect } from 'react-redux';
 import useFileUpload from '../../../components/customhooks/UseFileUpload';
 import { useTranslation } from '../../../components/customhooks';
 import { ToastMsg } from '../../../components/Toast';
+import { END_POINT } from '../../../Redux/config';
+import { getRequest } from '../../../Redux/config';
 import {
     validateFirstName,
     validateLastName,
     validateEmail,
     validatePhoneNumber,
     validatePassword,
-
-
 } from '../../../utility/Validator';
-
 const NexttextStyle = {
     fontSize: ResponsiveFont(18),
     lineHeight: ResponsiveFont(49),
@@ -45,18 +44,17 @@ const ProfileOptions = [
     'profile 5',
 ];
 const SpecializationOptions = [
-    'specialization 1 ',
-    'specialization 2',
-    'specialization 3',
-    'specialization 4',
-    'specialization 5',
+    "Ophthalmologist",
+    "Dermatologisttt",
+    "Rheumatology",
+    "Cardiologist",
+    "GYNOLOGIST0",
 ];
 const ContryOptions = [
-    'country 1 ',
-    'country 2',
-    'country 3',
-    'country 4',
-    'country 5',
+    'India',
+    'Saudi Arabia',
+    'France',
+    'United States',
 ];
 
 const formatUri = (uri) => {
@@ -66,9 +64,11 @@ const formatUri = (uri) => {
     return uri;
 };
 
-
 const SignupScreen = (props) => {
     const t = useTranslation()
+    const lang = props?.appLanguage?.toLowerCase()
+    const [specializationArr, setSpecializationArr] = useState(null)
+    const [profileArr, setProfileArr] = useState(null)
     const [responseData, setResponseData] = useState(null);
     const [step, setStep] = useState(1);
     const [password, setPassword] = useState('');
@@ -140,20 +140,20 @@ const SignupScreen = (props) => {
             ToastMsg('Please accept term and conditions before register', 'bottom');
             return false;
         }
-        if (profile=='') {
+        if (profile == '') {
             ToastMsg('Please Select Your Profile', 'bottom');
             return false;
         }
-        if (specialization=='') {
+        if (specialization == '') {
             ToastMsg('Please Select Your specialization', 'bottom');
             return false;
         }
-        if (country=='') {
+        if (country == '') {
             ToastMsg('Please Select Your Country', 'bottom');
             return false;
         }
-      
-        
+
+
 
         const reqParams = {
             "userName": userName,
@@ -183,7 +183,7 @@ const SignupScreen = (props) => {
         }, 4000)
     };
     const ClearReducer = async () => {
-        await props.ClearErrorStatus()
+        await props.ClearStatusSignup()
     }
 
 
@@ -235,6 +235,35 @@ const SignupScreen = (props) => {
     ]);
     const progress = filledFields / totalFields;
 
+    useEffect(() => {
+        fetchDoctorProfile();
+        fetchDoctorSpecialization()
+    }, []);
+
+    const fetchDoctorProfile = async () => {
+        try {
+            const data = await getRequest(END_POINT.getDoctorProfile); // No params needed
+            console.log("Doctor profile Data:", data);
+            setProfileArr(data?.data);
+        } catch (err) {
+            console.warn("Error fetching Profile :", err);
+        } finally {
+            console.log("API call completed");
+        }
+    };
+    const fetchDoctorSpecialization = async () => {
+        try {
+            const data = await getRequest(END_POINT.specilization(lang));
+            if (data && data?.data) {
+                setSpecializationArr(data.data)
+            }
+        } catch (err) {
+            console.warn("Error fetching specializations:", err);
+        } finally {
+            console.log("API call completed");
+        }
+    };
+
     return (
         <ImageBackground
             source={Images.login_background_scroll}
@@ -248,14 +277,13 @@ const SignupScreen = (props) => {
                 <ScrollView
                     keyboardShouldPersistTaps="handled"
                     contentContainerStyle={LoginStyles.scrollContainer}
+                    nestedScrollEnabled={true}
+                    showsVerticalScrollIndicator={false}
+
                 >
                     <View style={LoginStyles.topView}>
-                        <TouchableOpacity onPress={() => { handleGoBack() }} style={LoginStyles.arrowContainer} >
-                            <Image
-                                source={Images.icon_arrow_back}
-                                style={LoginStyles.backArrow}
-                            />
-                        </TouchableOpacity>
+                        <View style={LoginStyles.arrowContainer}></View>
+
                         <View style={LoginStyles.textContainer}>
                             <Text style={LoginStyles.boldText}>{t('sign')} </Text>
                             <Text style={LoginStyles.heading}>{t('up')}</Text>
@@ -353,7 +381,7 @@ const SignupScreen = (props) => {
                                     placeholder={t('Select')}
                                     selectedValue={profile}
                                     onValueChange={setProfile}
-                                    options={ProfileOptions}
+                                    options={profileArr}
                                     width='100%'
                                     type="profile"
                                 />
@@ -362,7 +390,7 @@ const SignupScreen = (props) => {
                                     placeholder={t('Select')}
                                     selectedValue={specialization}
                                     onValueChange={setSpecialization}
-                                    options={SpecializationOptions}
+                                    options={specializationArr}
                                     width='100%'
                                     type="specialization"
                                 />
@@ -388,8 +416,8 @@ const SignupScreen = (props) => {
                                 >
                                     <Image
                                         style={SignupStyles.iconStyle}
-                                        source={termsAccepted ? 
-                                            Images.icon_chat2 : 
+                                        source={termsAccepted ?
+                                            Images.icon_checkbox_enable :
                                             Images.icon_checkbox
                                         }
                                     />
@@ -445,11 +473,12 @@ const mapStateToProps = state => {
         loading: state.authReducer.loading,
         errMsg: state.authReducer.errMsg,
         responseCode: state.authReducer.responseCode,
+        appLanguage: state.authReducer.appLanguage
     };
 };
 
 const mapDispatchToProps = {
     SignupAction,
-    ClearErrorStatus,
+    ClearStatusSignup,
 };
 export default connect(mapStateToProps, mapDispatchToProps)(SignupScreen);

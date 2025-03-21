@@ -6,6 +6,7 @@ const initialState = {
   isAccountVarified: false,
 
   responseCode: null,
+  responseCodeLogin : null,
   errMsg: null,
   loading: false,
 
@@ -42,14 +43,14 @@ const authReducer = (state = initialState, action) => {
 
     case AUTH.LOGIN_REQUEST:
       return Object.assign({}, state, {
-        responseCode: null,
+        responseCodeLogin: null,
         errMsg: null,
         loading: true,
         authToken: null,
       });
     case AUTH.LOGIN_SUCCESS:
       return Object.assign({}, state, {
-        responseCode: action?.payload?.status,
+        responseCodeLogin: action?.payload?.status,
         errMsg: action?.payload?.message,
         loading: false,
         loginStatus: true,
@@ -72,7 +73,7 @@ const authReducer = (state = initialState, action) => {
       });
     case AUTH.LOGIN_FAIL:
       return Object.assign({}, state, {
-        responseCode: action?.payload?.status,
+        responseCodeLogin: action?.payload?.status,
         errMsg: action?.payload?.message,
         loading: false,
       });
@@ -115,17 +116,12 @@ const authReducer = (state = initialState, action) => {
         loading: false,
       });
 
-    case AUTH.CLEAR_STATUS:
-      return Object.assign({}, state, {
-        responseCode: null,
-        errMsg: null,
-      });
-
     case AUTH.LOGOUT_USER:
       return Object.assign({}, state, {
         loginStatus: false,
         isAccountVarified: false,
         responseCode: null,
+        responseCodeLogin:null,
         errMsg: null,
         loading: false,
         authToken: null,
@@ -146,6 +142,12 @@ const authReducer = (state = initialState, action) => {
       });
 
     case AUTH.CLEAR_ERROR_STATUS:
+      return Object.assign({}, state, {
+        responseCodeLogin: null,
+        errMsg: null,
+      });
+
+    case AUTH.CLEAR_RESPONSE_STATUS:
       return Object.assign({}, state, {
         responseCode: null,
         errMsg: null,

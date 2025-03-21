@@ -3,7 +3,7 @@ import {
   BANK,
   END_POINT,
   ApiHandler,
-  BASE_URL3,
+  BASE_URL,
 } from '../../config';
 
 export const BankFormAction = data => {
@@ -42,7 +42,7 @@ export const BankFormAction = data => {
 
     };
     const method = API_METHODS.POST;
-    const endPoint = BASE_URL3 + END_POINT.bankform;
+    const endPoint = BASE_URL + END_POINT.bankform;
     try {
       const response = await ApiHandler({ endPoint, method, reqParam });
       if (response?.data?.status === 200) {

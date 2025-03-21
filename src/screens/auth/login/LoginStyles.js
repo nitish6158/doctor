@@ -25,7 +25,7 @@ export const LoginStyles = StyleSheet.create({
     },
     arrowContainer: {
         width: '100%',
-        paddingVertical: wp * 7 / 100,
+        paddingVertical: wp * 12 / 100,
     },
     backArrow: {
         width: wp * 7/ 100,

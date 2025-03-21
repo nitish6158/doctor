@@ -72,7 +72,7 @@ const styles = StyleSheet.create({
     color: Colors.white,
     fontFamily: Fonts.Bold,
     fontSize: ResponsiveFont(14),
-    lineHeight: ResponsiveFont(20),
+    // lineHeight: ResponsiveFont(20),
   },
   disabledButton: {
     backgroundColor: Colors.gray,

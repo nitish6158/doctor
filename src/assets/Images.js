@@ -21,6 +21,7 @@ export const Images = {
     // icons
     icon_arrow_back: require('./icons/arrow_back.png'),
     icon_checkbox: require('./icons/checkbox.png'),
+    icon_checkbox_enable: require('./icons/checkBoxEnable.png'),
 
     icon_email_active: require('./icons/email_active.png'),
     icon_email_deactive: require('./icons/email_deactive.png'),
@@ -101,4 +102,5 @@ export const Images = {
     cross_icon:require('./icons/cross_icon.png'),
     icon_celender:require('./icons/Calendar.png'),
     icon_availability:require('./icons/availability.png'),
+
 };

@@ -13,7 +13,7 @@ export const CustomDropdown = ({
   height = hp * 0.07,
   borderRadius = 16,
   backgroundColor = Colors.white,
-  borderColor=Colors.borderColor2,
+  borderColor = Colors.borderColor2,
   textColor = Colors.black,
   style = {},
   textStyle = {},
@@ -37,11 +37,31 @@ export const CustomDropdown = ({
   const renderOptions = ({ item }) => (
     <TouchableOpacity style={styles.optionContainer}
       onPress={() => {
-        onValueChange(item);
+        onValueChange(
+          type === 'profile'
+            ?
+            item?.profileName
+            :
+            type === 'specialization'
+              ?
+              item?.specializationName
+              :
+              item
+        );
         setModalVisible(false);
       }}
     >
-      <Text style={styles.optionStyle}>{item}</Text>
+      <Text style={styles.optionStyle}>{
+        type === 'profile'
+          ?
+          item?.profileName
+          :
+          type === 'specialization'
+            ?
+            item?.specializationName
+            :
+            item
+      }</Text>
     </TouchableOpacity>
   )
 
@@ -51,7 +71,7 @@ export const CustomDropdown = ({
       <TouchableOpacity
         style={[
           styles.dropdownButton,
-          { backgroundColor, borderRadius, width, height ,borderColor},
+          { backgroundColor, borderRadius, width, height, borderColor },
           style,
         ]}
         onPress={() => setModalVisible(true)}
@@ -87,6 +107,11 @@ export const CustomDropdown = ({
             <FlatList
               data={options}
               renderItem={renderOptions}
+              scrollEnabled={true}  // Allow scrolling when options exceed the limit
+              nestedScrollEnabled={true}
+              showsVerticalScrollIndicator={false}
+              keyExtractor={(item, index) => index.toString()}
+
             />
           </View>
         </View>
@@ -102,7 +127,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     borderLeftWidth: 1,
     borderRightWidth: 1,
-    borderBottomWidth: 1,    
+    borderBottomWidth: 1,
     paddingHorizontal: wp * 2.5 / 100,
     marginVertical: hp * 0.5 / 100,
   },
@@ -127,6 +152,7 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.white,
     borderRadius: wp * 5 / 100,
     paddingHorizontal: wp * 2 / 100,
+    maxHeight: '50%',  // Ensure the modal only takes up to 50% of screen height
   },
   heading: {
     fontFamily: Fonts.Bold,
@@ -147,4 +173,12 @@ const styles = StyleSheet.create({
     color: Colors.black,
     textAlign: 'center'
   },
+  optionsList: {
+    maxHeight: '50%', // Limit dropdown height
+  },
+  icon: {
+    width: (wp * 5) / 100,
+    height: (wp * 5) / 100,
+    resizeMode: 'contain',
+  }
 });

@@ -100,6 +100,11 @@ const styles = StyleSheet.create({
     fontSize: ResponsiveFont(14),
     lineHeight: ResponsiveFont(17.5),
     color: Colors.black
+  },
+  eyeIcon:{
+    width: (wp * 5) / 100,
+    height: (wp * 5) / 100,
+    resizeMode: 'contain',
   }
 });
 

@@ -3,27 +3,29 @@ import {
   AUTH,
   END_POINT,
   ApiHandler,
-  BASE_URL3,
+  BASE_URL,
 } from '../../config';
 
 export const SignupAction = data => {
   return async (dispatch, getState) => {
     dispatch({ type: AUTH.SIGNUP_REQUEST });
     const reqParam = {
-      "userName": data.userName,
-      "password": data.password,
+      "id": null,
       "firstName": data.firstName,
       "lastName": data.lastName,
+      "password": data.password,
       "email": data.email,
       "mobileNo": data.mobileNo,
-      "profile": data.profile,
+      "profile": "DOCTOR",
       "cv": data.cv,
+      "description": "string",
       "specialization": data.specialization,
       "country": data.country,
       "address": data.address
     };
+
     const method = API_METHODS.POST;
-    const endPoint = BASE_URL3 + END_POINT.signup;
+    const endPoint = BASE_URL + END_POINT.signup;
     try {
       const response = await ApiHandler({ endPoint, method, reqParam });
       if (response?.data?.status === 200) {
@@ -45,5 +47,11 @@ export const SignupAction = data => {
         dispatch({ type: AUTH.SIGNUP_FAIL, payload: err });
       }
     }
+  };
+};
+
+export const ClearStatusSignup = data => {
+  return async (dispatch, getState) => {
+    dispatch({ type: AUTH.CLEAR_RESPONSE_STATUS });
   };
 };

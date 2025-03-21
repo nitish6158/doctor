@@ -57,10 +57,10 @@ export const Languages = {
     FN: 'Entrez le mot de passe',
   },
   forgetPassword: {
-    EN: 'Forget Password?',
-    AR: 'نسيت كلمة المرور؟',
-    FN: 'Mot de passe oublié?',
-  },
+    EN: "Forgot Password?",
+    AR: "نسيت كلمة المرور؟",
+    FN: "Mot de passe oublié ?"
+  },  
   forgetPasswordSubHeading: {
     EN: 'We will send a reset password link to your registered email address. Open that link, and you will be redirected to the reset password screen.',
     AR: 'سنرسل رابط إعادة تعيين كلمة المرور إلى بريدك الإلكتروني المسجل. افتح هذا الرابط، وستتم إعادة توجيهك إلى شاشة إعادة تعيين كلمة المرور.',

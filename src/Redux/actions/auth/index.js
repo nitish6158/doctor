@@ -5,6 +5,7 @@ import { ForgotPasswordAction } from "./ForgotPasswordAction";
 import { ClearErrorStatus } from "./LoginActions";
 import { LogoutAction } from "./LoginActions";
 import { ClearErrorStatusForgotPassword } from "./ForgotPasswordAction";
+import { ClearStatusSignup } from "./SignupActions";
 export {
     LanguageAction,
     LoginAction,
@@ -12,5 +13,6 @@ export {
     ForgotPasswordAction,
     ClearErrorStatus,
     LogoutAction,
-    ClearErrorStatusForgotPassword
+    ClearErrorStatusForgotPassword,
+    ClearStatusSignup,
 }

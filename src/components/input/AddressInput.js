@@ -39,7 +39,7 @@ const styles = StyleSheet.create({
     // borderWidth: 1,
     paddingHorizontal: wp * 2.5 / 100,
     marginVertical: hp * 0.5 / 100,
-    padding:wp*1/100,
+    paddingVertical:wp*3.4/100,
     borderLeftWidth: 1,
     borderRightWidth: 1,
     borderBottomWidth: 1,

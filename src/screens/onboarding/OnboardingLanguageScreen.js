@@ -26,9 +26,9 @@ const OnboardingLanguageScreen = (props) => {
         // props.navigation.goBack();
         console.log("back")
     }
- 
-    const selectlanguage = async(target) =>{
-        if(target!==props.appLanguage){
+
+    const selectlanguage = async (target) => {
+        if (target !== props.appLanguage) {
             await props.LanguageAction(target);
         }
         await AsyncStorage.setItem('onboardingCompleted', 'true');
@@ -36,9 +36,9 @@ const OnboardingLanguageScreen = (props) => {
 
     }
 
-    useEffect(()=>{
-    console.log(props.appLanguage,'laguageeeeeee')
-    },[props.appLanguage])
+    useEffect(() => {
+        console.log(props.appLanguage, 'laguageeeeeee')
+    }, [props.appLanguage])
 
     return (
         <ImageBackground
@@ -51,39 +51,31 @@ const OnboardingLanguageScreen = (props) => {
             >
                 <View style={OnboardingLanguageStyles.topView}>
                     <View style={OnboardingLanguageStyles.imageHolder}>
-                        <View >
-                            <TouchableOpacity onPress={() => { handleGoBack() }}
-                                style={OnboardingLanguageStyles.arrowContainer} >
-                                <Image
-                                    source={Images.icon_arrow_back}
-                                    style={OnboardingLanguageStyles.backArrow}
-                                />
-                            </TouchableOpacity>
-                            <Image source={Images.language_convert} />
-
-                        </View>
-                        <Image source={Images.medicine} />
-                    </View>
-                    <View style={OnboardingLanguageStyles.textContainer}>
-                        <Text style={OnboardingLanguageStyles.heading}>Choose Your Preferred Language</Text>
-                    </View>
-
-
-
-                    {/* <TouchableOpacity onPress={() => { handleGoBack() }}
-                        style={OnboardingLanguageStyles.arrowContainer} >
                         <Image
-                            source={Images.icon_arrow_back}
-                            style={OnboardingLanguageStyles.backArrow}
+                            source={Images.language_convert}
+                            style={{
+                                alignSelf: 'flex-end',
+                                // height: '10%',
+                                // width: '10%',
+                                // resizeMode: 'contain'
+                            }}
                         />
-                    </TouchableOpacity>
-                    <View style={OnboardingLanguageStyles.languageImage}>
-                        <Image source={Images.language_convert} />
-                        <Image source={Images.medicine} />
+                        <Image
+                            source={Images.medicine}
+                            style={{
+                                alignSelf: 'flex-start',
+                                width: '30%',
+                                // height: '30%',
+                                resizeMode: 'contain',
+                                marginTop:'18%'
+                            }}
+                        />
                     </View>
+
                     <View style={OnboardingLanguageStyles.textContainer}>
                         <Text style={OnboardingLanguageStyles.heading}>Choose Your Preferred Language</Text>
-                    </View> */}
+                    </View>
+
                 </View>
                 <View style={OnboardingLanguageStyles.bottomView}>
                     <LanguageSelectionButton
@@ -93,7 +85,7 @@ const OnboardingLanguageScreen = (props) => {
                         // options={ProfileOptions}
                         width='100%'
                         type="english"
-                        onPress={()=>{
+                        onPress={() => {
                             selectlanguage("EN")
                         }}
                     />
@@ -104,10 +96,10 @@ const OnboardingLanguageScreen = (props) => {
                         // options={SpecializationOptions}
                         width='100%'
                         type="france"
-                        onPress={()=>{
+                        onPress={() => {
                             selectlanguage("FN")
                         }}
-                        
+
                     />
                     <LanguageSelectionButton
                         placeholder="لغة"
@@ -116,7 +108,7 @@ const OnboardingLanguageScreen = (props) => {
                         // options={ContryOptions}
                         width='100%'
                         type="arabic"
-                        onPress={()=>{
+                        onPress={() => {
                             selectlanguage("AR")
                         }}
                     />
@@ -134,7 +126,7 @@ const mapStateToProps = state => {
         loading: state.authReducer.loading,
         errMsg: state.authReducer.errMsg,
         responseCode: state.authReducer.responseCode,
-        appLanguage:state.authReducer.appLanguage,
+        appLanguage: state.authReducer.appLanguage,
     };
 };
 

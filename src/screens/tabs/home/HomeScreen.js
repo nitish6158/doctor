@@ -228,8 +228,8 @@ const HomeScreen = (props) => {
                                     >{t('PleaseAddYourBankInformationAndContract')}</Text>
                                     <CustomButton
                                         title={t('FinishSetup')}
-                                        height={'12%'}
-                                        width={'40%'}
+                                        height={'16%'}
+                                        width={'45%'}
                                         backgroundColor={Colors.lightblue3}
                                         textColor={Colors.blue}
                                         onPress={handleBankDetails}

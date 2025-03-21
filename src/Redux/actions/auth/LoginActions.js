@@ -25,6 +25,7 @@ export const ClearErrorStatus = data => {
     dispatch({ type: AUTH.CLEAR_ERROR_STATUS });
   };
 };
+
 export const LoginAction = data => {
   return async (dispatch, getState) => {
     dispatch({ type: AUTH.LOGIN_REQUEST });

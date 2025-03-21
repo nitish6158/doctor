@@ -87,14 +87,9 @@ const LoginScreen = (props) => {
                 >
 
                     <View style={LoginStyles.topView}>
-                        <TouchableOpacity onPress={() => { handleGoBack() }} style={LoginStyles.arrowContainer} >
-                            <Image
-                                source={Images.icon_arrow_back}
-                                style={LoginStyles.backArrow}
-                            />
-                        </TouchableOpacity>
+                        <View style={LoginStyles.arrowContainer}></View>
                         <View style={LoginStyles.textContainer}>
-                            <Text style={LoginStyles.boldText}> {t('login')} </Text>
+                            <Text style={LoginStyles.boldText}>{t('login')} </Text>
                             <Text style={LoginStyles.heading}>{t('toYourAccount')}</Text>
                         </View>
 
@@ -158,7 +153,7 @@ const mapStateToProps = state => {
     return {
         loading: state.authReducer.loading,
         errMsg: state.authReducer.errMsg,
-        responseCode: state.authReducer.responseCode,
+        responseCode: state.authReducer.responseCodeLogin,
     };
 };
 

@@ -33,6 +33,7 @@ export const OnboardingLanguageStyles = StyleSheet.create({
         flexDirection: 'row',
         paddingVertical: (wp * 1) / 100,
         width: '90%',
+        flex:4,
     },
     heading: {
         fontFamily: Fonts.Bold,
@@ -44,7 +45,6 @@ export const OnboardingLanguageStyles = StyleSheet.create({
         flex: 6,
         width: '100%',
         paddingVertical: wp * 4 / 100,
-
     },
 
     backArrow: {
@@ -56,6 +56,7 @@ export const OnboardingLanguageStyles = StyleSheet.create({
         flexDirection: 'row', 
         justifyContent: 'space-between', 
         alignItems: 'center',
-        paddingVertical: (wp * 6) / 100
+        // backgroundColor:'red',
+        flex:6
     }
 });
