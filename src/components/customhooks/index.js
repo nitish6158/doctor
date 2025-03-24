@@ -1,3 +1,3 @@
 import useTranslation from "./useTranslation";
-import useFileUpload from "./UseFileUpload";
+import { useFileUpload } from "./useFileUpload";
 export {useTranslation,useFileUpload}

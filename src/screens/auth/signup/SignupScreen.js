@@ -20,7 +20,6 @@ import { CustomDropdown } from '../../../components/dropdown';
 import { SuccessModal, Loader } from '../../../components/modal';
 import { SignupAction, ClearStatusSignup } from '../../../Redux/actions/auth';
 import { connect } from 'react-redux';
-import useFileUpload from '../../../components/customhooks/UseFileUpload';
 import { useTranslation } from '../../../components/customhooks';
 import { ToastMsg } from '../../../components/Toast';
 import { END_POINT } from '../../../Redux/config';
@@ -32,6 +31,8 @@ import {
     validatePhoneNumber,
     validatePassword,
 } from '../../../utility/Validator';
+import { useFileUpload } from '../../../components/customhooks';
+
 const NexttextStyle = {
     fontSize: ResponsiveFont(18),
     lineHeight: ResponsiveFont(49),
@@ -77,7 +78,8 @@ const SignupScreen = (props) => {
     const [lastName, setLastName] = useState('');
     const [email, setEmail] = useState('');
     const [phone, setPhone] = useState('');
-    const [cv, setCv] = useState(null);
+    const { uploadFile, loading, fileUrl, error } = useFileUpload();
+    const [uploadedFile, setUploadedFile] = useState(null);   
     const [profile, setProfile] = useState('');
     const [specialization, setSpecialization] = useState('');
     const [country, setCountry] = useState('');
@@ -163,7 +165,7 @@ const SignupScreen = (props) => {
             "email": email,
             "mobileNo": phone,
             "profile": profile,
-            "cv": cv,
+            "cv": uploadedFile,
             "specialization": specialization,
             "country": country,
             "address": address
@@ -201,9 +203,6 @@ const SignupScreen = (props) => {
         }
     }, [props.responseCode]);
 
-    const handleFileUpload = () => {
-        console.log('file upload')
-    }
 
     const totalFields = 11;
     const filledFields = useMemo(() => {
@@ -213,7 +212,7 @@ const SignupScreen = (props) => {
         if (email) count++;
         if (phone) count++;
         if (password) count++;
-        if (cv) count++;
+        if (uploadedFile) count++;
         if (profile) count++;
         if (specialization) count++;
         if (country) count++;
@@ -226,7 +225,7 @@ const SignupScreen = (props) => {
         email,
         phone,
         password,
-        cv,
+        uploadedFile,
         profile,
         specialization,
         country,
@@ -263,6 +262,17 @@ const SignupScreen = (props) => {
             console.log("API call completed");
         }
     };
+
+    const handleFileUpload = async () => {
+        const response = await uploadFile();
+        if (response?.success) {
+            setUploadedFile(response?.fileUrl); // Store uploaded file URL
+        }
+    };
+
+    useEffect(()=>{
+        console.log("file is here", uploadedFile)
+    },[uploadedFile])
 
     return (
         <ImageBackground
@@ -373,8 +383,9 @@ const SignupScreen = (props) => {
                                 <UploadFileButton
                                     heading={t('CV')}
                                     title={t('UploadCV')}
-                                    onPress={() => { }}
+                                    onPress={handleFileUpload}
                                     width='100%'
+                                    fileurl={uploadedFile}
                                 />
                                 <CustomDropdown
                                     heading={t('SelectProfile')}
@@ -460,7 +471,7 @@ const SignupScreen = (props) => {
 
                     </View>
                     <Loader
-                        visible={props.loading}
+                        visible={props.loading || loading}
                     />
                 </ScrollView>
             </KeyboardAvoidingView>

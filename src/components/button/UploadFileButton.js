@@ -17,44 +17,46 @@ export const UploadFileButton = ({
   borderRadius = 16,
   isborder = true,
   borderColor = Colors.light_black,
-  heading = ''
+  heading = '',
+  fileurl = null
 }) => {
   return (
-    <View  style={{marginVertical:'2%'}}>
+    <View style={{ marginVertical: '2%' }}>
       <Text style={styles.heading}>{heading}</Text>
       <TouchableOpacity
         style={[
           styles.button,
           {
-            backgroundColor,
+            backgroundColor: fileurl ? Colors.shadowBlue : Colors.upload_background,
             borderRadius,
             borderColor,
             paddingVertical,
             paddingHorizontal,
             width,
             height,
-            borderWidth: isborder ? 2 : 0
+            borderWidth: fileurl ? 0 : 2,
+            borderStyle: fileurl ? 'solid' : 'dashed'
           },
           disabled && styles.disabledButton,
           style,
         ]}
         onPress={onPress}
         activeOpacity={opacityOfButton}
-        disabled={disabled}
+        disabled={fileurl ? true : false }
       >
         <View style={styles.placeHolderContainer}>
-          <Image
+          {!fileurl && <Image
             source={Images.icon_upload}
             style={styles.iconStyle}
-          />
+          />}
           <Text style={[styles.buttonText,
           {
-            color: textColor,
+            color:  textColor,
             fontSize: fontSize
           },
             textStyle
           ]}>
-            {title}
+            {fileurl ? "File Uploaded Successfully" : title}
           </Text>
         </View>
 
@@ -69,7 +71,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     marginVertical: 5,
-    borderStyle: 'dashed'
   },
   buttonText: {
     color: Colors.white,

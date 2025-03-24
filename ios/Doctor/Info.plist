@@ -25,7 +25,7 @@
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSAppTransportSecurity</key>
-<dict>
+	<dict>
 		<key>NSAllowsArbitraryLoads</key>
 		<true/>
 		<key>NSExceptionDomains</key>
@@ -61,6 +61,29 @@
 			</dict>
 		</dict>
 	</dict>
+
+	<!-- ✅ Add these keys for file selection and access -->
+	<key>LSSupportsOpeningDocumentsInPlace</key>
+	<true/>
+	<key>UIFileSharingEnabled</key>
+	<true/>
+	<key>NSDocumentDirectoryUsageDescription</key>
+	<string>App needs access to documents for file selection and uploading.</string>
+	<key>UTExportedTypeDeclarations</key>
+	<array>
+	    <dict>
+	        <key>UTTypeIdentifier</key>
+	        <string>com.adobe.pdf</string>
+	        <key>UTTypeConformsTo</key>
+	        <array>
+	            <string>public.data</string>
+	            <string>public.content</string>
+	        </array>
+	        <key>UTTypeDescription</key>
+	        <string>PDF Document</string>
+	    </dict>
+	</array>
+
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string/>
 	<key>UILaunchStoryboardName</key>

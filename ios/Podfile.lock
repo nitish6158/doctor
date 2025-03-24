@@ -1210,6 +1210,31 @@ PODS:
     - React-jsiexecutor
     - React-RCTFBReactNativeSpec
     - ReactCommon/turbomodule/core
+  - react-native-config (1.5.5):
+    - react-native-config/App (= 1.5.5)
+  - react-native-config/App (1.5.5):
+    - React-Core
+  - react-native-document-picker (10.1.1):
+    - DoubleConversion
+    - glog
+    - hermes-engine
+    - RCT-Folly (= 2024.11.18.00)
+    - RCTRequired
+    - RCTTypeSafety
+    - React-Core
+    - React-debug
+    - React-Fabric
+    - React-featureflags
+    - React-graphics
+    - React-ImageManager
+    - React-NativeModulesApple
+    - React-RCTFabric
+    - React-rendererdebug
+    - React-utils
+    - ReactCodegen
+    - ReactCommon/turbomodule/bridging
+    - ReactCommon/turbomodule/core
+    - Yoga
   - react-native-safe-area-context (5.3.0):
     - DoubleConversion
     - glog
@@ -1610,6 +1635,8 @@ PODS:
     - ReactCommon/turbomodule/bridging
     - ReactCommon/turbomodule/core
     - Yoga
+  - RNFS (2.20.0):
+    - React-Core
   - RNGestureHandler (2.24.0):
     - DoubleConversion
     - glog
@@ -1838,6 +1865,8 @@ DEPENDENCIES:
   - React-logger (from `../node_modules/react-native/ReactCommon/logger`)
   - React-Mapbuffer (from `../node_modules/react-native/ReactCommon`)
   - React-microtasksnativemodule (from `../node_modules/react-native/ReactCommon/react/nativemodule/microtasks`)
+  - react-native-config (from `../node_modules/react-native-config`)
+  - "react-native-document-picker (from `../node_modules/@react-native-documents/picker`)"
   - react-native-safe-area-context (from `../node_modules/react-native-safe-area-context`)
   - react-native-simple-toast (from `../node_modules/react-native-simple-toast`)
   - react-native-splash-screen (from `../node_modules/react-native-splash-screen`)
@@ -1871,6 +1900,7 @@ DEPENDENCIES:
   - ReactCodegen (from `build/generated/ios`)
   - ReactCommon/turbomodule/core (from `../node_modules/react-native/ReactCommon`)
   - "RNCAsyncStorage (from `../node_modules/@react-native-async-storage/async-storage`)"
+  - RNFS (from `../node_modules/react-native-fs`)
   - RNGestureHandler (from `../node_modules/react-native-gesture-handler`)
   - RNReanimated (from `../node_modules/react-native-reanimated`)
   - RNScreens (from `../node_modules/react-native-screens`)
@@ -1955,6 +1985,10 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon"
   React-microtasksnativemodule:
     :path: "../node_modules/react-native/ReactCommon/react/nativemodule/microtasks"
+  react-native-config:
+    :path: "../node_modules/react-native-config"
+  react-native-document-picker:
+    :path: "../node_modules/@react-native-documents/picker"
   react-native-safe-area-context:
     :path: "../node_modules/react-native-safe-area-context"
   react-native-simple-toast:
@@ -2021,6 +2055,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon"
   RNCAsyncStorage:
     :path: "../node_modules/@react-native-async-storage/async-storage"
+  RNFS:
+    :path: "../node_modules/react-native-fs"
   RNGestureHandler:
     :path: "../node_modules/react-native-gesture-handler"
   RNReanimated:
@@ -2067,6 +2103,8 @@ SPEC CHECKSUMS:
   React-logger: 1935d6e6461e9c8be4c87af56c56a4876021171e
   React-Mapbuffer: 212171f037e3b22e6c2df839aa826806da480b85
   React-microtasksnativemodule: 72564d5469003687d39bfc4efad281df8efc0684
+  react-native-config: 3367df9c1f25bb96197007ec531c7087ed4554c3
+  react-native-document-picker: 5cb1c6615796389f4f1b7fe2e4f103e38e4d6398
   react-native-safe-area-context: 286b3e7b5589795bb85ffc38faf4c0706c48a092
   react-native-simple-toast: fe8a1112585a6f250ca645b7ce4e1d3abd40539b
   react-native-splash-screen: 4312f786b13a81b5169ef346d76d33bc0c6dc457
@@ -2100,6 +2138,7 @@ SPEC CHECKSUMS:
   ReactCodegen: 8c6710db5ccee603fa0475978465b606abe1ed77
   ReactCommon: 8da6c58517fa560d0fc7a9da83093457303ae9f8
   RNCAsyncStorage: 4f4de141719fef3490c87a0dd779575c64c0472c
+  RNFS: 4ac0f0ea233904cb798630b3c077808c06931688
   RNGestureHandler: 9b05fab9a0b48fe48c968de7dbb9ca38a2b4f7ab
   RNReanimated: 67d8eda35002543abb656f25fa1a457ceeab6807
   RNScreens: 9a887b38fbb9c207f0d4e9694037c91e4fd6b248
