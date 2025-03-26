@@ -10,21 +10,6 @@ export const BankFormAction = data => {
   return async (dispatch, getState) => {
     dispatch({ type: BANK.BANK_FORM_REQUEST });
     const reqParam = {
-      // "id": 0,
-      // "bankName": "HDFC",
-      // "accountNumber": "56548654956001",
-      // "accountType": "saving",
-      // "bankAddress": "Indore",
-      // "nationalId": 100,
-      // "branchName": "badoda",
-      // "bankCode": "2002",
-      // "languageType": "enfligh",
-      // "doctorId": 101,
-      // "doctorName": "anil jain",
-      // "email": "raja@yopmail.com",
-      // "mobileNumber": "7872738723",
-      // "countryName": "india",
-
       "id": 0,
       "bankName": data.bankName,
       "accountNumber": data.accountNumber,
@@ -39,7 +24,6 @@ export const BankFormAction = data => {
       "email": data.email,
       "mobileNumber": data.mobileNumber,
       "countryName": data.countryName,
-
     };
     const method = API_METHODS.POST;
     const endPoint = BASE_URL + END_POINT.bankform;

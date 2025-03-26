@@ -1,6 +1,7 @@
 import React from 'react';
 import { Text, TouchableOpacity, StyleSheet, Image, View } from 'react-native';
 import { Colors, Fonts, Images, ResponsiveFont, WindowHeight as hp, opacityOfButton, WindowWidth as wp } from '../../assets';
+import { useTranslation } from '../customhooks';
 export const UploadFileButton = ({
   title,
   onPress,
@@ -20,6 +21,7 @@ export const UploadFileButton = ({
   heading = '',
   fileurl = null
 }) => {
+  const t = useTranslation()
   return (
     <View style={{ marginVertical: '2%' }}>
       <Text style={styles.heading}>{heading}</Text>
@@ -42,7 +44,7 @@ export const UploadFileButton = ({
         ]}
         onPress={onPress}
         activeOpacity={opacityOfButton}
-        disabled={fileurl ? true : false }
+        disabled={fileurl ? true : false}
       >
         <View style={styles.placeHolderContainer}>
           {!fileurl && <Image
@@ -51,12 +53,12 @@ export const UploadFileButton = ({
           />}
           <Text style={[styles.buttonText,
           {
-            color:  textColor,
+            color: textColor,
             fontSize: fontSize
           },
             textStyle
           ]}>
-            {fileurl ? "File Uploaded Successfully" : title}
+            {fileurl ? t('FileUploaded') : title}
           </Text>
         </View>
 

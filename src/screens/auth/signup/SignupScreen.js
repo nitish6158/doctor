@@ -78,7 +78,7 @@ const SignupScreen = (props) => {
     const [lastName, setLastName] = useState('');
     const [email, setEmail] = useState('');
     const [phone, setPhone] = useState('');
-    const { uploadFile, loading, fileUrl, error } = useFileUpload();
+    const { uploadFile, loading, fileUrl, error } = useFileUpload(END_POINT.fileUpload);
     const [uploadedFile, setUploadedFile] = useState(null);   
     const [profile, setProfile] = useState('');
     const [specialization, setSpecialization] = useState('');
@@ -93,65 +93,64 @@ const SignupScreen = (props) => {
         props.navigation.navigate(target);
     }
     const handleSubmit = async () => {
-        console.log('vaishhhhh')
         if (!firstName) {
-            ToastMsg('Please Enter First Name', 'bottom');
+            ToastMsg(t('PleaseFirstName'), 'bottom');
             return false;
         }
         if (!validateFirstName(firstName)) {
-            ToastMsg('Please Enter Valid First Name', 'bottom');
+            ToastMsg(t('ValidFirstName'), 'bottom');
             return false;
         }
 
         if (!lastName) {
-            ToastMsg('Please Enter Last Name', 'bottom');
+            ToastMsg(t('PleaseLastName'), 'bottom');
             return false;
         }
         if (!validateLastName(lastName)) {
-            ToastMsg('Please Enter Valid Last Name', 'bottom');
+            ToastMsg(t('ValidLastName'), 'bottom');
             return false;
         }
 
         if (!email) {
-            ToastMsg('Please Enter Email Id', 'bottom');
+            ToastMsg(t('PleaseEmailId'), 'bottom');
             return false;
         }
         if (!validateEmail(email)) {
-            ToastMsg('Please Enter Valid Email Id', 'bottom');
+            ToastMsg(t('ValidEmailId'), 'bottom');
             return false;
         }
 
         if (!phone) {
-            ToastMsg('Please Enter Mobile Number', 'bottom');
+            ToastMsg(t('PleaseMobileNumber'), 'bottom');
             return false;
         }
 
         if (!validatePhoneNumber(phone)) {
-            ToastMsg('Please Enter Valid Mobile Number', 'bottom');
+            ToastMsg(t('ValidMobileNumber'), 'bottom');
             return false;
         }
         if (!password) {
-            ToastMsg('Please Enter your password ', 'bottom');
+            ToastMsg(t('PleasePassword'), 'bottom');
             return false;
         }
         if (!validatePassword(password)) {
-            ToastMsg("Password must be at least 8 characters long, contain at least one uppercase letter, one lowercase letter, and one special character (.@#$%^&+=)", 'bottom');
+            ToastMsg(t('PasswordCriteria'), 'bottom');
             return false;
         }
         if (!termsAccepted) {
-            ToastMsg('Please accept term and conditions before register', 'bottom');
+            ToastMsg(t('AcceptTerms'), 'bottom');
             return false;
         }
         if (profile == '') {
-            ToastMsg('Please Select Your Profile', 'bottom');
+            ToastMsg(t('PleaseSelectProfile'), 'bottom');
             return false;
         }
         if (specialization == '') {
-            ToastMsg('Please Select Your specialization', 'bottom');
+            ToastMsg(t('SelectSpecialization'), 'bottom');
             return false;
         }
         if (country == '') {
-            ToastMsg('Please Select Your Country', 'bottom');
+            ToastMsg(t('PleaseSelectCountry'), 'bottom');
             return false;
         }
 
@@ -246,8 +245,6 @@ const SignupScreen = (props) => {
             setProfileArr(data?.data);
         } catch (err) {
             console.warn("Error fetching Profile :", err);
-        } finally {
-            console.log("API call completed");
         }
     };
     const fetchDoctorSpecialization = async () => {
@@ -258,9 +255,7 @@ const SignupScreen = (props) => {
             }
         } catch (err) {
             console.warn("Error fetching specializations:", err);
-        } finally {
-            console.log("API call completed");
-        }
+        } 
     };
 
     const handleFileUpload = async () => {
@@ -270,9 +265,7 @@ const SignupScreen = (props) => {
         }
     };
 
-    useEffect(()=>{
-        console.log("file is here", uploadedFile)
-    },[uploadedFile])
+   
 
     return (
         <ImageBackground

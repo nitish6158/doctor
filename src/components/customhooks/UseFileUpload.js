@@ -2,11 +2,12 @@ import { useState } from "react";
 import { Platform, Alert } from "react-native";
 import { pick } from "@react-native-documents/picker";
 import { BASE_URL, END_POINT } from "../../Redux/config";
-export const useFileUpload = () => {
+import useTranslation from "./useTranslation";
+export const useFileUpload = (fileUpload, params = {}) => {
     const [loading, setLoading] = useState(false);
     const [fileUrl, setFileUrl] = useState(null);  // Store uploaded file URL
     const [error, setError] = useState(null);  // Store any error message
-
+    const t = useTranslation();
     const uploadFile = async () => {
         try {
             // Pick a file
@@ -15,8 +16,8 @@ export const useFileUpload = () => {
             });
 
             if (!selectedFile) {
-                Alert.alert("Error", "No file selected");
-                return { success: false, error: "No file selected" };
+                Alert.alert(t('Error'), t('NoFileSelected'));
+                return { success: false, error: t('NoFileSelected') };
             }
 
             setLoading(true); // Start loading
@@ -31,8 +32,16 @@ export const useFileUpload = () => {
                 type: selectedFile.mimeType || "application/pdf",
             });
 
+            const queryString = Object.keys(params)
+                .map((key) => `${encodeURIComponent(key)}=${encodeURIComponent(params[key])}`)
+                .join("&");
+
+            // Final API URL with query parameters
+            const finalUrl = queryString ? `${BASE_URL}${fileUpload}?${queryString}` : `${BASE_URL}${fileUpload}`;
+
+
             // Upload to API
-            const response = await fetch(`${BASE_URL}${END_POINT.fileUpload}`, {
+            const response = await fetch(finalUrl, {
                 method: "POST",
                 body: formData,
                 headers: {
@@ -44,23 +53,25 @@ export const useFileUpload = () => {
             setLoading(false); // Stop loading
 
             if (response.ok) {
-                setFileUrl(result.data); // Store file URL from response
-                Alert.alert("Success", result.message || "File uploaded successfully");
+                setFileUrl(result.data);
+                Alert.alert(
+                    t('Success'),
+                    t('FileUploaded'));
 
                 return { success: true, fileUrl: result.data, message: result.message };
             } else {
-                setError(result.message || "Upload failed");
-                Alert.alert("Error", result.message || "Upload failed");
+                setError(result.message || t('UploadFailed'));
+                Alert.alert(t('Error'), result.message || t('UploadFailed'));
 
                 return { success: false, error: result.message };
             }
         } catch (error) {
             setLoading(false); // Stop loading
-            setError("Something went wrong");
+            setError(t('SomethingWentWrong'));
             console.error("Upload error:", error);
-            Alert.alert("Error", "Something went wrong");
+            Alert.alert(t('Error'), t('SomethingWentWrong'));
 
-            return { success: false, error: "Something went wrong" };
+            return { success: false, error: t('SomethingWentWrong') };
         }
     };
 

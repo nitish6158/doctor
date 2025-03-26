@@ -7,9 +7,9 @@ import {
 } from '../../config';
 
 
-export const UpdateBankAccountVarifiedStatus = data => {
+export const UpdateAccountVarifiedStatus = data => {
   return async (dispatch, getState) => {
-    dispatch({ type: AUTH.UPDATE_BANK_ACCOUNT_VARIFIED });
+    dispatch({ type: AUTH.UPDATE_ACCOUNT_VARIFIED });
   };
 };
 

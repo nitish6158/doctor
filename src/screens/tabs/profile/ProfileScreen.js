@@ -111,7 +111,7 @@ const ProfileScreen = (props) => {
                     <ImageBackground
                         source={
                             {
-                                uri: 'https://randomuser.me/api/portraits/men/17.jpg'
+                                uri: 'https://randomuser.mee/api/portraits/men/17.jpg'
                             }
                         }
                         style={ProfileStyles.profileImage}

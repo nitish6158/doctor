@@ -13,6 +13,7 @@ export const Images = {
     documents:require('./images/documents.png'),
     handshake:require('./images/handshake.png'),
     pdf:require('./images/pdf.png'),
+    filenotfound:require('./images/filenotfound.png'),
     temp1:require('./images/temp1.png'),
     temp2:require('./images/temp2.png'),
     temp3:require('./images/temp3.png'),

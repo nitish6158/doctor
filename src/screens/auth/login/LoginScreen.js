@@ -27,15 +27,15 @@ const LoginScreen = (props) => {
 
     const handleLogin = async () => {
         if (!email) {
-            ToastMsg('Please Enter Email Id', 'bottom');
+            ToastMsg(t('PleaseEmailId'), 'bottom');
             return false;
         }
         if (!validateEmail(email)) {
-            ToastMsg('Please Enter Valid Email Id', 'bottom');
+            ToastMsg(t('ValidEmailId'), 'bottom');
             return false;
         }
         if (!password) {
-            ToastMsg('Please Enter your password ', 'bottom');
+            ToastMsg(t('PleasePassword'), 'bottom');
             return false;
         }
         const reqParams = {

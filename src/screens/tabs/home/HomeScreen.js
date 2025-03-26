@@ -1,5 +1,14 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, ImageBackground, TouchableOpacity, Image, Pressable,BackHandler } from 'react-native';
+import {
+    View,
+    ScrollView,
+    Text,
+    ImageBackground,
+    TouchableOpacity,
+    Image,
+    Pressable,
+    BackHandler,
+} from 'react-native';
 import { Images, Colors } from '../../../assets';
 import { HomeStyles } from './HomeStyles';
 import { CustomButton } from '../../../components/button';
@@ -130,7 +139,7 @@ const HomeScreen = (props) => {
 
             <View style={HomeStyles.bottomView}>
                 <FloatingBackgroundCard customStyles={HomeStyles.customStyles}>
-                    {props.isAccountVarified ?
+                    {props.isVerified === 1 ?
                         <View>
                             <View style={HomeStyles.dashboardtextContainer}>
                                 <Text style={HomeStyles.dashboardtext}>{t('Dashboard')}</Text>
@@ -195,49 +204,64 @@ const HomeScreen = (props) => {
                             </View>
                         </View>
                         :
-                        <>
-                            {
-                                !isBankDetailButtonShowing &&
-                                <TouchableOpacity
-                                    style={HomeStyles.card}
-                                    onPress={() => {
-                                        setIsBankDetailButtonShowing(true)
-                                    }}
-                                >
+                        props.isVerified === 2 ?
+                            <View style={HomeStyles.card}>
+                                <Image
+                                    source={Images.documents}
+                                    style={HomeStyles.cardImage}
+                                />
+                                <Text
+                                    style={HomeStyles.text}
+                                >{t('YourAccountHasYetToBeVerified')}</Text>
+                            </View>
+                            :
+                            props.isVerified === 3 ?
+                                <ScrollView contentContainerStyle={HomeStyles.card2}>
                                     <Image
-                                        source={Images.documents}
-                                        style={HomeStyles.cardImage}
+                                        source={Images.filenotfound}
+                                        style={HomeStyles.cardImage2}
                                     />
                                     <Text
-                                        style={HomeStyles.text}
-                                    >{t('YourAccountHasYetToBeVerified')}</Text>
-                                </TouchableOpacity>
-                            }
-
-                            {
-                                isBankDetailButtonShowing &&
-                                <View
-                                    style={HomeStyles.card}
-                                >
-                                    <Image
-                                        source={Images.handshake}
-                                        style={HomeStyles.cardImage}
-                                    />
+                                        style={HomeStyles.text2}
+                                    >{t('ApplicationRejected')}</Text>
                                     <Text
-                                        style={HomeStyles.text}
-                                    >{t('PleaseAddYourBankInformationAndContract')}</Text>
-                                    <CustomButton
-                                        title={t('FinishSetup')}
-                                        height={'16%'}
-                                        width={'45%'}
-                                        backgroundColor={Colors.lightblue3}
-                                        textColor={Colors.blue}
-                                        onPress={handleBankDetails}
-                                    />
-                                </View>
-                            }
-                        </>
-
+                                        style={HomeStyles.resion}
+                                    >{t('ApplicationRejectionReason')}</Text>
+                                    <View style={HomeStyles.resiontextContainer}>
+                                        <Text
+                                            style={HomeStyles.resiontext}
+                                        >admin will give a resion</Text>
+                                    </View>
+                                </ScrollView>
+                                :
+                                props.isVerified === 4 ?
+                                    <View style={HomeStyles.card} >
+                                        <Image
+                                            source={Images.handshake}
+                                            style={HomeStyles.cardImage}
+                                        />
+                                        <Text
+                                            style={HomeStyles.text}
+                                        >{t('PleaseAddYourBankInformationAndContract')}</Text>
+                                        <CustomButton
+                                            title={t('FinishSetup')}
+                                            height={'16%'}
+                                            width={'45%'}
+                                            backgroundColor={Colors.lightblue3}
+                                            textColor={Colors.blue}
+                                            onPress={handleBankDetails}
+                                        />
+                                    </View>
+                                    :
+                                    <View style={HomeStyles.card}>
+                                        <Image
+                                            source={Images.documents}
+                                            style={HomeStyles.cardImage}
+                                        />
+                                        <Text
+                                            style={HomeStyles.text}
+                                        >{t('ContractNotVerified')}</Text>
+                                    </View>
                     }
                 </FloatingBackgroundCard>
             </View>
@@ -248,7 +272,8 @@ const HomeScreen = (props) => {
 
 const mapStateToProps = state => {
     return {
-        isAccountVarified: state.authReducer.isAccountVarified,
+        // isVerified: state.authReducer.isVerified,
+        isVerified: 4, //  2-4-5-3/1
     };
 };
 

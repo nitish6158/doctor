@@ -172,7 +172,7 @@ export const HomeStyles = StyleSheet.create({
         justifyContent: 'space-between',
         alignItems: 'center',
         padding: (wp * 2.5) / 100,
-        borderWidth: wp * 0.3 / 100,
+        borderWidth: wp * 0.1 / 100,
         borderRadius: wp * 4 / 100,
         borderColor: Colors.blue,
     },
@@ -240,10 +240,22 @@ export const HomeStyles = StyleSheet.create({
         justifyContent: 'center',
 
     },
+    card2: {
+        width: '100%',
+        flex: 1,
+       
+
+    },
     cardImage: {
-        width: wp * 30/ 100,
+        width: wp * 30 / 100,
         height: wp * 30 / 100,
         resizeMode: 'contain'
+    },
+    cardImage2: {
+        width: wp * 30 / 100,
+        height: wp * 30 / 100,
+        resizeMode: 'contain',
+        alignSelf:'center'
     },
     text: {
         fontFamily: Fonts.SemiBold,
@@ -253,5 +265,36 @@ export const HomeStyles = StyleSheet.create({
         textAlign: 'center',
         width: '70%',
         marginVertical: '3%'
-    }
+    },
+   
+    resiontextContainer: {
+        backgroundColor: Colors.shadowBlue,
+        borderRadius:10,
+        padding:"2%",
+        marginVertical:'2%'
+    },
+    resion: {
+        fontFamily: Fonts.Bold,
+        fontSize: ResponsiveFont(17),
+        lineHeight: '100%',
+        color: Colors.black,
+        width: '90%',
+    },
+    resiontext: {
+        fontFamily: Fonts.SemiBold,
+        lineHeight: '100%',
+        fontSize: ResponsiveFont(16),
+        color: Colors.black,
+        width: '90%',
+        marginHorizontal: '5%',
+    },
+    text2: {
+        fontFamily: Fonts.SemiBold,
+        fontSize: ResponsiveFont(22),
+        lineHeight: ResponsiveFont(28),
+        color: Colors.black,
+        textAlign: 'center',
+        marginVertical: '3%'
+    },
+
 });

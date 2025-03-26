@@ -1,3 +1,8 @@
 import useTranslation from "./useTranslation";
 import { useFileUpload } from "./useFileUpload";
-export {useTranslation,useFileUpload}
+import { usePdfDownloader } from "./usePdfDownloader";
+export {
+    useTranslation,
+    useFileUpload,
+    usePdfDownloader,
+}

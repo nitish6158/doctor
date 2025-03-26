@@ -8,5 +8,8 @@ export const END_POINT = {
   specilization:lang=>`/admin/getSpecializationByType?lang=${lang}`,
   getDoctorProfile:'/doctor/get_doctor_profile',
   bankform:'/doctor/addBankDetails',
+  getContractUrl: userId=> `/doctor/download_contract?doctorId=${userId}&type=${"DOCTOR"}`,
+
+  uploadContract:'/doctor/upload_contract_file',
   
 };

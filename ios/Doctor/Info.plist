@@ -67,6 +67,8 @@
 	<true/>
 	<key>UIFileSharingEnabled</key>
 	<true/>
+	<key>NSDocumentsDirectoryUsageDescription</key>
+<string>We need access to download and save files</string>
 	<key>NSDocumentDirectoryUsageDescription</key>
 	<string>App needs access to documents for file selection and uploading.</string>
 	<key>UTExportedTypeDeclarations</key>

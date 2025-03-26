@@ -3,14 +3,15 @@ import { AUTH } from "../../config/types";
 const initialState = {
   appLanguage: 'EN', // can be "AR" and "FN"
   loginStatus: false,
-  isAccountVarified: false,
 
   responseCode: null,
-  responseCodeLogin : null,
+  responseCodeLogin: null,
   errMsg: null,
   loading: false,
 
   authToken: null,
+  isVerified: null,
+  status: null,
 
   userData: null,
   userId: null,
@@ -36,9 +37,9 @@ const authReducer = (state = initialState, action) => {
         appLanguage: action.payload,
       });
 
-    case AUTH.UPDATE_BANK_ACCOUNT_VARIFIED:
+    case AUTH.UPDATE_ACCOUNT_VARIFIED:
       return Object.assign({}, state, {
-        isAccountVarified: true,
+        isVerified: action?.payload?.data?.isVerified,
       });
 
     case AUTH.LOGIN_REQUEST:
@@ -54,9 +55,9 @@ const authReducer = (state = initialState, action) => {
         errMsg: action?.payload?.message,
         loading: false,
         loginStatus: true,
-        isAccountVarified: action?.payload?.data?.isBankAccountVerified,
         userData: action?.payload?.data,
-
+        isVerified: action?.payload?.data?.isVerified,
+        status: action?.payload?.data?.status,
         authToken: action?.payload?.data?.token,
         userId: action?.payload?.data?.id,
         userName: action?.payload?.data?.userName,
@@ -90,9 +91,10 @@ const authReducer = (state = initialState, action) => {
         responseCode: action?.payload?.status,
         errMsg: action?.payload?.message,
         loading: false,
-        
+
         loginStatus: true,
-        isAccountVarified: action?.payload?.data?.isBankAccountVerified,
+        isVerified: action?.payload?.data?.isVerified,
+        status: action?.payload?.data?.status,
         userData: action?.payload?.data,
 
         authToken: action?.payload?.data?.token,
@@ -119,9 +121,10 @@ const authReducer = (state = initialState, action) => {
     case AUTH.LOGOUT_USER:
       return Object.assign({}, state, {
         loginStatus: false,
-        isAccountVarified: false,
+        isVerified: null,
+        status: null,
         responseCode: null,
-        responseCodeLogin:null,
+        responseCodeLogin: null,
         errMsg: null,
         loading: false,
         authToken: null,
