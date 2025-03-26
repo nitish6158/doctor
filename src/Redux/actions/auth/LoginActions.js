@@ -7,13 +7,6 @@ import {
 } from '../../config';
 
 
-export const UpdateAccountVarifiedStatus = data => {
-  return async (dispatch, getState) => {
-    dispatch({ type: AUTH.UPDATE_ACCOUNT_VARIFIED });
-  };
-};
-
-
 export const LogoutAction = data => {
   return async (dispatch, getState) => {
     dispatch({ type: AUTH.LOGOUT_USER });
@@ -30,12 +23,6 @@ export const LoginAction = data => {
   return async (dispatch, getState) => {
     dispatch({ type: AUTH.LOGIN_REQUEST });
     const reqParam = {
-      // "email": 'rajurkar.raja03@gmail.com',
-      // "password": '12345',
-      // "userType": 'DOCTOR',
-      // "deviceType": data.deviceType,
-      // "deviceToken": data.deviceToken,
-
       "email": data.email,
       "password": data.password,
       "userType": 'DOCTOR',
@@ -66,3 +53,41 @@ export const LoginAction = data => {
     }
   };
 };
+
+export const UpdateUserInfo = id => {
+  return async (dispatch, getState) => {
+    dispatch({ type: AUTH.UPDATE_ACCOUNT_REQUEST });
+
+    const reqParam = {
+      
+    };
+   
+    const method = API_METHODS.GET;
+    const endPoint = BASE_URL + END_POINT.getDoctorDetail(id);
+    try {
+      console.log("before api call")
+      const response = await ApiHandler({ endPoint, method, reqParam });
+      console.log("after api call")
+      if (response?.data?.status === 200) {
+        if (response?.data?.data) {
+          dispatch({
+            type: AUTH.UPDATE_ACCOUNT_SUCCESS,
+            payload: response.data,
+          });
+        }
+        else {
+          dispatch({ type: AUTH.UPDATE_ACCOUNT_FAIL, payload: response.data });
+        }
+      } else {
+        dispatch({ type: AUTH.UPDATE_ACCOUNT_FAIL, payload: response.data });
+      }
+    } catch (err) {
+      if (err.response?.status === 401) {
+        dispatch({ type: AUTH.UPDATE_ACCOUNT_FAIL, payload: err.response.data });
+      } else {
+        dispatch({ type: AUTH.UPDATE_ACCOUNT_FAIL, payload: err });
+      }
+    }
+  };
+};
+

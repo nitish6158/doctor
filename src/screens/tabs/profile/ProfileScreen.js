@@ -125,7 +125,11 @@ const ProfileScreen = (props) => {
                     </ImageBackground>
 
                 </ImageBackground>
-                <Text style={ProfileStyles.profileName}>{t('DrWilliamJhonon')}</Text>
+                <View style={ProfileStyles.textContainer}>
+                    <Text  style={ProfileStyles.profileName}>{t('DoctorTitle')}</Text>
+                    <Text style={ProfileStyles.profileName}> {props.firstName}</Text>
+                    <Text style={ProfileStyles.profileName}> {props.lastName}</Text>
+                </View>
 
             </View>
 
@@ -152,7 +156,9 @@ const ProfileScreen = (props) => {
 
 const mapStateToProps = state => {
     return {
-        isAccountVarified: state.authReducer.isAccountVarified,
+        userName: state.authReducer.userName,
+        firstName: state.authReducer.firstName,
+        lastName: state.authReducer.lastName,
     };
 };
 

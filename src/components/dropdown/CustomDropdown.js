@@ -40,7 +40,7 @@ export const CustomDropdown = ({
         onValueChange(
           type === 'profile'
             ?
-            item?.profileName
+            item
             :
             type === 'specialization'
               ?
@@ -54,7 +54,7 @@ export const CustomDropdown = ({
       <Text style={styles.optionStyle}>{
         type === 'profile'
           ?
-          item?.profileName
+          item
           :
           type === 'specialization'
             ?

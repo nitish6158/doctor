@@ -141,18 +141,18 @@ const SignupScreen = (props) => {
             ToastMsg(t('AcceptTerms'), 'bottom');
             return false;
         }
-        if (profile == '') {
-            ToastMsg(t('PleaseSelectProfile'), 'bottom');
-            return false;
-        }
-        if (specialization == '') {
-            ToastMsg(t('SelectSpecialization'), 'bottom');
-            return false;
-        }
-        if (country == '') {
-            ToastMsg(t('PleaseSelectCountry'), 'bottom');
-            return false;
-        }
+        // if (profile == '') {
+        //     ToastMsg(t('PleaseSelectProfile'), 'bottom');
+        //     return false;
+        // }
+        // if (specialization == '') {
+        //     ToastMsg(t('SelectSpecialization'), 'bottom');
+        //     return false;
+        // }
+        // if (country == '') {
+        //     ToastMsg(t('PleaseSelectCountry'), 'bottom');
+        //     return false;
+        // }
 
 
 
@@ -240,7 +240,7 @@ const SignupScreen = (props) => {
 
     const fetchDoctorProfile = async () => {
         try {
-            const data = await getRequest(END_POINT.getDoctorProfile); // No params needed
+            const data = await getRequest(END_POINT.getDoctorProfile(lang)); // No params needed
             console.log("Doctor profile Data:", data);
             setProfileArr(data?.data);
         } catch (err) {

@@ -87,7 +87,9 @@
             fontSize: ResponsiveFont(18),
             lineHeight: ResponsiveFont(34),
             // marginHorizontal:'8%'
-
+        },
+        textContainer:{
+            flexDirection:'row',
         },
         iconContainer:{
             backgroundColor: Colors.light_gray3,

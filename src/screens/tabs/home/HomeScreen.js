@@ -16,7 +16,7 @@ import { FloatingBackgroundCard } from '../../../components/card';
 import { connect } from 'react-redux';
 import { useTranslation } from '../../../components/customhooks';
 import { useFocusEffect } from '@react-navigation/native';
-
+import { Loader } from '../../../components/modal';
 const HomeScreen = (props) => {
     const t = useTranslation();
     const [selected, setSelected] = useState("Advantal Clinic");
@@ -264,6 +264,9 @@ const HomeScreen = (props) => {
                                     </View>
                     }
                 </FloatingBackgroundCard>
+                <Loader
+                    visible={props.updateLoading}
+                />
             </View>
         </ImageBackground>
     );
@@ -272,8 +275,10 @@ const HomeScreen = (props) => {
 
 const mapStateToProps = state => {
     return {
-        // isVerified: state.authReducer.isVerified,
-        isVerified: 4, //  2-4-5-3/1
+        isVerified: state.authReducer.isVerified,
+        // isVerified: 4, //  2-4-5-3/1
+        updateLoading: state.bankReducer.updateLoading,
+
     };
 };
 

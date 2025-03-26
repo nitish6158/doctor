@@ -21,7 +21,7 @@ import { CustomDropdown } from '../../../components/dropdown';
 import { FloatingBackgroundCard } from '../../../components/card';
 import { connect } from 'react-redux';
 import { BankFormAction } from '../../../Redux/actions/bankActions';
-import { UpdateAccountVarifiedStatus } from '../../../Redux/actions/auth'
+import { UpdateUserInfo } from '../../../Redux/actions/auth'
 
 import {
     useTranslation,
@@ -31,6 +31,11 @@ import {
 
 import { getRequest } from '../../../Redux/config';
 import { END_POINT } from '../../../Redux/config';
+import { ToastMsg } from '../../../components/Toast';
+import {
+    validateEmail,
+    validatePhoneNumber,
+} from '../../../utility/Validator';
 
 
 const NexttextStyle = {
@@ -56,7 +61,7 @@ const BankFormScreen = (props) => {
         doctorId: props.userId,
         type: "DOCTOR"
     });
-    
+
     const [isModal, setIsmodal] = useState(false);
     const [step, setStep] = useState(1);
     const [fullName, setFullName] = useState('');
@@ -111,6 +116,7 @@ const BankFormScreen = (props) => {
     };
 
     const handleVerifyDetails = async () => {
+
         if (!email) {
             ToastMsg('Please Enter Email Id', 'bottom');
             return false;
@@ -135,14 +141,14 @@ const BankFormScreen = (props) => {
             "accountNumber": bankAccountNumber,
             "bankName": bankName,
             "accountType": bankAccountType,
-            "nationalId": nationalId,
+            "nationalId": 100,
             "bankAddress": address,
             "email": email,
             "mobileNumber": phone,
             "countryName": country,
             "branchName": branchName,
             "bankCode": bankCode,
-            "languageType": props.appLanguage,
+            "languageType": props.appLanguage?.toLowerCase(),
             "doctorId": props.userId,
         }
 
@@ -150,16 +156,19 @@ const BankFormScreen = (props) => {
     }
 
     const handleSuccessCase = async () => {
-        await props.UpdateAccountVarifiedStatus();
-        props.navigation.navigate('BottomTabNavigator');
+        await props.UpdateUserInfo(props.userId);
+        // props.navigation.navigate('BottomTabNavigator');
     }
 
     useEffect(() => {
         if (props.responseCode == 200) {
             handleSuccessCase()
         }
-        fetchPdfUrl()
     }, [props.responseCode])
+
+    useEffect(() => {
+        fetchPdfUrl()
+    }, [])
 
     const fetchPdfUrl = async () => {
         try {
@@ -240,6 +249,8 @@ const BankFormScreen = (props) => {
                                             handleFileUpload()
                                         }}
                                         width='100%'
+                                        fileurl={uploadedFile}
+
                                     />
                                 </>
                             )}
@@ -343,8 +354,6 @@ const BankFormScreen = (props) => {
 
                                 </>
                             )}
-
-
                             <CustomButton
                                 title={step < 2 ? t('Next') : t('FinishSetup')}
 
@@ -352,7 +361,8 @@ const BankFormScreen = (props) => {
                                     if (step < 2) {
                                         handleNext()
                                     } else {
-                                        handleVerifyDetails()
+                                        // handleVerifyDetails()
+                                        handleSuccessCase()
                                     }
                                 }}
                                 backgroundColor={Colors.blue}
@@ -368,7 +378,6 @@ const BankFormScreen = (props) => {
                                     setIsmodal(false)
                                 }}
                             />
-
                         </View>
                     </ScrollView>
                 </KeyboardAvoidingView>
@@ -376,7 +385,12 @@ const BankFormScreen = (props) => {
             </FloatingBackgroundCard>
 
             <Loader
-                visible={props.loading || downloadLoading || uploadLoading}
+                visible={
+                    props.loading ||
+                    downloadLoading ||
+                    uploadLoading ||
+                    props.updateLoading
+                }
             />
         </ImageBackground>
     )
@@ -387,6 +401,7 @@ const BankFormScreen = (props) => {
 const mapStateToProps = state => {
     return {
         loading: state.bankReducer.loading,
+        updateLoading: state.bankReducer.updateLoading,
         responseCode: state.bankReducer.responseCode,
         userId: state.authReducer.userId,
         userName: state.authReducer.userName,
@@ -396,6 +411,6 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = {
     BankFormAction,
-    UpdateAccountVarifiedStatus
+    UpdateUserInfo,
 };
 export default connect(mapStateToProps, mapDispatchToProps)(BankFormScreen);

@@ -730,5 +730,12 @@ export const Languages = {
     AR: "أدخل رمز البنك",
     FN: "Entrez le code bancaire",
   },
+  DoctorTitle: {
+    EN: "Dr.",
+    AR: "د.",
+    FN: "Dr.",
+  },
+
+
 };
 

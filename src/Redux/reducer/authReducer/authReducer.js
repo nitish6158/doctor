@@ -13,6 +13,8 @@ const initialState = {
   isVerified: null,
   status: null,
 
+  updateLoading: false,
+
   userData: null,
   userId: null,
   userName: null,
@@ -37,9 +39,30 @@ const authReducer = (state = initialState, action) => {
         appLanguage: action.payload,
       });
 
-    case AUTH.UPDATE_ACCOUNT_VARIFIED:
+    case AUTH.UPDATE_ACCOUNT_REQUEST:
+      return Object.assign({}, state, {
+        updateLoading: true,
+      });
+    case AUTH.UPDATE_ACCOUNT_SUCCESS:
       return Object.assign({}, state, {
         isVerified: action?.payload?.data?.isVerified,
+        updateLoading: false,
+        userData: action?.payload?.data,
+        status: action?.payload?.data?.status,
+        userName: action?.payload?.data?.userName,
+        email: action?.payload?.data?.email,
+        mobileNumber: action?.payload?.data?.mobileNo,
+        country: action?.payload?.data?.country,
+        address: action?.payload?.data?.address,
+        firstName: action?.payload?.data?.firstName,
+        lastName: action?.payload?.data?.lastName,
+        specialization: action?.payload?.data?.specialization,
+        cv: action?.payload?.data?.cv,
+        userType: action?.payload?.data?.userType,
+      });
+    case AUTH.UPDATE_ACCOUNT_FAIL:
+      return Object.assign({}, state, {
+        updateLoading: false,
       });
 
     case AUTH.LOGIN_REQUEST:
