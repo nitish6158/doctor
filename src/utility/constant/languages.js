@@ -650,6 +650,11 @@ export const Languages = {
     AR: "تم رفع الملف بنجاح",
     FN: "Fichier téléchargé avec succès",
   },
+  PleaseUploadCV: {
+    EN: "Please Upload Your CV",
+    AR: "يرجى تحميل سيرتك الذاتية",
+    FN: "Veuillez télécharger votre CV",
+},
   NoFileSelected: {
     EN: "No file selected",
     AR: "لم يتم تحديد أي ملف",

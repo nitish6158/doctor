@@ -6,12 +6,17 @@ import { CustomButton } from '../../../components/button';
 import { CustomTextInput } from '../../../components/input';
 import { LoginStyles } from '../login/LoginStyles';
 import { ForgotPasswordStyles } from './ForgotPasswordStyles';
-import { ForgotPasswordAction,ClearErrorStatusForgotPassword } from '../../../Redux/actions/auth';
 import { connect } from 'react-redux';
 import { Loader, SuccessModal } from '../../../components/modal';
 import { useTranslation } from '../../../components/customhooks';
 import { ToastMsg } from '../../../components/Toast';
 import { validateEmail } from '../../../utility/Validator';
+
+// import { ForgotPasswordAction,ClearErrorStatusForgotPassword } from '../../../Redux/actions/auth';
+import {
+    ForgotPasswordAction,
+    ClearErrorStatusForgotPassword,
+} from '../../../Redux/actions';
 
 const LogintextStyle = {
     fontSize: ResponsiveFont(18),
@@ -20,7 +25,8 @@ const LogintextStyle = {
 const ForgotPasswordScreen = (props) => {
     const t = useTranslation();
     const [email, setEmail] = useState('');
-    const [isSuccessModalVisible, setIsSuccessModalVisible] = useState(false)
+    const [isSuccessModalVisible, setIsSuccessModalVisible] = useState(false);
+    const [isModal, setIsmodal] = useState(false);
 
     const handleGoBack = () => {
         props.navigation.goBack();
@@ -45,10 +51,12 @@ const ForgotPasswordScreen = (props) => {
 
     useEffect(() => {
         if (props.responseCode == 200) {
-            setIsmodal(true)
-            setTimeout(() => {
-                setIsSuccessModalVisible(true);
-            }, 4000)
+            setIsmodal(true);
+            setIsSuccessModalVisible(true);  // Show instantly
+
+            // setTimeout(() => {
+            //     setIsSuccessModalVisible(true);
+            // }, 4000)
         }
         else {
             if (props.errMsg !== null) {

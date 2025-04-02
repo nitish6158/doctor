@@ -18,7 +18,6 @@ import { CustomButton, UploadFileButton } from '../../../components/button';
 import { ProgressBar } from 'react-native-paper';
 import { CustomDropdown } from '../../../components/dropdown';
 import { SuccessModal, Loader } from '../../../components/modal';
-import { SignupAction, ClearStatusSignup } from '../../../Redux/actions/auth';
 import { connect } from 'react-redux';
 import { useTranslation } from '../../../components/customhooks';
 import { ToastMsg } from '../../../components/Toast';
@@ -32,6 +31,12 @@ import {
     validatePassword,
 } from '../../../utility/Validator';
 import { useFileUpload } from '../../../components/customhooks';
+
+// import { SignupAction, ClearStatusSignup } from '../../../Redux/actions/auth';
+import {
+    SignupAction,
+    ClearStatusSignup,
+} from '../../../Redux/actions';
 
 const NexttextStyle = {
     fontSize: ResponsiveFont(18),
@@ -71,6 +76,7 @@ const SignupScreen = (props) => {
     const [specializationArr, setSpecializationArr] = useState(null)
     const [profileArr, setProfileArr] = useState(null)
     const [responseData, setResponseData] = useState(null);
+    const [countryArr, setCountryArr] = useState(null)
     const [step, setStep] = useState(1);
     const [password, setPassword] = useState('');
     const [userName, setUserName] = useState('');
@@ -79,7 +85,7 @@ const SignupScreen = (props) => {
     const [email, setEmail] = useState('');
     const [phone, setPhone] = useState('');
     const { uploadFile, loading, fileUrl, error } = useFileUpload(END_POINT.fileUpload);
-    const [uploadedFile, setUploadedFile] = useState(null);   
+    const [uploadedFile, setUploadedFile] = useState(null);
     const [profile, setProfile] = useState('');
     const [specialization, setSpecialization] = useState('');
     const [country, setCountry] = useState('');
@@ -137,10 +143,16 @@ const SignupScreen = (props) => {
             ToastMsg(t('PasswordCriteria'), 'bottom');
             return false;
         }
+        if (!uploadedFile) {
+            ToastMsg(t('PleaseUploadCV'), 'bottom');
+            return false;
+        }
         if (!termsAccepted) {
             ToastMsg(t('AcceptTerms'), 'bottom');
             return false;
         }
+
+
         // if (profile == '') {
         //     ToastMsg(t('PleaseSelectProfile'), 'bottom');
         //     return false;
@@ -167,7 +179,8 @@ const SignupScreen = (props) => {
             "cv": uploadedFile,
             "specialization": specialization,
             "country": country,
-            "address": address
+            "address": address,
+            "language": props.appLanguage?.toLowerCase()
         }
         await props.SignupAction(reqParams);
     }
@@ -235,7 +248,8 @@ const SignupScreen = (props) => {
 
     useEffect(() => {
         fetchDoctorProfile();
-        fetchDoctorSpecialization()
+        fetchDoctorSpecialization();
+        fetchDoctorCountry();
     }, []);
 
     const fetchDoctorProfile = async () => {
@@ -255,7 +269,18 @@ const SignupScreen = (props) => {
             }
         } catch (err) {
             console.warn("Error fetching specializations:", err);
-        } 
+        }
+    };
+    const fetchDoctorCountry = async () => {
+        try {
+            const data = await getRequest(END_POINT.getCountry(props?.appLanguage?.toLowerCase()));
+            if (data && data?.data) {
+                setCountryArr(data?.data)
+            }
+           
+        } catch (err) {
+            console.warn("Error fetching specializations:", err);
+        }
     };
 
     const handleFileUpload = async () => {
@@ -265,7 +290,7 @@ const SignupScreen = (props) => {
         }
     };
 
-   
+
 
     return (
         <ImageBackground
@@ -403,7 +428,7 @@ const SignupScreen = (props) => {
                                     placeholder={t('Select')}
                                     selectedValue={country}
                                     onValueChange={setCountry}
-                                    options={ContryOptions}
+                                    options={countryArr}
                                     width='100%'
                                     type="country"
                                 />

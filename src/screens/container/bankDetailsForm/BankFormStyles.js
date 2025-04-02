@@ -17,7 +17,6 @@ export const BankFormStyles= StyleSheet.create({
     bottomView: {
         flex: 8.5,
         width:'100%',
-        paddingVertical:'5%'
     },
     tabName: {
         fontFamily: Fonts.Medium,

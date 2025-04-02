@@ -8,7 +8,9 @@ import OnboardingScreen from '../screens/onboarding/OnboardingScreen';
 import OnboardingLanguageScreen from '../screens/onboarding/OnboardingLanguageScreen';
 import BottomTabNavigator from './bottomtab/BottomTabNavigator';
 import BankFormScreen from '../screens/container/bankDetailsForm/BankFormScreen';
+import NotificationScreen from '../screens/container/notification/NotificationScreen';
 import { useSelector } from 'react-redux';
+import ContractScreen from '../screens/container/contract/ContractScreen';
 
 const Stack = createStackNavigator();
 
@@ -51,6 +53,8 @@ const AppNavigator = () => {
         <Stack.Screen name="AuthStack" component={AuthStack} />
         <Stack.Screen name="BottomTabNavigator" component={BottomTabNavigator} />
         <Stack.Screen name="BankFormScreen" component={BankFormScreen} />
+        <Stack.Screen name="NotificationScreen" component={NotificationScreen} />
+        <Stack.Screen name="ContractScreen" component={ContractScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );

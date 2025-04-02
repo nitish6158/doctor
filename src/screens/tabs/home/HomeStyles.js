@@ -32,16 +32,13 @@ export const HomeStyles = StyleSheet.create({
     },
     buttonContainer: {
         flexDirection: 'row',
-        alignItems: 'center',
         justifyContent: 'space-between',
-
+        width:'100%'
     },
     buttonSubContainer: {
         flexDirection: 'row',
-        alignItems: 'center',
         justifyContent: 'space-between',
         width: wp * 27 / 100,
-
     },
     details: {
         flex: 1,
@@ -55,7 +52,8 @@ export const HomeStyles = StyleSheet.create({
     },
     iconStyle: {
         width: wp * 6 / 100,
-        height: wp * 6 / 100
+        height: wp * 6 / 100,
+        resizeMode:'contain'
     },
     textContainer: {
         width: (wp * 40) / 100,
@@ -71,26 +69,23 @@ export const HomeStyles = StyleSheet.create({
         marginBottom: (wp * 2) / 100
     },
     dropdownContainer: {
-        backgroundColor: Colors.light_blue,
-        borderRadius: (wp * 1) / 100,
-        paddingHorizontal: '7%',
+        backgroundColor: Colors.lightblue4,
+        borderColor:Colors.lightblue4,
+        padding :'5%',
+        width:'65%',
         flexDirection: "row",
         justifyContent: 'center',
         alignItems: 'center',
         justifyContent: 'space-between',
-        padding: (wp * 3) / 100
     },
-    dropdownOption: {
-        width: wp * 50.5 / 100,
-        borderRadius: (wp * 1) / 100,
-        paddingHorizontal: '7%',
-        flexDirection: "row",
+    dropdownContainer2: {
+        backgroundColor: Colors.lightblue4,
+        width:wp*39/100,
         justifyContent: 'center',
         alignItems: 'center',
-        justifyContent: 'flex-start',
-        position: 'absolute',
-        top: wp * 12 / 100,
-        zIndex: 10,
+    },
+    dropdownOption: {
+        borderRadius: (wp * 1) / 100,
         backgroundColor: Colors.light_blue,
         padding: (wp * 3) / 100
 
@@ -108,6 +103,11 @@ export const HomeStyles = StyleSheet.create({
         fontFamily: Fonts.Bold,
         fontSize: ResponsiveFont(14),
         lineHeight: ResponsiveFont(16),
+        color: Colors.white,
+    },
+    speciality2: {
+        fontFamily: Fonts.Bold,
+        fontSize: ResponsiveFont(17),
         color: Colors.white,
     },
     button: {
@@ -296,5 +296,10 @@ export const HomeStyles = StyleSheet.create({
         textAlign: 'center',
         marginVertical: '3%'
     },
-
+    firstAddBoxIcon:{
+        width:(wp*6)/100,
+        height:(wp*6)/100,
+        resizeMode:'contain'
+    },
+        
 });

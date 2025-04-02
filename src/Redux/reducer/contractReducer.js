@@ -1,46 +1,44 @@
-import { BANK } from '../config/types';
+import { CONTRACT } from '../config/types';
 
 const initialState = {
   responseCode: null,
   errMsg: null,
   loading: false,
-  data: null,
+  data:null,
 }
 
-const bankReducer = (state = initialState, action) => {
+const ContractReducer = (state = initialState, action) => {
   switch (action.type) {
-    case BANK.BANK_FORM_REQUEST:
+    case CONTRACT.CONTRACT_REQUEST:
       return Object.assign({}, state, {
         responseCode: null,
         errMsg: null,
         loading: true,
-        data: null,
+        data:null,
       });
-    case BANK.BANK_FORM_SUCCESS:
+    case CONTRACT.CONTRACT_SUCCESS:
       return Object.assign({}, state, {
         responseCode: action?.payload?.status,
         errMsg: action?.payload?.message,
         loading: false,
-        data: action?.payload?.data,
+        data:action?.payload?.data,
       });
-    case BANK.BANK_FORM_FAIL:
+    case CONTRACT.CONTRACT_FAIL:
       return Object.assign({}, state, {
         responseCode: action?.payload?.status,
         errMsg: action?.payload?.message,
         loading: false,
-        data: null,
+        data:null,
       });
-
-    case BANK.CLEAR_BANK_STATUS:
+    case CONTRACT.CLEAR_CONTRACT_STATUS:
       return Object.assign({}, state, {
         responseCode: null,
         errMsg: null,
       });
-
 
     default:
       return state;
   }
 };
 
-export default bankReducer;
+export default ContractReducer;

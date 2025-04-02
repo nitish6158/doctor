@@ -15,7 +15,9 @@ import { LoginStyles } from '../auth/login/LoginStyles';
 import { OnboardingLanguageStyles } from './OnboardingLanguageStyles';
 import { LanguageSelectionButton } from '../../components/button';
 import { connect } from 'react-redux';
-import { LanguageAction } from '../../Redux/actions/auth';
+// import { LanguageAction } from '../../Redux/actions/auth';
+
+import { LanguageAction } from '../../Redux/actions';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 const OnboardingLanguageScreen = (props) => {
     const [english, setEnglish] = useState('');
@@ -117,9 +119,6 @@ const OnboardingLanguageScreen = (props) => {
         </ImageBackground>
     )
 };
-
-
-
 
 const mapStateToProps = state => {
     return {

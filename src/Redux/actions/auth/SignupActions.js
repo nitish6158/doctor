@@ -10,7 +10,6 @@ export const SignupAction = data => {
   return async (dispatch, getState) => {
     dispatch({ type: AUTH.SIGNUP_REQUEST });
     const reqParam = {
-      "id": null,
       "firstName": data.firstName,
       "lastName": data.lastName,
       "password": data.password,
@@ -18,10 +17,16 @@ export const SignupAction = data => {
       "mobileNo": data.mobileNo,
       "profile": "DOCTOR",
       "cv": data.cv,
-      "description": "string",
       "specialization": data.specialization,
       "country": data.country,
-      "address": data.address
+      "address": data.address,
+      "language": data.language,
+      "clinicId": 0,
+      "id": null,
+      "experience": "",
+      "review": "",
+      "description": "",
+      "image": "",
     };
 
     const method = API_METHODS.POST;

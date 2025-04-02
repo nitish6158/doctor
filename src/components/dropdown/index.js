@@ -1,3 +1,6 @@
 import { CustomDropdown } from "./CustomDropdown";
-
-export {CustomDropdown}
+import { DropdownComponent } from "./DropdownComponent";
+export {
+    CustomDropdown,
+    DropdownComponent
+}

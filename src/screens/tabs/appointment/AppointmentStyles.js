@@ -100,5 +100,10 @@ export const AppointmentStyles = StyleSheet.create({
     flatlistStyle: {
         paddingBottom: wp * 20 / 100,
         alignItems: 'center',
+    },
+    mapIcon:{
+        width:(wp*6)/100,
+        height:(wp*6)/100,
+        resizeMode:'contain'
     }
 });

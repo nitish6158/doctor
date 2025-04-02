@@ -46,7 +46,11 @@ export const CustomDropdown = ({
               ?
               item?.specializationName
               :
-              item
+              type === 'country'
+                ?
+                item?.name
+                :
+                item
         );
         setModalVisible(false);
       }}
@@ -60,7 +64,11 @@ export const CustomDropdown = ({
             ?
             item?.specializationName
             :
-            item
+            type === 'country'
+              ?
+              item?.name 
+              :
+              item
       }</Text>
     </TouchableOpacity>
   )

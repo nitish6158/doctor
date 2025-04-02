@@ -6,7 +6,8 @@ import { Images } from '../../../assets';
 import { LogoutModal } from '../../../components/modal';
 import { useTranslation } from '../../../components/customhooks';
 import { connect } from 'react-redux';
-import { LogoutAction } from '../../../Redux/actions/auth';
+// import { LogoutAction } from '../../../Redux/actions/auth';
+import { LogoutAction } from '../../../Redux/actions';
 const menuItems = [
     {
         icon: Images.user_icon_active,

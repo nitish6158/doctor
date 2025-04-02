@@ -1,4 +1,4 @@
-import React,{useEffect} from 'react';
+import React, { useEffect } from 'react';
 import AppNavigator from './src/navigation/AppNavigator';
 import { View } from 'react-native';
 import { store, persistor } from './src/Redux/config';
@@ -16,14 +16,14 @@ const App = () => {
     SplashScreen.hide();
     console.log("splash")
   }, []);
-  
+
   return (
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
-        <CustomStatusBar />
-        <View style={{ flex: 1 }}>
-          <AppNavigator />
-        </View>
+          <CustomStatusBar />
+          <View style={{ flex: 1 }}>
+            <AppNavigator />
+          </View>
       </PersistGate>
     </Provider>
   )

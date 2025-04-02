@@ -57,11 +57,8 @@ export const LoginAction = data => {
 export const UpdateUserInfo = id => {
   return async (dispatch, getState) => {
     dispatch({ type: AUTH.UPDATE_ACCOUNT_REQUEST });
-
     const reqParam = {
-      
     };
-   
     const method = API_METHODS.GET;
     const endPoint = BASE_URL + END_POINT.getDoctorDetail(id);
     try {

@@ -1,4 +1,4 @@
-import { BANK } from '../config/types';
+import { AVAILABILITY } from '../config/types';
 
 const initialState = {
   responseCode: null,
@@ -7,23 +7,23 @@ const initialState = {
   data: null,
 }
 
-const bankReducer = (state = initialState, action) => {
+const availabilityReducer = (state = initialState, action) => {
   switch (action.type) {
-    case BANK.BANK_FORM_REQUEST:
+    case AVAILABILITY.ADD_AVAILABILITY_REQUEST:
       return Object.assign({}, state, {
         responseCode: null,
         errMsg: null,
         loading: true,
         data: null,
       });
-    case BANK.BANK_FORM_SUCCESS:
+    case AVAILABILITY.ADD_AVAILABILITY_SUCCESS:
       return Object.assign({}, state, {
         responseCode: action?.payload?.status,
         errMsg: action?.payload?.message,
         loading: false,
         data: action?.payload?.data,
       });
-    case BANK.BANK_FORM_FAIL:
+    case AVAILABILITY.ADD_AVAILABILITY_FAIL:
       return Object.assign({}, state, {
         responseCode: action?.payload?.status,
         errMsg: action?.payload?.message,
@@ -31,16 +31,9 @@ const bankReducer = (state = initialState, action) => {
         data: null,
       });
 
-    case BANK.CLEAR_BANK_STATUS:
-      return Object.assign({}, state, {
-        responseCode: null,
-        errMsg: null,
-      });
-
-
     default:
       return state;
   }
 };
 
-export default bankReducer;
+export default availabilityReducer;

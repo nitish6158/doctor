@@ -13,6 +13,8 @@ const initialState = {
   isVerified: null,
   status: null,
 
+  individual:null,
+
   updateLoading: false,
 
   userData: null,
@@ -43,10 +45,12 @@ const authReducer = (state = initialState, action) => {
       return Object.assign({}, state, {
         updateLoading: true,
       });
+
     case AUTH.UPDATE_ACCOUNT_SUCCESS:
       return Object.assign({}, state, {
         isVerified: action?.payload?.data?.isVerified,
         updateLoading: false,
+        individual:action?.payload?.data?.individual,
         userData: action?.payload?.data,
         status: action?.payload?.data?.status,
         userName: action?.payload?.data?.userName,
@@ -79,6 +83,7 @@ const authReducer = (state = initialState, action) => {
         loading: false,
         loginStatus: true,
         userData: action?.payload?.data,
+        individual:action?.payload?.data?.individual,
         isVerified: action?.payload?.data?.isVerified,
         status: action?.payload?.data?.status,
         authToken: action?.payload?.data?.token,
@@ -119,7 +124,7 @@ const authReducer = (state = initialState, action) => {
         isVerified: action?.payload?.data?.isVerified,
         status: action?.payload?.data?.status,
         userData: action?.payload?.data,
-
+        individual:action?.payload?.data?.individual,
         authToken: action?.payload?.data?.token,
         userId: action?.payload?.data?.id,
         userName: action?.payload?.data?.userName,
@@ -154,6 +159,7 @@ const authReducer = (state = initialState, action) => {
         userData: null,
         userId: null,
         userName: null,
+        individual:null,
         email: null,
         mobileNumber: null,
         country: null,

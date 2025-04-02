@@ -7,10 +7,16 @@ import { CustomTextInput } from '../../../components/input';
 import { CustomButton } from '../../../components/button';
 import { connect } from 'react-redux';
 import { Loader, SuccessModal } from '../../../components/modal';
-import { LoginAction, ClearErrorStatus } from '../../../Redux/actions/auth';
 import { useTranslation } from '../../../components/customhooks';
 import { ToastMsg } from '../../../components/Toast';
 import { validateEmail, validatePassword } from '../../../utility/Validator';
+
+// import { LoginAction, ClearErrorStatus } from '../../../Redux/actions/auth';
+import {
+    LoginAction,
+    ClearErrorStatus,
+} from '../../../Redux/actions';
+
 const LogintextStyle = {
     fontSize: ResponsiveFont(18),
     lineHeight: ResponsiveFont(49),

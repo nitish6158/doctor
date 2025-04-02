@@ -4,12 +4,13 @@ import {
   END_POINT,
   ApiHandler,
   BASE_URL,
-} from '../../config';
+} from '../config';
 
 export const BankFormAction = data => {
   return async (dispatch, getState) => {
     dispatch({ type: BANK.BANK_FORM_REQUEST });
-    const reqParam = {
+    const reqParam = 
+    {
       "id": 0,
       "bankName": data.bankName,
       "accountNumber": data.accountNumber,
@@ -25,10 +26,12 @@ export const BankFormAction = data => {
       "mobileNumber": data.mobileNumber,
       "countryName": data.countryName,
     };
+    
     const method = API_METHODS.POST;
     const endPoint = BASE_URL + END_POINT.bankform;
     try {
       const response = await ApiHandler({ endPoint, method, reqParam });
+      console.log("check ",response)
       if (response?.data?.status === 200) {
         if (response.data?.data) {
           dispatch({
@@ -49,5 +52,12 @@ export const BankFormAction = data => {
         dispatch({ type: BANK.BANK_FORM_FAIL, payload: err });
       }
     }
+  };
+};
+
+
+export const ClearBankStatus = data => {
+  return async (dispatch, getState) => {
+    dispatch({ type: BANK.CLEAR_BANK_STATUS });
   };
 };

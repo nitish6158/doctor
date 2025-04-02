@@ -108,7 +108,7 @@ const AppointmentScreen = () => {
                     <Text style={AppointmentStyles.id}>{item.id}</Text>
                     <Text style={AppointmentStyles.id}>{item.appointmentTime}</Text>
                     <View style={AppointmentStyles.addressContainer}>
-                        <Image source={Images.icon_map} />
+                        <Image source={Images.icon_map} style={AppointmentStyles.mapIcon}/>
                         <Text style={[AppointmentStyles.Name, { marginLeft: '2%', width:'100%'}]}>{item.address}</Text>
                     </View>
                 </View>
