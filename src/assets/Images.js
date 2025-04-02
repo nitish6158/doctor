@@ -103,5 +103,8 @@ export const Images = {
     cross_icon:require('./icons/cross_icon.png'),
     icon_celender:require('./icons/Calendar.png'),
     icon_availability:require('./icons/availability.png'),
+    other: require('./icons/other.png'),
+  female: require('./icons/female.png'),
+  male: require('./icons/male.png'),
 
 };

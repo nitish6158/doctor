@@ -740,6 +740,11 @@ export const Languages = {
     AR: "د.",
     FN: "Dr.",
   },
+  PleaseSelectGender: {
+    EN: 'Please select gender',
+    AR: "الرجاء اختيار الجنس",
+    FR: "Veuillez sélectionner le genre",
+}
 
 
 };

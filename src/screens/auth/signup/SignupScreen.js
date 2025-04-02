@@ -92,6 +92,13 @@ const SignupScreen = (props) => {
     const [address, setAddress] = useState('');
     const [termsAccepted, setTermsAccepted] = useState(false);
     const [isModal, setIsmodal] = useState(false);
+    const [selectedGender, setSelectedGender] = useState('Female');
+
+    const genderOptions = [
+        {label: 'Male', icon: Images.male},
+        {label: 'Female', icon: Images.female},
+        {label:'Other', icon: Images.other},
+      ];
     const handleGoBack = () => {
         props.navigation.goBack();
     }
@@ -147,6 +154,10 @@ const SignupScreen = (props) => {
             ToastMsg(t('PleaseUploadCV'), 'bottom');
             return false;
         }
+        if (!selectedGender) {
+            ToastMsg(t('PleaseSelectGender'), 'bottom');
+            return false;
+        }
         if (!termsAccepted) {
             ToastMsg(t('AcceptTerms'), 'bottom');
             return false;
@@ -180,7 +191,8 @@ const SignupScreen = (props) => {
             "specialization": specialization,
             "country": country,
             "address": address,
-            "language": props.appLanguage?.toLowerCase()
+            "language": props.appLanguage?.toLowerCase(),
+            "gender":selectedGender,
         }
         await props.SignupAction(reqParams);
     }
@@ -277,7 +289,7 @@ const SignupScreen = (props) => {
             if (data && data?.data) {
                 setCountryArr(data?.data)
             }
-           
+
         } catch (err) {
             console.warn("Error fetching specializations:", err);
         }
@@ -392,6 +404,25 @@ const SignupScreen = (props) => {
                                     type="password"
                                     width='100%'
                                 />
+                                <View style={{marginVertical:'1%'}}>
+                                <Text style={SignupStyles.label}>
+                                    Select Gender
+                                </Text>
+                                <View style={SignupStyles.genderContainer}>
+                                    {genderOptions.map((option, index) => (
+                                        <TouchableOpacity
+                                            key={index}
+                                            style={[
+                                                SignupStyles.selectGender,
+                                                selectedGender === option.label && SignupStyles.selectedGender,
+                                            ]}
+                                            onPress={() => setSelectedGender(option.label)}>
+                                            <Image source={option.icon} style={SignupStyles.icon} />
+                                            <Text style={SignupStyles.genderText}>{option.label}</Text>
+                                        </TouchableOpacity>
+                                    ))}
+                                </View>
+                                </View>
 
                             </>
                         )}

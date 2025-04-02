@@ -17,6 +17,7 @@ export const Colors = {
     light_blue2:'#E1F3FF',
    lightblue3: '#C2E7FF',
    lightblue4: '#19A3FF',
+   lightblue5: '#CEEBFF',
 
     upload_background:'#F8FBFB',
 

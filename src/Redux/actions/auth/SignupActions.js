@@ -21,6 +21,7 @@ export const SignupAction = data => {
       "country": data.country,
       "address": data.address,
       "language": data.language,
+      "gender": data.gender,
       "clinicId": 0,
       "id": null,
       "experience": "",
