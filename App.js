@@ -17,6 +17,8 @@ const App = () => {
     console.log("splash")
   }, []);
 
+  //console
+
   return (
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
