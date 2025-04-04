@@ -39,25 +39,25 @@ export const LoginStyles = StyleSheet.create({
     },
     boldText: {
         fontFamily: Fonts.Bold,
-        fontSize: ResponsiveFont(29),
+        fontSize: ResponsiveFont(27),
         lineHeight: ResponsiveFont(36),
         color: Colors.font_blue,
     },
     heading: {
         fontFamily: Fonts.Bold,
-        fontSize: ResponsiveFont(29),
+        fontSize: ResponsiveFont(25),
         lineHeight: ResponsiveFont(36),
         color: Colors.black
     },
     subHeading:{
         fontFamily: Fonts.Bold,
-        fontSize: ResponsiveFont(16),
+        fontSize: ResponsiveFont(13),
         lineHeight: ResponsiveFont(20),
         color: Colors.black
     },
     subBoldText:{
         fontFamily: Fonts.Bold,
-        fontSize: ResponsiveFont(16),
+        fontSize: ResponsiveFont(13),
         lineHeight: ResponsiveFont(20),
         color: Colors.font_blue
     },

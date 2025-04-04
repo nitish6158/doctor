@@ -41,6 +41,7 @@ export const CustomTextInput = ({
       <View style={[styles.container,
       {
         borderColor: isFocused ? Colors.blue : borderColor,
+        borderTopWidth: isFocused ? 1 : 0,
         width,
         height,
         borderRadius
@@ -84,8 +85,8 @@ const styles = StyleSheet.create({
     marginVertical: hp * 0.5 / 100,
   },
   icon: {
-    width: (wp * 6) / 100,
-    height: (wp * 6) / 100,
+    width: (wp * 4.6) / 100,
+    height: (wp * 4.6) / 100,
     marginRight: wp * 2.5 / 100,
     resizeMode: 'contain',
   },
@@ -102,8 +103,8 @@ const styles = StyleSheet.create({
     color: Colors.black
   },
   eyeIcon:{
-    width: (wp * 5) / 100,
-    height: (wp * 5) / 100,
+    width: (wp * 4.6) / 100,
+    height: (wp * 4.6) / 100,
     resizeMode: 'contain',
   }
 });

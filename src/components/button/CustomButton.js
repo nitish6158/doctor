@@ -27,8 +27,8 @@ export const CustomButton = ({
           backgroundColor,
           borderRadius,
           borderColor,
-          paddingVertical,
-          paddingHorizontal,
+          // paddingVertical,
+          // paddingHorizontal,
           width,
           height,
           borderWidth: isborder ? 2 : 0

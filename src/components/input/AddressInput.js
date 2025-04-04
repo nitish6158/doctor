@@ -9,16 +9,27 @@ export const AddressInput = ({
   width = '95%',
   minHeight = hp * 0.09,
   borderRadius = 16,
-  borderColor=Colors.borderColor2,
+  borderColor = Colors.borderColor2,
   textStyles = {},
   heading
 }) => {
   const [height, setHeight] = useState(minHeight);
+  const [isFocused, setIsFocused] = useState(false);
 
   return (
     <View>
       <Text style={[styles.heading, textStyles]}>{heading}</Text>
-      <View style={[styles.container, { borderColor: borderColor, width, borderRadius, minHeight: height }]}> 
+      <View
+        style={[
+          styles.container,
+          {
+            // borderColor: borderColor,
+            borderColor: isFocused ? Colors.blue : borderColor,
+            borderTopWidth: isFocused ? 1 : 0,
+            width,
+            borderRadius,
+            minHeight: height
+          }]}>
         <TextInput
           style={[styles.input, { height }]}
           placeholder={placeholder}
@@ -28,6 +39,8 @@ export const AddressInput = ({
           placeholderTextColor={Colors.placeholder_color}
           multiline
           autoCapitalize='words'
+          onFocus={() => setIsFocused(true)}
+          onBlur={() => setIsFocused(false)}
         />
       </View>
     </View>
@@ -39,7 +52,7 @@ const styles = StyleSheet.create({
     // borderWidth: 1,
     paddingHorizontal: wp * 2.5 / 100,
     marginVertical: hp * 0.5 / 100,
-    paddingVertical:wp*3.4/100,
+    paddingVertical: wp * 3.4 / 100,
     borderLeftWidth: 1,
     borderRightWidth: 1,
     borderBottomWidth: 1,

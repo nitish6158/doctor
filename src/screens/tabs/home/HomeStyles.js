@@ -32,8 +32,7 @@ export const HomeStyles = StyleSheet.create({
     },
     buttonContainer: {
         flexDirection: 'row',
-        justifyContent: 'space-between',
-        width:'100%'
+        width:'100%',
     },
     buttonSubContainer: {
         flexDirection: 'row',
@@ -77,6 +76,7 @@ export const HomeStyles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         justifyContent: 'space-between',
+
     },
     dropdownContainer2: {
         backgroundColor: Colors.lightblue4,
@@ -243,8 +243,6 @@ export const HomeStyles = StyleSheet.create({
     card2: {
         width: '100%',
         flex: 1,
-       
-
     },
     cardImage: {
         width: wp * 30 / 100,
@@ -276,13 +274,11 @@ export const HomeStyles = StyleSheet.create({
     resion: {
         fontFamily: Fonts.Bold,
         fontSize: ResponsiveFont(17),
-        lineHeight: '100%',
         color: Colors.black,
         width: '90%',
     },
     resiontext: {
         fontFamily: Fonts.SemiBold,
-        lineHeight: '100%',
         fontSize: ResponsiveFont(16),
         color: Colors.black,
         width: '90%',

@@ -162,7 +162,7 @@ export const AgendaStyles = StyleSheet.create({
         paddingHorizontal: '4%',
         borderRadius: (wp * 2) / 100,
         backgroundColor: Colors.shadowBlue,
-        margin: '1%'
+        margin: '1%',
     },
     tabText: {
         fontFamily: Fonts.SemiBold,
@@ -178,7 +178,8 @@ export const AgendaStyles = StyleSheet.create({
         justifyContent: 'center',
     },
     card: {
-        width: '90%'
+        width: '90%',
+       
     },
     availabilityCard: {
         width: '100%'
@@ -238,6 +239,11 @@ export const AgendaStyles = StyleSheet.create({
         height: wp * 6 / 100,
         resizeMode: 'contain'
     },
+    iconStyle3: {
+        width: wp * 5 / 100,
+        height: wp * 5 / 100,
+        resizeMode: 'contain'
+    },
     text: {
         fontFamily: Fonts.SemiBold,
         fontSize: ResponsiveFont(14),
@@ -246,10 +252,20 @@ export const AgendaStyles = StyleSheet.create({
     },
     availabilityButton: {
         width: "100%",
-        alignItems: 'center'
+        alignItems: 'center',
+        flexDirection:'row',
+        justifyContent:'space-between',
+        paddingHorizontal:'5%',
+    },
+    availabilityButton2: {
+        width: "100%",
+        alignItems: 'center',
+        justifyContent:'space-between',
     },
     addressContainer2: {
         flexDirection: 'row',
+        justifyContent:'center',
+        alignItems:'center',
         width: '100%',
         padding: '2%'
     },
@@ -320,22 +336,41 @@ export const AgendaStyles = StyleSheet.create({
         paddingVertical: '2%',
         alignItems: 'center',
         justifyContent: 'flex-start',
-        borderWidth:0.5,
-        borderColor:Colors.blue
+        borderWidth: 0.5,
+        borderColor: Colors.blue
     },
     iconStyle2: {
         width: wp * 4 / 100,
         height: wp * 4 / 100,
         resizeMode: 'contain',
-        marginHorizontal:'5%',
+        marginHorizontal: '5%',
     },
     timeText: {
-        marginLeft:'2%',
+        marginLeft: '2%',
         fontFamily: Fonts.Medium,
         fontSize: ResponsiveFont(15),
         color: Colors.gray,
     },
-    addressContainer:{
-        paddingVertical:'2%'
+    addressContainer: {
+        paddingVertical: '2%'
+    },
+    NoAvailability: {
+        width: wp * 25 / 100,
+        height: wp * 25 / 100,
+        resizeMode: 'contain'
+    },
+    NoAvailabilityText: {
+        fontFamily: Fonts.SemiBold,
+        fontSize: ResponsiveFont(22),
+        // lineHeight: ResponsiveFont(20),
+        color: Colors.light_gray4,
+        width: '60%',
+        textAlign: 'center'
+    },
+    NoAvailabilityContainer: {
+        marginVertical: '4%',
+        alignItems: 'center',
+        justifyContent: 'center',
+        width: '100%',
     }
 });

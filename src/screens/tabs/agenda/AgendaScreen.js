@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
     View,
     Text,
@@ -13,9 +13,13 @@ import { AgendaStyles } from './AgendaStyles';
 import { FloatingBackgroundCard, ListingCard } from '../../../components/card';
 import { Calendar } from 'react-native-calendars';
 import { CustomButton, ToggleButton } from '../../../components/button';
-import { Colors, Images, opacityOfButton } from '../../../assets';
 import { AddressInput } from '../../../components/input';
-import { AvailabilityModal,  } from '../../../components/modal';
+import { AvailabilityModal, Loader, } from '../../../components/modal';
+import { AddAvailabilityAction, getAvailabilityAction } from '../../../Redux/actions';
+import { connect } from 'react-redux';
+import moment from 'moment';
+import { Fonts, Colors, ResponsiveFont, Images, opacityOfButton } from '../../../assets';
+import { OfflineAvailabilityList } from './OfflineAvailabilityList';
 const doctors = [
     {
         id: '1',
@@ -121,20 +125,110 @@ const availabilityObj = {
     address: '1233 Central Ave, Lake Stati... fom khandawa naka of kharghone 456793h new youk ',
 
 };
+const tempdata =
+{
+    "date": "03-04-2025",
+    "id": "10",
+    "onlineSlots": [
+        {
+            "startTime": "10:00",
+            "endTime": "10:15"
+        },
+        {
+            "startTime": "10:20",
+            "endTime": "10:35"
+        },
+        {
+            "startTime": "10:40",
+            "endTime": "10:55"
+        },
+        {
+            "startTime": "11:00",
+            "endTime": "11:15"
+        }
+    ],
+    "offlineSlots": [
+        {
+            "clinicId": "1",
+            "clinicName": "sitaram hospital",
+            "address": "bapat",
+            "clinicSlots": [
+                {
+                    "startTime": "12:00",
+                    "endTime": "12:15"
+                },
+                {
+                    "startTime": "12:20",
+                    "endTime": "12:35"
+                },
+                {
+                    "startTime": "12:40",
+                    "endTime": "12:55"
+                }
+            ]
+        },
+        {
+            "clinicId": "2",
+            "clinicName": "Ram Bharose hospital",
+            "address": "vijay nagar",
+            "clinicSlots": [
+                {
+                    "startTime": "13:00",
+                    "endTime": "13:15"
+                },
+                {
+                    "startTime": "13:20",
+                    "endTime": "13:35"
+                },
+                {
+                    "startTime": "13:40",
+                    "endTime": "13:55"
+                }
+            ]
+        },
+        {
+            "clinicId": "3",
+            "clinicName": "bombay hospital",
+            "address": "regal squar",
+            "clinicSlots": [
+                {
+                    "startTime": "15:00",
+                    "endTime": "15:15"
+                },
+                {
+                    "startTime": "15:20",
+                    "endTime": "15:35"
+                },
+                {
+                    "startTime": "15:40",
+                    "endTime": "15:55"
+                }
+            ]
+        }
+    ]
+}
+const buttonTextStyle1 = {
+    fontFamily: Fonts.Medium,
+    fontSize: ResponsiveFont(16),
+    color: Colors.blue,
+}
 
-const MyAgenda = () => {
+const buttonTextStyle2 = {
+    fontFamily: Fonts.Medium,
+    fontSize: ResponsiveFont(16),
+    color: Colors.white,
+}
+
+const MyAgenda = (props) => {
     const [currentDate, setCurrentDate] = useState(new Date());
-    const [selectedDate, setSelectedDate] = useState(null);
-    const [isMyAvailability, setIsMyAvailability] = useState(true);
+    const [isMyAvailabilityTabActive, setIsMyAvailabilityTabActive] = useState(true);
+    const [addAvailabilityInProgress, setAddAvailabilityInProgress] = useState(false)
+    const [blockAvailabilityInProgress, setBlockAvailabilityInProgress] = useState(false)
+
     const [isInfoShown, setIsInfoShown] = useState(false);
-    const [isAvailabilityProgress, setIsAvailabilityProgress] = useState(false)
+
 
     // add new availab.. flow 
-    const [mode, setMode] = useState('online');
-    const [fromTime, setFromTime] = useState("From Time");
-    const [toTime, setToTime] = useState("To Time");
-    const [address, setAddress] = useState(null);
-    const [isModalVisible, setIsModalVisible] = useState(false);
 
     const handleMonthChange = (month) => {
         setCurrentDate(new Date(month.year, month.month - 1));
@@ -202,6 +296,91 @@ const MyAgenda = () => {
         </ListingCard>
     );
 
+    // new flow 
+
+    const today = new Date().toISOString().split("T")[0];
+    const [selectedDate, setSelectedDate] = useState(today);
+    const [availabilities, setAvailabilities] = useState([]);
+    const [isAddingAvailability, setIsAddingAvailability] = useState(false);
+    const [mode, setMode] = useState('online');
+    const [fromTime, setFromTime] = useState("");
+    const [toTime, setToTime] = useState("");
+    const [address, setAddress] = useState("");
+    const [isModalVisible, setIsModalVisible] = useState(false);
+
+    useEffect(() => {
+        fetchMyAvailability();
+    }, [selectedDate]);
+
+    const fetchMyAvailability = async () => {
+        const formatDate = moment(selectedDate).format("DD-MM-YYYY");
+        const reqParam = {
+            // clinicId: props.selectedClinicId,
+            // doctorId: props.userId,
+            // date: formatDate,
+
+            clinicId: 0,
+            doctorId: 27,
+            date: formatDate,
+
+        };
+
+
+        await props.getAvailabilityAction(reqParam)
+    };
+
+    const handleDaySelect = (day) => {
+        setSelectedDate(day.dateString);
+    };
+
+    const handleFromTimeChange = (time) => {
+        setFromTime(time);
+        let [hours, minutes] = time.split(":").map(Number);
+        minutes += 15;
+        if (minutes >= 60) {
+            hours += 1;
+            minutes -= 60;
+        }
+        setToTime(`${hours}:${minutes < 10 ? '0' : ''}${minutes}`);
+    };
+
+    const handleSubmitAvailability = () => {
+        const newAvailability = { date: selectedDate, mode, fromTime, toTime, address };
+        AddAvailabilityAction(newAvailability);
+        setIsModalVisible(true);
+    };
+
+    const calenderTheme = {
+        arrowColor: Colors.blue,
+        monthTextColor: "black",
+        backgroundColor: Colors.white,
+        calendarBackground: Colors.white,
+        textSectionTitleColor: Colors.black,
+        selectedDayBackgroundColor: Colors.blue,
+        selectedDayTextColor: Colors.white,
+        todayTextColor: Colors.blue,
+        dayTextColor: Colors.black,
+        textDisabledColor: '#d9d9d9',
+        dotColor: Colors.blue,
+        selectedDotColor: Colors.white,
+        textDayFontSize: 16,
+        textMonthFontSize: 18,
+        textDayHeaderFontSize: 14,
+    };
+
+    const renderHeader = (date) => (
+        <Text style={AgendaStyles.monthName}>
+            {formatMonthYear(new Date(date))}
+        </Text>
+    );
+
+    const renderArrow = (direction) => (
+        <Text style={AgendaStyles.arrow}>
+            {direction === "left" ? "<" : ">"}
+        </Text>
+    );
+
+
     return (
         <ImageBackground
             source={Images.backgroundImage}
@@ -210,12 +389,12 @@ const MyAgenda = () => {
         >
             <View style={AgendaStyles.topView}>
 
-                {!isAvailabilityProgress ?
+                {!addAvailabilityInProgress ?
                     <Text style={AgendaStyles.tabName}>My Agenda</Text>
                     :
                     <TouchableOpacity
                         style={AgendaStyles.crossButtonContainer}
-                        onPress={() => { setIsAvailabilityProgress(false) }}
+                        onPress={() => { setAddAvailabilityInProgress(false) }}
                     >
                         <Image
                             source={Images.icon_cross}
@@ -233,10 +412,10 @@ const MyAgenda = () => {
                     showsVerticalScrollIndicator={false}
                 >
                     {
-                        !isAvailabilityProgress ?
+                        !addAvailabilityInProgress ?
                             <ToggleButton
-                                isActive={isMyAvailability}
-                                onToggle={setIsMyAvailability}
+                                isActive={isMyAvailabilityTabActive}
+                                onToggle={setIsMyAvailabilityTabActive}
                                 leftText="My Availability"
                                 rightText="Team Availability"
                             />
@@ -248,109 +427,214 @@ const MyAgenda = () => {
 
                     <View style={{ width: '90%', }}>
                         <Calendar
-                            current={currentDate.toISOString().split("T")[0]}
-                            onMonthChange={handleMonthChange}
-                            onDayPress={(day) => setSelectedDate(day.dateString)}
-                            markedDates={{
-                                [selectedDate]: { selected: true, selectedColor: Colors.blue }
-                            }}
-                            renderHeader={(date) => (
-                                <Text
-                                    style={AgendaStyles.monthName}>
-                                    {formatMonthYear(new Date(date))}
-                                </Text>
-                            )}
-                            renderArrow={(direction) => (
-                                <Text
-                                    style={AgendaStyles.arrow}>
-                                    {direction === "left" ? "<" : ">"}
-                                </Text>
-                            )}
+                            renderHeader={renderHeader}
+                            renderArrow={renderArrow}
                             style={AgendaStyles.calenderStyle}
-                            theme={{
-                                arrowColor: Colors.blue,
-                                monthTextColor: "black",
-                                backgroundColor: Colors.white,
-                                calendarBackground: Colors.white,
-                                textSectionTitleColor: Colors.black,
-                                selectedDayBackgroundColor: Colors.blue,
-                                selectedDayTextColor: Colors.white,
-                                todayTextColor: Colors.blue,
-                                dayTextColor: Colors.black,
-                                textDisabledColor: '#d9d9d9',
-                                dotColor: Colors.blue,
-                                selectedDotColor: Colors.white,
-                                textDayFontSize: 16,
-                                textMonthFontSize: 18,
-                                textDayHeaderFontSize: 14,
+                            theme={calenderTheme}
+                            onMonthChange={handleMonthChange}
+                            current={selectedDate}
+                            onDayPress={handleDaySelect}
+                            markedDates={{
+                                [selectedDate]:
+                                    { selected: true, selectedColor: Colors.blue }
                             }}
                         />
                     </View>
 
-                    {isMyAvailability && !isAvailabilityProgress &&
-                        <ListingCard
-                            customStyles={AgendaStyles.card}>
-                            <View style={AgendaStyles.availabilityCard}>
-                                <View style={AgendaStyles.availabilityinfo}>
-                                    <Text style={AgendaStyles.date}>{availabilityObj.date}</Text>
-                                    <View
-                                        style={AgendaStyles.modeButton}
-                                    >
-                                        <Text style={AgendaStyles.modeText}>{availabilityObj.mode}</Text>
-                                    </View>
-                                </View>
-                                <View style={AgendaStyles.tabContainer}>
-                                    {availabilityObj.slot.map((slot) => (
-                                        <View
-                                            key={slot}
-                                            style={AgendaStyles.tabButton}
-                                        >
-                                            <Text
-                                                style={
-                                                    AgendaStyles.tabText
-                                                }>
-                                                {slot}
-                                            </Text>
-                                        </View>
-                                    ))}
-                                </View >
-                                {
-                                    availabilityObj.mode === 'offline' &&
-                                    <View style={AgendaStyles.addressContainer2}>
-                                        <Image source={Images.icon_map} />
-                                        <Text style={AgendaStyles.address2}>
-                                            {availabilityObj.address}
-                                        </Text>
-                                    </View>
-                                }
+                    {isMyAvailabilityTabActive &&
+                        <>
+                            {!addAvailabilityInProgress && props.myAvailabilityData ?
+                                <>
+                                    {
+                                        props.myAvailabilityData?.onlineSlots &&
+                                        <ListingCard
+                                            customStyles={AgendaStyles.card}>
+                                            <View style={AgendaStyles.availabilityCard}>
+                                                <View style={AgendaStyles.availabilityinfo}>
+                                                    <Text style={AgendaStyles.date}>{props.myAvailabilityData?.date}</Text>
+                                                    <View
+                                                        style={AgendaStyles.modeButton}
+                                                    >
+                                                        <Text style={AgendaStyles.modeText}>Online</Text>
+                                                    </View>
+                                                </View>
+                                                <View style={AgendaStyles.tabContainer}>
+                                                    {props.myAvailabilityData?.onlineSlots?.map((slot,index) => (
+                                                        <View
+                                                            key={index}
+                                                            style={AgendaStyles.tabButton}
+                                                        >
+                                                            <Text
+                                                                style={
+                                                                    AgendaStyles.tabText
+                                                                }>
+                                                                {slot?.startTime}-{slot?.endTime}
+                                                            </Text>
+                                                        </View>
+                                                    ))}
+                                                </View >
 
-                                <View style={AgendaStyles.AvailalitytbuttonContainer}>
-                                    <TouchableOpacity style={AgendaStyles.deleteButtonContainer}>
-                                        <Image
-                                            source={Images.icon_delete}
-                                            style={AgendaStyles.iconStyle}
+                                                <View style={AgendaStyles.AvailalitytbuttonContainer}>
+                                                    <TouchableOpacity style={AgendaStyles.deleteButtonContainer}>
+                                                        <Image
+                                                            source={Images.icon_delete}
+                                                            style={AgendaStyles.iconStyle3}
+                                                        />
+                                                    </TouchableOpacity>
+                                                    <TouchableOpacity style={AgendaStyles.editButtonContainer}>
+                                                        <Text style={AgendaStyles.text}>Edit</Text>
+                                                    </TouchableOpacity>
+                                                </View>
+                                            </View>
+                                        </ListingCard>
+                                    }
+                                    {
+                                        props.myAvailabilityData?.offlineSlots &&
+                                        <OfflineAvailabilityList
+                                            myAvailabilityData={props.myAvailabilityData}
                                         />
-                                    </TouchableOpacity>
-                                    <TouchableOpacity style={AgendaStyles.editButtonContainer}>
-                                        <Text style={AgendaStyles.text}>Edit</Text>
-                                    </TouchableOpacity>
+                                    }
+
+                                </>
+                                :
+                                <View
+                                    style={AgendaStyles.NoAvailabilityContainer} >
+                                    <Image
+                                        source={Images.NoAvailability}
+                                        style={AgendaStyles.NoAvailability}
+                                    />
+                                    <Text
+                                        style={AgendaStyles.NoAvailabilityText}
+                                    >You Haven't Added Availability Yet!</Text>
                                 </View>
-                            </View>
-                        </ListingCard>
+                            }
+                            {!addAvailabilityInProgress &&
+                                <View
+                                    style={AgendaStyles.availabilityButton} >
+                                    <CustomButton
+                                        title={"Block Availability"}
+                                        textStyle={buttonTextStyle1}
+                                        width='48%'
+                                        onPress={() => { setBlockAvailabilityInProgress(true) }}
+                                        backgroundColor={Colors.lightblue6}
+                                    />
+                                    <CustomButton
+                                        title={"Add Availability"}
+                                        width='48%'
+                                        textStyle={buttonTextStyle2}
+                                        onPress={() => { setAddAvailabilityInProgress(true) }}
+                                    />
+                                </View>
+                            }
+                            {addAvailabilityInProgress &&
+                                <>
+                                    <View style={AgendaStyles.heading2}>
+                                        <Text style={AgendaStyles.slotText2}>Time Slot</Text>
+                                        <TouchableOpacity
+                                            onPress={() => { setAddAvailabilityInProgress(false) }}
+                                        >
+                                            <Image
+                                                source={Images.icon_plus}
+                                                style={AgendaStyles.iconStyle}
+                                            />
+                                        </TouchableOpacity>
+
+                                    </View>
+
+                                    <ListingCard customStyles={{ width: '90%' }}>
+                                        <View style={AgendaStyles.cardContainer}>
+
+                                            <View style={AgendaStyles.heading}>
+                                                <Text style={AgendaStyles.slotText}>Time Slot 1</Text>
+                                                <TouchableOpacity
+                                                    onPress={() => { setAddAvailabilityInProgress(false) }}
+                                                >
+                                                    <Image
+                                                        source={Images.icon_delete}
+                                                        style={AgendaStyles.iconStyle}
+                                                    />
+                                                </TouchableOpacity>
+
+                                            </View>
+
+                                            <View style={AgendaStyles.modeContainer}>
+                                                <TouchableOpacity
+                                                    style={[AgendaStyles.modeButton, {
+                                                        marginHorizontal: '0%',
+                                                        backgroundColor: mode === 'online' ? Colors.blue : Colors.white
+                                                    }]}
+                                                    onPress={() => { setMode("online") }}
+                                                >
+                                                    <Text
+                                                        style={[AgendaStyles.modeText,
+                                                        { color: mode === 'online' ? Colors.white : Colors.blue }]}
+                                                    >online</Text>
+                                                </TouchableOpacity>
+                                                <TouchableOpacity
+                                                    style={[AgendaStyles.modeButton, {
+                                                        backgroundColor: mode === 'offline' ? Colors.blue : Colors.white
+                                                    }]}
+                                                    onPress={() => { setMode("offline") }}
+                                                >
+                                                    <Text
+                                                        style={[AgendaStyles.modeText, { color: mode === 'offline' ? Colors.white : Colors.blue }]}
+                                                    >offline</Text>
+                                                </TouchableOpacity>
+                                            </View>
+
+                                            <View style={AgendaStyles.slotContainer}>
+                                                <TouchableOpacity
+                                                    style={AgendaStyles.timeButton}
+                                                    onPress={() => console.log("Pick From Time")}
+                                                >
+                                                    <Image
+                                                        source={Images.icon_time}
+                                                        style={AgendaStyles.iconStyle2}
+                                                    />
+                                                    <Text style={AgendaStyles.timeText}>{fromTime}</Text>
+                                                </TouchableOpacity>
+                                                <TouchableOpacity
+                                                    style={AgendaStyles.timeButton}
+                                                    onPress={() => console.log("Pick From Time")}
+                                                >
+                                                    <Image
+                                                        source={Images.icon_time}
+                                                        style={AgendaStyles.iconStyle2}
+                                                    />
+                                                    <Text style={AgendaStyles.timeText}>{toTime}</Text>
+                                                </TouchableOpacity>
+                                            </View>
+                                            {mode === 'offline' &&
+                                                <View style={AgendaStyles.addressContainer}>
+                                                    <AddressInput
+                                                        heading='Address'
+                                                        placeholder='Enter Address'
+                                                        value={address}
+                                                        onChangeText={setAddress}
+                                                        width='100%'
+                                                    />
+                                                </View>
+                                            }
+                                        </View>
+                                    </ListingCard>
+
+                                    <View
+                                        style={AgendaStyles.availabilityButton2}
+                                    >
+                                        <CustomButton
+                                            title={"Add Availability"}
+                                            width='90%'
+                                            onPress={() => { setIsModalVisible(true) }}
+                                        />
+                                    </View>
+                                </>
+                            }
+                            
+
+                        </>
                     }
 
-                    {isMyAvailability && !isAvailabilityProgress &&
-                        <View
-                            style={AgendaStyles.availabilityButton} >
-                            <CustomButton
-                                title={"Add New Availability"}
-                                width='90%'
-                                onPress={() => { setIsAvailabilityProgress(true) }}
-                            />
-                        </View>
-                    }
-
-                    {!isMyAvailability &&
+                    {!isMyAvailabilityTabActive &&
                         <View style={AgendaStyles.listContainer}>
                             <FlatList
                                 data={doctors}
@@ -365,111 +649,6 @@ const MyAgenda = () => {
                         </View>
                     }
 
-                    {isMyAvailability && isAvailabilityProgress &&
-                        <>
-                            <View style={AgendaStyles.heading2}>
-                                <Text style={AgendaStyles.slotText2}>Time Slot</Text>
-                                <TouchableOpacity
-                                    onPress={() => { setIsAvailabilityProgress(false) }}
-                                >
-                                    <Image
-                                        source={Images.icon_plus}
-                                        style={AgendaStyles.iconStyle}
-                                    />
-                                </TouchableOpacity>
-
-                            </View>
-
-                            <ListingCard customStyles={{ width: '90%' }}>
-                                <View style={AgendaStyles.cardContainer}>
-
-                                    <View style={AgendaStyles.heading}>
-                                        <Text style={AgendaStyles.slotText}>Time Slot 1</Text>
-                                        <TouchableOpacity
-                                            onPress={() => { setIsAvailabilityProgress(false) }}
-                                        >
-                                            <Image
-                                                source={Images.icon_delete}
-                                                style={AgendaStyles.iconStyle}
-                                            />
-                                        </TouchableOpacity>
-
-                                    </View>
-
-                                    <View style={AgendaStyles.modeContainer}>
-                                        <TouchableOpacity
-                                            style={[AgendaStyles.modeButton, {
-                                                marginHorizontal: '0%',
-                                                backgroundColor: mode === 'online' ? Colors.blue : Colors.white
-                                            }]}
-                                            onPress={() => { setMode("online") }}
-                                        >
-                                            <Text
-                                                style={[AgendaStyles.modeText,
-                                                { color: mode === 'online' ? Colors.white : Colors.blue }]}
-                                            >online</Text>
-                                        </TouchableOpacity>
-                                        <TouchableOpacity
-                                            style={[AgendaStyles.modeButton, {
-                                                backgroundColor: mode === 'offline' ? Colors.blue : Colors.white
-                                            }]}
-                                            onPress={() => { setMode("offline") }}
-                                        >
-                                            <Text
-                                                style={[AgendaStyles.modeText, { color: mode === 'offline' ? Colors.white : Colors.blue }]}
-                                            >offline</Text>
-                                        </TouchableOpacity>
-                                    </View>
-
-                                    <View style={AgendaStyles.slotContainer}>
-                                        <TouchableOpacity
-                                            style={AgendaStyles.timeButton}
-                                            onPress={() => console.log("Pick From Time")}
-                                        >
-                                            <Image
-                                                source={Images.icon_time}
-                                                style={AgendaStyles.iconStyle2}
-                                            />
-                                            <Text style={AgendaStyles.timeText}>{fromTime}</Text>
-                                        </TouchableOpacity>
-                                        <TouchableOpacity
-                                            style={AgendaStyles.timeButton}
-                                            onPress={() => console.log("Pick From Time")}
-                                        >
-                                            <Image
-                                                source={Images.icon_time}
-                                                style={AgendaStyles.iconStyle2}
-                                            />
-                                            <Text style={AgendaStyles.timeText}>{toTime}</Text>
-                                        </TouchableOpacity>
-                                    </View>
-                                    {mode === 'offline' &&
-                                        <View style={AgendaStyles.addressContainer}>
-                                            <AddressInput
-                                                heading='Address'
-                                                placeholder='Enter Address'
-                                                value={address}
-                                                onChangeText={setAddress}
-                                                width='100%'
-                                            />
-                                        </View>
-                                    }
-                                </View>
-                            </ListingCard>
-                        </>
-                    }
-
-                    {isMyAvailability && isAvailabilityProgress &&
-                        <View
-                            style={AgendaStyles.availabilityButton} >
-                            <CustomButton
-                                title={"Add Availability"}
-                                width='90%'
-                                onPress={() => { setIsModalVisible(true) }}
-                            />
-                        </View>
-                    }
-
                     <AvailabilityModal
                         heading={'Availability Added'}
                         isModalOpen={isModalVisible}
@@ -478,6 +657,9 @@ const MyAgenda = () => {
                         }}
                     />
 
+                    <Loader
+                        visible={props.loading}
+                    />
 
                 </ScrollView>
             </FloatingBackgroundCard>
@@ -485,4 +667,20 @@ const MyAgenda = () => {
     );
 };
 
-export default MyAgenda;
+
+const mapStateToProps = state => {
+    return {
+        userId: state.authReducer.userId,
+        selectedClinicId: state.authReducer.selectedClinicId,
+        availabilityAddedData: state.availabilityReducer.data,
+        loading: state.availabilityReducer.loading,
+        // myAvailabilityData: state.availabilityReducer.myAvailabilityData,
+        myAvailabilityData: tempdata,
+    };
+};
+
+const mapDispatchToProps = {
+    AddAvailabilityAction,
+    getAvailabilityAction
+};
+export default connect(mapStateToProps, mapDispatchToProps)(MyAgenda);

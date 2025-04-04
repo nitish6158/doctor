@@ -7,7 +7,7 @@ export const LanguageSelectionButton = ({
   placeholder = "Select",
   selectedValue,
   onValueChange,
-  textColor = Colors.black,
+  textColor = Colors.light_black3,
   style = {},
   textStyle = {},
   type = 'english',
@@ -72,6 +72,7 @@ const styles = StyleSheet.create({
     width : '95%',
     height :hp * 0.07,
     borderRadius:16,
+    borderColor:Colors.light_gray4
 
   },
   dropsownTextContainer: {
@@ -80,7 +81,7 @@ const styles = StyleSheet.create({
     width: '60%'
   },
   dropdownText: {
-    fontFamily: Fonts.Regular,
+    fontFamily: Fonts.SemiBold,
     fontSize: ResponsiveFont(16),
     marginLeft: '7%'
   },
@@ -97,4 +98,9 @@ const styles = StyleSheet.create({
     lineHeight: ResponsiveFont(17.5),
     color: Colors.black
   },
+  icon:{
+    width: wp*10/100,
+    height:wp*10/100,
+    resizeMode:'contain'
+  }
 });

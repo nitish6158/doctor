@@ -3,6 +3,7 @@ import { AUTH } from "../../config/types";
 const initialState = {
   appLanguage: 'EN', // can be "AR" and "FN"
   loginStatus: false,
+  selectedClinicId:null,
 
   responseCode: null,
   responseCodeLogin: null,
@@ -39,6 +40,11 @@ const authReducer = (state = initialState, action) => {
     case AUTH.SET_LANGUAGE:
       return Object.assign({}, state, {
         appLanguage: action.payload,
+      });
+
+    case AUTH.UPDATE_CLINIC_ID:
+      return Object.assign({}, state, {
+        selectedClinicId: action.payload,
       });
 
     case AUTH.UPDATE_ACCOUNT_REQUEST:

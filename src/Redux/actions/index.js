@@ -1,18 +1,34 @@
 import { LanguageAction } from "./auth/LanguageAction";
-import { LoginAction } from "./auth/LoginActions";
-import { SignupAction } from "./auth/SignupActions";
-import { ForgotPasswordAction } from "./auth/ForgotPasswordAction";
-import { ClearErrorStatus } from "./auth/LoginActions";
-import { LogoutAction } from "./auth/LoginActions";
-import { ClearErrorStatusForgotPassword } from "./auth/ForgotPasswordAction";
-import { ClearStatusSignup } from "./auth/SignupActions";
-import { UpdateUserInfo } from "./auth/LoginActions";
-import { BankFormAction } from "./BankFormAction";
-import { SendContract } from "./SendContract";
-import { ClearContractStatus } from "./SendContract";
-import { ClearBankStatus } from "./BankFormAction";
-import { GetAllClinicAction } from "./getAllClinicAction";
-import { AddAvailabilityAction } from "./AvailabilityAction";
+import {
+    LoginAction,
+    LogoutAction,
+    UpdateUserInfo,
+    ClearErrorStatus
+} from "./auth/LoginActions";
+import {
+    SignupAction,
+    ClearStatusSignup
+} from "./auth/SignupActions";
+import {
+    ForgotPasswordAction,
+    ClearErrorStatusForgotPassword
+} from "./auth/ForgotPasswordAction";
+import {
+    BankFormAction,
+    ClearBankStatus
+} from "./BankFormAction";
+import {
+    SendContract,
+    ClearContractStatus
+} from "./SendContract";
+import {
+    GetAllClinicAction
+} from "./getAllClinicAction";
+import {
+    AddAvailabilityAction,
+    getAvailabilityAction
+} from "./AvailabilityAction";
+import { UpdateClinicIdAction } from "./updateClinicIdAction";
 export {
     LanguageAction,
     LoginAction,
@@ -28,6 +44,8 @@ export {
     ClearContractStatus,
     ClearBankStatus,
     GetAllClinicAction,
-    AddAvailabilityAction
+    AddAvailabilityAction,
+    getAvailabilityAction,
+    UpdateClinicIdAction,
 }
 

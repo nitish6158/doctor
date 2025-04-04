@@ -106,6 +106,52 @@ const SignupScreen = (props) => {
         props.navigation.navigate(target);
     }
     const handleSubmit = async () => {
+      
+        if (!uploadedFile) {
+            ToastMsg(t('PleaseUploadCV'), 'bottom');
+            return false;
+        }
+    
+        if (!termsAccepted) {
+            ToastMsg(t('AcceptTerms'), 'bottom');
+            return false;
+        }
+
+
+        // if (profile == '') {
+        //     ToastMsg(t('PleaseSelectProfile'), 'bottom');
+        //     return false;
+        // }
+        // if (specialization == '') {
+        //     ToastMsg(t('SelectSpecialization'), 'bottom');
+        //     return false;
+        // }
+        // if (country == '') {
+        //     ToastMsg(t('PleaseSelectCountry'), 'bottom');
+        //     return false;
+        // }
+
+
+
+        const reqParams = {
+            "userName": userName,
+            "password": password,
+            "firstName": firstName,
+            "lastName": lastName,
+            "email": email,
+            "mobileNo": phone,
+            "profile": profile,
+            "cv": uploadedFile,
+            "specialization": specialization,
+            "country": country,
+            "address": address,
+            "language": props.appLanguage?.toLowerCase(),
+            "gender":selectedGender,
+        }
+        await props.SignupAction(reqParams);
+    }
+
+    const handleNext = () => {
         if (!firstName) {
             ToastMsg(t('PleaseFirstName'), 'bottom');
             return false;
@@ -150,54 +196,11 @@ const SignupScreen = (props) => {
             ToastMsg(t('PasswordCriteria'), 'bottom');
             return false;
         }
-        if (!uploadedFile) {
-            ToastMsg(t('PleaseUploadCV'), 'bottom');
-            return false;
-        }
         if (!selectedGender) {
             ToastMsg(t('PleaseSelectGender'), 'bottom');
             return false;
         }
-        if (!termsAccepted) {
-            ToastMsg(t('AcceptTerms'), 'bottom');
-            return false;
-        }
 
-
-        // if (profile == '') {
-        //     ToastMsg(t('PleaseSelectProfile'), 'bottom');
-        //     return false;
-        // }
-        // if (specialization == '') {
-        //     ToastMsg(t('SelectSpecialization'), 'bottom');
-        //     return false;
-        // }
-        // if (country == '') {
-        //     ToastMsg(t('PleaseSelectCountry'), 'bottom');
-        //     return false;
-        // }
-
-
-
-        const reqParams = {
-            "userName": userName,
-            "password": password,
-            "firstName": firstName,
-            "lastName": lastName,
-            "email": email,
-            "mobileNo": phone,
-            "profile": profile,
-            "cv": uploadedFile,
-            "specialization": specialization,
-            "country": country,
-            "address": address,
-            "language": props.appLanguage?.toLowerCase(),
-            "gender":selectedGender,
-        }
-        await props.SignupAction(reqParams);
-    }
-
-    const handleNext = () => {
         if (step < 2) setStep(step + 1);
     };
 
@@ -341,7 +344,7 @@ const SignupScreen = (props) => {
                             <TouchableOpacity onPress={() => setStep(1)} style={SignupStyles.headingName}>
                                 <Text style={{ ...SignupStyles.pageName, color: Colors.blue }}>{t('personnel')}</Text>
                             </TouchableOpacity>
-                            <TouchableOpacity onPress={() => setStep(2)}>
+                            <TouchableOpacity onPress={() =>   handleNext()}>
                                 <Text style={
                                     {
                                         ...SignupStyles.pageName,

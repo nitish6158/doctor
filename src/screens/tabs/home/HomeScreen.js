@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import {
     View,
     ScrollView,
@@ -16,10 +16,10 @@ import { FloatingBackgroundCard } from '../../../components/card';
 import { connect } from 'react-redux';
 import { useTranslation } from '../../../components/customhooks';
 import { useFocusEffect } from '@react-navigation/native';
-import { Loader } from '../../../components/modal';
+import { BankModal, Loader } from '../../../components/modal';
 import { Provider as PaperProvider } from 'react-native-paper';
 import { Menu } from 'react-native-paper';
-import { UpdateUserInfo, GetAllClinicAction } from '../../../Redux/actions'
+import { UpdateUserInfo, GetAllClinicAction, UpdateClinicIdAction } from '../../../Redux/actions'
 const HomeScreen = (props) => {
     const [menuVisible, setMenuVisible] = useState(false);
     const [selectedClinic, setSelectedClinic] = useState("Select Clinic");
@@ -28,10 +28,13 @@ const HomeScreen = (props) => {
     const t = useTranslation();
     const handleBankDetails = () => {
         props.navigation.navigate('BankFormScreen');
+        setIsBankModalOpen(false)
     }
     const handleContractDetails = () => {
         props.navigation.navigate('ContractScreen');
     }
+
+    const [isBankModalOpen, setIsBankModalOpen] = useState(false)
 
     useFocusEffect(
         React.useCallback(() => {
@@ -47,21 +50,41 @@ const HomeScreen = (props) => {
         }, []),
     );
 
-    const updateUserData = async () => {
-        await props.UpdateUserInfo(props.userId);
-    }
-
     useEffect(() => {
-        if (props?.isVerified !== 1) {
-            updateUserData();
-        }
         fetchAllClinics();
-
+        if (!props.userData?.bankDetails && props.isVerified === 1) {
+            setIsBankModalOpen(true)
+        }
     }, [])
 
+    const updateUserData = useCallback(async () => {
+        await props.UpdateUserInfo(props.userId);
+    }, [props.userId, props.UpdateUserInfo]);
+
+    useFocusEffect(
+        useCallback(() => {
+            if (props?.isVerified === 1) return; // Stop polling if already verified
+
+            const interval = setInterval(() => {
+                updateUserData();
+            }, 5000);
+
+            return () => {
+                clearInterval(interval); // Cleanup when screen is unfocused
+            };
+        }, [props?.isVerified, updateUserData])
+    );
     const fetchAllClinics = async () => {
-        await props.GetAllClinicAction(props.userId);
-        // await props.GetAllClinicAction(25);
+        // await props.GetAllClinicAction(props.userId);
+        await props.GetAllClinicAction(25);
+    }
+
+    const setGlobalClinicId = async (id) => {
+        await props.UpdateClinicIdAction(id);
+    }
+
+    const handleCloseBankModal = () => {
+        setIsBankModalOpen(false)
     }
 
     return (
@@ -80,50 +103,58 @@ const HomeScreen = (props) => {
                                 [
                                     HomeStyles.buttonContainer,
                                     {
-                                        justifyContent: props.individual ? 'flex-end' : 'space-between'
+                                        justifyContent: !props.individual ?
+                                            'space-between'
+                                            :
+                                            'flex-end'
                                     }
                                 ]
                             }>
-                                <View style={{ alignSelf: "stretch" }}>
-                                    <Menu
-                                        visible={menuVisible}
-                                        onDismiss={closeMenu}
-                                        anchor={
-                                            <Pressable
-                                                style={HomeStyles.dropdownContainer}
-                                                onPress={openMenu}
-                                            >
-                                                <Image
-                                                    source={Images.icon_hospital}
-                                                    style={HomeStyles.iconStyle}
+                                {
+                                    !props.individual &&
+                                    <View style={{}}>
+                                        <Menu
+                                            visible={menuVisible}
+                                            onDismiss={closeMenu}
+                                            anchor={
+                                                <Pressable
+                                                    style={HomeStyles.dropdownContainer}
+                                                    onPress={openMenu}
+                                                >
+                                                    <Image
+                                                        source={Images.icon_hospital}
+                                                        style={HomeStyles.iconStyle}
+                                                    />
+                                                    <Text
+                                                        style={HomeStyles.speciality}>
+                                                        {selectedClinic}
+                                                    </Text>
+                                                    <Image
+                                                        source={Images.icon_dropdown3}
+                                                        style={HomeStyles.iconStyle}
+                                                    />
+                                                </Pressable>
+                                            }
+                                            anchorPosition='top'
+                                        >
+                                            {props?.allClinics?.map((clinic) => (
+                                                <Menu.Item
+                                                    key={clinic.id}
+                                                    onPress={() => {
+                                                        setSelectedClinic(clinic.clinicName);
+                                                        closeMenu();
+                                                        setGlobalClinicId(clinic.id)
+                                                    }}
+                                                    title={clinic.clinicName}
+                                                    style={HomeStyles.dropdownContainer2}
+                                                    titleStyle={HomeStyles.speciality2}
+                                                    contentContainerStyle={{ backgroundColor: 'red' }}
                                                 />
-                                                <Text
-                                                    style={HomeStyles.speciality}>
-                                                    {selectedClinic}
-                                                </Text>
-                                                <Image
-                                                    source={Images.icon_dropdown3}
-                                                    style={HomeStyles.iconStyle}
-                                                />
-                                            </Pressable>
-                                        }
-                                        anchorPosition='top'
-                                    >
-                                        {props?.allClinics?.map((clinic) => (
-                                            <Menu.Item
-                                                key={clinic.id}
-                                                onPress={() => {
-                                                    setSelectedClinic(clinic.clinicName);
-                                                    closeMenu();
-                                                }}
-                                                title={clinic.clinicName}
-                                                style={HomeStyles.dropdownContainer2}
-                                                titleStyle={HomeStyles.speciality2}
-                                                contentContainerStyle={{ backgroundColor: 'red' }}
-                                            />
-                                        ))}
-                                    </Menu>
-                                </View>
+                                            ))}
+                                        </Menu>
+                                    </View>
+                                }
+
                                 <View style={HomeStyles.buttonSubContainer}>
 
 
@@ -145,6 +176,7 @@ const HomeScreen = (props) => {
                                         />
                                     </TouchableOpacity>
                                 </View>
+
                             </View>
 
                         </View>
@@ -281,39 +313,24 @@ const HomeScreen = (props) => {
                                             />
                                         </View>
                                         :
-                                        props.isVerified === 5 ?
-                                            <View style={HomeStyles.card}>
-                                                <Image
-                                                    source={Images.documents}
-                                                    style={HomeStyles.cardImage}
-                                                />
-                                                <Text
-                                                    style={HomeStyles.text}
-                                                >{t('ContractNotVerified')}</Text>
-                                            </View>
-                                            :
-                                            <View style={HomeStyles.card} >
-                                                <Image
-                                                    source={Images.handshake}
-                                                    style={HomeStyles.cardImage}
-                                                />
-                                                <Text
-                                                    style={HomeStyles.text}
-                                                >please add bank details</Text>
-                                                <CustomButton
-                                                    title={t('FinishSetup')}
-                                                    height={'16%'}
-                                                    width={'45%'}
-                                                    backgroundColor={Colors.lightblue3}
-                                                    textColor={Colors.blue}
-                                                    onPress={handleBankDetails}
-                                                />
-                                            </View>
-
+                                        <View style={HomeStyles.card}>
+                                            <Image
+                                                source={Images.documents}
+                                                style={HomeStyles.cardImage}
+                                            />
+                                            <Text
+                                                style={HomeStyles.text}
+                                            >{t('ContractNotVerified')}</Text>
+                                        </View>
                         }
                     </FloatingBackgroundCard>
                     <Loader
                         visible={props.updateLoading}
+                    />
+                    <BankModal
+                        isModalOpen={isBankModalOpen}
+                        onClose={handleCloseBankModal}
+                        buttonOnpress={handleBankDetails}
                     />
                 </View>
             </PaperProvider>
@@ -326,11 +343,11 @@ const HomeScreen = (props) => {
 const mapStateToProps = state => {
     return {
         isVerified: state.authReducer.isVerified,
-        // isVerified: 4, //  2-4-5-3/1  6 for bank 
+        userData: state.authReducer.userData,
+        // isVerified: 3, //  2-4-5-3/1  6 for bank 
         updateLoading: state.bankReducer.updateLoading,
         userId: state.authReducer.userId,
-        // individual: state.authReducer.individual,
-        individual: false,
+        individual: state.authReducer.individual,
         allClinics: state.getAllClinicReducer.data,
 
 
@@ -339,7 +356,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = {
     UpdateUserInfo,
-    GetAllClinicAction
+    GetAllClinicAction,
+    UpdateClinicIdAction
 
 };
 export default connect(mapStateToProps, mapDispatchToProps)(HomeScreen);

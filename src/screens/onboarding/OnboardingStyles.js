@@ -50,14 +50,14 @@ export const OnboardingStyles = StyleSheet.create({
         marginBottom: 20,
     },
     title: {
-        fontSize: ResponsiveFont(30),
+        fontSize: ResponsiveFont(28),
         lineHeight:ResponsiveFont(30),
         fontFamily: Fonts.Bold,
         color: Colors.font_blue,
 
     },
     subtitle: {
-        fontSize: ResponsiveFont(31),
+        fontSize: ResponsiveFont(29),
         lineHeight:ResponsiveFont(42.16),
         fontFamily: Fonts.Bold,
         color: Colors.font_blue,

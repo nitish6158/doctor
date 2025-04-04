@@ -19,7 +19,7 @@ import {
 
 const LogintextStyle = {
     fontSize: ResponsiveFont(18),
-    lineHeight: ResponsiveFont(49),
+    // lineHeight: ResponsiveFont(49),
 }
 const LoginScreen = (props) => {
     const t = useTranslation();

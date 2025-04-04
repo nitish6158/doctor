@@ -5,6 +5,7 @@ const initialState = {
   errMsg: null,
   loading: false,
   data: null,
+  myAvailabilityData: null
 }
 
 const availabilityReducer = (state = initialState, action) => {
@@ -31,6 +32,27 @@ const availabilityReducer = (state = initialState, action) => {
         data: null,
       });
 
+    case AVAILABILITY.GET_AVAILABILITY_REQUEST:
+      return Object.assign({}, state, {
+        responseCode: null,
+        errMsg: null,
+        loading: true,
+        myAvailabilityData: null
+      });
+    case AVAILABILITY.GET_AVAILABILITY_SUCCESS:
+      return Object.assign({}, state, {
+        responseCode: action?.payload?.status,
+        errMsg: action?.payload?.message,
+        loading: false,
+        myAvailabilityData: action?.payload?.data,
+      });
+    case AVAILABILITY.GET_AVAILABILITY_FAIL:
+      return Object.assign({}, state, {
+        responseCode: action?.payload?.status,
+        errMsg: action?.payload?.message,
+        loading: false,
+        myAvailabilityData: null
+      });
     default:
       return state;
   }

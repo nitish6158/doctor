@@ -15,4 +15,5 @@ export const END_POINT = {
   getDoctorDetail: Id => `/doctor/doctorDetailsById?doctorId=${Id}`,
   getClinics: doctorId => `/doctor/findAllClinicByDoctorId?doctorId=${doctorId}`,
   addAvailability:'/doctor/add_Availability',
+  getAvailability:'/doctor/viewDoctorAvailability',
 };
