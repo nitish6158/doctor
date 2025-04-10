@@ -26,9 +26,20 @@ import {
 } from "./getAllClinicAction";
 import {
     AddAvailabilityAction,
-    getAvailabilityAction
+    getAvailabilityAction,
+    ClearAgendaStatus,
+    BlockAvailabilityByDateAction,
+    BlockAvailabilityByTimeSlotIDAction,
+    TeamAvailabilityListAction,
 } from "./AvailabilityAction";
 import { UpdateClinicIdAction } from "./updateClinicIdAction";
+
+import {
+    addMatchingAction,
+    getMyJobData,
+    getMyMatchingAction,
+    ClearStatusMatching
+} from "./MatchingAction";
 export {
     LanguageAction,
     LoginAction,
@@ -47,5 +58,13 @@ export {
     AddAvailabilityAction,
     getAvailabilityAction,
     UpdateClinicIdAction,
+    addMatchingAction,
+    getMyJobData,
+    getMyMatchingAction,
+    ClearStatusMatching,
+    ClearAgendaStatus,
+    BlockAvailabilityByDateAction,
+    BlockAvailabilityByTimeSlotIDAction,
+    TeamAvailabilityListAction,
 }
 

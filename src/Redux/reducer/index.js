@@ -6,6 +6,7 @@ import forgotPasswordReducer from './authReducer/forgotPasswordReducer';
 import ContractReducer from './contractReducer';
 import getAllClinicReducer from './getAllClinicReducer';
 import availabilityReducer from './availabilityReducer';
+import matchingReducer from './matchingReducer';
 
 const rootReducer = combineReducers({
   authReducer, 
@@ -13,7 +14,8 @@ const rootReducer = combineReducers({
   forgotPasswordReducer,
   ContractReducer,
   getAllClinicReducer,
-  availabilityReducer
+  availabilityReducer,
+  matchingReducer
 });
 
 export default rootReducer;

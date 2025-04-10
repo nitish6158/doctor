@@ -23,21 +23,23 @@ export const BankModal = ({
                 flex: 1,
                 alignItems: 'center',
                 justifyContent: 'center',
-                backgroundColor: Colors.shadow
+                backgroundColor: Colors.blue
             }}>
                 <View style={{
                     width: '75%',
-                    height: '35%',
+                    height: '30%',
                     backgroundColor: Colors.white,
                     borderRadius: (wp * 8) / 100,
-                    alignItems: 'center'
+                    alignItems: 'center',
+                    justifyContent:'center'
 
                 }}
                 >
-                    <View style={{
+                    {/* <View style={{
                         flexDirection: 'row',
                         width: '100%',
                         justifyContent: 'flex-end',
+                        backgroundColor:'red'
                     }}>
                         <TouchableOpacity
                             style={{
@@ -58,7 +60,7 @@ export const BankModal = ({
                                 marginVertical: (wp * 2) / 100
                             }}>Skip</Text>
                         </TouchableOpacity>
-                    </View>
+                    </View> */}
 
                     <View style={{
                         backgroundColor: Colors.shadowBlue,
@@ -106,8 +108,8 @@ const styles = StyleSheet.create({
         color: Colors.black,
         fontFamily: Fonts.Bold,
         marginVertical: '2%',
-        width:'75%',
-        textAlign:'center'
+        width: '75%',
+        textAlign: 'center'
     },
 });
 

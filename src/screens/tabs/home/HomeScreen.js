@@ -27,8 +27,8 @@ const HomeScreen = (props) => {
     const closeMenu = () => setMenuVisible(false);
     const t = useTranslation();
     const handleBankDetails = () => {
-        props.navigation.navigate('BankFormScreen');
         setIsBankModalOpen(false)
+        props.navigation.navigate('BankFormScreen');
     }
     const handleContractDetails = () => {
         props.navigation.navigate('ContractScreen');
@@ -75,8 +75,8 @@ const HomeScreen = (props) => {
         }, [props?.isVerified, updateUserData])
     );
     const fetchAllClinics = async () => {
-        // await props.GetAllClinicAction(props.userId);
-        await props.GetAllClinicAction(25);
+        await props.GetAllClinicAction(props.userId);
+        // await props.GetAllClinicAction(25);
     }
 
     const setGlobalClinicId = async (id) => {
@@ -344,7 +344,7 @@ const mapStateToProps = state => {
     return {
         isVerified: state.authReducer.isVerified,
         userData: state.authReducer.userData,
-        // isVerified: 3, //  2-4-5-3/1  6 for bank 
+        // isVerified: 1, //  2-4-5-3/1  6 for bank 
         updateLoading: state.bankReducer.updateLoading,
         userId: state.authReducer.userId,
         individual: state.authReducer.individual,

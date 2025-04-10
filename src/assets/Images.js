@@ -18,9 +18,10 @@ export const Images = {
   temp2: require('./images/temp2.png'),
   temp3: require('./images/temp3.png'),
   NoAvailability: require('./images/NoAvailability.png'),
-
+nodatafound:require('./images/noDataFound.png'),
 
   // icons
+  icon_copy : require('./icons/icon_copy.png'),
   icon_arrow_back: require('./icons/arrow_back.png'),
   icon_checkbox: require('./icons/checkbox.png'),
   icon_checkbox_enable: require('./icons/checkBoxEnable.png'),
@@ -95,6 +96,7 @@ export const Images = {
   icon_profile_background: require('./icons/profile_background.png'),
   icon_logout: require('./icons/logout.png'),
   icon_edit: require('./icons/editIcon.png'),
+  edit: require('./icons/edit.png'),
   icon_accountType: require('./icons/accountType.png'),
   icon_download: require('./icons/download.png'),
   icon_time: require('./icons/time.png'),
@@ -107,5 +109,13 @@ export const Images = {
   other: require('./icons/other.png'),
   female: require('./icons/female.png'),
   male: require('./icons/male.png'),
-
+  AvailabilityBlocked: require('./icons/AvailabilityBlocked.png'),
+  AvailabilityTimeBlocked: require('./icons/AvailabilityTimeBlocked.png'),
+  MatchingAdd: require('./icons/MatchingAdd.png'),
+  Online_Icon: require('./icons/Online_Icon.png'),
+  time2: require('./icons/time2.png'),
+  online: require('./icons/online.png'),
+  offline: require('./icons/offline.png'),
+  experience_active: require('./icons/experience_active_icon.png'),
+  experience_deactive: require('./icons/experience_deactive_Icon.png'),
 };

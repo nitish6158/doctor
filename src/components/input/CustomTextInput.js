@@ -30,6 +30,8 @@ export const CustomTextInput = ({
         return isFocused || value ? Images.icon_mobile_active : Images.icon_mobile_deactive;
       case 'text':
         return isFocused || value ? Images.user_icon_active : Images.user_icon_deactive;
+      case 'experience':
+        return isFocused || value ? Images.experience_active : Images.experience_deactive;
       default:
         return isFocused || value ? Images.user_icon_active : Images.user_icon_deactive;
     }
@@ -53,7 +55,17 @@ export const CustomTextInput = ({
           value={value}
           secureTextEntry={secureText} // Toggling based on state
           onChangeText={onChangeText}
-          keyboardType={type === 'phone' ? 'phone-pad' : type === 'email' ? 'email-address' : 'default'}
+          keyboardType={
+            type === 'phone' || type === 'experience'
+              ?
+              'phone-pad'
+              :
+              type === 'email'
+                ?
+                'email-address'
+                :
+                'default'
+          }
           onFocus={() => setIsFocused(true)}
           onBlur={() => setIsFocused(false)}
           placeholderTextColor={Colors.placeholder_color}
@@ -102,7 +114,7 @@ const styles = StyleSheet.create({
     lineHeight: ResponsiveFont(17.5),
     color: Colors.black
   },
-  eyeIcon:{
+  eyeIcon: {
     width: (wp * 4.6) / 100,
     height: (wp * 4.6) / 100,
     resizeMode: 'contain',

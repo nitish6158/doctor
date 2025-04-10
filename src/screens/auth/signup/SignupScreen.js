@@ -209,7 +209,7 @@ const SignupScreen = (props) => {
         setTimeout(() => {
             setIsmodal(false)
             props.navigation.navigate('BottomTabNavigator');
-        }, 4000)
+        }, 2500)
     };
     const ClearReducer = async () => {
         await props.ClearStatusSignup()
@@ -504,6 +504,7 @@ const SignupScreen = (props) => {
                             textColor={Colors.white}
                             textStyle={NexttextStyle}
                             width='100%'
+                            paddingVertical='0%'
                         />
                         <SuccessModal
                             heading={t('SignUpSuccessful')}

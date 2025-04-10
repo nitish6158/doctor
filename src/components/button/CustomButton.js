@@ -17,7 +17,8 @@ export const CustomButton = ({
   borderRadius = 16,
   isborder = false,
   borderColor = Colors.blue,
-  type = 'none' // home
+  type = 'none' ,// home,
+  marginVertical='0%'
 }) => {
   return (
     <TouchableOpacity
@@ -27,12 +28,12 @@ export const CustomButton = ({
           backgroundColor,
           borderRadius,
           borderColor,
-          // paddingVertical,
-          // paddingHorizontal,
+          paddingVertical,
+          paddingHorizontal,
           width,
           height,
-          borderWidth: isborder ? 2 : 0
-
+          borderWidth: isborder ? 2 : 0,
+          marginVertical
         },
         disabled && styles.disabledButton,
         style,

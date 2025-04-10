@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, TouchableOpacity,Pressable, StyleSheet, Modal, Image, View } from 'react-native';
+import { Text, TouchableOpacity, Pressable, StyleSheet, Modal, Image, View } from 'react-native';
 import { Colors, Fonts, Images, WindowWidth as wp, ResponsiveFont, WindowHeight as hp, opacityOfButton } from '../../assets';
 
 export const AvailabilityModal = ({
@@ -7,6 +7,8 @@ export const AvailabilityModal = ({
   heading = 'Availability Added',
   isModalOpen = false,
   onClose,
+  // blockImage=false,
+  type = ''
 }) => {
   return (
     <Modal
@@ -35,11 +37,22 @@ export const AvailabilityModal = ({
             justifyContent: 'center',
             borderRadius: (wp * 14) / 100
           }}>
-            <Image source={Images.icon_availability} style={{
-              width: (wp * 25) / 100,
-              height: (wp * 25) / 100,
-              resizeMode: 'contain'
-            }} />
+            <Image
+              source={
+
+                type == "matching" ?
+                  Images.MatchingAdd
+                  :
+                  type == "blockImage" ?
+                    Images.AvailabilityBlocked
+                    :
+                    Images.icon_availability
+
+              } style={{
+                width: (wp * 25) / 100,
+                height: (wp * 25) / 100,
+                resizeMode: 'contain'
+              }} />
 
           </View>
           <Text style={{

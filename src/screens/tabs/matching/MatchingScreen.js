@@ -1,11 +1,27 @@
-import React, { Component } from 'react';
-import { View, Text, ImageBackground, FlatList, Image, TouchableOpacity } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { View, Text, ImageBackground, FlatList, Image, TouchableOpacity, ScrollView } from 'react-native';
 import { MatchingStyles } from './MatchingStyles';
 import { FloatingBackgroundCard, ListingCard } from '../../../components/card';
-import { Images, opacityOfButton } from '../../../assets';
+import { Images, opacityOfButton, WindowWidth as wp, Colors } from '../../../assets';
 import { CustomButton } from '../../../components/button';
 import { useTranslation } from '../../../components/customhooks';
-
+import { CustomDropdown } from '../../../components/dropdown';
+import { AddressInput, CustomTextInput } from '../../../components/input';
+import { getRequest } from '../../../Redux/config';
+import { END_POINT } from '../../../Redux/config';
+import {
+    addMatchingAction,
+    ClearStatusMatching,
+    getMyJobData,
+    getMyMatchingAction
+} from '../../../Redux/actions';
+import { connect } from 'react-redux';
+import { ToastMsg } from '../../../components/Toast';
+import {
+    AvailabilityModal,
+    Loader,
+    MatchingDetailModal
+} from '../../../components/modal';
 const data = [
     {
         id: '1',
@@ -93,8 +109,28 @@ const data = [
     },
 ];
 
-const MatchingScreen = () => {
-    const t=useTranslation();
+const MatchingScreen = (props) => {
+    const lang = props?.appLanguage?.toLowerCase()
+    const t = useTranslation();
+    const [countryArr, setCountryArr] = useState(null)
+    const [specializationArr, setSpecializationArr] = useState(null)
+    const [addMatchingInProgess, setIsAddMatchingprogress] = useState(false);
+    const [isModalVisible, setIsModalVisible] = useState(false);
+    const [isMatchingModalVisible, setIsMatchingModalVisible] = useState(false)
+    const [specialization, setSpecialization] = useState("");
+    const [address, setAddress] = useState("");
+    const [country, setCountry] = useState("");
+    const [experience, setExperience] = useState("")
+    const [consultationType, setConsultationType] = useState('online');
+
+    const [mobileNumber, setMobileNumber] = useState("");
+    const [email, setEmail] = useState("");
+
+    const handleViewDetail = (mobile, email) => {
+        setMobileNumber(mobile)
+        setEmail(email);
+        setIsMatchingModalVisible(true)
+    }
 
     const renderItem = ({ item }) => (
         <ListingCard>
@@ -109,9 +145,10 @@ const MatchingScreen = () => {
                     <Text style={MatchingStyles.title}>
                         {item.title}
                     </Text>
-                    <Text style={MatchingStyles.subTitle}>
-                        {item.hospital}
-                    </Text>
+                    <View style={{ flexDirection: 'row', }}>
+                        <Text style={MatchingStyles.subTitle}>{item.clinicName}</Text>
+                        <Text style={MatchingStyles.subTitle}> | {item.experience} Years</Text>
+                    </View>
                 </View>
             </View>
 
@@ -129,7 +166,7 @@ const MatchingScreen = () => {
 
             <TouchableOpacity
                 style={MatchingStyles.buttonStyles}
-                onPress={() => { console.log("React") }}
+                onPress={() => { handleViewDetail(item?.mobileNo, item?.email) }}
                 activeOpacity={opacityOfButton}
             >
                 <Text style={MatchingStyles.buttonTextStyle}>{t('ViewDetail')}</Text>
@@ -137,6 +174,125 @@ const MatchingScreen = () => {
         </ListingCard>
     )
 
+    useEffect(() => {
+        if (addMatchingInProgess) {
+            fetchDoctorSpecialization();
+            fetchDoctorCountry();
+        }
+    }, [addMatchingInProgess]);
+    useEffect(() => {
+        if (props.isJobAdded == 1) {
+            fetchJobData()
+        }
+    }, [props.isJobAdded, props.responseCode2]);
+    useEffect(() => {
+        if (props.isJobAdded == 1) {
+            fetchMatchingList()
+        }
+    }, [props.responseCode2,])
+
+    useEffect(() => {
+        if (props.responseCode2 === 200) {
+            setIsModalVisible(true);
+            setTimeout(() => {
+                setIsModalVisible(false)
+                setIsAddMatchingprogress(false);
+            }, 1500)
+            ClearStatus()
+        }
+    }, [props.responseCode2]);
+
+
+    const fetchDoctorSpecialization = async () => {
+        try {
+            const data = await getRequest(END_POINT.specilization(lang));
+            if (data && data?.data) {
+                setSpecializationArr(data.data)
+            }
+        } catch (err) {
+            console.warn("Error fetching specializations:", err);
+        }
+    };
+    const fetchDoctorCountry = async () => {
+        try {
+            const data = await getRequest(END_POINT.getCountry(props?.appLanguage?.toLowerCase()));
+            if (data && data?.data) {
+                setCountryArr(data?.data)
+            }
+
+        } catch (err) {
+            console.warn("Error fetching specializations:", err);
+        }
+    };
+
+    const handleAddmatching = async () => {
+
+        if (country == '') {
+            ToastMsg(t('PleaseSelectCountry'), 'bottom');
+            return false;
+        }
+        if (address == '') {
+            ToastMsg(t('PleaseSelectCountry'), 'bottom');
+            return false;
+        }
+
+        if (specialization == '') {
+            ToastMsg(t('SelectSpecialization'), 'bottom');
+
+            return false;
+        }
+        if (experience == '') {
+            ToastMsg('Please enter experience', 'bottom');
+            return false;
+        }
+        if (consultationType == '') {
+            ToastMsg('Please select Consulatation type', 'bottom');
+            return false;
+        }
+
+        let editId = props?.getJobData?.id ? props?.getJobData?.id : 0
+
+        const reqParams = {
+            "id": editId,
+            "country": country,
+            "address": address,
+            "specialization": specialization,
+            "experience": experience,
+            "type": consultationType,
+            "doctorId": props.userId,
+        };
+        await props.addMatchingAction(reqParams);
+    }
+    const fetchJobData = async () => {
+        await props.getMyJobData(props.userId)
+    }
+    const fetchMatchingList = async () => {
+        const reqParam =
+        {
+            "pageIndex": 0,
+            "pageSize": 0,
+            "searchText": "",
+            "direction": "",
+            "filterByFieldName": "",
+            "country": props?.getJobData?.country ? props?.getJobData?.country : country,
+            "address": props?.getJobData?.address ? props?.getJobData?.address : address,
+            "specialization": props?.getJobData?.specialization ? props?.getJobData?.specialization : specialization,
+            "experience": props?.getJobData?.experience ? props?.getJobData?.experience : experience,
+            "type": props?.getJobData?.type ? props?.getJobData?.type : consultationType,
+        }
+        await props.getMyMatchingAction(reqParam)
+    }
+    const ClearStatus = async () => {
+        await props.ClearStatusMatching();
+    }
+    const handleEdit = () => {
+        setSpecialization(props?.getJobData?.specialization ? props?.getJobData?.specialization : "")
+        setAddress(props?.getJobData?.address ? props?.getJobData?.address : '')
+        setCountry(props?.getJobData?.country ? props?.getJobData?.country : '')
+        setExperience(props?.getJobData?.experience ? props?.getJobData?.experience : '')
+        setConsultationType(props?.getJobData?.type ? props?.getJobData?.type : 'online')
+        setIsAddMatchingprogress(true);
+    }
     return (
         <ImageBackground
             source={Images.backgroundImage}
@@ -148,17 +304,250 @@ const MatchingScreen = () => {
             </View>
 
             <FloatingBackgroundCard customStyles={MatchingStyles.bottomView}>
-                <FlatList
-                    data={data}
-                    renderItem={renderItem}
-                    keyExtractor={(item) => item.id.toString()}
-                    contentContainerStyle={MatchingStyles.flatlistStyle}
-                    showsVerticalScrollIndicator={false}
-                />
+                <ScrollView style={{ flex: 1 }} showsVerticalScrollIndicator={false}>
+                    {
+                        addMatchingInProgess ?
+                            <View style={MatchingStyles.formContainer}>
+                                <Text style={MatchingStyles.heading}>Add Matching</Text>
+                                <CustomDropdown
+                                    heading={t('SelectCountry')}
+                                    placeholder={t('Select')}
+                                    selectedValue={country}
+                                    onValueChange={setCountry}
+                                    options={countryArr}
+                                    width='100%'
+                                    type="country"
+                                    containerstyle={{
+                                        marginVertical: '1%',
+                                    }}
+                                />
+                                <AddressInput
+                                    heading={t('Address')}
+                                    placeholder={t('EnterAddress')}
+                                    value={address}
+                                    onChangeText={setAddress}
+                                    width='100%'
+                                    containerstyle={{
+                                        marginVertical: '1%',
+                                    }}
+                                />
+                                <CustomDropdown
+                                    heading={'Specialization'}
+                                    placeholder={t('Select')}
+                                    selectedValue={specialization}
+                                    onValueChange={setSpecialization}
+                                    options={specializationArr}
+                                    width='100%'
+                                    type="specialization"
+                                    containerstyle={{
+                                        marginVertical: '1%',
+                                    }}
+                                />
+                                <CustomTextInput
+                                    heading={'Experience'}
+                                    placeholder={'Enter work experience'}
+                                    value={experience}
+                                    onChangeText={setExperience}
+                                    type="experience"
+                                    width='100%'
+                                />
+                                <View style={{
+                                    marginVertical: '1%',
+                                }}>
+                                    <Text style={MatchingStyles.consulationText}>Select Consultation Type</Text>
+                                    <View style={MatchingStyles.modeContainer}>
+                                        <TouchableOpacity
+                                            style={[MatchingStyles.modeButton, {
+                                                marginHorizontal: '0%',
+                                                borderColor: consultationType === 'online' ?
+                                                    Colors.blue : Colors.gray
+                                            }]}
+                                            onPress={() => { setConsultationType("online") }}
+                                        >
+                                            <Image
+                                                source={Images.online}
+                                                style={MatchingStyles.buttonImage}
+                                            />
+                                            <Text
+                                                style={MatchingStyles.modeText}
+                                            >online</Text>
+                                        </TouchableOpacity>
+                                        <TouchableOpacity
+                                            style={[MatchingStyles.modeButton, {
+                                                borderColor: consultationType === 'offline' ?
+                                                    Colors.blue :
+                                                    Colors.gray
+                                            }]}
+                                            onPress={() => { setConsultationType("offline") }}
+                                        >
+                                            <Image
+                                                source={Images.offline}
+                                                style={MatchingStyles.buttonImage}
+                                            />
+                                            <Text
+                                                style={MatchingStyles.modeText
+                                                }
+                                            >offline</Text>
+                                        </TouchableOpacity>
+                                    </View>
+                                </View>
+
+                                <CustomButton
+                                    title='Add Matching'
+                                    width='100%'
+                                    marginVertical='7%'
+                                    onPress={
+                                        handleAddmatching
+                                    }
+                                />
+                            </View>
+                            :
+                            <>
+                                {!props.isJobAdded == 1 ?
+                                    <View
+                                        style={MatchingStyles.matchingContainer}>
+                                        <Image
+                                            source={Images.MatchingAdd}
+                                            style={MatchingStyles.matchingIcon}
+                                        />
+                                        <Text style={MatchingStyles.jobInfoText}>Please Add Your Job Information</Text>
+                                        <TouchableOpacity
+                                            onPress={() => setIsAddMatchingprogress(true)}
+                                            style={MatchingStyles.tabButton}>
+                                            <Text style={MatchingStyles.tabText}>Add Matching</Text>
+                                        </TouchableOpacity>
+                                    </View>
+                                    :
+                                    <>
+
+                                        <>
+                                            {props?.getJobData &&
+                                                <ListingCard customStyles={MatchingStyles.listingCard}>
+                                                    <View style={MatchingStyles.cardTopView}>
+                                                        <View style={MatchingStyles.cardTextcontainer}>
+                                                            <Text style={MatchingStyles.headingText}>Specialty</Text>
+                                                            <Text style={MatchingStyles.headingTextValue2}>{
+                                                                props?.getJobData?.specialization
+                                                            }</Text>
+                                                        </View>
+                                                        <View style={MatchingStyles.cardImageContainer}>
+                                                            <TouchableOpacity
+                                                                style={MatchingStyles.editIconContainer}
+                                                                onPress={handleEdit}
+                                                            >
+                                                                <Image
+                                                                    source={Images.edit}
+                                                                    style={MatchingStyles.editIcon}
+                                                                />
+                                                            </TouchableOpacity>
+                                                        </View>
+
+                                                    </View>
+                                                    <View style={MatchingStyles.cardBottomView}>
+                                                        <View style={MatchingStyles.cardUpperView}>
+                                                            <View style={MatchingStyles.part1}>
+                                                                <Text style={MatchingStyles.headingText}>
+                                                                    Consultation Type
+                                                                </Text>
+                                                                <View style={MatchingStyles.modeButton1}>
+                                                                    <Text style={MatchingStyles.modeText1}>
+                                                                        {props?.getJobData?.type}
+                                                                    </Text>
+                                                                </View>
+                                                            </View>
+                                                            <View style={MatchingStyles.part2}>
+                                                                <Text style={MatchingStyles.headingText}>Work Experience</Text>
+                                                                <Text style={MatchingStyles.headingTextValue}>{props?.getJobData?.experience}</Text>
+                                                            </View>
+                                                        </View>
+                                                        <View style={MatchingStyles.cardLowerView}>
+                                                            <View style={MatchingStyles.part2}>
+                                                                <Text style={MatchingStyles.headingText}>Country</Text>
+                                                                <Text style={MatchingStyles.headingTextValue}>{props?.getJobData?.country}</Text>
+                                                            </View>
+                                                            <View style={MatchingStyles.part1}>
+                                                                <Text style={MatchingStyles.headingText}>Date</Text>
+                                                                <Text style={MatchingStyles.headingTextValue}>{props?.getJobData?.updatedDate}</Text>
+                                                            </View>
+                                                        </View>
+                                                    </View>
+                                                </ListingCard>
+                                            }
+                                        </>
+                                        {props?.getMyMatchingData && props?.getMyMatchingData?.jobPostingResponseList ?
+                                            <>
+                                                <Text style={MatchingStyles.heading2}>My Matchings</Text>
+                                                <FlatList
+                                                    data={props?.getMyMatchingData?.jobPostingResponseList}
+                                                    // data={data}
+                                                    renderItem={renderItem}
+                                                    keyExtractor={(item) => item.id.toString()}
+                                                    contentContainerStyle={MatchingStyles.flatlistStyle}
+                                                    showsVerticalScrollIndicator={false}
+                                                    scrollEnabled={false}
+                                                />
+
+                                            </>
+                                            :
+                                            <View style={MatchingStyles.NoDataFoundContainer}>
+                                                <Image
+                                                    source={Images.nodatafound}
+                                                    style={MatchingStyles.NoDataFound}
+                                                />
+                                            </View>
+                                        }
+                                    </>
+                                }
+                            </>
+                    }
+                </ScrollView>
+
+
             </FloatingBackgroundCard>
+
+            <AvailabilityModal
+                heading={'Matching Added'}
+                isModalOpen={isModalVisible}
+                onClose={() => {
+                    setIsModalVisible(false)
+                }}
+                type={'matching'}
+            />
+
+            <Loader
+                visible={props.loading}
+            />
+
+            <MatchingDetailModal
+                visible={isMatchingModalVisible}
+                onClose={() => setIsMatchingModalVisible(false)}
+                mobileNumber={mobileNumber}
+                email={email}
+            />
         </ImageBackground>
     );
 };
 
 
-export default MatchingScreen;
+const mapStateToProps = state => {
+    return {
+        userId: state.authReducer.userId,
+        loading: state.matchingReducer.loading,
+        appLanguage: state.authReducer.appLanguage,
+        isJobAdded: state.authReducer.isJobAdded,
+        addMatchingData: state.matchingReducer.addMatchingData,
+        getJobData: state.matchingReducer.getJobData,
+        getMyMatchingData: state.matchingReducer.myMatchingData,
+        responseCode2: state.matchingReducer.responseCode2,
+        responseCode: state.matchingReducer.responseCode,
+
+    };
+};
+
+const mapDispatchToProps = {
+    addMatchingAction,
+    getMyJobData,
+    getMyMatchingAction,
+    ClearStatusMatching
+}
+export default connect(mapStateToProps, mapDispatchToProps)(MatchingScreen);

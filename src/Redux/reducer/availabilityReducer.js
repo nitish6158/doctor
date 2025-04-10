@@ -1,32 +1,40 @@
 import { AVAILABILITY } from '../config/types';
 
 const initialState = {
-  responseCode: null,
+  responseCodeOfAddAvailability: null,
+  responseCodeOfGetAvailability: null,
+  responseCodeOfBlockAvailabilityByDate: null,
+  responseCodeOfBlockAvailabilityByTimeSlot: null,
+  responseCodeOfTeamAvailabilityList: null,
   errMsg: null,
   loading: false,
   data: null,
-  myAvailabilityData: null
+  myAvailabilityData: null,
+  blockByDateData: null,
+  blockByTimeData: null,
+  blockByTimeSlotData: null,
+  teamAvailabilityListData: null,
 }
 
 const availabilityReducer = (state = initialState, action) => {
   switch (action.type) {
     case AVAILABILITY.ADD_AVAILABILITY_REQUEST:
       return Object.assign({}, state, {
-        responseCode: null,
+        responseCodeOfAddAvailability: null,
         errMsg: null,
         loading: true,
         data: null,
       });
     case AVAILABILITY.ADD_AVAILABILITY_SUCCESS:
       return Object.assign({}, state, {
-        responseCode: action?.payload?.status,
+        responseCodeOfAddAvailability: action?.payload?.status,
         errMsg: action?.payload?.message,
         loading: false,
         data: action?.payload?.data,
       });
     case AVAILABILITY.ADD_AVAILABILITY_FAIL:
       return Object.assign({}, state, {
-        responseCode: action?.payload?.status,
+        responseCodeOfAddAvailability: action?.payload?.status,
         errMsg: action?.payload?.message,
         loading: false,
         data: null,
@@ -34,24 +42,97 @@ const availabilityReducer = (state = initialState, action) => {
 
     case AVAILABILITY.GET_AVAILABILITY_REQUEST:
       return Object.assign({}, state, {
-        responseCode: null,
+        responseCodeOfGetAvailability: null,
         errMsg: null,
         loading: true,
         myAvailabilityData: null
       });
     case AVAILABILITY.GET_AVAILABILITY_SUCCESS:
       return Object.assign({}, state, {
-        responseCode: action?.payload?.status,
+        responseCodeOfGetAvailability: action?.payload?.status,
         errMsg: action?.payload?.message,
         loading: false,
         myAvailabilityData: action?.payload?.data,
       });
     case AVAILABILITY.GET_AVAILABILITY_FAIL:
       return Object.assign({}, state, {
-        responseCode: action?.payload?.status,
+        responseCodeOfGetAvailability: action?.payload?.status,
         errMsg: action?.payload?.message,
         loading: false,
         myAvailabilityData: null
+      });
+
+    case AVAILABILITY.BLOCK_AVAILABILITY_BY_DATE_REQUEST:
+      return Object.assign({}, state, {
+        responseCodeOfBlockAvailabilityByDate: null,
+        errMsg: null,
+        loading: true,
+        blockByDateData: null
+      });
+    case AVAILABILITY.BLOCK_AVAILABILITY_BY_DATE_SUCCESS:
+      return Object.assign({}, state, {
+        responseCodeOfBlockAvailabilityByDate: action?.payload?.status,
+        errMsg: action?.payload?.message,
+        loading: false,
+        blockByDateData: action?.payload?.data,
+      });
+    case AVAILABILITY.BLOCK_AVAILABILITY_BY_DATE_FAIL:
+      return Object.assign({}, state, {
+        responseCodeOfBlockAvailabilityByDate: action?.payload?.status,
+        errMsg: action?.payload?.message,
+        loading: false,
+        blockByDateData: null
+      });
+
+    case AVAILABILITY.BLOCK_AVAILABILITY_BY_TIME_SLOT_REQUEST:
+      return Object.assign({}, state, {
+        responseCodeOfBlockAvailabilityByTimeSlot: null,
+        errMsg: null,
+        loading: true,
+        blockByTimeSlotData: null
+      });
+    case AVAILABILITY.BLOCK_AVAILABILITY_BY_TIME_SLOT_SUCCESS:
+      return Object.assign({}, state, {
+        responseCodeOfBlockAvailabilityByTimeSlot: action?.payload?.status,
+        errMsg: action?.payload?.message,
+        loading: false,
+        blockByTimeSlotData: action?.payload?.data,
+      });
+    case AVAILABILITY.BLOCK_AVAILABILITY_BY_TIME_SLOT_FAIL:
+      return Object.assign({}, state, {
+        responseCodeOfBlockAvailabilityByTimeSlot: action?.payload?.status,
+        errMsg: action?.payload?.message,
+        loading: false,
+        blockByTimeSlotData: null
+      });
+
+    case AVAILABILITY.TEAM_AVAILABILITY_LIST_REQUEST:
+      return Object.assign({}, state, {
+        responseCodeOfTeamAvailabilityList: null,
+        errMsg: null,
+        loading: true,
+        teamAvailabilityListData: null
+      });
+    case AVAILABILITY.TEAM_AVAILABILITY_LIST_SUCCESS:
+      return Object.assign({}, state, {
+        responseCodeOfTeamAvailabilityList: action?.payload?.status,
+        errMsg: action?.payload?.message,
+        loading: false,
+        teamAvailabilityListData: action?.payload?.data,
+      });
+    case AVAILABILITY.TEAM_AVAILABILITY_LIST_FAIL:
+      return Object.assign({}, state, {
+        responseCodeOfTeamAvailabilityList: action?.payload?.status,
+        errMsg: action?.payload?.message,
+        loading: false,
+        teamAvailabilityListData: null
+      });
+
+    case AVAILABILITY.CLEAR_ERROR_STATUS:
+      return Object.assign({}, state, {
+        responseCodeOfAddAvailability: null,
+        responseCodeOfGetAvailability: null,
+        errMsg: null,
       });
     default:
       return state;

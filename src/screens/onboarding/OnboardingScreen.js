@@ -45,6 +45,8 @@ const OnboardingScreen = (props) => {
                                 onPress={()=>{handleNavigation('LoginScreen')}}
                                 backgroundColor={Colors.blue}
                                 textColor={Colors.white}
+                                  marginVertical='1%'
+
                             />
                             <CustomButton
                                 title={t('register')}
@@ -52,6 +54,7 @@ const OnboardingScreen = (props) => {
                                 backgroundColor={Colors.white}
                                 textColor={Colors.font_blue}
                                 isborder={true}
+                                  marginVertical='1%'
                             />
                         </View>
 

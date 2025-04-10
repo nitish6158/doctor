@@ -11,8 +11,18 @@ export const AgendaStyles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center'
     },
+    topView2: {
+        flex: 1,
+        justifyContent: 'flex-end',
+        alignItems: 'center'
+    },
     bottomView: {
         flex: 8.5,
+        width: '100%',
+        paddingVertical: "5%",
+    },
+    bottomView2: {
+        flex: 1,
         width: '100%',
         paddingVertical: "5%",
     },
@@ -96,6 +106,11 @@ export const AgendaStyles = StyleSheet.create({
         flexDirection: 'row',
         width: '100%',
     },
+    addressContainer4: {
+        // flexDirection: 'row',
+        // backgroundColor:'red'
+        marginVertical:'2%'
+    },
     address: {
         fontSize: ResponsiveFont(14),
         fontFamily: Fonts.Regular,
@@ -107,7 +122,8 @@ export const AgendaStyles = StyleSheet.create({
         width: (wp * 5) / 100,
         height: (wp * 5) / 100,
         resizeMode: 'contain',
-        marginHorizontal: '1%'
+        marginHorizontal: '1%',
+        marginTop:'1.8%'
     },
     calenderStyle: {
         borderWidth: 0.5,
@@ -179,7 +195,7 @@ export const AgendaStyles = StyleSheet.create({
     },
     card: {
         width: '90%',
-       
+
     },
     availabilityCard: {
         width: '100%'
@@ -224,6 +240,16 @@ export const AgendaStyles = StyleSheet.create({
         marginHorizontal: '1.5%'
 
     },
+    crossButtonContainer2: {
+        backgroundColor: Colors.white,
+        width: '15%',
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderRadius: (wp * 12) / 100,
+        padding: '4.5%',
+        marginHorizontal: '1.5%',
+        marginVertical: '3%'
+    },
     editButtonContainer: {
         width: '75%',
         backgroundColor: Colors.shadowBlue,
@@ -253,19 +279,24 @@ export const AgendaStyles = StyleSheet.create({
     availabilityButton: {
         width: "100%",
         alignItems: 'center',
-        flexDirection:'row',
-        justifyContent:'space-between',
-        paddingHorizontal:'5%',
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        paddingHorizontal: '5%',
     },
     availabilityButton2: {
         width: "100%",
         alignItems: 'center',
-        justifyContent:'space-between',
+        justifyContent: 'space-between',
+    },
+    BlockButtonContainer: {
+        width: "100%",
+        alignItems: 'center',
+        justifyContent: 'space-between',
     },
     addressContainer2: {
         flexDirection: 'row',
-        justifyContent:'center',
-        alignItems:'center',
+        justifyContent: 'center',
+        alignItems: 'center',
         width: '100%',
         padding: '2%'
     },
@@ -319,6 +350,12 @@ export const AgendaStyles = StyleSheet.create({
         justifyContent: 'flex-start',
         paddingVertical: '3%'
     },
+    modeContainer3: {
+        width: '100%',
+        flexDirection: 'row',
+        justifyContent: 'flex-start',
+        padding: '3%'
+    },
     slotContainer: {
         width: '100%',
         flexDirection: 'row',
@@ -349,10 +386,13 @@ export const AgendaStyles = StyleSheet.create({
         marginLeft: '2%',
         fontFamily: Fonts.Medium,
         fontSize: ResponsiveFont(15),
-        color: Colors.gray,
+        color: Colors.black,
     },
-    addressContainer: {
-        paddingVertical: '2%'
+    addressContainer3: {
+        paddingVertical: '2%',
+        width: '93%',
+        marginVertical: '2%'
+
     },
     NoAvailability: {
         width: wp * 25 / 100,
@@ -372,5 +412,64 @@ export const AgendaStyles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         width: '100%',
+    },
+    modeButton2: {
+        paddingVertical: '2%',
+        marginHorizontal: '2%',
+        borderRadius: (wp * 2) / 100,
+        borderColor: Colors.blue,
+        borderWidth: 1,
+        backgroundColor: Colors.white,
+        width: '25%',
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    modeButton3: {
+        paddingVertical: '3%',
+        marginHorizontal: '2%',
+        borderRadius: (wp * 2) / 100,
+        borderColor: Colors.blue,
+        borderWidth: 1,
+        backgroundColor: Colors.white,
+        width: '35%',
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+
+    modeText2: {
+        fontFamily: Fonts.SemiBold,
+        fontSize: ResponsiveFont(12),
+        lineHeight: ResponsiveFont(15),
+        color: Colors.blue,
+    },
+
+    heading3: {
+        width: '90%',
+        // paddingVertical: '2%',
+
+    },
+    startEndDateContainer: {
+        flexDirection: "row",
+        justifyContent: 'space-between',
+        width: '100%',
+        paddingHorizontal: '3%'
+    },
+    BlockedContainer: {
+        width:'90%',
+        justifyContent:'center',
+        alignItems:'center',
+        paddingVertical:'5%'
+    },
+    BlockAvailabiltyIcon: {
+        width: wp*16/100,
+        height: wp*16/100,
+        resizeMode: 'contain'
+    },
+    TextBlockAvailability: {
+        fontFamily: Fonts.Bold,
+        fontSize: ResponsiveFont(16),
+        color: Colors.black,
+        width: '80%',
+        textAlign: 'center'
     }
 });

@@ -4,7 +4,7 @@ const initialState = {
   appLanguage: 'EN', // can be "AR" and "FN"
   loginStatus: false,
   selectedClinicId:null,
-
+  isJobAdded:null,
   responseCode: null,
   responseCodeLogin: null,
   errMsg: null,
@@ -52,6 +52,11 @@ const authReducer = (state = initialState, action) => {
         updateLoading: true,
       });
 
+    case AUTH.UPDATE_JOB_DETAIL:
+      return Object.assign({}, state, {
+        isJobAdded: action.payload,
+      });
+
     case AUTH.UPDATE_ACCOUNT_SUCCESS:
       return Object.assign({}, state, {
         isVerified: action?.payload?.data?.isVerified,
@@ -69,6 +74,7 @@ const authReducer = (state = initialState, action) => {
         specialization: action?.payload?.data?.specialization,
         cv: action?.payload?.data?.cv,
         userType: action?.payload?.data?.userType,
+        isJobAdded: action?.payload?.data?.isJobAdded
       });
     case AUTH.UPDATE_ACCOUNT_FAIL:
       return Object.assign({}, state, {
@@ -104,6 +110,8 @@ const authReducer = (state = initialState, action) => {
         specialization: action?.payload?.data?.specialization,
         cv: action?.payload?.data?.cv,
         userType: action?.payload?.data?.userType,
+        isJobAdded: action?.payload?.data?.isJobAdded
+
 
       });
     case AUTH.LOGIN_FAIL:
@@ -125,7 +133,7 @@ const authReducer = (state = initialState, action) => {
         responseCode: action?.payload?.status,
         errMsg: action?.payload?.message,
         loading: false,
-
+        isJobAdded: action?.payload?.data?.isJobAdded,
         loginStatus: true,
         isVerified: action?.payload?.data?.isVerified,
         status: action?.payload?.data?.status,
@@ -177,6 +185,7 @@ const authReducer = (state = initialState, action) => {
         country: null,
         address: null,
         userType: null,
+        isJobAdded:null,
       });
 
     case AUTH.CLEAR_ERROR_STATUS:

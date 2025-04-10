@@ -11,13 +11,15 @@ export const AddressInput = ({
   borderRadius = 16,
   borderColor = Colors.borderColor2,
   textStyles = {},
-  heading
+  heading,
+  autocapitalize= "words",
+  containerstyle={}
 }) => {
   const [height, setHeight] = useState(minHeight);
   const [isFocused, setIsFocused] = useState(false);
 
   return (
-    <View>
+    <View style={containerstyle}>
       <Text style={[styles.heading, textStyles]}>{heading}</Text>
       <View
         style={[
@@ -38,7 +40,7 @@ export const AddressInput = ({
           onContentSizeChange={(event) => setHeight(event.nativeEvent.contentSize.height + 10)}
           placeholderTextColor={Colors.placeholder_color}
           multiline
-          autoCapitalize='words'
+          autoCapitalize={autocapitalize}
           onFocus={() => setIsFocused(true)}
           onBlur={() => setIsFocused(false)}
         />

@@ -21,15 +21,14 @@ export const LogoutModal = ({
           onPress={onClose}
         >
           <View style={styles.logoutContainer}>
-                         <TouchableOpacity style={styles.logoutButton}>
-                             <Text style={styles.logoutText}>Logout</Text>
-                             
-                         </TouchableOpacity>
-                         <Image
-                                 source={Images.icon_logout}
-                                 style={styles.logoutIconstyle}
-                             />
-                     </View>
+            <View style={styles.logoutButton}>
+              <Text style={styles.logoutText}>Logout</Text>
+            </View>
+            <Image
+              source={Images.icon_logout}
+              style={styles.logoutIconstyle}
+            />
+          </View>
           <Text style={styles.headingcontainer}>Do You Want to Logout ?</Text>
 
           <View style={styles.buttonContainer}>
@@ -40,6 +39,9 @@ export const LogoutModal = ({
               backgroundColor={Colors.light_blue2}
               textColor={Colors.light_blue}
               fontSize={13}
+              marginVertical='2%'
+
+
             />
             <CustomButton
               title={"Logout"}
@@ -48,6 +50,8 @@ export const LogoutModal = ({
               backgroundColor={Colors.red}
               textColor={Colors.red2}
               fontSize={13}
+              marginVertical='2%'
+
 
             />
           </View>
@@ -64,6 +68,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: Colors.shadow
+  },
+  logoutIconstyle: {
+    width: wp * 8 / 100,
+    height: (wp * 8) / 100,
+    resizeMode: 'contain'
   },
   modalarea: {
     width: '75%',
@@ -91,32 +100,32 @@ const styles = StyleSheet.create({
   buttonContainer: {
     flexDirection: 'row',
     width: '100%',
-    justifyContent:'space-around',
+    justifyContent: 'space-around',
   },
   buttonStyles: {
     width: '40%',
-    height:'90%',
-    
+    height: '90%',
+
   },
-  logoutContainer:{
-    width:"100%",
-    alignItems:'center'
-},
-logoutButton: {
+  logoutContainer: {
+    width: "100%",
+    alignItems: 'center'
+  },
+  logoutButton: {
     // flexDirection: 'row',
-    borderRadius: wp*4/100,
-    justifyContent:'center',
-    alignItems:'center',
+    borderRadius: wp * 4 / 100,
+    justifyContent: 'center',
+    alignItems: 'center',
     backgroundColor: Colors.red3,
-    width:'30%',
-    paddingVertical:'3%'
-},
-logoutText: {
+    width: '35%',
+    paddingVertical: '3%'
+  },
+  logoutText: {
     color: Colors.white,
     fontFamily: Fonts.Bold,
     fontSize: ResponsiveFont(24),
     lineHeight: ResponsiveFont(30),
-    marginHorizontal :'5%',
-},
+    // marginHorizontal: '5%',
+  },
 });
 

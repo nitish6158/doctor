@@ -18,6 +18,7 @@ export const CustomDropdown = ({
   style = {},
   textStyle = {},
   type = 'profile',
+  containerstyle={}
 }) => {
   const [modalVisible, setModalVisible] = useState(false);
   const getIcons = () => {
@@ -25,6 +26,8 @@ export const CustomDropdown = ({
       case 'profile':
         return Images.user_icon_deactive;
       case 'country':
+        return Images.icon_select_contry_deactive;
+      case 'clinic':
         return Images.icon_select_contry_deactive;
       case 'specialization':
         return Images.icon_user_doctor_deactive;
@@ -50,7 +53,14 @@ export const CustomDropdown = ({
                 ?
                 item?.name
                 :
-                item
+                type === 'clinic'
+                  ?
+                  {
+                    id: item?.id,
+                    clinicName: item?.clinicName
+                  }
+                  :
+                  item
         );
         setModalVisible(false);
       }}
@@ -66,15 +76,19 @@ export const CustomDropdown = ({
             :
             type === 'country'
               ?
-              item?.name 
+              item?.name
               :
-              item
+              type === 'clinic'
+                ?
+                item?.clinicName
+                :
+                item
       }</Text>
     </TouchableOpacity>
   )
 
   return (
-    <View>
+    <View style={containerstyle}>
       <Text style={styles.heading}>{heading}</Text>
       <TouchableOpacity
         style={[
@@ -91,7 +105,7 @@ export const CustomDropdown = ({
             {selectedValue || placeholder}
           </Text>
         </View>
-        <Image source={Images.icon_dropdown} style={styles.icon} />
+        <Image source={Images.icon_dropdown} style={styles.icon2} />
       </TouchableOpacity>
       <Modal
         visible={modalVisible}
@@ -187,6 +201,11 @@ const styles = StyleSheet.create({
   icon: {
     width: (wp * 5) / 100,
     height: (wp * 5) / 100,
+    resizeMode: 'contain',
+  },
+  icon2: {
+    width: (wp * 4) / 100,
+    height: (wp * 4) / 100,
     resizeMode: 'contain',
   }
 });

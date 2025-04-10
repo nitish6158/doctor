@@ -64,7 +64,7 @@ const LoginScreen = (props) => {
             setIsmodal(true)
             setTimeout(() => {
                 setIsmodal(false)
-            }, 4000)
+            }, 2500)
             handleNavigation('BottomTabNavigator');
         }
         else {

@@ -15,5 +15,13 @@ export const END_POINT = {
   getDoctorDetail: Id => `/doctor/doctorDetailsById?doctorId=${Id}`,
   getClinics: doctorId => `/doctor/findAllClinicByDoctorId?doctorId=${doctorId}`,
   addAvailability:'/doctor/add_Availability',
-  getAvailability:'/doctor/viewDoctorAvailability',
-};
+  getAvailability:'/doctor/viewAllDoctorAvailability',
+  blockAvailabilityByDate:'/doctor/blockDoctorAvailabilityByDate',
+  blockAvailabilityByTime:'/doctor/blockDoctorAvailabilityByDateAndSlot',
+  teamAvailabilityList:'/doctor/viewAllDoctorAvailabilityInClinic',
+  addMatching:'/clinic/addMatching',
+  myJobData: id => `/clinic/getMatchingByDoctorId?doctorId=${id}`,
+  myMatchings: '/clinic/getAllClinicJobPost',
+
+}
+
