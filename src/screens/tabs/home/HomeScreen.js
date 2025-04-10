@@ -22,7 +22,8 @@ import { Menu } from 'react-native-paper';
 import { UpdateUserInfo, GetAllClinicAction, UpdateClinicIdAction } from '../../../Redux/actions'
 const HomeScreen = (props) => {
     const [menuVisible, setMenuVisible] = useState(false);
-    const [selectedClinic, setSelectedClinic] = useState("Select Clinic");
+    const [selectedClinicName, setSelectedClinicName] = useState(props.GlobalSelectedClinicName || "Select Clinic");
+    const [selectedClinicId, setSelectedClinicId] = useState(props.GlobalSelectedClinicId || 0);
     const openMenu = () => setMenuVisible(true);
     const closeMenu = () => setMenuVisible(false);
     const t = useTranslation();
@@ -51,7 +52,9 @@ const HomeScreen = (props) => {
     );
 
     useEffect(() => {
-        fetchAllClinics();
+        if (!props.individual) {
+            fetchAllClinics();
+        }
         if (!props.userData?.bankDetails && props.isVerified === 1) {
             setIsBankModalOpen(true)
         }
@@ -75,17 +78,27 @@ const HomeScreen = (props) => {
         }, [props?.isVerified, updateUserData])
     );
     const fetchAllClinics = async () => {
-        await props.GetAllClinicAction(props.userId);
-        // await props.GetAllClinicAction(25);
+        // await props.GetAllClinicAction(props.userId);
+        await props.GetAllClinicAction(25);
     }
 
-    const setGlobalClinicId = async (id) => {
-        await props.UpdateClinicIdAction(id);
+    const setGlobalClinicId = async (obj) => {
+        await props.UpdateClinicIdAction(obj);
     }
 
     const handleCloseBankModal = () => {
         setIsBankModalOpen(false)
     }
+
+    useEffect(() => {
+        if (props?.allClinics) {
+            setSelectedClinicName(props?.allClinics[0].clinicName);
+            setGlobalClinicId({
+                ClinicId: props?.allClinics[0].id,
+                ClinicName: props?.allClinics[0].clinicName,
+            })
+        }
+    }, [])
 
     return (
         <ImageBackground
@@ -127,7 +140,7 @@ const HomeScreen = (props) => {
                                                     />
                                                     <Text
                                                         style={HomeStyles.speciality}>
-                                                        {selectedClinic}
+                                                        {selectedClinicName}
                                                     </Text>
                                                     <Image
                                                         source={Images.icon_dropdown3}
@@ -141,9 +154,12 @@ const HomeScreen = (props) => {
                                                 <Menu.Item
                                                     key={clinic.id}
                                                     onPress={() => {
-                                                        setSelectedClinic(clinic.clinicName);
+                                                        setSelectedClinicName(clinic.clinicName);
                                                         closeMenu();
-                                                        setGlobalClinicId(clinic.id)
+                                                        setGlobalClinicId({
+                                                            ClinicId: clinic.id,
+                                                            ClinicName: clinic.clinicName,
+                                                        })
                                                     }}
                                                     title={clinic.clinicName}
                                                     style={HomeStyles.dropdownContainer2}
@@ -344,12 +360,13 @@ const mapStateToProps = state => {
     return {
         isVerified: state.authReducer.isVerified,
         userData: state.authReducer.userData,
+        GlobalSelectedClinicId: state.authReducer.selectedClinicId,
+        GlobalSelectedClinicName: state.authReducer.selectedClinicName,
         // isVerified: 1, //  2-4-5-3/1  6 for bank 
         updateLoading: state.bankReducer.updateLoading,
         userId: state.authReducer.userId,
-        individual: state.authReducer.individual,
+        // individual: state.authReducer.individual,
         allClinics: state.getAllClinicReducer.data,
-
 
     };
 };

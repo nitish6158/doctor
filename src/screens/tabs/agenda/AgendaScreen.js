@@ -14,18 +14,19 @@ import { FloatingBackgroundCard, ListingCard } from '../../../components/card';
 import { Calendar } from 'react-native-calendars';
 import { CustomButton, ToggleButton } from '../../../components/button';
 import { AddressInput, CustomDateInput, CustomTimeInput } from '../../../components/input';
-import { AvailabilityModal, Loader, } from '../../../components/modal';
+import { AvailabilityModal, DeleteSlotModal, EditSlotModal, Loader, } from '../../../components/modal';
 import {
     AddAvailabilityAction,
     getAvailabilityAction,
     ClearAgendaStatus,
     BlockAvailabilityByDateAction,
     BlockAvailabilityByTimeAction,
-    TeamAvailabilityListAction
+    TeamAvailabilityListAction,
+    EditSlotAction,
+    DeleteSlotAction
 } from '../../../Redux/actions';
 import { connect } from 'react-redux';
 import moment from 'moment';
-import DateTimePicker from '@react-native-community/datetimepicker';
 import { Fonts, Colors, ResponsiveFont, Images, opacityOfButton } from '../../../assets';
 import { OfflineAvailabilityList } from './OfflineAvailabilityList';
 import { CustomDropdown } from '../../../components/dropdown';
@@ -135,62 +136,66 @@ const doctors = [
 ];
 
 const MyAgenda = (props) => {
+    const today = new Date().toISOString().split("T")[0]
+    const formatDateDDMMYYYY=  moment(today).format("DD-MM-YYYY");
+
     const [currentDate, setCurrentDate] = useState(new Date());
     const [isMyAvailabilityTabActive, setIsMyAvailabilityTabActive] = useState(true);
-    const [addAvailabilityInProgress, setAddAvailabilityInProgress] = useState(false)
-    const [blockAvailabilityInProgress, setBlockAvailabilityInProgress] = useState(false)
-    const [clinic, setClinic] = useState(null)
-
-    const handleMonthChange = (month) => {
-        setCurrentDate(new Date(month.year, month.month - 1));
-    };
-
-    const formatMonthYear = (date) => {
-        const options = { month: "long", year: "numeric" };
-        return date.toLocaleDateString("en-US", options);
-    };
-
-    const renderPeople = ({ item }) => <DoctorCard item={item} />;
-
-    const today = new Date().toISOString().split("T")[0];
+    const [addAvailabilityInProgress, setAddAvailabilityInProgress] = useState(false);
+    const [blockAvailabilityInProgress, setBlockAvailabilityInProgress] = useState(false);
+    const [weekInitialized, setWeekInitialized] = useState(false);
+    const [isRemoveSlotModalVisible, setRemoveSlotModalVisible] = useState(false);
     const [selectedDate, setSelectedDate] = useState(today);
     const [addAvailabilitySelectedDate, setAddAvailabilitySelectedDate] = useState(today);
     const [selectedDateForTeamAvailability, setSelectedDateForTeamAvailability] = useState(today);
-
-    const [selectedClinicId, setSelectedClinicId] = useState("");
-    const [isRepeat, setIsRepeat] = useState(true);
+    const [isRepeat, setIsRepeat] = useState(1);
     const [isBlockByDate, setIsBlockByDate] = useState(true);
-
-    const [selectedBlockStartDate, setSelectedBlockStartDate] = useState(null)
+    const [selectedBlockStartDate, setSelectedBlockStartDate] = useState(formatDateDDMMYYYY)
     const [selectedBlockEndDate, setSelectedBlockEndDate] = useState(null)
-
-    const [fromTime, setFromTime] = useState("");
-    const [toTime, setToTime] = useState("");
-    const [address, setAddress] = useState("");
+    const [selectedDates, setSelectedDates] = useState([today]);
+    const [markedDates, setMarkedDates] = useState({
+        [today]: { selected: true, selectedColor: Colors.blue }
+    });
+    const [slots, setSlots] = useState([
+        { fromTime: '', toTime: '', type: 'online', location: '' }
+    ]);
+    const [clinic, setClinic] = useState({
+        id: props.GlobalSelectedClinicId || "Select Clinic",
+        clinicName: props.GlobalSelectedClinicName || 0,
+    })
+    const renderPeople = ({ item }) => <DoctorCard item={item} />;
+    const updateMarkedDates = (datesArray) => {
+        const marked = {};
+        datesArray.forEach(date => {
+            marked[date] = { selected: true, selectedColor: Colors.blue };
+        });
+        setMarkedDates(marked);
+    };
     const [reason, setReason] = useState("");
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [isBlockAvailabilityModelVisible, setIsBlockAvailabilityModelVisible] = useState(false);
 
-    const [showTimePicker, setShowTimePicker] = useState(false);
-    const [selectedTime, setSelectedTime] = useState(null);
 
-    const formatTime = (date) => {
-        if (!date) return '';
-        const hours = date.getHours().toString().padStart(2, '0');
-        const minutes = date.getMinutes().toString().padStart(2, '0');
-        return `${hours}:${minutes}`;
-    };
-
-
-    const handleTimeChange = (event, date) => {
-        if (date) {
-            setSelectedTime(date);
-            const newToTime = new Date(date.getTime() + 15 * 60000); // 15 minutes in ms
-            setToTime(newToTime);
+    useEffect(() => {
+        if (isRepeat === 1) {
+            const singleDate = [addAvailabilitySelectedDate];
+            setSelectedDates(singleDate);
+            updateMarkedDates(singleDate);
+            setWeekInitialized(false);
+        } else if (isRepeat === 2) {
+            // Keep current selectedDates intact when switching to Date mode
+            setWeekInitialized(false);
+        } else if (isRepeat === 3 && !weekInitialized) {
+            const startOfWeek = moment(addAvailabilitySelectedDate).startOf('isoWeek');
+            const weekDates = [];
+            for (let i = 0; i < 7; i++) {
+                weekDates.push(startOfWeek.clone().add(i, 'days').format("YYYY-MM-DD"));
+            }
+            setSelectedDates(weekDates);
+            updateMarkedDates(weekDates);
+            setWeekInitialized(true);
         }
-        setShowTimePicker(false);
-    };
-
+    }, [isRepeat, addAvailabilitySelectedDate]);
 
 
     useEffect(() => {
@@ -209,7 +214,20 @@ const MyAgenda = (props) => {
         selectedDateForTeamAvailability,
     ]);
 
+    useEffect(() => {
+        if (!props.individual) {
+            fetchMyTeam()
+        }
+    }, [selectedDateForTeamAvailability]);
 
+    const handleMonthChange = (month) => {
+        setCurrentDate(new Date(month.year, month.month - 1));
+    };
+
+    const formatMonthYear = (date) => {
+        const options = { month: "long", year: "numeric" };
+        return date.toLocaleDateString("en-US", options);
+    };
 
     const fetchMyAvailability = async () => {
         const formatDate = moment(selectedDate).format("DD-MM-YYYY");
@@ -220,26 +238,48 @@ const MyAgenda = (props) => {
         await props.getAvailabilityAction(reqParam)
     };
 
-
-    const handleDaySelect = (day) => {
-        setSelectedDate(day.dateString);
-    };
-
-    const handleDaySelectForTeamAvailability = async (day) => {
-        setSelectedDateForTeamAvailability(day.dateString);
-        const formatDate = moment(day.dateString).format("DD-MM-YYYY");
+    const fetchMyTeam = async () => {
+        const formatDate = moment(selectedDateForTeamAvailability).format("DD-MM-YYYY");
         const reqParam = {
-            "clinicId": selectedClinicId,
+            "clinicId": clinic.id,
             "doctorId": props.userId,
             "date": formatDate,
         }
         await props.TeamAvailabilityListAction(reqParam)
     };
 
-    const handleAddAvailabilityDaySelect = (day) => {
-        setAddAvailabilitySelectedDate(day.dateString);
+    const handleDaySelect = (day) => {
+        setSelectedDate(day.dateString);
     };
 
+    const handleDaySelectForTeamAvailability = (day) => {
+        setSelectedDateForTeamAvailability(day.dateString);
+    };
+
+    const handleAddAvailabilityDaySelect = (day) => {
+
+        const dateStr = day.dateString;
+
+        if (isRepeat === 1) {
+            setSelectedDates([dateStr]);
+            updateMarkedDates([dateStr]);
+        } else if (isRepeat === 2 || isRepeat === 3) {
+            setSelectedDates(prev => {
+                let updated = [...prev];
+
+                if (updated.includes(dateStr)) {
+                    updated = updated.filter(d => d !== dateStr);
+                } else {
+                    updated.push(dateStr);
+                }
+
+                updateMarkedDates(updated);
+                return updated;
+            });
+        }
+
+        setAddAvailabilitySelectedDate(dateStr);
+    };
 
     const calenderTheme = {
         arrowColor: Colors.blue,
@@ -271,29 +311,33 @@ const MyAgenda = (props) => {
         </Text>
     );
 
-
     const handleAddAvailability = async () => {
-        const formatDate = moment(addAvailabilitySelectedDate).format("DD-MM-YYYY");
-
+        const dateArray = selectedDates.map(date => moment(date).format("DD-MM-YYYY"));
         const timeSlots = slots.map(slot => ({
             fromTime: slot.fromTime,
             toTime: slot.toTime,
             type: slot.type.toUpperCase(),
             location: slot.type === 'offline' ? slot.location : ''
-        }));
-
+        }))
+        const invalidSlot = slots.find(
+            slot =>
+                !slot.fromTime?.trim() ||
+                !slot.toTime?.trim() ||
+                (slot.type === 'offline' && !slot.location?.trim())
+        );
+        if (invalidSlot) {
+            ToastMsg("Please complete all time slots before adding availability.", "bottom");
+            return;
+        }
         const reqParam = {
             doctorId: props.userId,
-            repeatForWeek: isRepeat ? 1 : 0,
-            date: formatDate,
+            repeatForWeek: isRepeat === 3 ? 1 : 0,
+            dateArray: dateArray,
             timeSlots: timeSlots,
         };
         await props.AddAvailabilityAction(reqParam);
-    }
+    };
 
-    const [slots, setSlots] = useState([
-        { fromTime: '', toTime: '', type: 'online', location: '' }
-    ]);
 
     const updateSlot = (index, key, value) => {
         const updatedSlots = [...slots];
@@ -317,7 +361,7 @@ const MyAgenda = (props) => {
 
     const handleDiscard = () => {
         setAddAvailabilityInProgress(false);
-        setIsRepeat(true);
+        setIsRepeat(1);
         setSlots(
             [
                 { fromTime: '', toTime: '', type: 'online', location: '' }
@@ -331,18 +375,61 @@ const MyAgenda = (props) => {
     }
 
     const handleBlockDate = async () => {
-
         const reqParam = {
             "doctorId": props.userId,
             "fromDate": selectedBlockStartDate,
             "toDate": selectedBlockEndDate,
             "reason": reason
         };
-
         console.log(reqParam)
-
         // await props.BlockAvailabilityByDateAction(reqParam)
     }
+
+    const [selectedSlot, setSelectedSlot] = useState(null);
+    const [editModalOpen,setEditModalOpen] = useState(false)
+
+    const onDeletePress = () => {
+        if (!selectedSlot) {
+            ToastMsg("Please select a slot before pressing delete", "bottom");
+            return;
+        }
+        setRemoveSlotModalVisible(true);
+    };
+
+    const onEditPress = () =>{
+        if (!selectedSlot) {
+            ToastMsg("Please select a slot before pressing Edit", "bottom");
+            return;
+        }
+        // console.log(selectedSlot)
+        setEditModalOpen(true)
+    }
+
+    const onConfirmDelete = async () => {
+        const reqParam = {
+            "clinicId": 0,
+            "doctorId": 0,
+            "timeSlotId": 0,
+            "date": "string",
+            "fromTime": "string",
+            "toTime": "string"
+        }
+
+        //    await props.DeleteSlotAction(reqParam)
+
+    };
+    const onPressUpdateSlot = async (data) => {
+        const reqParam = {
+            "clinicId": 0,
+            "doctorId": 0,
+            "timeSlotId": 0,
+            "date": "string",
+            "fromTime": "string",
+            "toTime": "string"
+        }
+        //    await props.EditSlotAction(reqParam)
+
+    };
 
 
     return (
@@ -411,6 +498,7 @@ const MyAgenda = (props) => {
                                             [selectedDate]:
                                                 { selected: true, selectedColor: Colors.blue }
                                         }}
+
                                     />
                                 </View>
                             }
@@ -443,6 +531,10 @@ const MyAgenda = (props) => {
                                                                     props.myAvailabilityData?.onlineSlots &&
                                                                     <OnlineAvailabilityList
                                                                         myAvailabilityData={props.myAvailabilityData}
+                                                                        selectedSlot={selectedSlot}
+                                                                        setSelectedSlot={setSelectedSlot}
+                                                                        onDeletePress={onDeletePress}
+                                                                        onEditPress={onEditPress}
                                                                     />
 
                                                                 }
@@ -450,6 +542,10 @@ const MyAgenda = (props) => {
                                                                     props.myAvailabilityData?.offlineSlots &&
                                                                     <OfflineAvailabilityList
                                                                         myAvailabilityData={props.myAvailabilityData}
+                                                                        selectedSlot={selectedSlot}
+                                                                        setSelectedSlot={setSelectedSlot}
+                                                                        onDeletePress={onDeletePress}
+                                                                        onEditPress={onEditPress}
                                                                     />
                                                                 }
 
@@ -503,10 +599,7 @@ const MyAgenda = (props) => {
                                                     onMonthChange={handleMonthChange}
                                                     current={addAvailabilitySelectedDate}
                                                     onDayPress={handleAddAvailabilityDaySelect}
-                                                    markedDates={{
-                                                        [addAvailabilitySelectedDate]:
-                                                            { selected: true, selectedColor: Colors.blue }
-                                                    }}
+                                                    markedDates={markedDates}
                                                 />
                                             </View>
                                             <View style={AgendaStyles.heading3}>
@@ -515,29 +608,42 @@ const MyAgenda = (props) => {
                                                     <TouchableOpacity
                                                         style={[AgendaStyles.modeButton2, {
                                                             marginHorizontal: '0%',
-                                                            backgroundColor: isRepeat ? Colors.blue : Colors.white
+                                                            backgroundColor: isRepeat == 1 ? Colors.blue : Colors.white
                                                         }]}
-                                                        onPress={() => { setIsRepeat(true) }}
+                                                        onPress={() => { setIsRepeat(1) }}
 
                                                     >
                                                         <Text
                                                             style={[AgendaStyles.modeText2,
-                                                            { color: isRepeat ? Colors.white : Colors.blue }]}
+                                                            { color: isRepeat == 1 ? Colors.white : Colors.blue }]}
                                                         >No Repeat</Text>
                                                     </TouchableOpacity>
                                                     <TouchableOpacity
                                                         style={[AgendaStyles.modeButton2, {
-                                                            backgroundColor: isRepeat ? Colors.white : Colors.blue
+                                                            backgroundColor: isRepeat == 2 ? Colors.blue : Colors.white
                                                         }]}
-                                                        onPress={() => { setIsRepeat(false) }}
+                                                        onPress={() => { setIsRepeat(2) }}
                                                     >
                                                         <Text
                                                             style={[AgendaStyles.modeText2, {
-                                                                color: isRepeat ?
-                                                                    Colors.blue :
-                                                                    Colors.white
+                                                                color: isRepeat == 2 ?
+                                                                    Colors.white :
+                                                                    Colors.blue
                                                             }]}
-                                                        >Day</Text>
+                                                        >Date</Text>
+                                                    </TouchableOpacity>
+                                                    <TouchableOpacity
+                                                        style={[AgendaStyles.modeButton2, {
+                                                            backgroundColor: isRepeat == 3 ? Colors.blue : Colors.white
+                                                        }]}
+                                                        onPress={() => { setIsRepeat(3) }}
+                                                    >
+                                                        <Text
+                                                            style={[AgendaStyles.modeText2, {
+                                                                color: isRepeat == 3 ?
+                                                                    Colors.white : Colors.blue
+                                                            }]}
+                                                        >Week</Text>
                                                     </TouchableOpacity>
                                                 </View>
                                             </View>
@@ -770,12 +876,14 @@ const MyAgenda = (props) => {
                             :
                             <>
                                 <CustomDateInput
-                                    placeholder="Date"
+                                    placeholder={formatDateDDMMYYYY}
                                     icon="calender"
                                     width="95%"
                                     marginVertical="2%"
                                     value={selectedBlockStartDate}
                                     onDateChange={setSelectedBlockStartDate}
+                                    paddingVertical='1.5%'
+
                                 />
                                 <View style={AgendaStyles.startEndDateContainer}>
                                     <CustomTimeInput
@@ -801,7 +909,7 @@ const MyAgenda = (props) => {
                             style={AgendaStyles.BlockButtonContainer}
                         >
                             <CustomButton
-                                title={"Bloack Availability"}
+                                title={"Block Availability"}
                                 width='94%'
                                 onPress={() => { handleBlockDate() }}
                             />
@@ -809,9 +917,7 @@ const MyAgenda = (props) => {
 
 
                     </FloatingBackgroundCard>
-
                 </>
-
             }
 
             <AvailabilityModal
@@ -836,6 +942,19 @@ const MyAgenda = (props) => {
                 visible={props.loading}
             />
 
+            <DeleteSlotModal
+                isModalOpen={isRemoveSlotModalVisible}
+                onClose={() => setRemoveSlotModalVisible(false)}
+                onConfirmDelete={onConfirmDelete}
+            />
+
+            <EditSlotModal
+                visible={editModalOpen}
+                onClose={() => (setEditModalOpen(false))}
+                selectedSlot={selectedSlot}
+                onPressUpdateSlot={onPressUpdateSlot}
+            />
+
 
         </ImageBackground>
     );
@@ -845,8 +964,8 @@ const MyAgenda = (props) => {
 const mapStateToProps = state => {
     return {
         userId: state.authReducer.userId,
-        individual: state.authReducer.individual,
-        // individual: false,
+        // individual: state.authReducer.individual,
+        individual: false,
         allClinics: state.getAllClinicReducer.data,
         availabilityAddedData: state.availabilityReducer.data,
         loading: state.availabilityReducer.loading,
@@ -854,7 +973,8 @@ const mapStateToProps = state => {
         myAvailabilityData: state.availabilityReducer.myAvailabilityData,
         responseCodeOfAddAvailability: state.availabilityReducer.responseCodeOfAddAvailability,
         responseCodeOfGetAvailability: state.availabilityReducer.responseCodeOfGetAvailability,
-
+        GlobalSelectedClinicId: state.authReducer.selectedClinicId,
+        GlobalSelectedClinicName: state.authReducer.selectedClinicName,
     };
 };
 
@@ -865,5 +985,7 @@ const mapDispatchToProps = {
     BlockAvailabilityByTimeAction,
     TeamAvailabilityListAction,
     ClearAgendaStatus,
+    EditSlotAction,
+    DeleteSlotAction,
 };
 export default connect(mapStateToProps, mapDispatchToProps)(MyAgenda);

@@ -8,6 +8,7 @@ export const CustomTimeInput = ({
   width = "48%",
   value,
   editable = true,
+  paddingVertical = '0%'
 }) => {
 
 
@@ -42,7 +43,7 @@ export const CustomTimeInput = ({
 
 
   return (
-    <View style={[styles.container, { width }]}>
+    <View style={[styles.container, { width ,paddingVertical}]}>
       <TouchableOpacity style={styles.iconWrapper}>
         <Image source={Images.time2} style={styles.icon} />
       </TouchableOpacity>

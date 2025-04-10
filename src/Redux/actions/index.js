@@ -31,6 +31,8 @@ import {
     BlockAvailabilityByDateAction,
     BlockAvailabilityByTimeSlotIDAction,
     TeamAvailabilityListAction,
+    EditSlotAction,
+    DeleteSlotAction
 } from "./AvailabilityAction";
 import { UpdateClinicIdAction } from "./updateClinicIdAction";
 
@@ -66,5 +68,7 @@ export {
     BlockAvailabilityByDateAction,
     BlockAvailabilityByTimeSlotIDAction,
     TeamAvailabilityListAction,
+    EditSlotAction,
+    DeleteSlotAction,
 }
 

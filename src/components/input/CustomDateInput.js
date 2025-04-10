@@ -11,6 +11,7 @@ export const CustomDateInput = ({
   width = '48%',
   marginVertical,
   icon,
+  paddingVertical='0%'
 }) => {
 
   const handleDateChange = (text) => {
@@ -49,7 +50,7 @@ export const CustomDateInput = ({
   };
 
   return (
-    <View style={[styles.container, { width, marginVertical }]}>
+    <View style={[styles.container, { width, marginVertical ,paddingVertical}]}>
       <TouchableOpacity style={styles.iconWrapper}>
         <Image
           source={icon === "calender" ? Images.icon_celender : Images.time2}
