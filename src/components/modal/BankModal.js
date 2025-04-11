@@ -31,7 +31,7 @@ export const BankModal = ({
                     backgroundColor: Colors.white,
                     borderRadius: (wp * 8) / 100,
                     alignItems: 'center',
-                    justifyContent:'center'
+                    justifyContent: 'center'
 
                 }}
                 >
@@ -79,15 +79,35 @@ export const BankModal = ({
 
                     <Text style={styles.headingcontainer}>{subHeading}</Text>
 
-
-                    <CustomButton
+                    <TouchableOpacity
+                        onPress={buttonOnpress}
+                        style={{
+                            width: '65%',
+                            // height: '18%',
+                            paddingVertical:'1%',
+                            backgroundColor: Colors.blue,
+                            borderRadius: 22,
+                            justifyContent: 'center',
+                            alignItems: 'center'
+                        }}
+                    >
+                        <Text style={{
+                            fontSize: ResponsiveFont(16),
+                            lineHeight: ResponsiveFont(25),
+                            color: Colors.white,
+                            fontFamily: Fonts.Bold,
+                            marginVertical: '2%',
+                            textAlign: 'center'
+                        }}>Add Bank Details</Text>
+                    </TouchableOpacity>
+                    {/* <CustomButton
                         title={buttonText}
                         onPress={buttonOnpress}
                         backgroundColor={Colors.blue}
                         textColor={Colors.white}
                         width='65%'
                         height={'18%'}
-                    />
+                    /> */}
 
                 </View>
             </View>

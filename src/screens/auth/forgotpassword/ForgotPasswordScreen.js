@@ -26,7 +26,6 @@ const ForgotPasswordScreen = (props) => {
     const t = useTranslation();
     const [email, setEmail] = useState('');
     const [isSuccessModalVisible, setIsSuccessModalVisible] = useState(false);
-    const [isModal, setIsmodal] = useState(false);
 
     const handleGoBack = () => {
         props.navigation.goBack();
@@ -51,12 +50,12 @@ const ForgotPasswordScreen = (props) => {
 
     useEffect(() => {
         if (props.responseCode == 200) {
-            setIsmodal(true);
-            setIsSuccessModalVisible(true);  // Show instantly
-
-            // setTimeout(() => {
-            //     setIsSuccessModalVisible(true);
-            // }, 4000)
+            setIsSuccessModalVisible(true);
+            setTimeout(() => {
+                setIsSuccessModalVisible(false);
+                props.navigation.navigate("LoginScreen")
+                setEmail("")
+            }, 1500)
         }
         else {
             if (props.errMsg !== null) {

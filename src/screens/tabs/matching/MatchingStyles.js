@@ -8,12 +8,33 @@ export const MatchingStyles = StyleSheet.create({
     },
     topView: {
         flex: 1.5,
-        justifyContent: 'center',
-        alignItems: 'center'
+        justifyContent: 'space-around',
+        alignItems: 'center',
+        flexDirection:'row',
+        // backgroundColor:'red'
+
     },
     bottomView: {
         flex: 8.5,
         paddingVertical: '3%',
+    },
+    backIcon: {
+        width: wp * 5 / 100,
+        height: wp * 5,
+        resizeMode: 'contain',
+        marginLeft:'10%'
+    },
+    tabNameContainer:{
+        width:'65%',
+        alignItems:'center',
+        // backgroundColor:'green',
+        alignItems:'flex-start'
+    },
+    tabNameContainer1:{
+        width:'35%',
+        alignItems:'center',
+        // backgroundColor:'red',
+        alignItems:'flex-start'
     },
     tabName: {
         fontFamily: Fonts.Medium,

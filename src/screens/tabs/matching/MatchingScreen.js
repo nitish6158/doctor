@@ -110,6 +110,7 @@ const data = [
 ];
 
 const MatchingScreen = (props) => {
+
     const lang = props?.appLanguage?.toLowerCase()
     const t = useTranslation();
     const [countryArr, setCountryArr] = useState(null)
@@ -299,8 +300,21 @@ const MatchingScreen = (props) => {
             style={MatchingStyles.background}
             resizeMode="cover"
         >
-            <View style={MatchingStyles.topView}>
+            {/* <View style={MatchingStyles.topView}>
                 <Text style={MatchingStyles.tabName}>{t('MyMatching')}</Text>
+            </View> */}
+            <View style={MatchingStyles.topView}>
+                <TouchableOpacity
+                style={MatchingStyles.tabNameContainer1}
+                 onPress={() => props.navigation.goBack()}>
+                    <Image
+                        source={Images.back_Icon}
+                        style={MatchingStyles.backIcon}
+                    />
+                </TouchableOpacity>
+                <View style={MatchingStyles.tabNameContainer}>
+                    <Text style={MatchingStyles.tabName}>{t('MyMatching')}</Text>
+                </View>
             </View>
 
             <FloatingBackgroundCard customStyles={MatchingStyles.bottomView}>

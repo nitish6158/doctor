@@ -64,6 +64,38 @@ const BankFormScreen = (props) => {
     const [country, setCountry] = useState('')
     const [bankCode, setBankCode] = useState('');
     const [branchName, setBranchName] = useState('');
+
+    const isFormValid = useMemo(() => {
+        return (
+            fullName.trim() &&
+            bankAccountNumber.trim() &&
+            bankName.trim() &&
+            bankAccountType.trim() &&
+            nationalId.trim() &&
+            address.trim() &&
+            email.trim() &&
+            validateEmail(email) &&
+            phone.trim() &&
+            validatePhoneNumber(phone) &&
+            country.trim() &&
+            branchName.trim() &&
+            bankCode.trim()
+        );
+    }, [
+        fullName,
+        bankAccountNumber,
+        bankName,
+        bankAccountType,
+        nationalId,
+        address,
+        email,
+        phone,
+        country,
+        branchName,
+        bankCode,
+    ]);
+
+
     const handleVerifyDetails = async () => {
         if (!email) {
             ToastMsg(t('PleaseEmailId'), 'bottom');
@@ -104,16 +136,26 @@ const BankFormScreen = (props) => {
     }
 
     const handleSuccessCase = async () => {
-        await props.ClearBankStatus();
         await props.UpdateUserInfo(props.userId);
         props.navigation.navigate('BottomTabNavigator');
+    }
+
+    const clearStatusReducer = async () => {
+        await props.ClearBankStatus();
     }
 
     useEffect(() => {
         if (props.responseCode == 200) {
             handleSuccessCase()
         }
+        else {
+            if (props.errMsg !== null) {
+                ToastMsg(props.errMsg, 'bottom')
+            }
+        }
+        clearStatusReducer()
     }, [props.responseCode])
+
 
     return (
         <ImageBackground
@@ -231,6 +273,14 @@ const BankFormScreen = (props) => {
                                 type="phone"
                                 width='100%'
                             />
+                            {/* <CustomButton
+                                title={t('FinishSetup')}
+                                onPress={handleVerifyDetails}
+                                backgroundColor={Colors.blue}
+                                textColor={Colors.white}
+                                textStyle={NexttextStyle}
+                                width='100%'
+                            /> */}
                             <CustomButton
                                 title={t('FinishSetup')}
                                 onPress={handleVerifyDetails}
@@ -238,7 +288,9 @@ const BankFormScreen = (props) => {
                                 textColor={Colors.white}
                                 textStyle={NexttextStyle}
                                 width='100%'
+                                disabled={!isFormValid}
                             />
+
                             <SuccessModal
                                 heading={t('SignUpSuccessful')}
                                 subHeading={t('welcomeToMedicineApp')}
@@ -272,6 +324,8 @@ const mapStateToProps = state => {
         authToken: state.authReducer.authToken,
         userName: state.authReducer.userName,
         appLanguage: state.authReducer.appLanguage,
+        errMsg: state.bankReducer.errMsg,
+
     };
 };
 

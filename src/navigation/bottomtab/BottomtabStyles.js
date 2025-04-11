@@ -11,7 +11,9 @@ export const BottomtabStyles = StyleSheet.create({
         borderRadius:(wp*4)/100,
         borderColor:Colors.blue,
         width:'90%',
-        alignSelf:'center'
+        alignSelf:'center',
+        bottom: 12
+        // marginBottom:'1.5%'
     },
     iconContainer:{
        alignItems:'center',
