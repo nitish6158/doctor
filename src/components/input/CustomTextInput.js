@@ -43,7 +43,7 @@ export const CustomTextInput = ({
       <View style={[styles.container,
       {
         borderColor: isFocused ? Colors.blue : borderColor,
-        borderTopWidth: isFocused ? 1 : 0,
+        borderTopWidth: isFocused ? 1 : 1,
         width,
         height,
         borderRadius
@@ -110,7 +110,7 @@ const styles = StyleSheet.create({
   },
   heading: {
     fontFamily: Fonts.Bold,
-    fontSize: ResponsiveFont(14),
+    fontSize: ResponsiveFont(14.5),
     lineHeight: ResponsiveFont(17.5),
     color: Colors.black
   },

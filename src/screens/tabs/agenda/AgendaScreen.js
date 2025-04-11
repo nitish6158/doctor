@@ -137,7 +137,7 @@ const doctors = [
 
 const MyAgenda = (props) => {
     const today = new Date().toISOString().split("T")[0]
-    const formatDateDDMMYYYY=  moment(today).format("DD-MM-YYYY");
+    const formatDateDDMMYYYY = moment(today).format("DD-MM-YYYY");
 
     const [currentDate, setCurrentDate] = useState(new Date());
     const [isMyAvailabilityTabActive, setIsMyAvailabilityTabActive] = useState(true);
@@ -386,7 +386,7 @@ const MyAgenda = (props) => {
     }
 
     const [selectedSlot, setSelectedSlot] = useState(null);
-    const [editModalOpen,setEditModalOpen] = useState(false)
+    const [editModalOpen, setEditModalOpen] = useState(false)
 
     const onDeletePress = () => {
         if (!selectedSlot) {
@@ -396,7 +396,7 @@ const MyAgenda = (props) => {
         setRemoveSlotModalVisible(true);
     };
 
-    const onEditPress = () =>{
+    const onEditPress = () => {
         if (!selectedSlot) {
             ToastMsg("Please select a slot before pressing Edit", "bottom");
             return;
@@ -443,8 +443,20 @@ const MyAgenda = (props) => {
                     <View style={AgendaStyles.topView}>
 
                         {!addAvailabilityInProgress ?
-                            <Text style={AgendaStyles.tabName}>My Agenda</Text>
-                            :
+                            <>
+                                <TouchableOpacity
+                                    style={AgendaStyles.tabNameContainer1}
+                                    onPress={() => props.navigation.goBack()}>
+                                    <Image
+                                        source={Images.back_Icon}
+                                        style={AgendaStyles.backIcon}
+                                    />
+                                </TouchableOpacity>
+                                <View style={AgendaStyles.tabNameContainer}>
+                                    <Text style={AgendaStyles.tabName}>My Agenda</Text>
+                                </View>
+                            </>
+                             :
                             <TouchableOpacity
                                 style={AgendaStyles.crossButtonContainer}
                                 onPress={() => { handleDiscard() }}

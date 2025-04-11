@@ -31,7 +31,7 @@ const AppNavigator = () => {
         }
       } catch (error) {
         console.log('Error retrieving onboarding status:', error);
-        setInitialRoute('OnboardingLanguageScreen'); 
+        setInitialRoute('OnboardingLanguageScreen');
       }
     };
 
@@ -39,7 +39,7 @@ const AppNavigator = () => {
   }, [loginStatus]);
 
   if (!initialRoute) return null;
-  
+
   return (
     <NavigationContainer>
       <Stack.Navigator screenOptions={{
@@ -48,13 +48,43 @@ const AppNavigator = () => {
       }}
         initialRouteName={initialRoute}
       >
-        <Stack.Screen name="OnboardingLanguageScreen" component={OnboardingLanguageScreen} />
-        <Stack.Screen name="OnboardingScreen" component={OnboardingScreen} />
-        <Stack.Screen name="AuthStack" component={AuthStack} />
-        <Stack.Screen name="BottomTabNavigator" component={BottomTabNavigator} />
-        <Stack.Screen name="BankFormScreen" component={BankFormScreen} />
-        <Stack.Screen name="NotificationScreen" component={NotificationScreen} />
-        <Stack.Screen name="ContractScreen" component={ContractScreen} />
+        <Stack.Screen
+          name="OnboardingLanguageScreen"
+          component={OnboardingLanguageScreen}
+          options={{
+            gestureEnabled: false
+          }}
+        />
+        <Stack.Screen
+          name="OnboardingScreen"
+          component={OnboardingScreen}
+          options={{
+            gestureEnabled: false
+          }}
+        />
+        <Stack.Screen
+          name="AuthStack"
+          component={AuthStack}
+        />
+        <Stack.Screen
+          name="BottomTabNavigator"
+          component={BottomTabNavigator}
+        />
+        <Stack.Screen
+          name="BankFormScreen"
+          component={BankFormScreen}
+          options={{
+            gestureEnabled: false
+          }}
+        />
+        <Stack.Screen
+          name="NotificationScreen"
+          component={NotificationScreen}
+        />
+        <Stack.Screen
+          name="ContractScreen"
+          component={ContractScreen}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );

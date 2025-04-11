@@ -1,4 +1,4 @@
-import {
+import React ,{
     useState,
     useMemo,
     useEffect,
@@ -10,7 +10,9 @@ import {
     KeyboardAvoidingView,
     ScrollView,
     Platform,
+    BackHandler,
 } from 'react-native';
+import { useFocusEffect } from '@react-navigation/native';
 import {
     CustomTextInput,
     AddressInput
@@ -114,6 +116,21 @@ const BankFormScreen = (props) => {
             handleSuccessCase()
         }
     }, [props.responseCode])
+
+    useFocusEffect(
+        React.useCallback(() => {
+            const backAction = () => {
+                BackHandler.exitApp();
+                return true;
+            };
+            const backHandler = BackHandler.addEventListener(
+                'hardwareBackPress',
+                backAction,
+            );
+            return () => backHandler.remove();
+        }, []),
+    );
+
 
     return (
         <ImageBackground

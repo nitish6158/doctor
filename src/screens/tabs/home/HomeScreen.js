@@ -56,9 +56,9 @@ const HomeScreen = (props) => {
             fetchAllClinics();
         }
         if (!props.userData?.bankDetails && props.isVerified === 1) {
-            setIsBankModalOpen(true)
+            // setIsBankModalOpen(true)
         }
-    }, [])
+    }, [props.isVerified])
 
     const updateUserData = useCallback(async () => {
         await props.UpdateUserInfo(props.userId);

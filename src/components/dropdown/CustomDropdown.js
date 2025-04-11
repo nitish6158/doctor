@@ -147,9 +147,10 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    borderLeftWidth: 1,
-    borderRightWidth: 1,
-    borderBottomWidth: 1,
+    // borderLeftWidth: 1,
+    // borderRightWidth: 1,
+    // borderBottomWidth: 1,
+    borderWidth:1,
     paddingHorizontal: wp * 2.5 / 100,
     marginVertical: hp * 0.5 / 100,
   },
@@ -178,7 +179,7 @@ const styles = StyleSheet.create({
   },
   heading: {
     fontFamily: Fonts.Bold,
-    fontSize: ResponsiveFont(14),
+    fontSize: ResponsiveFont(14.5),
     lineHeight: ResponsiveFont(17.5),
     color: Colors.black
   },

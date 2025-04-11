@@ -6,8 +6,10 @@ import {
     ImageBackground,
     KeyboardAvoidingView,
     Image,
-    ScrollView
+    ScrollView,
+    BackHandler,
 } from 'react-native';
+import { useFocusEffect } from '@react-navigation/native';
 
 
 import { ResponsiveFont, Colors, Images, WindowWidth as wp } from '../../assets';
@@ -41,6 +43,22 @@ const OnboardingLanguageScreen = (props) => {
     useEffect(() => {
         console.log(props.appLanguage, 'laguageeeeeee')
     }, [props.appLanguage])
+
+    useFocusEffect(
+        React.useCallback(() => {
+            const backAction = () => {
+                BackHandler.exitApp();
+                return true;
+            };
+            const backHandler = BackHandler.addEventListener(
+                'hardwareBackPress',
+                backAction,
+            );
+            return () => backHandler.remove();
+        }, []),
+    );
+
+
 
     return (
         <ImageBackground
