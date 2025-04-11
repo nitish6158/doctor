@@ -32,7 +32,9 @@ import {
     BlockAvailabilityByTimeSlotIDAction,
     TeamAvailabilityListAction,
     EditSlotAction,
-    DeleteSlotAction
+    DeleteSlotAction,
+    RestoreDateAction,
+    RestoreSlotAction
 } from "./AvailabilityAction";
 import { UpdateClinicIdAction } from "./updateClinicIdAction";
 
@@ -42,6 +44,10 @@ import {
     getMyMatchingAction,
     ClearStatusMatching
 } from "./MatchingAction";
+import {
+    AddLocationAction,
+    GetLocationAction
+} from "./LocationAction";
 export {
     LanguageAction,
     LoginAction,
@@ -70,5 +76,9 @@ export {
     TeamAvailabilityListAction,
     EditSlotAction,
     DeleteSlotAction,
+    RestoreDateAction,
+    RestoreSlotAction,
+    AddLocationAction,
+    GetLocationAction,
 }
 

@@ -30,7 +30,8 @@ export const Colors = {
   orange: '#FFE2E2',
   red: "#FFDDDB",
   red2: '#A30014',
-  red3: "#FD4755"
+  red3: "#FD4755",
+  red4: "#FFF7F5"
 };
 
 

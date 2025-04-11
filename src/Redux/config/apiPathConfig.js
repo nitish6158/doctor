@@ -19,11 +19,18 @@ export const END_POINT = {
   blockAvailabilityByDate:'/doctor/blockDoctorAvailabilityByDate',
   blockAvailabilityByTime:'/doctor/blockDoctorAvailabilityByDateAndSlot',
   teamAvailabilityList:'/doctor/teamAvailabilityInClinic/api/v1/doctor/teamAvailabilityInClinic',
-  editSlot:'something',
+  editSlot:'/doctor/updateAvailability',
   deleteSlot:'something',
+  restoreDate:'something',
+  restoreSlot:'something',
   addMatching:'/clinic/addMatching',
   myJobData: id => `/clinic/getMatchingByDoctorId?doctorId=${id}`,
   myMatchings: '/clinic/getAllClinicJobPost',
+
+  //location api's
+  addLocation:'/doctor/location/add',
+  getLocation: id => `/doctor/location/list?id=${id}`,
+  deleteLocation: id => `/doctor/location/delete/{id}?id=${id}`,
 
 }
 

@@ -5,7 +5,8 @@ import { CustomButton } from '../button';
 export const DeleteSlotModal = ({
   isModalOpen = false,
   onClose,
-  onConfirmDelete
+  onConfirmDelete,
+  selectedSlot,
 }) => {
   return (
     <Modal
@@ -38,7 +39,10 @@ export const DeleteSlotModal = ({
             />
             <CustomButton
               title={"Remove"}
-              onPress={onConfirmDelete}
+              onPress={()=>{
+                onConfirmDelete(selectedSlot);
+                onClose
+              }}
               style={styles.buttonStyles}
               backgroundColor={Colors.red}
               textColor={Colors.red2}

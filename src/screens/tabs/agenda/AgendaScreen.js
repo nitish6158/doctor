@@ -28,11 +28,10 @@ import {
 import { connect } from 'react-redux';
 import moment from 'moment';
 import { Fonts, Colors, ResponsiveFont, Images, opacityOfButton } from '../../../assets';
-import { OfflineAvailabilityList } from './OfflineAvailabilityList';
 import { CustomDropdown } from '../../../components/dropdown';
 import DoctorCard from './DoctorCard';
-import { OnlineAvailabilityList } from './OnlineAvailabilityList';
 import { ToastMsg } from '../../../components/Toast';
+import { AvailabilityList } from './AvailabilityList';
 const buttonTextStyle1 = {
     fontFamily: Fonts.Medium,
     fontSize: ResponsiveFont(16),
@@ -138,7 +137,6 @@ const doctors = [
 const MyAgenda = (props) => {
     const today = new Date().toISOString().split("T")[0]
     const formatDateDDMMYYYY = moment(today).format("DD-MM-YYYY");
-
     const [currentDate, setCurrentDate] = useState(new Date());
     const [isMyAvailabilityTabActive, setIsMyAvailabilityTabActive] = useState(true);
     const [addAvailabilityInProgress, setAddAvailabilityInProgress] = useState(false);
@@ -171,10 +169,11 @@ const MyAgenda = (props) => {
         });
         setMarkedDates(marked);
     };
+    const [blockStartTime, setBlockStartTime] = useState('')
+    const [blockEndTime, setBlockEndTime] = useState('')
     const [reason, setReason] = useState("");
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [isBlockAvailabilityModelVisible, setIsBlockAvailabilityModelVisible] = useState(false);
-
 
     useEffect(() => {
         if (isRepeat === 1) {
@@ -196,7 +195,6 @@ const MyAgenda = (props) => {
             setWeekInitialized(true);
         }
     }, [isRepeat, addAvailabilitySelectedDate]);
-
 
     useEffect(() => {
         if (isMyAvailabilityTabActive) {
@@ -338,12 +336,12 @@ const MyAgenda = (props) => {
         await props.AddAvailabilityAction(reqParam);
     };
 
-
     const updateSlot = (index, key, value) => {
         const updatedSlots = [...slots];
         updatedSlots[index][key] = value;
         setSlots(updatedSlots);
     };
+
     const add15Minutes = (time) => {
         if (!time || !time.includes(":")) return "";
 
@@ -382,56 +380,80 @@ const MyAgenda = (props) => {
             "reason": reason
         };
         console.log(reqParam)
-        // await props.BlockAvailabilityByDateAction(reqParam)
+        await props.BlockAvailabilityByDateAction(reqParam);
     }
 
     const [selectedSlot, setSelectedSlot] = useState(null);
     const [editModalOpen, setEditModalOpen] = useState(false)
 
-    const onDeletePress = () => {
-        if (!selectedSlot) {
-            ToastMsg("Please select a slot before pressing delete", "bottom");
+    const onEditPress = (slot) => {
+        if (!slot) {
+            ToastMsg("Please select a valid slot", "bottom");
             return;
         }
+        setSelectedSlot(slot);
+        console.log(selectedSlot)
+        setEditModalOpen(true);
+    };
+    const onDeletePress = (slot) => {
+        if (!slot) {
+            ToastMsg("Please select a slot to delete", "bottom");
+            return;
+        }
+
+        setSelectedSlot(slot); // in case you want to store for confirmation
         setRemoveSlotModalVisible(true);
     };
 
-    const onEditPress = () => {
+    const onConfirmDelete = async (data) => {
         if (!selectedSlot) {
-            ToastMsg("Please select a slot before pressing Edit", "bottom");
+            ToastMsg("No slot selected for deletion", "bottom");
             return;
         }
-        // console.log(selectedSlot)
-        setEditModalOpen(true)
-    }
-
-    const onConfirmDelete = async () => {
         const reqParam = {
-            "clinicId": 0,
-            "doctorId": 0,
-            "timeSlotId": 0,
-            "date": "string",
-            "fromTime": "string",
-            "toTime": "string"
+            "clinicId": data.clinicId,
+            "doctorId": props.userId,
+            "timeSlotId": data.timeSlotId,
+            "date": data.date,
+            "fromTime": data.startTime,
+            "toTime": data.endTime,
+            "location": data.location,
+            "mode": data.mode
         }
-
-        //    await props.DeleteSlotAction(reqParam)
-
+        console.log(reqParam)
+        setRemoveSlotModalVisible(false)
+        setSelectedSlot(null)
+        // await props.DeleteSlotAction(reqParam);
+        // setRemoveSlotModalVisible(false);
     };
     const onPressUpdateSlot = async (data) => {
         const reqParam = {
-            "clinicId": 0,
-            "doctorId": 0,
-            "timeSlotId": 0,
-            "date": "string",
-            "fromTime": "string",
-            "toTime": "string"
+            "clinicId": data.clinicId,
+            "doctorId": props.userId,
+            "timeSlotId": data.timeSlotId,
+            "date": data.date,
+            "fromTime": data.startTime,
+            "toTime": data.endTime,
+            "location": data.location,
+            "mode": data.mode
         }
-        //    await props.EditSlotAction(reqParam)
-
+        console.log(reqParam, "data")
+        // await props.EditSlotAction(reqParam);
     };
-
-
+    const onRestorePress = async (data) => {
+        const reqParam = {
+            "clinicId": data.clinicId,
+            "doctorId": props.userId,
+            "timeSlotId": data.timeSlotId,
+            "date": data.date,
+            "fromTime": data.startTime,
+            "toTime": data.endTime,
+            "location": data.location,
+            "mode": data.mode
+        }
+        console.log(reqParam, "data")
+        // await props.EditSlotAction(reqParam);
+    };
     return (
         <ImageBackground
             source={Images.backgroundImage}
@@ -456,7 +478,7 @@ const MyAgenda = (props) => {
                                     <Text style={AgendaStyles.tabName}>My Agenda</Text>
                                 </View>
                             </>
-                             :
+                            :
                             <TouchableOpacity
                                 style={AgendaStyles.crossButtonContainer}
                                 onPress={() => { handleDiscard() }}
@@ -538,36 +560,38 @@ const MyAgenda = (props) => {
                                                             </ListingCard>
                                                             :
                                                             <>
-
                                                                 {
                                                                     props.myAvailabilityData?.onlineSlots &&
-                                                                    <OnlineAvailabilityList
-                                                                        myAvailabilityData={props.myAvailabilityData}
+                                                                    <AvailabilityList
+                                                                        type="online"
+                                                                        slots={props.myAvailabilityData.onlineSlots}
+                                                                        date={props.myAvailabilityData.date}
                                                                         selectedSlot={selectedSlot}
                                                                         setSelectedSlot={setSelectedSlot}
                                                                         onDeletePress={onDeletePress}
                                                                         onEditPress={onEditPress}
+                                                                        onRestorePress={onRestorePress}
                                                                     />
-
                                                                 }
                                                                 {
                                                                     props.myAvailabilityData?.offlineSlots &&
-                                                                    <OfflineAvailabilityList
-                                                                        myAvailabilityData={props.myAvailabilityData}
+                                                                    <AvailabilityList
+                                                                        type="offline"
+                                                                        slots={props.myAvailabilityData.offlineSlots}
+                                                                        date={props.myAvailabilityData.date}
                                                                         selectedSlot={selectedSlot}
                                                                         setSelectedSlot={setSelectedSlot}
                                                                         onDeletePress={onDeletePress}
                                                                         onEditPress={onEditPress}
+                                                                        onRestorePress={onRestorePress}
+
                                                                     />
                                                                 }
-
                                                             </>
                                                     }
 
                                                 </>
-
                                                 :
-
                                                 <View
                                                     style={AgendaStyles.NoAvailabilityContainer} >
                                                     <Image
@@ -899,10 +923,12 @@ const MyAgenda = (props) => {
                                 />
                                 <View style={AgendaStyles.startEndDateContainer}>
                                     <CustomTimeInput
-                                        onDateChange={setSelectedBlockStartDate}
+                                        onTimeChange={setBlockStartTime}
+                                        value={blockStartTime}
                                     />
                                     <CustomTimeInput
-                                        onDateChange={setSelectedBlockEndDate}
+                                        onTimeChange={setBlockEndTime}
+                                        value={blockEndTime}
                                     />
                                 </View>
                             </>
@@ -956,13 +982,20 @@ const MyAgenda = (props) => {
 
             <DeleteSlotModal
                 isModalOpen={isRemoveSlotModalVisible}
-                onClose={() => setRemoveSlotModalVisible(false)}
+                onClose={() => {
+                    setRemoveSlotModalVisible(false)
+                    setSelectedSlot(null)
+                }}
                 onConfirmDelete={onConfirmDelete}
+                selectedSlot={selectedSlot}
             />
 
             <EditSlotModal
                 visible={editModalOpen}
-                onClose={() => (setEditModalOpen(false))}
+                onClose={() => {
+                    setEditModalOpen(false)
+                    setSelectedSlot(null)
+                }}
                 selectedSlot={selectedSlot}
                 onPressUpdateSlot={onPressUpdateSlot}
             />

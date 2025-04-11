@@ -8,6 +8,8 @@ const initialState = {
   responseCodeOfTeamAvailabilityList: null,
   responseCodeOfEditSlot: null,
   responseCodeOfDeleteSlot: null,
+  responseCodeOfRestoreDate: null,
+  responseCodeOfRestoreSlot: null,
   errMsg: null,
   loading: false,
   data: null,
@@ -16,8 +18,10 @@ const initialState = {
   blockByTimeData: null,
   blockByTimeSlotData: null,
   teamAvailabilityListData: null,
-  EditSlotData:null,
-  DeleteSlotData:null,
+  EditSlotData: null,
+  DeleteSlotData: null,
+  restoreDateData: null,
+  restoreSlotData: null,
 }
 
 const availabilityReducer = (state = initialState, action) => {
@@ -111,7 +115,7 @@ const availabilityReducer = (state = initialState, action) => {
       });
 
 
-      
+
     case AVAILABILITY.TEAM_AVAILABILITY_LIST_REQUEST:
       return Object.assign({}, state, {
         responseCodeOfTeamAvailabilityList: null,
@@ -179,6 +183,28 @@ const availabilityReducer = (state = initialState, action) => {
       });
 
 
+      
+      case AVAILABILITY.RESTORE_SLOT_REQUEST:
+        return Object.assign({}, state, {
+          responseCodeOfRestoreSlot: null,
+          errMsg: null,
+          loading: true,
+          restoreSlotData: null
+        });
+      case AVAILABILITY.RESTORE_SLOT_SUCCESS:
+        return Object.assign({}, state, {
+          responseCodeOfRestoreSlot: action?.payload?.status,
+          errMsg: action?.payload?.message,
+          loading: false,
+          restoreSlotData: action?.payload?.data,
+        });
+      case AVAILABILITY.RESTORE_SLOT_FAIL:
+        return Object.assign({}, state, {
+          responseCodeOfRestoreSlot: action?.payload?.status,
+          errMsg: action?.payload?.message,
+          loading: false,
+          restoreSlotData: null
+        });
 
     case AVAILABILITY.CLEAR_ERROR_STATUS:
       return Object.assign({}, state, {
