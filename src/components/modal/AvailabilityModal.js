@@ -46,6 +46,12 @@ export const AvailabilityModal = ({
                   type == "blockImage" ?
                     Images.AvailabilityBlocked
                     :
+                  type == "locationAdd" ?
+                    Images.location_Added
+                    :
+                  type == "locationUpdate" ?
+                    Images.location_Updated
+                    :
                     Images.icon_availability
 
               } style={{

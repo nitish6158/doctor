@@ -15,7 +15,8 @@ const menuItems = [
     },
     {
         icon: Images.icon_location,
-        label: 'My Location'
+        label: 'My Location',
+        screenName:'LocationScreen'
     },
     {
         icon: Images.icon_star,
@@ -70,11 +71,7 @@ const ProfileScreen = (props) => {
         await props.LogoutAction();
         setLogoutModalVisible(false);
         props.navigation.navigate('OnboardingScreen')
-
     };
-
-
-
 
     const renderItem = ({ item }) => (
         item?.isLogout ?
@@ -89,7 +86,11 @@ const ProfileScreen = (props) => {
             </View>
             :
             <View style={ProfileStyles.menuItemcontainer}>
-                <TouchableOpacity style={ProfileStyles.menuItem}>
+                <TouchableOpacity
+                onPress={()=>{
+                    props.navigation.navigate(item.screenName)
+                }}
+                 style={ProfileStyles.menuItem}>
                     <View style={ProfileStyles.iconContainer}>
                         <Image
                             source={item.icon}

@@ -7,6 +7,7 @@ import ContractReducer from './contractReducer';
 import getAllClinicReducer from './getAllClinicReducer';
 import availabilityReducer from './availabilityReducer';
 import matchingReducer from './matchingReducer';
+import locationReducer from './locationReducer';
 
 const rootReducer = combineReducers({
   authReducer, 
@@ -15,7 +16,8 @@ const rootReducer = combineReducers({
   ContractReducer,
   getAllClinicReducer,
   availabilityReducer,
-  matchingReducer
+  matchingReducer,
+  locationReducer
 });
 
 export default rootReducer;

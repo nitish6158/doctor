@@ -11,7 +11,7 @@ import BankFormScreen from '../screens/container/bankDetailsForm/BankFormScreen'
 import NotificationScreen from '../screens/container/notification/NotificationScreen';
 import { useSelector } from 'react-redux';
 import ContractScreen from '../screens/container/contract/ContractScreen';
-
+import LocationScreen from '../screens/container/profileTabScreens/location/LocationScreen';
 const Stack = createStackNavigator();
 
 const AppNavigator = () => {
@@ -84,6 +84,10 @@ const AppNavigator = () => {
         <Stack.Screen
           name="ContractScreen"
           component={ContractScreen}
+        />
+        <Stack.Screen
+          name="LocationScreen"
+          component={LocationScreen}
         />
       </Stack.Navigator>
     </NavigationContainer>

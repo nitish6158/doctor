@@ -20,6 +20,9 @@ export const Images = {
   NoAvailability: require('./images/NoAvailability.png'),
 nodatafound:require('./images/noDataFound.png'),
 removeSlot:require('./images/removeSlot.png'),
+location_Added:require('./images/location_Added.png'),
+location_Updated:require('./images/location_Updated.png'),
+
 back_Icon: require('./icons/Back_Icon.png'),
  
   // icons
