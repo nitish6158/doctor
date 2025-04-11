@@ -6,35 +6,27 @@ export const AgendaStyles = StyleSheet.create({
         width: '100%',
         height: '100%',
     },
-    // topView: {
-    //     flex: 1.5,
-    //     justifyContent: 'center',
-    //     alignItems: 'center'
-    // },
     topView: {
         flex: 1.5,
         justifyContent: 'space-around',
         alignItems: 'center',
-        flexDirection:'row',
-        // backgroundColor:'red'
+        flexDirection: 'row',
     },
-    tabNameContainer:{
-        width:'65%',
-        alignItems:'center',
-        // backgroundColor:'green',
-        alignItems:'flex-start'
+    tabNameContainer: {
+        width: '65%',
+        alignItems: 'center',
+        alignItems: 'flex-start'
     },
-    tabNameContainer1:{
-        width:'35%',
-        alignItems:'center',
-        // backgroundColor:'red',
-        alignItems:'flex-start'
+    tabNameContainer1: {
+        width: '35%',
+        alignItems: 'center',
+        alignItems: 'flex-start'
     },
-    backIcon:{
-        resizeMode:'contain',
-        width:wp*5/100,
-        height:wp*5/100,
-        marginLeft:'10%',
+    backIcon: {
+        resizeMode: 'contain',
+        width: wp * 5 / 100,
+        height: wp * 5 / 100,
+        marginLeft: '10%',
     },
     topView2: {
         flex: 1,
@@ -134,7 +126,7 @@ export const AgendaStyles = StyleSheet.create({
     addressContainer4: {
         // flexDirection: 'row',
         // backgroundColor:'red'
-        marginVertical:'2%'
+        marginVertical: '2%'
     },
     address: {
         fontSize: ResponsiveFont(14),
@@ -148,7 +140,7 @@ export const AgendaStyles = StyleSheet.create({
         height: (wp * 5) / 100,
         resizeMode: 'contain',
         marginHorizontal: '1%',
-        marginTop:'1.8%'
+        marginTop: '1.8%'
     },
     calenderStyle: {
         borderWidth: 0.5,
@@ -196,7 +188,9 @@ export const AgendaStyles = StyleSheet.create({
         flexDirection: "row",
         flexWrap: 'wrap',
         width: '100%',
-        marginVertical: '2%'
+        marginVertical: '2%',
+        padding:'2%'
+
     },
     tabButton: {
         paddingVertical: '3.5%',
@@ -220,10 +214,9 @@ export const AgendaStyles = StyleSheet.create({
     },
     card: {
         width: '90%',
-
     },
     availabilityCard: {
-        width: '100%'
+        width: '100%',
     },
     availabilityStyle: {
         flexDirection: 'row',
@@ -233,10 +226,13 @@ export const AgendaStyles = StyleSheet.create({
     availabilityinfo: {
         flexDirection: 'row',
         alignItems: 'center',
+        width: '70%',
+        padding:'2%'
     },
     AvailalitytbuttonContainer: {
         flexDirection: 'row',
         width: '100%',
+        padding:'2%'
     },
     date: {
         fontFamily: Fonts.Bold,
@@ -332,6 +328,8 @@ export const AgendaStyles = StyleSheet.create({
         color: Colors.black,
         marginLeft: '2%',
         width: '90%',
+        padding:'2%'
+
     },
     availabilityStyle: {
         fontFamily: Fonts.SemiBold,
@@ -480,14 +478,14 @@ export const AgendaStyles = StyleSheet.create({
         paddingHorizontal: '3%'
     },
     BlockedContainer: {
-        width:'90%',
-        justifyContent:'center',
-        alignItems:'center',
-        paddingVertical:'5%'
+        width: '90%',
+        justifyContent: 'center',
+        alignItems: 'center',
+        paddingVertical: '5%'
     },
     BlockAvailabiltyIcon: {
-        width: wp*16/100,
-        height: wp*16/100,
+        width: wp * 16 / 100,
+        height: wp * 16 / 100,
         resizeMode: 'contain'
     },
     TextBlockAvailability: {
@@ -495,6 +493,20 @@ export const AgendaStyles = StyleSheet.create({
         fontSize: ResponsiveFont(16),
         color: Colors.black,
         width: '80%',
+        textAlign: 'center'
+    },
+    restoreButton: {
+        paddingVertical: '2%',
+        borderBottomLeftRadius: wp*4.5/100,
+        borderTopRightRadius:  wp*3/100,
+        backgroundColor: Colors.lightblue3,
+        width: '25%',
+        alignItems: 'center',
+    },
+    restoreText: {
+        fontFamily: Fonts.SemiBold,
+        fontSize: ResponsiveFont(16),
+        color: Colors.black,
         textAlign: 'center'
     }
 });

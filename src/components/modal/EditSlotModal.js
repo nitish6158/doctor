@@ -14,8 +14,8 @@ export const EditSlotModal = ({
 
 
   const [mode, setMode] = useState(selectedSlot?.mode || "online")
-  const [startTime, setStartTime] = useState(selectedSlot?.startTime || "")
-  const [endTime, setEndTime] = useState(selectedSlot?.endTime || "")
+  const [startTime, setStartTime] = useState(selectedSlot?.startTime )
+  const [endTime, setEndTime] = useState(selectedSlot?.endTime )
   const [location, setLocation] = useState(selectedSlot?.location || "")
 
   const add15Minutes = (time) => {
@@ -49,22 +49,6 @@ export const EditSlotModal = ({
         <View style={styles.modal}>
           <Text style={styles.title}>Edit Time Slot</Text>
 
-          {/* <View style={styles.row}>
-            <Image source={Images.icon_mobile_active} style={styles.icon} />
-            <Text style={styles.infoText}>{mobileNumber}</Text>
-            <TouchableOpacity onPress={() => handleCopy(mobileNumber)}>
-              <Image source={Images.icon_copy} style={styles.icon} />
-            </TouchableOpacity>
-          </View> */}
-
-          {/* <View style={styles.row}>
-            <Image source={Images.icon_email_active} style={styles.icon} />
-            <Text style={styles.infoText}>{email}</Text>
-            <TouchableOpacity onPress={() => handleCopy(email)}>
-              <Image source={Images.icon_copy} style={styles.icon} />
-            </TouchableOpacity>
-          </View> */}
-
           <ListingCard customStyles={styles.listingCard}>
             <View style={styles.modeContainer}>
               <TouchableOpacity
@@ -93,7 +77,7 @@ export const EditSlotModal = ({
             </View>
             <View style={styles.slotContainer}>
               <CustomTimeInput
-                placeholder="From HH:MM"
+                placeholder={"From HH:MM"}
                 onTimeChange={(time) => {
                   setStartTime(time)
                   const calculatedToTime = add15Minutes(time);
@@ -126,9 +110,24 @@ export const EditSlotModal = ({
           <CustomButton
             title={"Update Slot"}
             width={wp * 90 / 100}
-            onPress={() => { console.log("hellow") }}
             marginVertical='1.5%'
+            onPress={() => {
+              if (!startTime || !endTime) {
+                ToastMsg("Start and End time are required", "bottom");
+                return;
+              }
+              const updatedData = {
+                ...selectedSlot,
+                startTime,
+                endTime,
+                location,
+                mode,
+              };
+              onPressUpdateSlot(updatedData);
+              onClose(); // optionally close modal here
+            }}
           />
+
         </View>
       </View>
     </Modal>
@@ -146,7 +145,7 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: '8%',
     borderTopRightRadius: '8%',
     padding: '8%',
-    alignItems:'center'
+    alignItems: 'center'
 
   },
   closeButton: {
@@ -193,7 +192,7 @@ const styles = StyleSheet.create({
   listingCard: {
     width: wp * 90 / 100,
     alignSelf: 'center',
-    paddingHorizontal:'4%'
+    paddingHorizontal: '4%'
   },
   modeContainer: {
     width: '100%',
@@ -228,7 +227,7 @@ const styles = StyleSheet.create({
     // flexDirection: 'row',
     // backgroundColor:'red'
     marginVertical: '3%',
-    width:'100%'
+    width: '100%'
   },
 
 });

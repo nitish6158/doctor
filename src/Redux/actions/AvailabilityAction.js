@@ -247,6 +247,7 @@ export const EditSlotAction = data => {
 
 export const DeleteSlotAction = data => {
     return async (dispatch, getState) => {
+        dispatch({ type: AVAILABILITY.DELETE_SLOT_REQUEST });
         console.log(data)
         const reqParam = {
             "clinicId": data.clinicId,
@@ -258,29 +259,109 @@ export const DeleteSlotAction = data => {
         }
         const method = API_METHODS.POST;
         const endPoint = BASE_URL + END_POINT.deleteSlot;
-        // try {
-        //     const response = await ApiHandler({ endPoint, method, reqParam });
-        //     console.log("check ", response)
-        //     if (response?.data?.status === 200) {
-        //         if (response.data?.data) {
-        //             dispatch({
-        //                 type: AVAILABILITY.DELETE_SLOT_SUCCESS,
-        //                 payload: response.data,
-        //             });
-        //         }
-        //         else {
-        //             dispatch({ type: AVAILABILITY.DELETE_SLOT_FAIL, payload: response.data });
-        //         }
-        //     } else {
-        //         dispatch({ type: AVAILABILITY.DELETE_SLOT_FAIL, payload: response.data });
-        //     }
-        // } catch (err) {
-        //     if (err.response?.status === 401) {
-        //         dispatch({ type: AVAILABILITY.DELETE_SLOT_FAIL, payload: err.response.data });
-        //     } else {
-        //         dispatch({ type: AVAILABILITY.DELETE_SLOT_FAIL, payload: err });
-        //     }
-        // }
+        try {
+            const response = await ApiHandler({ endPoint, method, reqParam });
+            console.log("check ", response)
+            if (response?.data?.status === 200) {
+                if (response.data?.data) {
+                    dispatch({
+                        type: AVAILABILITY.DELETE_SLOT_SUCCESS,
+                        payload: response.data,
+                    });
+                }
+                else {
+                    dispatch({ type: AVAILABILITY.DELETE_SLOT_FAIL, payload: response.data });
+                }
+            } else {
+                dispatch({ type: AVAILABILITY.DELETE_SLOT_FAIL, payload: response.data });
+            }
+        } catch (err) {
+            if (err.response?.status === 401) {
+                dispatch({ type: AVAILABILITY.DELETE_SLOT_FAIL, payload: err.response.data });
+            } else {
+                dispatch({ type: AVAILABILITY.DELETE_SLOT_FAIL, payload: err });
+            }
+        }
+    };
+};
+
+export const RestoreDateAction = data => {
+    return async (dispatch, getState) => {
+        dispatch({ type: AVAILABILITY.RESTORE_DATE_REQUEST });
+        console.log(data)
+        const reqParam = {
+            "clinicId": data.clinicId,
+            "doctorId": data.doctorId,
+            "timeSlotId": data.timeSlotId,
+            "date": data.date,
+            "fromTime": data.fromTime,
+            "toTime": data.toTime,
+        }
+        const method = API_METHODS.POST;
+        const endPoint = BASE_URL + END_POINT.restoreDate;
+        try {
+            const response = await ApiHandler({ endPoint, method, reqParam });
+            console.log("check ", response)
+            if (response?.data?.status === 200) {
+                if (response.data?.data) {
+                    dispatch({
+                        type: AVAILABILITY.RESTORE_DATE_SUCCESS,
+                        payload: response.data,
+                    });
+                }
+                else {
+                    dispatch({ type: AVAILABILITY.RESTORE_DATE_FAIL, payload: response.data });
+                }
+            } else {
+                dispatch({ type: AVAILABILITY.RESTORE_DATE_FAIL, payload: response.data });
+            }
+        } catch (err) {
+            if (err.response?.status === 401) {
+                dispatch({ type: AVAILABILITY.RESTORE_DATE_FAIL, payload: err.response.data });
+            } else {
+                dispatch({ type: AVAILABILITY.RESTORE_DATE_FAIL, payload: err });
+            }
+        }
+    };
+};
+
+export const RestoreSlotAction = data => {
+    return async (dispatch, getState) => {
+        dispatch({ type: AVAILABILITY.RESTORE_SLOT_REQUEST });
+        console.log(data)
+        const reqParam = {
+            "clinicId": data.clinicId,
+            "doctorId": data.doctorId,
+            "timeSlotId": data.timeSlotId,
+            "date": data.date,
+            "fromTime": data.fromTime,
+            "toTime": data.toTime,
+        }
+        const method = API_METHODS.POST;
+        const endPoint = BASE_URL + END_POINT.restoreSlot;
+        try {
+            const response = await ApiHandler({ endPoint, method, reqParam });
+            console.log("check ", response)
+            if (response?.data?.status === 200) {
+                if (response.data?.data) {
+                    dispatch({
+                        type: AVAILABILITY.RESTORE_SLOT_SUCCESS,
+                        payload: response.data,
+                    });
+                }
+                else {
+                    dispatch({ type: AVAILABILITY.RESTORE_SLOT_FAIL, payload: response.data });
+                }
+            } else {
+                dispatch({ type: AVAILABILITY.RESTORE_SLOT_FAIL, payload: response.data });
+            }
+        } catch (err) {
+            if (err.response?.status === 401) {
+                dispatch({ type: AVAILABILITY.RESTORE_SLOT_FAIL, payload: err.response.data });
+            } else {
+                dispatch({ type: AVAILABILITY.RESTORE_SLOT_FAIL, payload: err });
+            }
+        }
     };
 };
 
