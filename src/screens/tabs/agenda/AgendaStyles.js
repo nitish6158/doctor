@@ -6,10 +6,35 @@ export const AgendaStyles = StyleSheet.create({
         width: '100%',
         height: '100%',
     },
+    // topView: {
+    //     flex: 1.5,
+    //     justifyContent: 'center',
+    //     alignItems: 'center'
+    // },
     topView: {
         flex: 1.5,
-        justifyContent: 'center',
-        alignItems: 'center'
+        justifyContent: 'space-around',
+        alignItems: 'center',
+        flexDirection:'row',
+        // backgroundColor:'red'
+    },
+    tabNameContainer:{
+        width:'65%',
+        alignItems:'center',
+        // backgroundColor:'green',
+        alignItems:'flex-start'
+    },
+    tabNameContainer1:{
+        width:'35%',
+        alignItems:'center',
+        // backgroundColor:'red',
+        alignItems:'flex-start'
+    },
+    backIcon:{
+        resizeMode:'contain',
+        width:wp*5/100,
+        height:wp*5/100,
+        marginLeft:'10%',
     },
     topView2: {
         flex: 1,

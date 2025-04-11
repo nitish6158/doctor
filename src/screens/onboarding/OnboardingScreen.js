@@ -1,17 +1,33 @@
 import React from 'react';
-import { View, Text, Image, ImageBackground } from 'react-native';
+import { View, Text, Image, ImageBackground, BackHandler } from 'react-native';
 import { OnboardingStyles } from './OnboardingStyles';
 import { Images, Colors } from '../../assets';
 import { CustomButton } from '../../components/button';
 import { FloatingBackgroundCard } from '../../components/card';
 import { useTranslation } from '../../components/customhooks';
+import { useFocusEffect } from '@react-navigation/native';
 
 const OnboardingScreen = (props) => {
-    const t=useTranslation();
-    const handleNavigation=(target)=>{
+    const t = useTranslation();
+    const handleNavigation = (target) => {
         props.navigation.navigate('AuthStack', { screen: target })
 
     }
+
+    useFocusEffect(
+        React.useCallback(() => {
+            const backAction = () => {
+                BackHandler.exitApp();
+                return true;
+            };
+            const backHandler = BackHandler.addEventListener(
+                'hardwareBackPress',
+                backAction,
+            );
+            return () => backHandler.remove();
+        }, []),
+    );
+
     return (
         <ImageBackground
             source={Images.backgroundImage}
@@ -42,19 +58,19 @@ const OnboardingScreen = (props) => {
                         <View style={OnboardingStyles.buttonArea}>
                             <CustomButton
                                 title={t('loginToYourAccount')}
-                                onPress={()=>{handleNavigation('LoginScreen')}}
+                                onPress={() => { handleNavigation('LoginScreen') }}
                                 backgroundColor={Colors.blue}
                                 textColor={Colors.white}
-                                  marginVertical='1%'
+                                marginVertical='1%'
 
                             />
                             <CustomButton
                                 title={t('register')}
-                                onPress={()=>{handleNavigation('SignupScreen')}}
+                                onPress={() => { handleNavigation('SignupScreen') }}
                                 backgroundColor={Colors.white}
                                 textColor={Colors.font_blue}
                                 isborder={true}
-                                  marginVertical='1%'
+                                marginVertical='1%'
                             />
                         </View>
 

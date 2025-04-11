@@ -4,6 +4,7 @@ const initialState = {
   appLanguage: 'EN', // can be "AR" and "FN"
   loginStatus: false,
   selectedClinicId:null,
+  selectedClinicName:null,
   isJobAdded:null,
   responseCode: null,
   responseCodeLogin: null,
@@ -44,7 +45,8 @@ const authReducer = (state = initialState, action) => {
 
     case AUTH.UPDATE_CLINIC_ID:
       return Object.assign({}, state, {
-        selectedClinicId: action.payload,
+        selectedClinicId: action.payload.ClinicId,
+        selectedClinicName: action.payload.ClinicName,
       });
 
     case AUTH.UPDATE_ACCOUNT_REQUEST:
@@ -186,6 +188,8 @@ const authReducer = (state = initialState, action) => {
         address: null,
         userType: null,
         isJobAdded:null,
+        selectedClinicId:null,
+        selectedClinicName:null,
       });
 
     case AUTH.CLEAR_ERROR_STATUS:

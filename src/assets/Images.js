@@ -19,7 +19,9 @@ export const Images = {
   temp3: require('./images/temp3.png'),
   NoAvailability: require('./images/NoAvailability.png'),
 nodatafound:require('./images/noDataFound.png'),
-
+removeSlot:require('./images/removeSlot.png'),
+back_Icon: require('./icons/Back_Icon.png'),
+ 
   // icons
   icon_copy : require('./icons/icon_copy.png'),
   icon_arrow_back: require('./icons/arrow_back.png'),

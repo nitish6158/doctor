@@ -6,6 +6,8 @@ const initialState = {
   responseCodeOfBlockAvailabilityByDate: null,
   responseCodeOfBlockAvailabilityByTimeSlot: null,
   responseCodeOfTeamAvailabilityList: null,
+  responseCodeOfEditSlot: null,
+  responseCodeOfDeleteSlot: null,
   errMsg: null,
   loading: false,
   data: null,
@@ -14,6 +16,8 @@ const initialState = {
   blockByTimeData: null,
   blockByTimeSlotData: null,
   teamAvailabilityListData: null,
+  EditSlotData:null,
+  DeleteSlotData:null,
 }
 
 const availabilityReducer = (state = initialState, action) => {
@@ -106,6 +110,8 @@ const availabilityReducer = (state = initialState, action) => {
         blockByTimeSlotData: null
       });
 
+
+      
     case AVAILABILITY.TEAM_AVAILABILITY_LIST_REQUEST:
       return Object.assign({}, state, {
         responseCodeOfTeamAvailabilityList: null,
@@ -127,6 +133,52 @@ const availabilityReducer = (state = initialState, action) => {
         loading: false,
         teamAvailabilityListData: null
       });
+
+    case AVAILABILITY.EDIT_SLOT_REQUEST:
+      return Object.assign({}, state, {
+        responseCodeOfEditSlot: null,
+        errMsg: null,
+        loading: true,
+        EditSlotData: null
+      });
+    case AVAILABILITY.EDIT_SLOT_SUCCESS:
+      return Object.assign({}, state, {
+        responseCodeOfEditSlot: action?.payload?.status,
+        errMsg: action?.payload?.message,
+        loading: false,
+        EditSlotData: action?.payload?.data,
+      });
+    case AVAILABILITY.EDIT_SLOT_FAIL:
+      return Object.assign({}, state, {
+        responseCodeOfEditSlot: action?.payload?.status,
+        errMsg: action?.payload?.message,
+        loading: false,
+        EditSlotData: null
+      });
+
+    case AVAILABILITY.DELETE_SLOT_REQUEST:
+      return Object.assign({}, state, {
+        responseCodeOfDeleteSlot: null,
+        errMsg: null,
+        loading: true,
+        DeleteSlotData: null
+      });
+    case AVAILABILITY.DELETE_SLOT_SUCCESS:
+      return Object.assign({}, state, {
+        responseCodeOfDeleteSlot: action?.payload?.status,
+        errMsg: action?.payload?.message,
+        loading: false,
+        DeleteSlotData: action?.payload?.data,
+      });
+    case AVAILABILITY.DELETE_SLOT_FAIL:
+      return Object.assign({}, state, {
+        responseCodeOfDeleteSlot: action?.payload?.status,
+        errMsg: action?.payload?.message,
+        loading: false,
+        DeleteSlotData: null
+      });
+
+
 
     case AVAILABILITY.CLEAR_ERROR_STATUS:
       return Object.assign({}, state, {

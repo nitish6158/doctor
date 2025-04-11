@@ -100,6 +100,6 @@ const styles = StyleSheet.create({
     fontSize: ResponsiveFont(16),
     lineHeight: ResponsiveFont(18),
     color: Colors.black,
-    marginVertical:wp*1/100,
+    marginVertical:wp*3/100,
   }
 });
