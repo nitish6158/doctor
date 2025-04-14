@@ -7,6 +7,7 @@ import { MatchingDetailModal } from "./MatchingDetailModal";
 import { DeleteSlotModal } from "./DeleteSlotModal";
 import { EditSlotModal } from "./EditSlotModal";
 import { AddLocationModal } from "./AddLocationModal";
+import { DeleteLocationModal } from "./DeleteLocationModal";
 export {
     SuccessModal,
     LogoutModal,
@@ -16,5 +17,6 @@ export {
     MatchingDetailModal,
     DeleteSlotModal,
     EditSlotModal,
-    AddLocationModal
+    AddLocationModal,
+    DeleteLocationModal
 }

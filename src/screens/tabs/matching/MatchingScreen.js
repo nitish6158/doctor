@@ -123,6 +123,7 @@ const MatchingScreen = (props) => {
     const [country, setCountry] = useState("");
     const [experience, setExperience] = useState("")
     const [consultationType, setConsultationType] = useState('online');
+    const [profile, setProfile] = useState('');
 
     const [mobileNumber, setMobileNumber] = useState("");
     const [email, setEmail] = useState("");
@@ -227,7 +228,6 @@ const MatchingScreen = (props) => {
     };
 
     const handleAddmatching = async () => {
-
         if (country == '') {
             ToastMsg(t('PleaseSelectCountry'), 'bottom');
             return false;
@@ -261,9 +261,20 @@ const MatchingScreen = (props) => {
             "experience": experience,
             "type": consultationType,
             "doctorId": props.userId,
+            "profile": profile
+
         };
         await props.addMatchingAction(reqParams);
     }
+
+    // useEffect(() => {
+    //     if (props?.addMatchingData !== 200) {
+    //         ToastMsg(props.errMsg, 'bottom')
+    //     }
+    //     if (props?.getJobData !== 200) {
+    //         ToastMsg(props.errMsg, 'bottom')
+    //     }
+    // }, [])
     const fetchJobData = async () => {
         await props.getMyJobData(props.userId)
     }
@@ -277,6 +288,7 @@ const MatchingScreen = (props) => {
             "filterByFieldName": "",
             "country": props?.getJobData?.country ? props?.getJobData?.country : country,
             "address": props?.getJobData?.address ? props?.getJobData?.address : address,
+            "profile": props?.getJobData?.profile ? props?.getJobData?.profile : profile,
             "specialization": props?.getJobData?.specialization ? props?.getJobData?.specialization : specialization,
             "experience": props?.getJobData?.experience ? props?.getJobData?.experience : experience,
             "type": props?.getJobData?.type ? props?.getJobData?.type : consultationType,
@@ -289,6 +301,7 @@ const MatchingScreen = (props) => {
     const handleEdit = () => {
         setSpecialization(props?.getJobData?.specialization ? props?.getJobData?.specialization : "")
         setAddress(props?.getJobData?.address ? props?.getJobData?.address : '')
+        setProfile(props?.getJobData?.profile ? props?.getJobData?.profile : '')
         setCountry(props?.getJobData?.country ? props?.getJobData?.country : '')
         setExperience(props?.getJobData?.experience ? props?.getJobData?.experience : '')
         setConsultationType(props?.getJobData?.type ? props?.getJobData?.type : 'online')
@@ -305,8 +318,8 @@ const MatchingScreen = (props) => {
             </View> */}
             <View style={MatchingStyles.topView}>
                 <TouchableOpacity
-                style={MatchingStyles.tabNameContainer1}
-                 onPress={() => props.navigation.goBack()}>
+                    style={MatchingStyles.tabNameContainer1}
+                    onPress={() => props.navigation.goBack()}>
                     <Image
                         source={Images.back_Icon}
                         style={MatchingStyles.backIcon}
@@ -340,6 +353,16 @@ const MatchingScreen = (props) => {
                                     placeholder={t('EnterAddress')}
                                     value={address}
                                     onChangeText={setAddress}
+                                    width='100%'
+                                    containerstyle={{
+                                        marginVertical: '1%',
+                                    }}
+                                />
+                                <AddressInput
+                                    heading={'Profile'}
+                                    placeholder={'Enter your profile'}
+                                    value={profile}
+                                    onChangeText={setProfile}
                                     width='100%'
                                     containerstyle={{
                                         marginVertical: '1%',
@@ -480,17 +503,18 @@ const MatchingScreen = (props) => {
                                                                 <Text style={MatchingStyles.headingTextValue}>{props?.getJobData?.country}</Text>
                                                             </View>
                                                             <View style={MatchingStyles.part1}>
-                                                                <Text style={MatchingStyles.headingText}>Date</Text>
-                                                                <Text style={MatchingStyles.headingTextValue}>{props?.getJobData?.updatedDate}</Text>
+                                                                <Text style={MatchingStyles.headingText}>Profile</Text>
+                                                                <Text style={MatchingStyles.headingTextValue}>{props?.getJobData?.profile}</Text>
                                                             </View>
                                                         </View>
                                                     </View>
                                                 </ListingCard>
                                             }
                                         </>
+
+                                        <Text style={MatchingStyles.heading2}>My Matchings</Text>
                                         {props?.getMyMatchingData && props?.getMyMatchingData?.jobPostingResponseList ?
                                             <>
-                                                <Text style={MatchingStyles.heading2}>My Matchings</Text>
                                                 <FlatList
                                                     data={props?.getMyMatchingData?.jobPostingResponseList}
                                                     // data={data}
@@ -554,7 +578,7 @@ const mapStateToProps = state => {
         getMyMatchingData: state.matchingReducer.myMatchingData,
         responseCode2: state.matchingReducer.responseCode2,
         responseCode: state.matchingReducer.responseCode,
-
+        errMsg: state.matchingReducer.errMsg,
     };
 };
 

@@ -7,6 +7,7 @@ import {
 } from '../config';
 
 export const AddLocationAction = data => {
+  console.log("action tk to aa ge")
   return async (dispatch, getState) => {
     dispatch({ type: LOCATION.ADD_LOCATION_REQUEST });
     const reqParam = 
@@ -84,7 +85,7 @@ export const DeleteLocationAction = id => {
     dispatch({ type: LOCATION.DELETE_LOCATION_REQUEST });
     const reqParam = {}
     
-    const method = API_METHODS.GET;
+    const method = API_METHODS.DELETE;
     const endPoint = BASE_URL + END_POINT.deleteLocation(id);
     try {
       const response = await ApiHandler({ endPoint, method, reqParam });

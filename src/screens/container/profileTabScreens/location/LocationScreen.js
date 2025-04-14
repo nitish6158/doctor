@@ -18,11 +18,11 @@ import { LocationStyles } from './LocationStyles';
 import { FloatingBackgroundCard, ListingCard } from '../../../../components/card';
 import { CustomButton } from '../../../../components/button';
 import { useTranslation } from '../../../../components/customhooks';
-import { AddLocationModal, AvailabilityModal } from '../../../../components/modal';
-import { AddLocationAction, GetLocationAction } from '../../../../Redux/actions';
+import { AddLocationModal, AvailabilityModal, DeleteLocationModal, Loader } from '../../../../components/modal';
+import { AddLocationAction, ClearErrorStatus, GetLocationAction } from '../../../../Redux/actions';
 import { connect } from 'react-redux';
 import { ToastMsg } from '../../../../components/Toast';
-import { ClearLocationStatus } from '../../../../Redux/actions/LocationAction';
+import { ClearLocationStatus, DeleteLocationAction } from '../../../../Redux/actions/LocationAction';
 
 const locations = [
     {
@@ -63,19 +63,19 @@ const LocationScreen = (props) => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [isLocationAddModalOpen, setIsLocationAddModalOpen] = useState(false)
     const [isLocationUpdateModalOpen, setIsLocationUpdateModalOpen] = useState(false)
-
-
     const [locationName, setLocationName] = useState('');
     const [buildingDetail, setBuildingDetail] = useState('');
     const [address, setAddress] = useState('');
-    const [updateLocationId, setUpdateLocationId] = useState(null);
+    const [isDeleteModalVisible, setIsDeleteModalVisible] = useState(false);
+    const [updateLocationId, setUpdateLocationId] = useState(0);
 
     const [isUpdate, setIsUpdate] = useState(false)
+    const [idForDelete, setIdForDelete] = useState(null)
 
     const renderItem = ({ item }) => (
 
-        <ListingCard >
-            <View style={LocationStyles.row}>
+        <ListingCard customStyles={LocationStyles.card1} >
+            <View style={LocationStyles.firstBox}>
                 <View style={LocationStyles.ButtonContainer}>
                     <Image
                         source={Images.icon_home_enable}
@@ -83,8 +83,13 @@ const LocationScreen = (props) => {
                         resizeMode="contain"
                     />
                 </View>
-
+            </View>
+            <View style={LocationStyles.locationText}>
                 <Text style={LocationStyles.title}>{item.locationName}</Text>
+                <Text style={LocationStyles.buildingName}>{item.buildingName}</Text>
+                <Text style={LocationStyles.buildingName}>{item.address}</Text>
+            </View>
+            <View style={LocationStyles.ButtonParent}>
                 <TouchableOpacity
                     style={LocationStyles.ButtonContainer}
                     onPress={() => onEdit(item)}>
@@ -94,58 +99,38 @@ const LocationScreen = (props) => {
                         resizeMode="contain"
                     />
                 </TouchableOpacity>
+                <TouchableOpacity
+                    style={[LocationStyles.ButtonContainer, { marginTop: "5%" }]}
+                    onPress={() => {
+                        setIsDeleteModalVisible(true),
+                            setIdForDelete(item.id)
+                    }}>
+                    <Image
+                        source={Images.icon_delete}
+                        style={LocationStyles.icon}
+                        resizeMode="contain"
+                    />
+                </TouchableOpacity>
             </View>
-            <Text style={LocationStyles.buildingName}>{item.buildingName}</Text>
-            <Text style={LocationStyles.buildingName}>{item.address}</Text>
         </ListingCard>
 
     )
 
-    const onAddNewLocation = async () => {
-        setIsModalOpen(false)
-        setIsLocationAddModalOpen(true)
-        AddLocation();
-    }
-    const AddLocation = async () => {
+    const AddLocation = () => {
         if (!locationName) {
             ToastMsg('Please Enter Location Name', 'bottom');
             return false;
         }
+
         if (!buildingDetail) {
             ToastMsg('Please Enter Building Details', 'bottom');
             return false;
         }
+
         if (!address) {
             ToastMsg('Please Enter Address', 'bottom');
             return false;
         }
-
-        let reqParam = {
-            "id": updateLocationId,
-            "doctorId": userId,
-            "locationName": locationName,
-            "buildingName": buildingDetail,
-            "address": address
-        }
-        await props.AddLocationAction(reqParam);
-        props.ClearLocationStatus();
-    }
-    const onUpdateLocation = async () => {
-        setIsModalOpen(false)
-        setIsLocationUpdateModalOpen(true)
-        if (!locationName) {
-            ToastMsg('Please Enter Location Name', 'bottom');
-            return false;
-        }
-        if (!buildingDetail) {
-            ToastMsg('Please Enter Building Details', 'bottom');
-            return false;
-        }
-        if (!address) {
-            ToastMsg('Please Enter Address', 'bottom');
-            return false;
-        }
-
         let reqParam = {
             "id": updateLocationId,
             "doctorId": props.userId,
@@ -153,9 +138,9 @@ const LocationScreen = (props) => {
             "buildingName": buildingDetail,
             "address": address
         }
-        await props.AddLocationAction(reqParam);
-        getAllLocations();
+        onAddNewLocation(reqParam);
     }
+
 
     const onEdit = (item) => {
         setIsUpdate(true)
@@ -166,13 +151,53 @@ const LocationScreen = (props) => {
         setUpdateLocationId(item.id)
     }
 
-    useEffect(() => {
-        getAllLocations();
-    }, []);
-
+    const ClearStatus = async () => {
+        await props.ClearLocationStatus();
+    }
+    const onConfirmDelete = async () => {
+        await props.DeleteLocationAction(idForDelete);
+    }
     const getAllLocations = async () => {
         await props.GetLocationAction(props.userId);
     }
+    const onAddNewLocation = async (data) => {
+        await props.AddLocationAction(data);
+    }
+
+    useEffect(() => {
+        getAllLocations()
+    }, [])
+
+    useEffect(() => {
+        if (props?.deleteLocationResponseCode === 200) {
+            ToastMsg(props.errMsg, 'bottom');
+            setIsDeleteModalVisible(false)
+            getAllLocations()
+            setIdForDelete(null)
+        }
+        if (props?.addLocationResponseCode === 200) {
+            setIsModalOpen(false)
+            setIsLocationAddModalOpen(true)
+            setTimeout(() => {
+                setIsLocationAddModalOpen(false)
+            }, 1100)
+            getAllLocations()
+            setIsUpdate(false)
+            setLocationName("")
+            setBuildingDetail("")
+            setAddress("")
+            setUpdateLocationId(0)
+        }else if (props?.errMsg != null && props.getLocationResponseCode != 200 ){
+            ToastMsg(props.errMsg, 'bottom');
+        }
+        ClearStatus()
+    }, [
+        props.addLocationResponseCode,
+        props.deleteLocationResponseCode,
+        props.getLocationResponseCode
+    ])
+
+
 
     return (
         <ImageBackground
@@ -198,7 +223,7 @@ const LocationScreen = (props) => {
 
             <View style={LocationStyles.bottomView}>
                 <FloatingBackgroundCard customLocationStyles={LocationStyles.bottomView} >
-                    {props?.getLocationData ?
+                    {props?.getLocationData && props?.getLocationData?.length != 0 ?
                         <FlatList
                             data={props.getLocationData}
                             keyExtractor={(item) => item.id}
@@ -220,7 +245,7 @@ const LocationScreen = (props) => {
                             setLocationName("")
                             setBuildingDetail("")
                             setAddress("")
-                            setUpdateLocationId(null)
+                            setUpdateLocationId(0)
                         }}
                         style={LocationStyles.ButtonStyle}
                     >
@@ -231,37 +256,44 @@ const LocationScreen = (props) => {
             <AddLocationModal
                 visible={isModalOpen}
                 onClose={() => {
-                    setIsModalOpen(false)
                     setIsUpdate(false)
-                }
-                }
-                onAddNewLocation={onAddNewLocation}
-                onUpdateLocation={onUpdateLocation}
+                    setIsModalOpen(false)
+                    setLocationName("")
+                    setBuildingDetail("")
+                    setAddress("")
+                    setUpdateLocationId(0)
+                }}
+                onAddNewLocation={AddLocation}
                 locationName={locationName}
                 setLocationName={setLocationName}
                 buildingDetail={buildingDetail}
                 setBuildingDetail={setBuildingDetail}
                 address={address}
                 setAddress={setAddress}
-
                 isUpdate={isUpdate}
             />
-            <AvailabilityModal
-                // visible={isModalOpen}
-                isModalOpen={isLocationAddModalOpen}
-                onClose={() => (setIsLocationAddModalOpen(false))}
-                type={"locationAdd"}
-                heading={"Location Added"}
+            <DeleteLocationModal
+                isModalOpen={isDeleteModalVisible}
+                onClose={() => {
+                    setIsDeleteModalVisible(false)
+                }}
+                onConfirmDelete={onConfirmDelete}
+            />
+            <Loader
+                visible={props.loading}
             />
             <AvailabilityModal
-                // visible={isModalOpen}
+                isModalOpen={isLocationAddModalOpen}
+                onClose={() => (setIsLocationAddModalOpen(false))}
+                type={ !isUpdate ? "locationUpdate" : "locationAdd"}
+                heading={ !isUpdate ? "Location Updated" : "Location Added"}
+            />
+            {/* <AvailabilityModal
                 isModalOpen={isLocationUpdateModalOpen}
-
                 onClose={() => (setIsLocationUpdateModalOpen(false))}
                 type={"locationUpdate"}
                 heading={"Location Updated"}
-            />
-
+            /> */}
         </ImageBackground>
     );
 };
@@ -270,17 +302,48 @@ const mapStateToProps = state => {
     return {
         userId: state.authReducer.userId,
         loading: state.locationReducer.loading,
-        responseCode: state.locationReducer.responseCode,
+        addLocationResponseCode: state.locationReducer.addLocationResponseCode,
+        deleteLocationResponseCode: state.locationReducer.deleteLocationResponseCode,
+        getLocationResponseCode: state.locationReducer.getLocationResponseCode,
         errMsg: state.locationReducer.errMsg,
+        addLocationData: state.locationReducer.addLocationData,
         getLocationData: state.locationReducer.getLocationData,
-
+        deleteLocationData: state.locationReducer.deleteLocationData,
     };
 };
 
 const mapDispatchToProps = {
     AddLocationAction,
     GetLocationAction,
+    DeleteLocationAction,
     ClearLocationStatus
 };
 export default connect(mapStateToProps, mapDispatchToProps)(LocationScreen);
 
+
+// const onUpdateLocation = async () => {
+//     setIsModalOpen(false)
+//     setIsLocationUpdateModalOpen(true)
+//     if (!locationName) {
+//         ToastMsg('Please Enter Location Name', 'bottom');
+//         return false;
+//     }
+//     if (!buildingDetail) {
+//         ToastMsg('Please Enter Building Details', 'bottom');
+//         return false;
+//     }
+//     if (!address) {
+//         ToastMsg('Please Enter Address', 'bottom');
+//         return false;
+//     }
+
+//     let reqParam = {
+//         "id": updateLocationId,
+//         "doctorId": props.userId,
+//         "locationName": locationName,
+//         "buildingName": buildingDetail,
+//         "address": address
+//     }
+//     await props.AddLocationAction(reqParam);
+//     getAllLocations();
+// }

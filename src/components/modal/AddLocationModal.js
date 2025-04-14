@@ -9,7 +9,6 @@ export const AddLocationModal = ({
   visible,
   onClose,
   onAddNewLocation,
-  onUpdateLocation,
   locationName,
   setLocationName,
   buildingDetail,
@@ -66,12 +65,7 @@ export const AddLocationModal = ({
 
           />
           <TouchableOpacity
-            onPress={
-              isUpdate ?
-              onUpdateLocation
-              :
-              onAddNewLocation
-            }
+            onPress={onAddNewLocation}
             style={styles.ButtonStyle}
           >
             <Text style={styles.buttonText}>{

@@ -19,6 +19,7 @@ export const addMatchingAction = data => {
             "experience": data.experience,
             "type": data.type, //online/offline
             "doctorId": data.doctorId,
+            "profile": data.profile
         }
 
         const method = API_METHODS.POST;
