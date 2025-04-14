@@ -1,5 +1,5 @@
 import useTranslation from "./useTranslation";
-import { useFileUpload } from "./UseFileUpload";
+import { useFileUpload } from "./useFileUpload";
 import { usePdfDownloader } from "./usePdfDownloader";
 import { useDeviceDimensions } from "./useDeviceDimensions";
 import { useApi } from "./useApi";

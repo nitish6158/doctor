@@ -4,7 +4,8 @@ const initialState = {
   responseCodeOfAddAvailability: null,
   responseCodeOfGetAvailability: null,
   responseCodeOfBlockAvailabilityByDate: null,
-  responseCodeOfBlockAvailabilityByTimeSlot: null,
+  responseCodeOfBlockAvailabilityByTime: null,
+  responseCodeOfBlockAvailabilityByTimeSlotId: null,
   responseCodeOfTeamAvailabilityList: null,
   responseCodeOfEditSlot: null,
   responseCodeOfDeleteSlot: null,
@@ -16,7 +17,7 @@ const initialState = {
   myAvailabilityData: null,
   blockByDateData: null,
   blockByTimeData: null,
-  blockByTimeSlotData: null,
+  blockByTimeSlotIdData: null,
   teamAvailabilityListData: null,
   EditSlotData: null,
   DeleteSlotData: null,
@@ -92,26 +93,50 @@ const availabilityReducer = (state = initialState, action) => {
         blockByDateData: null
       });
 
-    case AVAILABILITY.BLOCK_AVAILABILITY_BY_TIME_SLOT_REQUEST:
+    
+
+    case AVAILABILITY.BLOCK_AVAILABILITY_BY_TIME_REQUEST:
       return Object.assign({}, state, {
-        responseCodeOfBlockAvailabilityByTimeSlot: null,
+        responseCodeOfBlockAvailabilityByTime: null,
         errMsg: null,
         loading: true,
-        blockByTimeSlotData: null
+        blockByTimeData: null
+      });
+    case AVAILABILITY.BLOCK_AVAILABILITY_BY_TIME_SUCCESS:
+      return Object.assign({}, state, {
+        responseCodeOfBlockAvailabilityByTime: action?.payload?.status,
+        errMsg: action?.payload?.message,
+        loading: false,
+        blockByTimeData: action?.payload?.data,
+      });
+    case AVAILABILITY.BLOCK_AVAILABILITY_BY_TIME_FAIL:
+      return Object.assign({}, state, {
+        responseCodeOfBlockAvailabilityByTime: action?.payload?.status,
+        errMsg: action?.payload?.message,
+        loading: false,
+        blockByTimeData: null
+      });
+
+    case AVAILABILITY.BLOCK_AVAILABILITY_BY_TIME_SLOT_REQUEST:
+      return Object.assign({}, state, {
+        responseCodeOfBlockAvailabilityByTimeSlotId: null,
+        errMsg: null,
+        loading: true,
+        blockByTimeSlotIdData: null
       });
     case AVAILABILITY.BLOCK_AVAILABILITY_BY_TIME_SLOT_SUCCESS:
       return Object.assign({}, state, {
-        responseCodeOfBlockAvailabilityByTimeSlot: action?.payload?.status,
+        responseCodeOfBlockAvailabilityByTimeSlotId: action?.payload?.status,
         errMsg: action?.payload?.message,
         loading: false,
-        blockByTimeSlotData: action?.payload?.data,
+        blockByTimeSlotIdData: action?.payload?.data,
       });
     case AVAILABILITY.BLOCK_AVAILABILITY_BY_TIME_SLOT_FAIL:
       return Object.assign({}, state, {
-        responseCodeOfBlockAvailabilityByTimeSlot: action?.payload?.status,
+        responseCodeOfBlockAvailabilityByTimeSlotId: action?.payload?.status,
         errMsg: action?.payload?.message,
         loading: false,
-        blockByTimeSlotData: null
+        blockByTimeSlotIdData: null
       });
 
 
@@ -211,6 +236,10 @@ const availabilityReducer = (state = initialState, action) => {
         responseCodeOfAddAvailability: null,
         responseCodeOfGetAvailability: null,
         errMsg: null,
+        responseCodeOfBlockAvailabilityByDate: null,
+        responseCodeOfBlockAvailabilityByTime: null,
+        responseCodeOfBlockAvailabilityByTimeSlotId: null,
+        responseCodeOfTeamAvailabilityList: null,
       });
     default:
       return state;
