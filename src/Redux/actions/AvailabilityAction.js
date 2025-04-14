@@ -123,19 +123,57 @@ export const BlockAvailabilityByDateAction = data => {
     };
 };
 
+export const BlockAvailabilityByFutureTimeAction = data => {
+    return async (dispatch, getState) => {
+        dispatch({ type: AVAILABILITY.BLOCK_AVAILABILITY_BY_TIME_REQUEST });
+        const reqParam = {
+            "doctorId": data.doctorId,
+            "date": data.date,
+            "fromTime": data.fromTime,
+            "toTime": data.toTime,
+            "reason": data.reason,
+        };
+        const method = API_METHODS.POST;
+        const endPoint = BASE_URL + END_POINT.blockAvailabilityByTime;
+        try {
+            const response = await ApiHandler({ endPoint, method, reqParam });
+            console.log("check ", response)
+            if (response?.data?.status === 200) {
+                if (response.data?.data) {
+                    dispatch({
+                        type: AVAILABILITY.BLOCK_AVAILABILITY_BY_TIME_SUCCESS,
+                        payload: response.data,
+                    });
+                }
+                else {
+                    dispatch({ type: AVAILABILITY.BLOCK_AVAILABILITY_BY_TIME_FAIL, payload: response.data });
+                }
+            } else {
+                dispatch({ type: AVAILABILITY.BLOCK_AVAILABILITY_BY_TIME_FAIL, payload: response.data });
+            }
+        } catch (err) {
+            if (err.response?.status === 401) {
+                dispatch({ type: AVAILABILITY.BLOCK_AVAILABILITY_BY_TIME_FAIL, payload: err.response.data });
+            } else {
+                dispatch({ type: AVAILABILITY.BLOCK_AVAILABILITY_BY_TIME_FAIL, payload: err });
+            }
+        }
+    };
+};
+
 export const BlockAvailabilityByTimeSlotIDAction = data => {
     return async (dispatch, getState) => {
         dispatch({ type: AVAILABILITY.BLOCK_AVAILABILITY_BY_TIME_SLOT_REQUEST });
         const reqParam = {
             "date": data.date,
-            "doctorID": data.doctorId,
+            "doctorID": data.doctorID,
             "timeSlotId": [
                 data.timeSlotId
             ]
         }
 
         const method = API_METHODS.POST;
-        const endPoint = BASE_URL + END_POINT.blockAvailabilityByTime;
+        const endPoint = BASE_URL + END_POINT.blockAvailabilityByTimeSlot;
         try {
             const response = await ApiHandler({ endPoint, method, reqParam });
             console.log("check ", response)
@@ -337,7 +375,7 @@ export const RestoreSlotAction = data => {
             "fromTime": data.fromTime,
             "toTime": data.toTime,
         }
-        const method = API_METHODS.POST;
+        const method = API_METHODS.GET;
         const endPoint = BASE_URL + END_POINT.restoreSlot;
         try {
             const response = await ApiHandler({ endPoint, method, reqParam });

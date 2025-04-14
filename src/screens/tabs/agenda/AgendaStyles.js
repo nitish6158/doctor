@@ -123,6 +123,12 @@ export const AgendaStyles = StyleSheet.create({
         flexDirection: 'row',
         width: '100%',
     },
+    addressContainer2: {
+        flexDirection: 'row',
+        width: '100%',
+        marginVertical:'1%',
+        paddingHorizontal:'2%'
+    },
     addressContainer4: {
         // flexDirection: 'row',
         // backgroundColor:'red'
@@ -189,7 +195,7 @@ export const AgendaStyles = StyleSheet.create({
         flexWrap: 'wrap',
         width: '100%',
         marginVertical: '2%',
-        padding:'2%'
+        paddingHorizontal:'2%'
 
     },
     tabButton: {
@@ -328,8 +334,17 @@ export const AgendaStyles = StyleSheet.create({
         color: Colors.black,
         marginLeft: '2%',
         width: '90%',
-        padding:'2%'
-
+        paddingHorizontal:'2%',
+// backgroundColor:'red'
+    },
+    address3: {
+        fontFamily: Fonts.Bold,
+        fontSize: ResponsiveFont(16),
+        lineHeight: ResponsiveFont(17.5),
+        color: Colors.black,
+        marginLeft: '2%',
+        width: '90%',
+// backgroundColor:'red'
     },
     availabilityStyle: {
         fontFamily: Fonts.SemiBold,

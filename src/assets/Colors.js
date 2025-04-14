@@ -31,7 +31,8 @@ export const Colors = {
   red: "#FFDDDB",
   red2: '#A30014',
   red3: "#FD4755",
-  red4: "#FFF7F5"
+  red4: "#FFF7F5",
+  red5:'#FF5533'
 };
 
 

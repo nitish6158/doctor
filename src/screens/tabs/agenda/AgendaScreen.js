@@ -21,9 +21,11 @@ import {
     ClearAgendaStatus,
     BlockAvailabilityByDateAction,
     BlockAvailabilityByTimeAction,
+    BlockAvailabilityByFutureTimeAction,
     TeamAvailabilityListAction,
     EditSlotAction,
-    DeleteSlotAction
+    DeleteSlotAction,
+    BlockAvailabilityByTimeSlotIDAction
 } from '../../../Redux/actions';
 import { connect } from 'react-redux';
 import moment from 'moment';
@@ -149,7 +151,7 @@ const MyAgenda = (props) => {
     const [isRepeat, setIsRepeat] = useState(1);
     const [isBlockByDate, setIsBlockByDate] = useState(true);
     const [selectedBlockStartDate, setSelectedBlockStartDate] = useState(formatDateDDMMYYYY)
-    const [selectedBlockEndDate, setSelectedBlockEndDate] = useState(null)
+    const [selectedBlockEndDate, setSelectedBlockEndDate] = useState(formatDateDDMMYYYY)
     const [selectedDates, setSelectedDates] = useState([today]);
     const [markedDates, setMarkedDates] = useState({
         [today]: { selected: true, selectedColor: Colors.blue }
@@ -210,6 +212,9 @@ const MyAgenda = (props) => {
         selectedDate,
         props?.responseCodeOfAddAvailability,
         selectedDateForTeamAvailability,
+        props.responseCodeOfBlockAvailabilityByDate,
+        props.responseCodeOfBlockAvailabilityByTime
+
     ]);
 
     useEffect(() => {
@@ -383,6 +388,34 @@ const MyAgenda = (props) => {
         await props.BlockAvailabilityByDateAction(reqParam);
     }
 
+    const handleBlockTime = async () => {
+        const reqParam = {
+            "doctorId": props.userId,
+            "date": selectedBlockStartDate,
+            "reason": reason,
+            "fromTime": blockStartTime,
+            "toTime": blockEndTime,
+        };
+        console.log(reqParam)
+        await props.BlockAvailabilityByFutureTimeAction(reqParam);
+    }
+
+    useEffect(() => {
+        if (props.responseCodeOfBlockAvailabilityByDate == 200) {
+            setBlockAvailabilityInProgress(false)
+            setIsBlockByDate(true);
+            setSelectedBlockStartDate(formatDateDDMMYYYY)
+            setSelectedBlockEndDate(formatDateDDMMYYYY)
+            setBlockStartTime("")
+            setBlockEndTime("")
+            setReason("")
+        } else if (props.errMsg != null) {
+            ToastMsg(props.errMsg, 'bottom')
+            // setBlockAvailabilityInProgress(false) 
+        }
+        clearResponseCode();
+    }, [props.responseCodeOfBlockAvailabilityByDate])
+
     const [selectedSlot, setSelectedSlot] = useState(null);
     const [editModalOpen, setEditModalOpen] = useState(false)
 
@@ -404,7 +437,6 @@ const MyAgenda = (props) => {
         setSelectedSlot(slot); // in case you want to store for confirmation
         setRemoveSlotModalVisible(true);
     };
-
     const onConfirmDelete = async (data) => {
         if (!selectedSlot) {
             ToastMsg("No slot selected for deletion", "bottom");
@@ -454,6 +486,29 @@ const MyAgenda = (props) => {
         console.log(reqParam, "data")
         // await props.EditSlotAction(reqParam);
     };
+    const onBlockPress = async (data) => {
+        // const reqParam = {
+        //     "clinicId": data.clinicId,
+        //     "doctorId": props.userId,
+        //     "timeSlotId": data.timeSlotId,
+        //     "date": data.date,
+        //     "fromTime": data.startTime,
+        //     "toTime": data.endTime,
+        //     "location": data.location,
+        //     "mode": data.mode
+        // }
+
+
+        const reqParam = {
+            "date": data.date,
+            "doctorID": props.userId,
+            "timeSlotId": data.timeSlotId,
+        }
+        console.log(reqParam, "data")
+
+        await props.BlockAvailabilityByTimeSlotIDAction(reqParam);
+    };
+
     return (
         <ImageBackground
             source={Images.backgroundImage}
@@ -542,10 +597,9 @@ const MyAgenda = (props) => {
                                     {!addAvailabilityInProgress &&
                                         <>
                                             {props.myAvailabilityData ?
-
                                                 <>
                                                     {
-                                                        props.myAvailabilityData?.isAvailabilityBlocked ?
+                                                        props.myAvailabilityData?.isBlockedByDay ?
                                                             <ListingCard customStyles={AgendaStyles.BlockedContainer}>
                                                                 <Image
                                                                     source={
@@ -571,6 +625,7 @@ const MyAgenda = (props) => {
                                                                         onDeletePress={onDeletePress}
                                                                         onEditPress={onEditPress}
                                                                         onRestorePress={onRestorePress}
+                                                                        onBlockPress={onBlockPress}
                                                                     />
                                                                 }
                                                                 {
@@ -584,6 +639,7 @@ const MyAgenda = (props) => {
                                                                         onDeletePress={onDeletePress}
                                                                         onEditPress={onEditPress}
                                                                         onRestorePress={onRestorePress}
+                                                                        onBlockPress={onBlockPress}
 
                                                                     />
                                                                 }
@@ -591,6 +647,7 @@ const MyAgenda = (props) => {
                                                     }
 
                                                 </>
+
                                                 :
                                                 <View
                                                     style={AgendaStyles.NoAvailabilityContainer} >
@@ -852,7 +909,15 @@ const MyAgenda = (props) => {
                     <View style={AgendaStyles.topView2}>
                         <TouchableOpacity
                             style={AgendaStyles.crossButtonContainer2}
-                            onPress={() => { setBlockAvailabilityInProgress(false) }}
+                            onPress={() => {
+                                setBlockAvailabilityInProgress(false)
+                                setIsBlockByDate(true);
+                                setSelectedBlockStartDate(formatDateDDMMYYYY)
+                                setSelectedBlockEndDate(formatDateDDMMYYYY)
+                                setBlockStartTime("")
+                                setBlockEndTime("")
+                                setReason("")
+                            }}
                         >
                             <Image
                                 source={Images.icon_cross}
@@ -949,7 +1014,14 @@ const MyAgenda = (props) => {
                             <CustomButton
                                 title={"Block Availability"}
                                 width='94%'
-                                onPress={() => { handleBlockDate() }}
+                                onPress={() => {
+                                    if (isBlockByDate) {
+                                        handleBlockDate()
+                                    } else {
+                                        handleBlockTime()
+                                    }
+
+                                }}
                             />
                         </View>
 
@@ -999,8 +1071,6 @@ const MyAgenda = (props) => {
                 selectedSlot={selectedSlot}
                 onPressUpdateSlot={onPressUpdateSlot}
             />
-
-
         </ImageBackground>
     );
 };
@@ -1018,19 +1088,28 @@ const mapStateToProps = state => {
         myAvailabilityData: state.availabilityReducer.myAvailabilityData,
         responseCodeOfAddAvailability: state.availabilityReducer.responseCodeOfAddAvailability,
         responseCodeOfGetAvailability: state.availabilityReducer.responseCodeOfGetAvailability,
+
+        responseCodeOfBlockAvailabilityByDate: state.availabilityReducer.responseCodeOfBlockAvailabilityByDate,
+        responseCodeOfBlockAvailabilityByTime: state.availabilityReducer.responseCodeOfBlockAvailabilityByTime,
+        responseCodeOfBlockAvailabilityByTimeSlotId: state.availabilityReducer.responseCodeOfBlockAvailabilityByTimeSlotId,
+        responseCodeOfTeamAvailabilityList: state.availabilityReducer.responseCodeOfTeamAvailabilityList,
+
         GlobalSelectedClinicId: state.authReducer.selectedClinicId,
         GlobalSelectedClinicName: state.authReducer.selectedClinicName,
     };
 };
 
+
 const mapDispatchToProps = {
     AddAvailabilityAction,
     getAvailabilityAction,
     BlockAvailabilityByDateAction,
-    BlockAvailabilityByTimeAction,
+    // BlockAvailabilityByTimeAction,
     TeamAvailabilityListAction,
     ClearAgendaStatus,
     EditSlotAction,
     DeleteSlotAction,
+    BlockAvailabilityByFutureTimeAction,
+    BlockAvailabilityByTimeSlotIDAction,
 };
 export default connect(mapStateToProps, mapDispatchToProps)(MyAgenda);

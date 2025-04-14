@@ -29,6 +29,7 @@ import {
     getAvailabilityAction,
     ClearAgendaStatus,
     BlockAvailabilityByDateAction,
+    BlockAvailabilityByFutureTimeAction,
     BlockAvailabilityByTimeSlotIDAction,
     TeamAvailabilityListAction,
     EditSlotAction,
@@ -80,5 +81,6 @@ export {
     RestoreSlotAction,
     AddLocationAction,
     GetLocationAction,
+    BlockAvailabilityByFutureTimeAction,
 }
 
