@@ -18,7 +18,7 @@ export const CustomDropdown = ({
   style = {},
   textStyle = {},
   type = 'profile',
-  containerstyle={}
+  containerstyle = {}
 }) => {
   const [modalVisible, setModalVisible] = useState(false);
   const getIcons = () => {
@@ -26,6 +26,8 @@ export const CustomDropdown = ({
       case 'profile':
         return Images.user_icon_deactive;
       case 'country':
+        return Images.icon_select_contry_deactive;
+      case 'phone':
         return Images.icon_select_contry_deactive;
       case 'clinic':
         return Images.icon_select_contry_deactive;
@@ -60,7 +62,7 @@ export const CustomDropdown = ({
                     clinicName: item?.clinicName
                   }
                   :
-                  item
+                    item
         );
         setModalVisible(false);
       }}
@@ -78,11 +80,15 @@ export const CustomDropdown = ({
               ?
               item?.name
               :
-              type === 'clinic'
+              type === 'phone'
                 ?
-                item?.clinicName
+                `${item?.code} ${item?.name}`
                 :
-                item
+                type === 'clinic'
+                  ?
+                  item?.clinicName
+                  :
+                  item
       }</Text>
     </TouchableOpacity>
   )
@@ -101,9 +107,15 @@ export const CustomDropdown = ({
       >
         <View style={styles.dropsownTextContainer}>
           <Image source={getIcons()} style={styles.icon} />
-          <Text style={[styles.dropdownText, { color: textColor }, textStyle]}>
-            {selectedValue || placeholder}
-          </Text>
+          {type == "phone" ?
+            <Text style={[styles.dropdownText, { color: textColor }, textStyle]}>
+              {selectedValue?.code || placeholder}
+            </Text>
+            :
+            <Text style={[styles.dropdownText, { color: textColor }, textStyle]}>
+              {selectedValue || placeholder}
+            </Text>
+          }
         </View>
         <Image source={Images.icon_dropdown} style={styles.icon2} />
       </TouchableOpacity>
@@ -116,16 +128,16 @@ export const CustomDropdown = ({
         <View style={styles.modalContainer}>
           <View style={styles.pickerContainer}>
             {/* <Picker
-              selectedValue={selectedValue}
-              onValueChange={(itemValue) => {
-                onValueChange(itemValue);
-                setModalVisible(false);
-              }}
-            >
-              {options.map((option, index) => (
-                <Picker.Item key={index} label={option} value={option} />
-              ))}
-            </Picker> */}
+                selectedValue={selectedValue}
+                onValueChange={(itemValue) => {
+                  onValueChange(itemValue);
+                  setModalVisible(false);
+                }}
+              >
+                {options.map((option, index) => (
+                  <Picker.Item key={index} label={option} value={option} />
+                ))}
+              </Picker> */}
             <FlatList
               data={options}
               renderItem={renderOptions}
@@ -150,7 +162,7 @@ const styles = StyleSheet.create({
     // borderLeftWidth: 1,
     // borderRightWidth: 1,
     // borderBottomWidth: 1,
-    borderWidth:1,
+    borderWidth: 1,
     paddingHorizontal: wp * 2.5 / 100,
     marginVertical: hp * 0.5 / 100,
   },

@@ -1079,8 +1079,8 @@ const MyAgenda = (props) => {
 const mapStateToProps = state => {
     return {
         userId: state.authReducer.userId,
-        // individual: state.authReducer.individual,
-        individual: false,
+        individual: state.authReducer.individual,
+        // individual: false,
         allClinics: state.getAllClinicReducer.data,
         availabilityAddedData: state.availabilityReducer.data,
         loading: state.availabilityReducer.loading,
