@@ -105,5 +105,15 @@ export const AppointmentStyles = StyleSheet.create({
         width:(wp*6)/100,
         height:(wp*6)/100,
         resizeMode:'contain'
-    }
+    },
+    NoDataFoundContainer: {
+        paddingVertical: '45%',
+        alignItems: 'center',
+        justifyContent: 'center'
+    },
+    NoDataFound: {
+        width: wp * 40 / 100,
+        height: wp * 40 / 100,
+        resizeMode: 'contain'
+    },
 });
