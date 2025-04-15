@@ -11,7 +11,8 @@ import { LogoutAction } from '../../../Redux/actions';
 const menuItems = [
     {
         icon: Images.user_icon_active,
-        label: 'My Account'
+        label: 'My Account',
+        screenName:'',
     },
     {
         icon: Images.icon_location,
@@ -20,36 +21,52 @@ const menuItems = [
     },
     {
         icon: Images.icon_star,
-        label: 'My Rating'
+        label: 'My Rating',
+        screenName:'',
+
     },
     {
         icon: Images.icon_contract,
-        label: 'My Contract'
+        label: 'My Contract',
+        screenName:'',
+
     },
     {
         icon: Images.icon_payment,
-        label: 'Payments'
+        label: 'Payments',
+        screenName:'',
+
     },
     {
         icon: Images.icon_notification2,
-        label: 'Notification'
+        label: 'Notification',
+        screenName:'',
+
     },
     {
         icon: Images.icon_language,
-        label: 'Language'
+        label: 'Language',
+        screenName:'',
+
     },
     {
         icon: Images.icon_lock,
-        label: 'Security'
+        label: 'Security',
+        screenName:'',
+
     },
     {
         icon: Images.icon_about,
-        label: 'About'
+        label: 'About',
+        screenName:'',
+
     },
     {
         icon: Images.icon_logout,
         label: 'Logout',
-        isLogout: true
+        isLogout: true,
+        screenName:'',
+
     }
 
 ];
@@ -88,7 +105,9 @@ const ProfileScreen = (props) => {
             <View style={ProfileStyles.menuItemcontainer}>
                 <TouchableOpacity
                 onPress={()=>{
-                    props.navigation.navigate(item.screenName)
+                    if(item.screenName != ''){
+                        props.navigation.navigate(item.screenName)
+                    }
                 }}
                  style={ProfileStyles.menuItem}>
                     <View style={ProfileStyles.iconContainer}>

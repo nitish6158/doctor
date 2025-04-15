@@ -11,7 +11,7 @@ import {
     Platform
 } from 'react-native';
 import { SignupStyles } from './SignupStyles';
-import { AddressInput, CustomTextInput } from '../../../components/input';
+import { AddressInput, CustomTextInput, MobileNumberInput } from '../../../components/input';
 import { LoginStyles } from '../login/LoginStyles';
 import { ResponsiveFont, Colors, Images } from '../../../assets';
 import { CustomButton, UploadFileButton } from '../../../components/button';
@@ -69,14 +69,13 @@ const formatUri = (uri) => {
     }
     return uri;
 };
-
 const SignupScreen = (props) => {
     const t = useTranslation()
     const lang = props?.appLanguage?.toLowerCase()
     const [specializationArr, setSpecializationArr] = useState(null)
     const [profileArr, setProfileArr] = useState(null)
     const [responseData, setResponseData] = useState(null);
-    const [countryArr, setCountryArr] = useState(null)
+    const [countryArr, setCountryArr] = useState([])
     const [step, setStep] = useState(1);
     const [password, setPassword] = useState('');
     const [userName, setUserName] = useState('');
@@ -84,6 +83,11 @@ const SignupScreen = (props) => {
     const [lastName, setLastName] = useState('');
     const [email, setEmail] = useState('');
     const [phone, setPhone] = useState('');
+    const [selectedCode, setSelectedCode] = useState(countryArr?.[0] || {
+        "name": "SAUDI ARABIA",
+        "code": "+966"
+    }
+    ); // default to first from API
     const { uploadFile, loading, fileUrl, error } = useFileUpload(END_POINT.fileUpload);
     const [uploadedFile, setUploadedFile] = useState(null);
     const [profile, setProfile] = useState('');
@@ -92,13 +96,13 @@ const SignupScreen = (props) => {
     const [address, setAddress] = useState('');
     const [termsAccepted, setTermsAccepted] = useState(false);
     const [isModal, setIsmodal] = useState(false);
-    const [selectedGender, setSelectedGender] = useState('Female');
+    const [selectedGender, setSelectedGender] = useState('');
 
     const genderOptions = [
-        {label: 'Male', icon: Images.male},
-        {label: 'Female', icon: Images.female},
-        {label:'Other', icon: Images.other},
-      ];
+        { label: 'Male', icon: Images.male },
+        { label: 'Female', icon: Images.female },
+        { label: 'Other', icon: Images.other },
+    ];
     const handleGoBack = () => {
         props.navigation.goBack();
     }
@@ -106,12 +110,12 @@ const SignupScreen = (props) => {
         props.navigation.navigate(target);
     }
     const handleSubmit = async () => {
-      
+
         if (!uploadedFile) {
             ToastMsg(t('PleaseUploadCV'), 'bottom');
             return false;
         }
-    
+
         if (!termsAccepted) {
             ToastMsg(t('AcceptTerms'), 'bottom');
             return false;
@@ -131,6 +135,7 @@ const SignupScreen = (props) => {
         //     return false;
         // }
 
+        const cleanedPhone = phone.replace(/^0+/, ''); // remove leading zeros
 
 
         const reqParams = {
@@ -139,14 +144,14 @@ const SignupScreen = (props) => {
             "firstName": firstName,
             "lastName": lastName,
             "email": email,
-            "mobileNo": phone,
+            "mobileNo": selectedCode?.code + "" + cleanedPhone,
             "profile": profile,
             "cv": uploadedFile,
             "specialization": specialization,
             "country": country,
             "address": address,
             "language": props.appLanguage?.toLowerCase(),
-            "gender":selectedGender,
+            "gender": selectedGender,
         }
         await props.SignupAction(reqParams);
     }
@@ -183,12 +188,14 @@ const SignupScreen = (props) => {
             ToastMsg(t('PleaseMobileNumber'), 'bottom');
             return false;
         }
-
-        if (!validatePhoneNumber(phone)) {
+        const cleanedPhone = phone.replace(/^0+/, ''); // remove leading zeros
+        if (!validatePhoneNumber(selectedCode?.code, cleanedPhone)) {
             ToastMsg(t('ValidMobileNumber'), 'bottom');
             return false;
         }
+
         if (!password) {
+            958
             ToastMsg(t('PleasePassword'), 'bottom');
             return false;
         }
@@ -292,7 +299,6 @@ const SignupScreen = (props) => {
             if (data && data?.data) {
                 setCountryArr(data?.data)
             }
-
         } catch (err) {
             console.warn("Error fetching specializations:", err);
         }
@@ -344,7 +350,7 @@ const SignupScreen = (props) => {
                             <TouchableOpacity onPress={() => setStep(1)} style={SignupStyles.headingName}>
                                 <Text style={{ ...SignupStyles.pageName, color: Colors.blue }}>{t('personnel')}</Text>
                             </TouchableOpacity>
-                            <TouchableOpacity onPress={() =>   handleNext()}>
+                            <TouchableOpacity onPress={() => handleNext()}>
                                 <Text style={
                                     {
                                         ...SignupStyles.pageName,
@@ -391,13 +397,21 @@ const SignupScreen = (props) => {
                                     type="email"
                                     width='100%'
                                 />
-                                <CustomTextInput
+                                {/* <CustomTextInput
                                     heading={t('mobileNo')}
                                     placeholder={t('EnterMobileNumber')}
                                     value={phone}
                                     onChangeText={setPhone}
                                     type="phone"
                                     width='100%'
+                                /> */}
+                                <MobileNumberInput
+                                    heading={t('mobileNo')}
+                                    value={phone}
+                                    onChangePhone={setPhone}
+                                    selectedCode={selectedCode}
+                                    onChangeCode={setSelectedCode}
+                                    countries={countryArr}
                                 />
                                 <CustomTextInput
                                     heading={t('password')}
@@ -407,24 +421,24 @@ const SignupScreen = (props) => {
                                     type="password"
                                     width='100%'
                                 />
-                                <View style={{marginVertical:'1%'}}>
-                                <Text style={SignupStyles.label}>
-                                    Select Gender
-                                </Text>
-                                <View style={SignupStyles.genderContainer}>
-                                    {genderOptions.map((option, index) => (
-                                        <TouchableOpacity
-                                            key={index}
-                                            style={[
-                                                SignupStyles.selectGender,
-                                                selectedGender === option.label && SignupStyles.selectedGender,
-                                            ]}
-                                            onPress={() => setSelectedGender(option.label)}>
-                                            <Image source={option.icon} style={SignupStyles.icon} />
-                                            <Text style={SignupStyles.genderText}>{option.label}</Text>
-                                        </TouchableOpacity>
-                                    ))}
-                                </View>
+                                <View style={{ marginVertical: '1%' }}>
+                                    <Text style={SignupStyles.label}>
+                                        Select Gender
+                                    </Text>
+                                    <View style={SignupStyles.genderContainer}>
+                                        {genderOptions.map((option, index) => (
+                                            <TouchableOpacity
+                                                key={index}
+                                                style={[
+                                                    SignupStyles.selectGender,
+                                                    selectedGender === option.label && SignupStyles.selectedGender,
+                                                ]}
+                                                onPress={() => setSelectedGender(option.label)}>
+                                                <Image source={option.icon} style={SignupStyles.icon} />
+                                                <Text style={SignupStyles.genderText}>{option.label}</Text>
+                                            </TouchableOpacity>
+                                        ))}
+                                    </View>
                                 </View>
 
                             </>
