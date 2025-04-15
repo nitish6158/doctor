@@ -7,7 +7,7 @@ export const UploadFileButton = ({
   onPress,
   backgroundColor = Colors.upload_background,
   textColor = Colors.gray,
-  fontSize = ResponsiveFont(20),
+  fontSize = ResponsiveFont(16),
   disabled = false,
   style = {},
   textStyle = {},

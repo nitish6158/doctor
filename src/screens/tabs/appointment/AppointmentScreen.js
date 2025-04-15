@@ -6,7 +6,7 @@ import {
     FlatList,
     TouchableOpacity,
     Image,
-}from "react-native";
+} from "react-native";
 import { AppointmentStyles } from './AppointmentStyles';
 import {
     Images,
@@ -91,7 +91,7 @@ const appointments = [
 ];
 
 const AppointmentScreen = () => {
-    const t=useTranslation();
+    const t = useTranslation();
     const [selectedTab, setSelectedTab] = useState("Completed");
 
     const renderItem = ({ item }) => (
@@ -108,8 +108,8 @@ const AppointmentScreen = () => {
                     <Text style={AppointmentStyles.id}>{item.id}</Text>
                     <Text style={AppointmentStyles.id}>{item.appointmentTime}</Text>
                     <View style={AppointmentStyles.addressContainer}>
-                        <Image source={Images.icon_map} style={AppointmentStyles.mapIcon}/>
-                        <Text style={[AppointmentStyles.Name, { marginLeft: '2%', width:'100%'}]}>{item.address}</Text>
+                        <Image source={Images.icon_map} style={AppointmentStyles.mapIcon} />
+                        <Text style={[AppointmentStyles.Name, { marginLeft: '2%', width: '100%' }]}>{item.address}</Text>
                     </View>
                 </View>
             </View>
@@ -165,13 +165,21 @@ const AppointmentScreen = () => {
                         ))}
                     </View >
                     <View style={AppointmentStyles.listContainer}>
-                        <FlatList
+                        {!appointments ? <FlatList
                             data={appointments}
                             renderItem={renderItem}
                             keyExtractor={(item) => item.id.toString()}
                             contentContainerStyle={AppointmentStyles.flatlistStyle}
                             showsVerticalScrollIndicator={false}
                         />
+                            :
+                            <View style={AppointmentStyles.NoDataFoundContainer}>
+                                <Image
+                                    source={Images.nodatafound}
+                                    style={AppointmentStyles.NoDataFound}
+                                />
+                            </View>
+                        }
                     </View>
 
                 </FloatingBackgroundCard>
