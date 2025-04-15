@@ -78,8 +78,8 @@ const HomeScreen = (props) => {
         }, [props?.isVerified, updateUserData])
     );
     const fetchAllClinics = async () => {
-        // await props.GetAllClinicAction(props.userId);
-        await props.GetAllClinicAction(25);
+        await props.GetAllClinicAction(props.userId);
+        // await props.GetAllClinicAction(25);
     }
 
     const setGlobalClinicId = async (obj) => {
@@ -365,7 +365,7 @@ const mapStateToProps = state => {
         // isVerified: 1, //  2-4-5-3/1  6 for bank 
         updateLoading: state.bankReducer.updateLoading,
         userId: state.authReducer.userId,
-        // individual: state.authReducer.individual,
+        individual: state.authReducer.individual,
         allClinics: state.getAllClinicReducer.data,
 
     };
