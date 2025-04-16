@@ -141,7 +141,7 @@ const ContractScreen = (props) => {
 
     useEffect(() => {
         if (props.contractStatus === 200) {
-            ToastMsg("Contract Uploaded Successfully !", 'bottom')
+            ToastMsg((t('ContractUploaded')), 'bottom')
             setUploadedFileURL(null)
             ClearcontractStatus()
             props.navigation.goBack()

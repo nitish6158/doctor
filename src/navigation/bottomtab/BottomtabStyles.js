@@ -12,7 +12,7 @@ export const BottomtabStyles = StyleSheet.create({
         borderColor:Colors.blue,
         width:'90%',
         alignSelf:'center',
-        bottom: 12
+        bottom: 8
         // marginBottom:'1.5%'
     },
     iconContainer:{

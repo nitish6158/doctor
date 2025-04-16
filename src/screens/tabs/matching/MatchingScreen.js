@@ -335,7 +335,7 @@ const MatchingScreen = (props) => {
                     {
                         addMatchingInProgess ?
                             <View style={MatchingStyles.formContainer}>
-                                <Text style={MatchingStyles.heading}>Add Matching</Text>
+                                <Text style={MatchingStyles.heading}>{t('AddMatching')}</Text>
                                 <CustomDropdown
                                     heading={t('SelectCountry')}
                                     placeholder={t('Select')}
@@ -359,8 +359,8 @@ const MatchingScreen = (props) => {
                                     }}
                                 />
                                 <AddressInput
-                                    heading={'Profile'}
-                                    placeholder={'Enter your profile'}
+                                    heading={t('Profile')}
+                                    placeholder={t('EnterYourProfile')}
                                     value={profile}
                                     onChangeText={setProfile}
                                     width='100%'
@@ -369,7 +369,7 @@ const MatchingScreen = (props) => {
                                     }}
                                 />
                                 <CustomDropdown
-                                    heading={'Specialization'}
+                                    heading={t('Specialization')}
                                     placeholder={t('Select')}
                                     selectedValue={specialization}
                                     onValueChange={setSpecialization}
@@ -381,8 +381,8 @@ const MatchingScreen = (props) => {
                                     }}
                                 />
                                 <CustomTextInput
-                                    heading={'Experience'}
-                                    placeholder={'Enter work experience'}
+                                    heading={t('Experience')}
+                                    placeholder={t('EnterWorkExperience')}
                                     value={experience}
                                     onChangeText={setExperience}
                                     type="experience"
@@ -391,7 +391,7 @@ const MatchingScreen = (props) => {
                                 <View style={{
                                     marginVertical: '1%',
                                 }}>
-                                    <Text style={MatchingStyles.consulationText}>Select Consultation Type</Text>
+                                    <Text style={MatchingStyles.consulationText}>{t('SelectConsultationType')}</Text>
                                     <View style={MatchingStyles.modeContainer}>
                                         <TouchableOpacity
                                             style={[MatchingStyles.modeButton, {
@@ -407,7 +407,7 @@ const MatchingScreen = (props) => {
                                             />
                                             <Text
                                                 style={MatchingStyles.modeText}
-                                            >online</Text>
+                                            >{t('Online')}</Text>
                                         </TouchableOpacity>
                                         <TouchableOpacity
                                             style={[MatchingStyles.modeButton, {
@@ -424,13 +424,13 @@ const MatchingScreen = (props) => {
                                             <Text
                                                 style={MatchingStyles.modeText
                                                 }
-                                            >offline</Text>
+                                            >{t('Offline')}</Text>
                                         </TouchableOpacity>
                                     </View>
                                 </View>
 
                                 <CustomButton
-                                    title='Add Matching'
+                                    title={t('AddMatching')}
                                     width='100%'
                                     marginVertical='7%'
                                     onPress={
@@ -447,11 +447,11 @@ const MatchingScreen = (props) => {
                                             source={Images.MatchingAdd}
                                             style={MatchingStyles.matchingIcon}
                                         />
-                                        <Text style={MatchingStyles.jobInfoText}>Please Add Your Job Information</Text>
+                                        <Text style={MatchingStyles.jobInfoText}>{t('AddJobInformation')}</Text>
                                         <TouchableOpacity
                                             onPress={() => setIsAddMatchingprogress(true)}
                                             style={MatchingStyles.tabButton}>
-                                            <Text style={MatchingStyles.tabText}>Add Matching</Text>
+                                        <Text style={MatchingStyles.tabText}>{t('AddMatching')}</Text>
                                         </TouchableOpacity>
                                     </View>
                                     :
@@ -462,7 +462,7 @@ const MatchingScreen = (props) => {
                                                 <ListingCard customStyles={MatchingStyles.listingCard}>
                                                     <View style={MatchingStyles.cardTopView}>
                                                         <View style={MatchingStyles.cardTextcontainer}>
-                                                            <Text style={MatchingStyles.headingText}>Specialty</Text>
+                                                            <Text style={MatchingStyles.headingText}>{t('Specialty')}</Text>
                                                             <Text style={MatchingStyles.headingTextValue2}>{
                                                                 props?.getJobData?.specialization
                                                             }</Text>
@@ -484,7 +484,7 @@ const MatchingScreen = (props) => {
                                                         <View style={MatchingStyles.cardUpperView}>
                                                             <View style={MatchingStyles.part1}>
                                                                 <Text style={MatchingStyles.headingText}>
-                                                                    Consultation Type
+                                                                    {t('ConsultationType')}
                                                                 </Text>
                                                                 <View style={MatchingStyles.modeButton1}>
                                                                     <Text style={MatchingStyles.modeText1}>
@@ -493,17 +493,17 @@ const MatchingScreen = (props) => {
                                                                 </View>
                                                             </View>
                                                             <View style={MatchingStyles.part2}>
-                                                                <Text style={MatchingStyles.headingText}>Work Experience</Text>
+                                                                <Text style={MatchingStyles.headingText}>{t('WorkExperience')}</Text>
                                                                 <Text style={MatchingStyles.headingTextValue}>{props?.getJobData?.experience}</Text>
                                                             </View>
                                                         </View>
                                                         <View style={MatchingStyles.cardLowerView}>
                                                             <View style={MatchingStyles.part2}>
-                                                                <Text style={MatchingStyles.headingText}>Country</Text>
+                                                                <Text style={MatchingStyles.headingText}>{t('Country')}</Text>
                                                                 <Text style={MatchingStyles.headingTextValue}>{props?.getJobData?.country}</Text>
                                                             </View>
                                                             <View style={MatchingStyles.part1}>
-                                                                <Text style={MatchingStyles.headingText}>Profile</Text>
+                                                                <Text style={MatchingStyles.headingText}>{t('Profile')}</Text>
                                                                 <Text style={MatchingStyles.headingTextValue}>{props?.getJobData?.profile}</Text>
                                                             </View>
                                                         </View>
@@ -512,7 +512,7 @@ const MatchingScreen = (props) => {
                                             }
                                         </>
 
-                                        <Text style={MatchingStyles.heading2}>My Matchings</Text>
+                                        <Text style={MatchingStyles.heading2}>{t('MyMatchings')}</Text>
                                         {props?.getMyMatchingData && props?.getMyMatchingData?.jobPostingResponseList ?
                                             <>
                                                 <FlatList
@@ -544,7 +544,7 @@ const MatchingScreen = (props) => {
             </FloatingBackgroundCard>
 
             <AvailabilityModal
-                heading={'Matching Added'}
+                heading={t('MatchingAdded')}
                 isModalOpen={isModalVisible}
                 onClose={() => {
                     setIsModalVisible(false)

@@ -184,7 +184,8 @@ const HomeScreen = (props) => {
 
                                     <TouchableOpacity
                                         style={HomeStyles.notificationButtonContainer}
-                                        onPress={() => props.navigation.navigate("NotificationScreen")}
+                                        // onPress={() => props.navigation.navigate("NotificationScreen")}
+                                        onPress={() => console.log('Notification')}
                                     >
                                         <Image
                                             source={Images.icon_notification}
@@ -306,7 +307,7 @@ const HomeScreen = (props) => {
                                         <View style={HomeStyles.resiontextContainer}>
                                             <Text
                                                 style={HomeStyles.resiontext}
-                                            >admin will give a resion</Text>
+                                            >{t('AdminWillGiveReason')}</Text>
                                         </View>
                                     </ScrollView>
                                     :

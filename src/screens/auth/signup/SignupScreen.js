@@ -423,7 +423,7 @@ const SignupScreen = (props) => {
                                 />
                                 <View style={{ marginVertical: '1%' }}>
                                     <Text style={SignupStyles.label}>
-                                        Select Gender
+                                        {t('SelectGender')}
                                     </Text>
                                     <View style={SignupStyles.genderContainer}>
                                         {genderOptions.map((option, index) => (
