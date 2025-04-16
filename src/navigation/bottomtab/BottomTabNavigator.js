@@ -11,10 +11,11 @@ import ProfileScreen from '../../screens/tabs/profile/ProfileScreen';
 
 import { BottomtabStyles } from './BottomtabStyles';
 import { Images } from '../../assets';
+import { ToastMsg } from '../../components/Toast';
 
 const Tab = createBottomTabNavigator();
 
-const BottomTabNavigator = ({ isVerified }) => {
+const BottomTabNavigator = ({ isVerified , individual}) => {
   const disabledTabs = ['AppointmentScreen', 'AgendaScreen', 'MatchingScreen', 'ProfileScreen'];
 
   const tabIcons = {
@@ -62,10 +63,12 @@ const BottomTabNavigator = ({ isVerified }) => {
           );
         },
         tabBarButton: (props) => {
-          if (disabledTabs.includes(route.name) && isVerified !== 1) {
+          if ( !individual || (disabledTabs.includes(route.name) && isVerified == 1)) {
+            return <TouchableOpacity {...props} />;
+          }else{
             return (
               <TouchableOpacity
-                onPress={() => Alert.alert('Access Denied', 'Your Profile is under review')}
+                onPress={() => ToastMsg('Access Denied, Your Profile is under review','bottom')}
                 style={BottomtabStyles.iconContainer}
                 activeOpacity={1}
               >
@@ -73,7 +76,6 @@ const BottomTabNavigator = ({ isVerified }) => {
               </TouchableOpacity>
             );
           }
-          return <TouchableOpacity {...props} />;
         },
       })}
     >
@@ -89,6 +91,8 @@ const BottomTabNavigator = ({ isVerified }) => {
 const mapStateToProps = (state) => ({
   isVerified: state.authReducer.isVerified,
   // isVerified: 3,
+  individual: state.authReducer.individual,
+
 });
 
 export default connect(mapStateToProps)(BottomTabNavigator);

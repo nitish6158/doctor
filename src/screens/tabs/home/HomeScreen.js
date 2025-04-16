@@ -55,9 +55,6 @@ const HomeScreen = (props) => {
         if (!props.individual) {
             fetchAllClinics();
         }
-        if (!props.userData?.bankDetails && props.isVerified === 1) {
-            setIsBankModalOpen(true)
-        }
     }, [props.isVerified])
 
     const updateUserData = useCallback(async () => {
@@ -66,7 +63,7 @@ const HomeScreen = (props) => {
 
     useFocusEffect(
         useCallback(() => {
-            if (props?.isVerified === 1) return; // Stop polling if already verified
+            if (props?.isVerified === 1 || !props.individual ) return; // Stop polling if already verified
 
             const interval = setInterval(() => {
                 updateUserData();
@@ -216,7 +213,7 @@ const HomeScreen = (props) => {
 
                 <View style={HomeStyles.bottomView}>
                     <FloatingBackgroundCard customStyles={HomeStyles.customStyles}>
-                        {props.isVerified === 1 ?
+                        {props.isVerified === 1 || !props.individual ?
                             <View>
                                 <View style={HomeStyles.dashboardtextContainer}>
                                     <Text style={HomeStyles.dashboardtext}>{t('Dashboard')}</Text>

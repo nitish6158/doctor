@@ -115,24 +115,24 @@ const BankFormScreen = (props) => {
         fetchDoctorCountry();
     }, []);
     const handleVerifyDetails = async () => {
-        if (!email) {
-            ToastMsg(t('PleaseEmailId'), 'bottom');
-            return false;
-        }
-        if (!validateEmail(email)) {
-            ToastMsg(t('ValidEmailId'), 'bottom');
-            return false;
-        }
+        // if (!email) {
+        //     ToastMsg(t('PleaseEmailId'), 'bottom');
+        //     return false;
+        // }
+        // if (!validateEmail(email)) {
+        //     ToastMsg(t('ValidEmailId'), 'bottom');
+        //     return false;
+        // }
 
-        if (!phone) {
-            ToastMsg(t('PleaseMobileNumber'), 'bottom');
-            return false;
-        }
+        // if (!phone) {
+        //     ToastMsg(t('PleaseMobileNumber'), 'bottom');
+        //     return false;
+        // }
         const cleanedPhone = phone.replace(/^0+/, ''); // remove leading zeros
-        if (!validatePhoneNumber(selectedCode?.code, cleanedPhone)) {
-            ToastMsg(t('ValidMobileNumber'), 'bottom');
-            return false;
-        }
+        // if (!validatePhoneNumber(selectedCode?.code, cleanedPhone)) {
+        //     ToastMsg(t('ValidMobileNumber'), 'bottom');
+        //     return false;
+        // }
 
         let reqParam = {
             "doctorName": fullName,
@@ -172,19 +172,19 @@ const BankFormScreen = (props) => {
         clearStatusReducer()
     }, [props.responseCode])
 
-    useFocusEffect(
-        React.useCallback(() => {
-            const backAction = () => {
-                BackHandler.exitApp();
-                return true;
-            };
-            const backHandler = BackHandler.addEventListener(
-                'hardwareBackPress',
-                backAction,
-            );
-            return () => backHandler.remove();
-        }, []),
-    );
+    // useFocusEffect(
+    //     React.useCallback(() => {
+    //         const backAction = () => {
+    //             BackHandler.exitApp();
+    //             return true;
+    //         };
+    //         const backHandler = BackHandler.addEventListener(
+    //             'hardwareBackPress',
+    //             backAction,
+    //         );
+    //         return () => backHandler.remove();
+    //     }, []),
+    // );
 
 
     return (

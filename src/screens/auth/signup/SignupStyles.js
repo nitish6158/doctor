@@ -45,7 +45,7 @@ export const SignupStyles = StyleSheet.create({
     },
     termText: {
         fontFamily: Fonts.Bold,
-        fontSize: ResponsiveFont(16),
+        fontSize: ResponsiveFont(14),
         lineHeight: ResponsiveFont(20),
         color: Colors.black,
         width: '85%',

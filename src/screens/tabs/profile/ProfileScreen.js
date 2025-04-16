@@ -15,6 +15,11 @@ const menuItems = [
         screenName:'AccountScreen',
     },
     {
+        icon: Images.icon_select_contry_active,
+        label: 'My Bank Details',
+        screenName:'BankFormScreen',
+    },
+    {
         icon: Images.icon_location,
         label: 'My Location',
         screenName:'LocationScreen'
