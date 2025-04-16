@@ -29,15 +29,14 @@ const ForgotPasswordScreen = (props) => {
 
     const handleGoBack = () => {
         props.navigation.goBack();
-        console.log("back")
     }
     const handleGetLink = async () => {
         if (!email) {
-            ToastMsg('Please Enter Email Id', 'bottom');
+            ToastMsg(t('PleaseEmailId'), 'bottom');
             return false;
         }
         if (!validateEmail(email)) {
-            ToastMsg('Please Enter Valid Email Id', 'bottom');
+            ToastMsg(t('ValidEmailId'), 'bottom');
             return false;
         }
         await props.ForgotPasswordAction(email);
@@ -122,8 +121,8 @@ const ForgotPasswordScreen = (props) => {
                         visible={props.loading}
                     />
                     <SuccessModal
-                        heading={'Check your mail'}
-                        subHeading={'Reset Password Link Sent to Your Registered Email'}
+                        heading={t('CheckYourMail')}
+                        subHeading={t('ResetPasswordLinkSent')}
                         isModalOpen={isSuccessModalVisible}
                         onClose={() => {
                             setIsSuccessModalVisible(false)

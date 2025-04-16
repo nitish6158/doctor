@@ -744,7 +744,154 @@ export const Languages = {
     EN: 'Please select gender',
     AR: "الرجاء اختيار الجنس",
     FR: "Veuillez sélectionner le genre",
-}
+},
+CheckYourMail: {
+  EN: "Check your mail",
+  AR: "تحقق من بريدك",
+  FN: "Vérifiez votre courrier",
+},
+ResetPasswordLinkSent: {
+  EN: "Reset Password Link Sent to Your Registered Email",
+  AR: "تم إرسال رابط إعادة تعيين كلمة المرور إلى بريدك الإلكتروني المسجل",
+  FN: "Lien de réinitialisation du mot de passe envoyé à votre e-mail enregistré",
+},
+SelectGender: {
+  EN: "Select Gender",
+  AR: "اختر الجنس",
+  FN: "Sélectionnez le genre",
+},
+AddBankDetails: {
+  EN: "Add Bank Details",
+  AR: "أضف تفاصيل البنك",
+  FN: "Ajouter les coordonnées bancaires",
+},
+ContractUploaded: {
+  EN: "Contract Uploaded Successfully!",
+  AR: "تم تحميل العقد بنجاح!",
+  FN: "Contrat téléchargé avec succès !",
+},
+EnterLocationName: {
+  EN: "Please Enter Location Name",
+  AR: "يرجى إدخال اسم الموقع",
+  FN: "Veuillez entrer le nom du lieu",
+},
+EnterBuildingDetails: {
+  EN: "Please Enter Building Details",
+  AR: "يرجى إدخال تفاصيل المبنى",
+  FN: "Veuillez entrer les détails du bâtiment",
+},
+EnterAddress: {
+  EN: "Please Enter Address",
+  AR: "يرجى إدخال العنوان",
+  FN: "Veuillez entrer l'adresse",
+},
+MyLocations: {
+  EN: "My Locations",
+  AR: "مواقعي",
+  FN: "Mes emplacements",
+},
+AddNewLocation: {
+  EN: "Add New Location",
+  AR: "أضف موقعًا جديدًا",
+  FN: "Ajouter un nouvel emplacement",
+},
+LocationUpdated: {
+  EN: "Location Updated",
+  AR: "تم تحديث الموقع",
+  FN: "Emplacement mis à jour",
+},
+LocationAdded: {
+  EN: "Location Added",
+  AR: "تم إضافة الموقع",
+  FN: "Emplacement ajouté",
+},
+AdminWillGiveReason: {
+  EN: "Admin will give a reason",
+  AR: "سيقدم المسؤول سببًا",
+  FN: "L'administrateur donnera une raison",
+},
+AddMatching: {
+  EN: "Add Matching",
+  AR: "أضف تطابقًا",
+  FN: "Ajouter une correspondance",
+},
+Profile: {
+  EN: "Profile",
+  AR: "الملف الشخصي",
+  FN: "Profil",
+},
+EnterYourProfile: {
+  EN: "Enter your profile",
+  AR: "أدخل ملفك الشخصي",
+  FN: "Entrez votre profil",
+},
+Specialization: {
+  EN: "Specialization",
+  AR: "التخصص",
+  FN: "Spécialisation",
+},
+Experience: {
+  EN: "Experience",
+  AR: "الخبرة",
+  FN: "Expérience",
+},
+EnterWorkExperience: {
+  EN: "Enter work experience",
+  AR: "أدخل الخبرة العملية",
+  FN: "Entrez l'expérience professionnelle",
+},
+SelectConsultationType: {
+  EN: "Select Consultation Type",
+  AR: "اختر نوع الاستشارة",
+  FN: "Sélectionnez le type de consultation",
+},
+Online: {
+  EN: "Online",
+  AR: "عبر الإنترنت",
+  FN: "En ligne",
+},
+Offline: {
+  EN: "Offline",
+  AR: "غير متصل",
+  FN: "Hors ligne",
+},
+AddJobInformation: {
+  EN: "Please Add Your Job Information",
+  AR: "يرجى إضافة معلومات وظيفتك",
+  FN: "Veuillez ajouter vos informations professionnelles",
+},
+Specialty: {
+  EN: "Specialty",
+  AR: "التخصص",
+  FN: "Spécialité",
+},
+ConsultationType: {
+  EN: "Consultation Type",
+  AR: "نوع الاستشارة",
+  FN: "Type de consultation",
+},
+WorkExperience: {
+  EN: "Work Experience",
+  AR: "الخبرة العملية",
+  FN: "Expérience professionnelle",
+},
+
+Country: {
+  EN: "Country",
+  AR: "البلد",
+  FN: "Pays",
+},
+
+MatchingAdded: {
+  EN: "Matching Added",
+  AR: "تم إضافة التطابق",
+  FN: "Correspondance ajoutée",
+},
+MyMatchings: {
+  EN: "My Matchings",
+  AR: "تطابقاتي",
+  FN: "Mes correspondances",
+},
 
 
 };
