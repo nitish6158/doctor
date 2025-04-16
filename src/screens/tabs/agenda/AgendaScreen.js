@@ -484,28 +484,15 @@ const MyAgenda = (props) => {
             "mode": data.mode
         }
         console.log(reqParam, "data")
-        // await props.EditSlotAction(reqParam);
+        await props.EditSlotAction(reqParam);
     };
     const onBlockPress = async (data) => {
-        // const reqParam = {
-        //     "clinicId": data.clinicId,
-        //     "doctorId": props.userId,
-        //     "timeSlotId": data.timeSlotId,
-        //     "date": data.date,
-        //     "fromTime": data.startTime,
-        //     "toTime": data.endTime,
-        //     "location": data.location,
-        //     "mode": data.mode
-        // }
-
-
         const reqParam = {
             "date": data.date,
             "doctorID": props.userId,
             "timeSlotId": data.timeSlotId,
         }
         console.log(reqParam, "data")
-
         await props.BlockAvailabilityByTimeSlotIDAction(reqParam);
     };
 

@@ -13,17 +13,17 @@ import {
     WindowHeight as hp,
     Fonts,
     ResponsiveFont
-} from '../../../../assets';
+} from '../../../../../assets';
 import { LocationStyles } from './LocationStyles';
-import { FloatingBackgroundCard, ListingCard } from '../../../../components/card';
-import { CustomButton } from '../../../../components/button';
-import { useTranslation } from '../../../../components/customhooks';
-import { AddLocationModal, AvailabilityModal, DeleteLocationModal, Loader } from '../../../../components/modal';
-import { AddLocationAction, ClearErrorStatus, GetLocationAction } from '../../../../Redux/actions';
+import { FloatingBackgroundCard, ListingCard } from '../../../../../components/card';
+import { CustomButton } from '../../../../../components/button';
+import { useTransition } from 'react';
+import { AddLocationModal, AvailabilityModal, DeleteLocationModal, Loader } from '../../../../../components/modal';
+import { AddLocationAction, ClearErrorStatus, GetLocationAction } from '../../../../../Redux/actions';
 import { connect } from 'react-redux';
-import { ToastMsg } from '../../../../components/Toast';
-import { ClearLocationStatus, DeleteLocationAction } from '../../../../Redux/actions/LocationAction';
-
+import { ToastMsg } from '../../../../../components/Toast';
+import { ClearLocationStatus, DeleteLocationAction } from '../../../../../Redux/actions/LocationAction';
+import { useTranslation } from '../../../../../components/customhooks';
 const locations = [
     {
         id: '1',
@@ -118,17 +118,17 @@ const LocationScreen = (props) => {
 
     const AddLocation = () => {
         if (!locationName) {
-            ToastMsg('Please Enter Location Name', 'bottom');
+            ToastMsg(t('EnterLocationName'), 'bottom');
             return false;
         }
 
         if (!buildingDetail) {
-            ToastMsg('Please Enter Building Details', 'bottom');
+            ToastMsg(t('EnterBuildingDetails'), 'bottom');
             return false;
         }
 
         if (!address) {
-            ToastMsg('Please Enter Address', 'bottom');
+            ToastMsg(t('EnterAddress'), 'bottom');
             return false;
         }
         let reqParam = {
@@ -140,6 +140,7 @@ const LocationScreen = (props) => {
         }
         onAddNewLocation(reqParam);
     }
+
 
 
     const onEdit = (item) => {
@@ -187,7 +188,7 @@ const LocationScreen = (props) => {
             setBuildingDetail("")
             setAddress("")
             setUpdateLocationId(0)
-        }else if (props?.errMsg != null && props.getLocationResponseCode != 200 ){
+        } else if (props?.errMsg != null && props.getLocationResponseCode != 200) {
             ToastMsg(props.errMsg, 'bottom');
         }
         ClearStatus()
@@ -216,7 +217,7 @@ const LocationScreen = (props) => {
                     />
                 </TouchableOpacity>
                 <View style={LocationStyles.tabNameContainer}>
-                    <Text style={LocationStyles.tabName}>My Locations</Text>
+                    <Text style={LocationStyles.tabName}>{t('MyLocations')}</Text>
                 </View>
             </View>
 
@@ -249,7 +250,7 @@ const LocationScreen = (props) => {
                         }}
                         style={LocationStyles.ButtonStyle}
                     >
-                        <Text style={LocationStyles.buttonText}>Add New Location</Text>
+                        <Text style={LocationStyles.buttonText}>{t('AddNewLocation')}</Text>
                     </TouchableOpacity>
                 </FloatingBackgroundCard>
             </View>
@@ -285,8 +286,8 @@ const LocationScreen = (props) => {
             <AvailabilityModal
                 isModalOpen={isLocationAddModalOpen}
                 onClose={() => (setIsLocationAddModalOpen(false))}
-                type={ !isUpdate ? "locationUpdate" : "locationAdd"}
-                heading={ !isUpdate ? "Location Updated" : "Location Added"}
+                type={!isUpdate ? "locationUpdate" : "locationAdd"}
+                heading={!isUpdate ? t('LocationUpdated') : t('LocationAdded')}
             />
             {/* <AvailabilityModal
                 isModalOpen={isLocationUpdateModalOpen}

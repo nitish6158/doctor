@@ -12,7 +12,7 @@ const menuItems = [
     {
         icon: Images.user_icon_active,
         label: 'My Account',
-        screenName:'',
+        screenName:'AccountScreen',
     },
     {
         icon: Images.icon_location,

@@ -1,4 +1,4 @@
-import React ,{
+import React, {
     useState,
     useMemo,
     useEffect,
@@ -15,7 +15,8 @@ import {
 import { useFocusEffect } from '@react-navigation/native';
 import {
     CustomTextInput,
-    AddressInput
+    AddressInput,
+    MobileNumberInput
 } from '../../../components/input';
 import {
     ResponsiveFont,
@@ -47,6 +48,8 @@ import { LoginStyles } from '../../auth/login/LoginStyles';
 import { BankFormStyles } from './BankFormStyles';
 import { FloatingBackgroundCard } from '../../../components/card';
 import { connect } from 'react-redux';
+import { END_POINT } from '../../../Redux/config';
+import { getRequest } from '../../../Redux/config';
 
 const NexttextStyle = {
     fontSize: ResponsiveFont(18),
@@ -62,12 +65,19 @@ const BankFormScreen = (props) => {
     const [nationalId, setNationalId] = useState('');
     const [address, setAddress] = useState('');
     const [email, setEmail] = useState('');
+    const [selectedCode, setSelectedCode] = useState(countryArr?.[0] || {
+        "name": "SAUDI ARABIA",
+        "code": "+966"
+    });
     const [phone, setPhone] = useState('');
     const [country, setCountry] = useState('')
     const [bankCode, setBankCode] = useState('');
     const [branchName, setBranchName] = useState('');
+    const [countryArr, setCountryArr] = useState([])
 
-    const isFormValid = useMemo(() => {
+    const isFormValid = () => {
+        const cleanedPhone = phone.replace(/^0+/, '');
+
         return (
             fullName.trim() &&
             bankAccountNumber.trim() &&
@@ -78,26 +88,32 @@ const BankFormScreen = (props) => {
             email.trim() &&
             validateEmail(email) &&
             phone.trim() &&
-            validatePhoneNumber(phone) &&
+            validatePhoneNumber(selectedCode?.code, cleanedPhone) &&
             country.trim() &&
             branchName.trim() &&
             bankCode.trim()
         );
-    }, [
-        fullName,
-        bankAccountNumber,
-        bankName,
-        bankAccountType,
-        nationalId,
-        address,
-        email,
-        phone,
-        country,
-        branchName,
-        bankCode,
-    ]);
+    };
 
+    useEffect(() => {
+        if (countryArr.length > 0 && !selectedCode?.code) {
+            setSelectedCode(countryArr[0]);
+        }
+    }, [countryArr]);
 
+    const fetchDoctorCountry = async () => {
+        try {
+            const data = await getRequest(END_POINT.getCountry(props?.appLanguage?.toLowerCase()));
+            if (data && data?.data) {
+                setCountryArr(data?.data)
+            }
+        } catch (err) {
+            console.warn("Error fetching specializations:", err);
+        }
+    };
+    useEffect(() => {
+        fetchDoctorCountry();
+    }, []);
     const handleVerifyDetails = async () => {
         if (!email) {
             ToastMsg(t('PleaseEmailId'), 'bottom');
@@ -112,9 +128,9 @@ const BankFormScreen = (props) => {
             ToastMsg(t('PleaseMobileNumber'), 'bottom');
             return false;
         }
-
-        if (!validatePhoneNumber(phone)) {
-            ToastMsg(t(ValidMobileNumber), 'bottom');
+        const cleanedPhone = phone.replace(/^0+/, ''); // remove leading zeros
+        if (!validatePhoneNumber(selectedCode?.code, cleanedPhone)) {
+            ToastMsg(t('ValidMobileNumber'), 'bottom');
             return false;
         }
 
@@ -126,7 +142,7 @@ const BankFormScreen = (props) => {
             "nationalId": nationalId,
             "bankAddress": address,
             "email": email,
-            "mobileNumber": phone,
+            "mobileNumber": selectedCode?.code + "" + cleanedPhone,
             "countryName": country,
             "branchName": branchName,
             "bankCode": bankCode,
@@ -147,13 +163,11 @@ const BankFormScreen = (props) => {
     }
 
     useEffect(() => {
-        if (props.responseCode == 200) {
+        if (props?.responseCode === 200) {
             handleSuccessCase()
         }
-        else {
-            if (props.errMsg !== null) {
-                ToastMsg(props.errMsg, 'bottom')
-            }
+        else if (props?.errMsg && props.errMsg !== null) {
+            ToastMsg(props?.errMsg, 'bottom')
         }
         clearStatusReducer()
     }, [props.responseCode])
@@ -180,7 +194,7 @@ const BankFormScreen = (props) => {
             resizeMode="cover"
         >
             <View style={BankFormStyles.topView}>
-                <Text style={BankFormStyles.tabName}>Add Bank Details</Text>
+                <Text style={BankFormStyles.tabName}>{t('AddBankDetails')}</Text>
             </View>
 
             <FloatingBackgroundCard customStyles={BankFormStyles.bottomView} >
@@ -204,7 +218,6 @@ const BankFormScreen = (props) => {
                                 type="text"
                                 width='100%'
                                 borderColor={Colors.borderColor2}
-
                             />
                             <CustomTextInput
                                 heading={t('AccountNumber')}
@@ -256,13 +269,22 @@ const BankFormScreen = (props) => {
                                 type="email"
                                 width='100%'
                             />
-                            <CustomTextInput
+                            {/* <CustomTextInput
                                 heading={t('mobileNo')}
                                 placeholder={t('EnterMobileNumber')}
                                 value={phone}
                                 onChangeText={setPhone}
                                 type="phone"
                                 width='100%'
+                            /> */}
+
+                            <MobileNumberInput
+                                heading={t('mobileNo')}
+                                value={phone}
+                                onChangePhone={setPhone}
+                                selectedCode={selectedCode}
+                                onChangeCode={setSelectedCode}
+                                countries={countryArr}
                             />
 
                             <CustomTextInput
@@ -304,7 +326,8 @@ const BankFormScreen = (props) => {
                                 textColor={Colors.white}
                                 textStyle={NexttextStyle}
                                 width='100%'
-                                disabled={!isFormValid}
+                            // disabled={!isFormValid()} // cleaner and easier to read
+
                             />
 
                             <SuccessModal

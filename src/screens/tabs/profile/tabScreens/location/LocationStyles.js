@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native';
-import { WindowWidth as wp, Colors, Fonts, ResponsiveFont } from '../../../../assets';
+import { WindowWidth as wp, Colors, Fonts, ResponsiveFont } from '../../../../../assets';
 export const LocationStyles = StyleSheet.create({
     background: {
         flex: 1,

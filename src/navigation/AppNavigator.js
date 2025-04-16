@@ -1,19 +1,22 @@
 import { useState, useEffect } from 'react';
-import { createStackNavigator } from '@react-navigation/stack';
-import { NavigationContainer } from '@react-navigation/native';
-import AuthStack from './AuthStack';
+import { useSelector } from 'react-redux';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Colors } from '../assets';
+import { createStackNavigator } from '@react-navigation/stack';
+import { NavigationContainer } from '@react-navigation/native';
+
+import AuthStack from './AuthStack';
 import OnboardingScreen from '../screens/onboarding/OnboardingScreen';
 import OnboardingLanguageScreen from '../screens/onboarding/OnboardingLanguageScreen';
 import BottomTabNavigator from './bottomtab/BottomTabNavigator';
+// container flow screens
 import BankFormScreen from '../screens/container/bankDetailsForm/BankFormScreen';
 import NotificationScreen from '../screens/container/notification/NotificationScreen';
-import { useSelector } from 'react-redux';
 import ContractScreen from '../screens/container/contract/ContractScreen';
-import LocationScreen from '../screens/container/profileTabScreens/location/LocationScreen';
+// profile tab flow screen
+import LocationScreen from '../screens/tabs/profile/tabScreens/location/LocationScreen';
+import AccountScreen from '../screens/tabs/profile/tabScreens/account/AccountScreen';
 const Stack = createStackNavigator();
-
 const AppNavigator = () => {
   const loginStatus = useSelector(state => state.authReducer.loginStatus);
   const [initialRoute, setInitialRoute] = useState(null);
@@ -70,6 +73,8 @@ const AppNavigator = () => {
           name="BottomTabNavigator"
           component={BottomTabNavigator}
         />
+
+        {/* // container flow screens */}
         <Stack.Screen
           name="BankFormScreen"
           component={BankFormScreen}
@@ -84,6 +89,12 @@ const AppNavigator = () => {
         <Stack.Screen
           name="ContractScreen"
           component={ContractScreen}
+        />
+
+        {/* // profile tab flow screen */}
+        <Stack.Screen
+          name="AccountScreen"
+          component={AccountScreen}
         />
         <Stack.Screen
           name="LocationScreen"

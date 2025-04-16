@@ -21,7 +21,7 @@ export const validateLastName = lastName => {
 //     return re.test(phoneNumber);
 // };
 export const validatePhoneNumber = (code, phoneNumber) => {
-  const cleaned = phoneNumber.replace(/^0+/, '');
+  const cleaned = phoneNumber?.replace(/^0+/, '');
 
   switch (code) {
     case '+966': // Saudi Arabia
@@ -43,7 +43,7 @@ export const validatePhoneNumber = (code, phoneNumber) => {
       return /^7[0-9]{9}$/.test(cleaned) && cleaned.length === 10;
 
     default:
-      return cleaned.length >= 6 && cleaned.length <= 15;
+      return cleaned?.length >= 6 && cleaned?.length <= 15;
   }
 };
 
