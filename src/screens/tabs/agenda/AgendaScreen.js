@@ -198,16 +198,16 @@ const MyAgenda = (props) => {
 
     const fetchMyTeam = async () => {
         const formatDate = moment(selectedDateForTeamAvailability).format("DD-MM-YYYY");
-        // const reqParam = {
-        //     "clinicId": clinic.id,
-        //     "doctorId": props.userId,
-        //     "date": formatDate,
-        // }
         const reqParam = {
-            "clinicId": 46,
-            "doctorId": 205,
+            "clinicId": clinic.id,
+            "doctorId": props.userId,
             "date": formatDate,
         }
+        // const reqParam = {
+        //     "clinicId": 46,
+        //     "doctorId": 205,
+        //     "date": formatDate,
+        // }
         await props.TeamAvailabilityListAction(reqParam)
     };
 
@@ -1107,8 +1107,8 @@ const MyAgenda = (props) => {
 const mapStateToProps = state => {
     return {
         userId: state.authReducer.userId,
-        // individual: state.authReducer.individual,
-        individual: false,
+        individual: state.authReducer.individual,
+        // individual: false,
         allClinics: state.getAllClinicReducer.data,
         availabilityAddedData: state.availabilityReducer.data,
         loading: state.availabilityReducer.loading,
