@@ -29,7 +29,7 @@ export const AgendaStyles = StyleSheet.create({
         marginLeft: '10%',
     },
     topView2: {
-        flex: 1,
+        flex: 4,
         justifyContent: 'flex-end',
         alignItems: 'center'
     },
@@ -39,7 +39,7 @@ export const AgendaStyles = StyleSheet.create({
         paddingVertical: "5%",
     },
     bottomView2: {
-        flex: 1,
+        flex: 6,
         width: '100%',
         paddingVertical: "5%",
     },
@@ -98,6 +98,11 @@ export const AgendaStyles = StyleSheet.create({
         alignItems: 'center',
         width: '90%'
     },
+    buttonContainer4: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        width: '100%'
+    },
     doctorContainer: {
         width: wp * 15 / 100,
         borderRadius: wp * 3 / 100,
@@ -123,11 +128,23 @@ export const AgendaStyles = StyleSheet.create({
         flexDirection: 'row',
         width: '100%',
     },
+    addressContainer5: {
+        flexDirection: 'row',
+        width: '100%',
+        alignItems:'center'
+    },
+    dotContainer: {
+        flexDirection: 'row',
+        width: '25%',
+        alignItems:'center',
+        marginLeft:'10%',
+        justifyContent:'space-between'
+    },
     addressContainer2: {
         flexDirection: 'row',
         width: '100%',
-        marginVertical:'1%',
-        paddingHorizontal:'2%'
+        marginVertical: '1%',
+        paddingHorizontal: '2%'
     },
     addressContainer4: {
         // flexDirection: 'row',
@@ -141,12 +158,26 @@ export const AgendaStyles = StyleSheet.create({
         width: '90%',
         margin: '1%'
     },
+    dotName: {
+        fontSize: ResponsiveFont(14),
+        fontFamily: Fonts.SemiBold  ,
+        color: Colors.light_gray2,
+        // width: '90%',
+        // margin: '1%'
+    },
     mapStyle: {
         width: (wp * 5) / 100,
         height: (wp * 5) / 100,
         resizeMode: 'contain',
         marginHorizontal: '1%',
         marginTop: '1.8%'
+    },
+    mapStyle3: {
+        width: (wp * 3.5) / 100,
+        height: (wp * 3.5) / 100,
+       
+        // marginHorizontal: '1%',
+        // marginTop: '1.8%'
     },
     calenderStyle: {
         borderWidth: 0.5,
@@ -195,15 +226,31 @@ export const AgendaStyles = StyleSheet.create({
         flexWrap: 'wrap',
         width: '100%',
         marginVertical: '2%',
-        paddingHorizontal:'2%'
+        paddingHorizontal: '2%',
+
+    },
+    tabContainer3: {
+        flexDirection: "row",
+        flexWrap: 'wrap',
+        width: '100%',
+        marginVertical: '2%',
+        // paddingHorizontal:'2%',
 
     },
     tabButton: {
-        paddingVertical: '3.5%',
+        paddingVertical: '3%',
         paddingHorizontal: '4%',
         borderRadius: (wp * 2) / 100,
         backgroundColor: Colors.shadowBlue,
         margin: '1%',
+    },
+    tabButton5: {
+        paddingVertical: '3%',
+        paddingHorizontal: '4%',
+        borderRadius: (wp * 2) / 100,
+        backgroundColor: Colors.shadowBlue,
+        margin: '1%',
+        borderWidth : 1,
     },
     tabText: {
         fontFamily: Fonts.SemiBold,
@@ -233,12 +280,12 @@ export const AgendaStyles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         width: '70%',
-        padding:'2%'
+        padding: '2%'
     },
     AvailalitytbuttonContainer: {
         flexDirection: 'row',
         width: '100%',
-        padding:'2%'
+        padding: '2%'
     },
     date: {
         fontFamily: Fonts.Bold,
@@ -334,17 +381,17 @@ export const AgendaStyles = StyleSheet.create({
         color: Colors.black,
         marginLeft: '2%',
         width: '90%',
-        paddingHorizontal:'2%',
-// backgroundColor:'red'
+        paddingHorizontal: '2%',
+        // backgroundColor:'red'
     },
     address3: {
         fontFamily: Fonts.Bold,
         fontSize: ResponsiveFont(16),
-        lineHeight: ResponsiveFont(17.5),
+        // lineHeight: ResponsiveFont(17.5),
         color: Colors.black,
         marginLeft: '2%',
         width: '90%',
-// backgroundColor:'red'
+        // backgroundColor:'red'
     },
     availabilityStyle: {
         fontFamily: Fonts.SemiBold,
@@ -451,6 +498,12 @@ export const AgendaStyles = StyleSheet.create({
         justifyContent: 'center',
         width: '100%',
     },
+    NoAvailabilityContainer2: {
+        alignItems: 'center',
+        justifyContent: 'center',
+        width: '100%',
+        // flex:1
+    },
     modeButton2: {
         paddingVertical: '2%',
         marginHorizontal: '2%',
@@ -512,8 +565,8 @@ export const AgendaStyles = StyleSheet.create({
     },
     restoreButton: {
         paddingVertical: '2%',
-        borderBottomLeftRadius: wp*4.5/100,
-        borderTopRightRadius:  wp*3/100,
+        borderBottomLeftRadius: wp * 4.5 / 100,
+        borderTopRightRadius: wp * 3 / 100,
         backgroundColor: Colors.lightblue3,
         width: '25%',
         alignItems: 'center',

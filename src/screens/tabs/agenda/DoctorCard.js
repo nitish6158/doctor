@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text, Image } from 'react-native';
 import { AgendaStyles } from './AgendaStyles';
-import { Images } from '../../../assets';
+import { Colors, Images } from '../../../assets';
 import { ListingCard } from '../../../components/card';
 const DoctorCard = ({ item }) => {
     return (
@@ -9,42 +9,45 @@ const DoctorCard = ({ item }) => {
             <View style={AgendaStyles.doctorItem}>
                 <View style={AgendaStyles.doctorContainer}>
                     <Image
-                        source={{ uri: item.image }}
+                        source={
+                            item?.profilePicture ?
+                                { uri: item.image }
+                                :
+                                Images.icon_user_doctor_active
+                        }
                         style={AgendaStyles.doctorImage}
                     />
                 </View>
-
                 <View style={AgendaStyles.textContainer}>
-                    <Text style={AgendaStyles.doctorName}>{item.name}</Text>
-                    {item.mode === 'offline' ? (
-                        <View style={AgendaStyles.addressContainer}>
+                    <Text style={AgendaStyles.doctorName}>{item.doctorName}</Text>
+                    <View style={AgendaStyles.addressContainer5}>
+                        <Image
+                            source={Images.dotOnline}
+                            style={AgendaStyles.mapStyle3}
+                            resizeMode='contain'
+
+                        />
+                        <Text style={[AgendaStyles.dotName, { marginLeft: '3%', color: Colors.blue }]}>Online</Text>
+                        <View style={AgendaStyles.dotContainer}>
                             <Image
-                                source={Images.icon_map}
-                                style={AgendaStyles.mapStyle}
+                                source={Images.dotOffline}
+                                style={AgendaStyles.mapStyle3}
+                                resizeMode='contain'
                             />
-                            <Text style={AgendaStyles.address}>{item.address}</Text>
+                            <Text style={AgendaStyles.dotName}>Offline</Text>
                         </View>
-                    ) : (
-                        <View
-                            style={[
-                                AgendaStyles.modeButton,
-                                {
-                                    marginHorizontal: '0%',
-                                    marginVertical: '1%',
-                                },
-                            ]}
-                        >
-                            <Text style={AgendaStyles.modeText}>{item.mode}</Text>
-                        </View>
-                    )}
+
+                    </View>
                 </View>
             </View>
 
-            <View style={AgendaStyles.buttonContainer}>
-                <View style={AgendaStyles.tabContainer}>
-                    {item.availability.map((slot) => (
-                        <View key={slot} style={AgendaStyles.tabButton}>
-                            <Text style={AgendaStyles.tabText}>{slot}</Text>
+            <View style={AgendaStyles.buttonContainer4}>
+                <View style={AgendaStyles.tabContainer3}>
+                    {item?.slotResponseList?.map((slot) => (
+                        <View key={slot.timeSlotId} style={[AgendaStyles.tabButton5, {
+                            borderColor: slot.type == 'online' ? Colors.blue : Colors.light_gray2
+                        }]}>
+                            <Text style={AgendaStyles.tabText}>{slot.fromTime + "-" + slot.toTime}</Text>
                         </View>
                     ))}
                 </View>
