@@ -696,6 +696,22 @@ const MyAgenda = (props) => {
 
                                     {addAvailabilityInProgress &&
                                         <>
+                                            { !props.individual &&
+
+                                                <View style={{ width: '100%', alignItems: 'center', marginVertical: '2%' }}>
+                                                    <CustomDropdown
+                                                        heading={'Select Clinic'}
+                                                        placeholder={
+                                                            clinic?.clinicName || 'Select Clinic'
+                                                        }
+                                                        selectedValue={clinic?.clinicName}
+                                                        onValueChange={setClinic}
+                                                        options={props.allClinics}
+                                                        width='90%'
+                                                        type="clinic"
+                                                    />
+                                                </View>
+                                            }
                                             <View style={{ width: '90%', }}>
                                                 <Calendar
                                                     renderHeader={renderHeader}
@@ -707,7 +723,7 @@ const MyAgenda = (props) => {
                                                     onDayPress={handleAddAvailabilityDaySelect}
                                                     minDate={new Date().toISOString().split('T')[0]} // Prevent past date selection
                                                     disableArrowLeft={isPrevMonthDisabled}
-            
+
                                                     markedDates={markedDates}
                                                 />
                                             </View>
@@ -896,7 +912,7 @@ const MyAgenda = (props) => {
                                             onDayPress={handleDaySelectForTeamAvailability}
                                             minDate={new Date().toISOString().split('T')[0]} // Prevent past date selection
                                             disableArrowLeft={isPrevMonthDisabled}
-    
+
                                             markedDates={{
                                                 [selectedDateForTeamAvailability]:
                                                 {
@@ -1107,8 +1123,8 @@ const MyAgenda = (props) => {
 const mapStateToProps = state => {
     return {
         userId: state.authReducer.userId,
-        individual: state.authReducer.individual,
-        // individual: false,
+        // individual: state.authReducer.individual,
+        individual: false,
         allClinics: state.getAllClinicReducer.data,
         availabilityAddedData: state.availabilityReducer.data,
         loading: state.availabilityReducer.loading,

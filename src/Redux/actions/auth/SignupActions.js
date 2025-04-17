@@ -23,7 +23,7 @@ export const SignupAction = data => {
       "language": data.language,
       "gender": data.gender,
       "clinicId": 0,
-      "id": null,
+      "id": 0,
       "experience": "",
       "review": "",
       "description": "",

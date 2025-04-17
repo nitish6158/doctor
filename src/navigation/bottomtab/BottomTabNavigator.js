@@ -63,7 +63,7 @@ const BottomTabNavigator = ({ isVerified , individual}) => {
           );
         },
         tabBarButton: (props) => {
-          if ( !individual || (disabledTabs.includes(route.name) && isVerified == 1)) {
+          if ( !individual || ( isVerified == 1)) {
             return <TouchableOpacity {...props} />;
           }else{
             return (
