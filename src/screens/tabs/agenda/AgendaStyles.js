@@ -576,5 +576,28 @@ export const AgendaStyles = StyleSheet.create({
         fontSize: ResponsiveFont(16),
         color: Colors.black,
         textAlign: 'center'
+    },
+    restoreDate:{
+        width:'40%',
+        backgroundColor:Colors.lightblue3,
+        borderRadius:wp*15/100,
+        paddingVertical:wp*2/100,
+        marginVertical:'1%'
+    },
+    restoreTextdate:{
+        fontFamily: Fonts.SemiBold,
+        fontSize: ResponsiveFont(16),
+        color: Colors.blue,
+        textAlign: 'center'
+    },
+    NoDataFoundContainer: {
+        // paddingVertical: '45%',
+        alignItems: 'center',
+        justifyContent: 'center'
+    },
+    NoDataFound: {
+        width: wp * 40 / 100,
+        height: wp * 40 / 100,
+        resizeMode: 'contain'
     }
 });

@@ -18,6 +18,7 @@ import { AvailabilityModal, DeleteSlotModal, EditSlotModal, Loader, } from '../.
 import {
     AddAvailabilityAction,
     getAvailabilityAction,
+    RestoreDateAction,
     ClearAgendaStatus,
     BlockAvailabilityByDateAction,
     BlockAvailabilityByTimeAction,
@@ -83,6 +84,10 @@ const MyAgenda = (props) => {
         id: props.GlobalSelectedClinicId || 0,
         clinicName: props.GlobalSelectedClinicName || "",
     })
+    const [clinicForTeam, setClinicForTeam] = useState({
+        id: props.GlobalSelectedClinicId || 0,
+        clinicName: props.GlobalSelectedClinicName || "",
+    })
     const renderPeople = ({ item }) => <DoctorCard item={item} />;
     const updateMarkedDates = (datesArray) => {
         const marked = {};
@@ -108,7 +113,7 @@ const MyAgenda = (props) => {
             // Keep current selectedDates intact when switching to Date mode
             setWeekInitialized(false);
         } else if (isRepeat === 3 && !weekInitialized) {
-            const startOfWeek = moment(addAvailabilitySelectedDate).startOf('isoWeek');
+            const startOfWeek = moment(addAvailabilitySelectedDate);
             const weekDates = [];
             for (let i = 0; i < 7; i++) {
                 weekDates.push(startOfWeek.clone().add(i, 'days').format("YYYY-MM-DD"));
@@ -131,6 +136,12 @@ const MyAgenda = (props) => {
             ToastMsg(props.errMsg, 'bottom')
             handleDiscard()
             clearResponseCode()
+        } else if (props.errMsg && props.errMsg != null) {
+            ToastMsg(props.errMsg, 'bottom')
+            clearResponseCode()
+        }
+        if (blockAvailabilityInProgress) {
+            setBlockAvailabilityInProgress(false)
         }
         if (selectedSlot) {
             setSelectedSlot(null)
@@ -199,7 +210,7 @@ const MyAgenda = (props) => {
     const fetchMyTeam = async () => {
         const formatDate = moment(selectedDateForTeamAvailability).format("DD-MM-YYYY");
         const reqParam = {
-            "clinicId": clinic.id,
+            "clinicId": clinicForTeam.id,
             "doctorId": props.userId,
             "date": formatDate,
         }
@@ -299,12 +310,16 @@ const MyAgenda = (props) => {
             ToastMsg("Please complete all time slots before adding availability.", "bottom");
             return;
         }
+        const formatCreatedByClinic = clinic.id != 0 ? 2 : 0
         const reqParam = {
+            clinicId: clinic.id,
             doctorId: props.userId,
             repeatForWeek: isRepeat === 3 ? 1 : 0,
             dateArray: dateArray,
             timeSlots: timeSlots,
+            createdByClinic: formatCreatedByClinic
         };
+        // console.log(reqParam)
         await props.AddAvailabilityAction(reqParam);
     };
 
@@ -386,11 +401,14 @@ const MyAgenda = (props) => {
             (props.responseCodeOfEditSlot && props.responseCodeOfEditSlot == 200)
             ||
             (props.responseCodeOfDeleteSlot && props.responseCodeOfDeleteSlot == 200)
+            ||
+            (props.responseCodeOfRestoreDate && props.responseCodeOfRestoreDate == 200)
         ) {
             setSelectedSlot(null)
             fetchMyAvailabilityOnDemand(selectedDate)
             setEditModalOpen(false)
             setRemoveSlotModalVisible(false)
+            clearResponseCode();
         } else if (props.errMsg != null) {
             ToastMsg(props.errMsg, 'bottom')
             clearResponseCode();
@@ -400,6 +418,8 @@ const MyAgenda = (props) => {
         props.responseCodeOfRestoreSlot,
         props.responseCodeOfEditSlot,
         props.responseCodeOfDeleteSlot,
+        props.responseCodeOfRestoreDate,
+
     ])
 
 
@@ -444,6 +464,14 @@ const MyAgenda = (props) => {
         setEditEndTime(slot.endTime)
         setEditLocation(slot.location)
         setEditModalOpen(true);
+    };
+    const onPressRestoreByDate = async () => {
+        const formatDate = moment(selectedDate).format("DD-MM-YYYY");
+        const reqParam = {
+            "doctorId": props.userId,
+            "date": formatDate,
+        }
+        await props.RestoreDateAction(reqParam)
     };
     const onDeletePress = (slot) => {
         if (!slot) {
@@ -606,6 +634,12 @@ const MyAgenda = (props) => {
                                                                 <Text style={AgendaStyles.TextBlockAvailability}>
                                                                     You Have Blocked Availability For This Date
                                                                 </Text>
+                                                                <TouchableOpacity
+                                                                    onPress={() => { onPressRestoreByDate() }}
+                                                                    style={AgendaStyles.restoreDate}
+                                                                >
+                                                                    <Text style={AgendaStyles.restoreTextdate}>Restore</Text>
+                                                                </TouchableOpacity>
                                                             </ListingCard>
                                                             :
                                                             <>
@@ -673,30 +707,40 @@ const MyAgenda = (props) => {
                                                     >You Haven't Added Availability Yet!</Text>
                                                 </View>
                                             }
-
-                                            <View
-                                                style={AgendaStyles.availabilityButton} >
-                                                <CustomButton
-                                                    title={"Block Availability"}
-                                                    textStyle={buttonTextStyle1}
-                                                    width='48%'
-                                                    onPress={() => { setBlockAvailabilityInProgress(true) }}
-                                                    backgroundColor={Colors.lightblue6}
-                                                />
+                                            {props?.myAvailabilityData?.onlineSlots?.length > 0
+                                                ||
+                                                props?.myAvailabilityData?.offlineSlots?.length > 0 ?
+                                                <View
+                                                    style={AgendaStyles.availabilityButton} >
+                                                    <CustomButton
+                                                        title={"Block Availability"}
+                                                        textStyle={buttonTextStyle1}
+                                                        width='48%'
+                                                        onPress={() => { setBlockAvailabilityInProgress(true) }}
+                                                        backgroundColor={Colors.lightblue6}
+                                                    />
+                                                    <CustomButton
+                                                        title={"Add Availability"}
+                                                        width='48%'
+                                                        textStyle={buttonTextStyle2}
+                                                        onPress={() => { setAddAvailabilityInProgress(true) }}
+                                                    />
+                                                </View>
+                                                :
                                                 <CustomButton
                                                     title={"Add Availability"}
-                                                    width='48%'
+                                                    width='90%'
                                                     textStyle={buttonTextStyle2}
                                                     onPress={() => { setAddAvailabilityInProgress(true) }}
                                                 />
-                                            </View>
+                                            }
                                         </>
 
                                     }
 
                                     {addAvailabilityInProgress &&
                                         <>
-                                            { !props.individual &&
+                                            {!props.individual &&
 
                                                 <View style={{ width: '100%', alignItems: 'center', marginVertical: '2%' }}>
                                                     <CustomDropdown
@@ -706,7 +750,7 @@ const MyAgenda = (props) => {
                                                         }
                                                         selectedValue={clinic?.clinicName}
                                                         onValueChange={setClinic}
-                                                        options={props.allClinics}
+                                                        options={[{ id: 0, clinicName: 'Self' }, ...(props?.allClinics || [])]}
                                                         width='90%'
                                                         type="clinic"
                                                     />
@@ -891,11 +935,11 @@ const MyAgenda = (props) => {
                                         <CustomDropdown
                                             heading={'Select Clinic'}
                                             placeholder={
-                                                clinic?.clinicName || 'Select Clinic'
+                                                clinicForTeam?.clinicName || 'Select Clinic'
                                             }
-                                            selectedValue={clinic?.clinicName}
-                                            onValueChange={setClinic}
-                                            options={props.allClinics}
+                                            selectedValue={clinicForTeam?.clinicName}
+                                            onValueChange={setClinicForTeam}
+                                            options={props?.allClinics || []}
                                             width='90%'
                                             type="clinic"
                                         />
@@ -922,18 +966,31 @@ const MyAgenda = (props) => {
                                             }}
                                         />
                                     </View>
-                                    <View style={AgendaStyles.listContainer}>
-                                        <FlatList
-                                            data={props.teamAvailabilityListData}
-                                            keyExtractor={(item) => item.id}
-                                            renderItem={renderPeople}
-                                            scrollEnabled={false}
-                                            contentContainerStyle={{
-                                                paddingBottom: '10%',
-                                            }}
-                                            showsVerticalScrollIndicator={false}
-                                        />
-                                    </View>
+                                    {
+                                        props?.teamAvailabilityListData
+                                            &&
+                                            props?.teamAvailabilityListData?.length > 0
+                                            ?
+                                            <View style={AgendaStyles.listContainer}>
+                                                <FlatList
+                                                    data={props.teamAvailabilityListData}
+                                                    keyExtractor={(item) => item.id}
+                                                    renderItem={renderPeople}
+                                                    scrollEnabled={false}
+                                                    contentContainerStyle={{
+                                                        paddingBottom: '10%',
+                                                    }}
+                                                    showsVerticalScrollIndicator={false}
+                                                />
+                                            </View>
+                                            :
+                                            <View style={AgendaStyles.NoDataFoundContainer}>
+                                                <Image
+                                                    source={Images.nodatafound}
+                                                    style={AgendaStyles.NoDataFound}
+                                                />
+                                            </View>
+                                    }
                                 </>
                             }
                         </ScrollView>
@@ -1115,7 +1172,7 @@ const MyAgenda = (props) => {
                 editLocation={editLocation}
                 setEditLocation={setEditLocation}
             />
-        </ImageBackground>
+        </ImageBackground >
     );
 };
 
@@ -1125,18 +1182,19 @@ const mapStateToProps = state => {
         userId: state.authReducer.userId,
         // individual: state.authReducer.individual,
         individual: false,
-        allClinics: state.getAllClinicReducer.data,
+        allClinics: localclinic,
+        // allClinics: state.getAllClinicReducer.data,
         availabilityAddedData: state.availabilityReducer.data,
         loading: state.availabilityReducer.loading,
         errMsg: state.availabilityReducer.errMsg,
         myAvailabilityData: state.availabilityReducer.myAvailabilityData,
         responseCodeOfAddAvailability: state.availabilityReducer.responseCodeOfAddAvailability,
         responseCodeOfGetAvailability: state.availabilityReducer.responseCodeOfGetAvailability,
-
         responseCodeOfBlockAvailabilityByDate: state.availabilityReducer.responseCodeOfBlockAvailabilityByDate,
         responseCodeOfBlockAvailabilityByTime: state.availabilityReducer.responseCodeOfBlockAvailabilityByTime,
         responseCodeOfBlockAvailabilityByTimeSlotId: state.availabilityReducer.responseCodeOfBlockAvailabilityByTimeSlotId,
         responseCodeOfTeamAvailabilityList: state.availabilityReducer.responseCodeOfTeamAvailabilityList,
+        responseCodeOfRestoreDate: state.availabilityReducer.responseCodeOfRestoreDate,
         responseCodeOfRestoreSlot: state.availabilityReducer.responseCodeOfRestoreSlot,
         responseCodeOfEditSlot: state.availabilityReducer.responseCodeOfEditSlot,
         responseCodeOfDeleteSlot: state.availabilityReducer.responseCodeOfDeleteSlot,
@@ -1159,5 +1217,29 @@ const mapDispatchToProps = {
     BlockAvailabilityByFutureTimeAction,
     BlockAvailabilityByTimeSlotIDAction,
     RestoreSlotAction,
+    RestoreDateAction,
 };
 export default connect(mapStateToProps, mapDispatchToProps)(MyAgenda);
+
+const localclinic = [
+    {
+        "id": '1',
+        "clinicName": 'CHL',
+
+    },
+    {
+        "id": '2',
+        "clinicName": 'bHL',
+
+    },
+    {
+        "id": '3',
+        "clinicName": 'ChghgL',
+
+    },
+    {
+        "id": '5',
+        "clinicName": 'CsdsddHL',
+
+    },
+]

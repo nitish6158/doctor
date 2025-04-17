@@ -47,14 +47,14 @@ export const AddAvailabilityAction = data => {
     return async (dispatch, getState) => {
         dispatch({ type: AVAILABILITY.ADD_AVAILABILITY_REQUEST });
         const reqParam = {
-            "clinicId": 0,
+            "clinicId": data.clinicId,
             "doctorId": data.doctorId,
             "repeatForWeek": data.repeatForWeek,
             "dateTimeSlotsRequest": {
                 "date": data.dateArray,
                 "timeSlots": data.timeSlots,
             },
-            "createdByClinic": 0
+            "createdByClinic": data.createdByClinic
         }
 
 
@@ -325,12 +325,8 @@ export const RestoreDateAction = data => {
         dispatch({ type: AVAILABILITY.RESTORE_DATE_REQUEST });
         console.log(data)
         const reqParam = {
-            "clinicId": data.clinicId,
             "doctorId": data.doctorId,
-            "timeSlotId": data.timeSlotId,
             "date": data.date,
-            "fromTime": data.fromTime,
-            "toTime": data.toTime,
         }
         const method = API_METHODS.POST;
         const endPoint = BASE_URL + END_POINT.restoreDate(reqParam);

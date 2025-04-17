@@ -209,6 +209,29 @@ const availabilityReducer = (state = initialState, action) => {
 
 
       
+      case AVAILABILITY.RESTORE_DATE_REQUEST:
+        return Object.assign({}, state, {
+          responseCodeOfRestoreDate: null,
+          errMsg: null,
+          loading: true,
+          restoreDateData: null
+        });
+      case AVAILABILITY.RESTORE_DATE_SUCCESS:
+        return Object.assign({}, state, {
+          responseCodeOfRestoreDate: action?.payload?.status,
+          errMsg: action?.payload?.message,
+          loading: false,
+          restoreDateData: action?.payload?.data,
+        });
+      case AVAILABILITY.RESTORE_DATE_FAIL:
+        return Object.assign({}, state, {
+          responseCodeOfRestoreDate: action?.payload?.status,
+          errMsg: action?.payload?.message,
+          loading: false,
+          restoreDateData: null
+        });
+
+
       case AVAILABILITY.RESTORE_SLOT_REQUEST:
         return Object.assign({}, state, {
           responseCodeOfRestoreSlot: null,

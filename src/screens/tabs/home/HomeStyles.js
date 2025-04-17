@@ -56,6 +56,12 @@ export const HomeStyles = StyleSheet.create({
         resizeMode:'contain',
      
     },
+    iconStyle2: {
+        width: wp * 4 / 100,
+        height: wp * 4 / 100,
+        resizeMode:'contain',
+     
+    },
     textContainer: {
         width: (wp * 40) / 100,
         justifyContent: 'center',
@@ -80,6 +86,11 @@ export const HomeStyles = StyleSheet.create({
         justifyContent: 'space-between',
         borderRadius:10
 
+    },
+    dropdownIMGText:{
+        width:'85%',
+        flexDirection:'row',
+        alignItems:'center',
     },
     dropdownContainer2: {
         backgroundColor: Colors.white,
@@ -108,6 +119,13 @@ export const HomeStyles = StyleSheet.create({
         lineHeight: ResponsiveFont(16),
         color: Colors.white,
     
+    },
+    speciality5: {
+        fontFamily: Fonts.Bold,
+        fontSize: ResponsiveFont(14),
+        lineHeight: ResponsiveFont(16),
+        color: Colors.white,
+        marginLeft:'8%'
     },
     speciality2: {
         fontFamily: Fonts.Bold,

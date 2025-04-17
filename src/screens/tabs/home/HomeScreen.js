@@ -22,11 +22,33 @@ import { Provider as PaperProvider } from 'react-native-paper';
 import { Menu } from 'react-native-paper';
 import { UpdateUserInfo, GetAllClinicAction, UpdateClinicIdAction } from '../../../Redux/actions'
 import { FlatList } from 'react-native-gesture-handler';
+const localclinic = [
+    {
+        "id": '1',
+        "clinicName": 'CHL',
+
+    },
+    {
+        "id": '2',
+        "clinicName": 'bHL',
+
+    },
+    {
+        "id": '3',
+        "clinicName": 'ChghgL',
+
+    },
+    {
+        "id": '5',
+        "clinicName": 'CsdsddHL',
+
+    },
+]
 const HomeScreen = (props) => {
     const [menuVisible, setMenuVisible] = useState(false);
-    const [selectedClinicName, setSelectedClinicName] = useState(props.GlobalSelectedClinicName || "Select Clinic");
+    const [selectedClinicName, setSelectedClinicName] = useState(props.GlobalSelectedClinicName || "Self");
     const [selectedClinicId, setSelectedClinicId] = useState(props.GlobalSelectedClinicId || 0);
-    const openMenu = () => setMenuVisible(true);
+    const openMenu = () => { setMenuVisible(true); console.log(props?.allClinics) }
     const closeMenu = () => setMenuVisible(false);
     const t = useTranslation();
     const handleBankDetails = () => {
@@ -137,42 +159,15 @@ const HomeScreen = (props) => {
             })
         }
     }, [])
-    // const renderclinicname = ({ item }) => {
-    //     console.log("itemm", item)
-    //     return (
-    //         <TouchableOpacity onPress={() => {
-    //             setSelectedClinicName(item.name);
-    //             closeMenu();
-    //             // setGlobalClinicId({
-    //             //     ClinicId: clinic.id,
-    //             //     ClinicName: clinic.clinicName,
-    //             // })
-    //         }} style={{
-    //             borderColor: Colors.light_blue,
-    //             paddingHorizontal: "9%",
-    //             paddingVertical: "5%",
-    //             width: "100%",
-    //             flexDirection: "row",
-    //             alignItems: 'center',
-    //             borderWidth: 1
-    //         }}>
-    //             <Image
-    //                 source={Images.icon_hospital}
-    //                 style={HomeStyles.iconStyle}
-    //             />
-    //             <Text
-    //                 style={[HomeStyles.speciality, { marginLeft: "28" }]}>
-    //                 {item.name}
-    //             </Text>
-    //         </TouchableOpacity>
-    //     )
-    // }
     const renderclinicname = ({ item }) => {
         console.log("itemm", item);
-
+        if (item.id == selectedClinicId) {
+            return null
+        }
         return (
             <TouchableOpacity
                 onPress={() => {
+                    setSelectedClinicId(item.id)
                     setSelectedClinicName(item.clinicName); // previously was item.name
                     setMenuVisible(false); // properly close dropdown
                     setGlobalClinicId({
@@ -189,17 +184,18 @@ const HomeScreen = (props) => {
                     alignItems: 'center',
                     borderWidth: 1,
                     backgroundColor: Colors.lightblue4, // optional: match dropdown
-                    backgroundColor:'red'
                 }}
             >
-                <Image
-                    source={Images.icon_hospital}
-                    style={HomeStyles.iconStyle}
-                />
-                <Text
-                    style={[HomeStyles.speciality, { marginLeft: 28 }]}>
-                    {item.clinicName}
-                </Text>
+                <View style={HomeStyles.dropdownIMGText} >
+                    <Image
+                        source={Images.icon_hospital}
+                        style={HomeStyles.iconStyle2}
+                    />
+                    <Text
+                        style={[HomeStyles.speciality5,]}>
+                        {item.clinicName}
+                    </Text>
+                </View>
             </TouchableOpacity>
         );
     };
@@ -227,68 +223,25 @@ const HomeScreen = (props) => {
                                 }
                             ]
                         }>
-                            {/* {
-                                    !props.individual &&
-                                    <View style={{}}>
-                                        <Menu
-                                            visible={true}
-                                            onDismiss={closeMenu}
-                                            anchor={
-                                                <Pressable
-                                                    style={HomeStyles.dropdownContainer}
-                                                    onPress={openMenu}
-                                                >
-                                                    <Image
-                                                        source={Images.icon_hospital}
-                                                        style={HomeStyles.iconStyle}
-                                                    />
-                                                    <Text
-                                                        style={HomeStyles.speciality}>
-                                                        {selectedClinicName}
-                                                    </Text>
-                                                    <Image
-                                                        source={Images.icon_dropdown3}
-                                                        style={HomeStyles.iconStyle}
-                                                    />
-                                                </Pressable>
-                                            }
-                                            anchorPosition='top'
-                                        >
-                                            {props?.allClinics?.map((clinic) => (
-                                                <Menu.Item
-                                                    key={clinic.id}
-                                                    onPress={() => {
-                                                        setSelectedClinicName(clinic.clinicName);
-                                                        closeMenu();
-                                                        setGlobalClinicId({
-                                                            ClinicId: clinic.id,
-                                                            ClinicName: clinic.clinicName,
-                                                        })
-                                                    }}
-                                                    title={clinic.clinicName}
-                                                    style={HomeStyles.dropdownContainer2}
-                                                    titleStyle={HomeStyles.speciality2}
-                                                    contentContainerStyle={{ backgroundColor: 'red' }}
-                                                />
-                                            ))}
-                                        </Menu>
-                                    </View>
-                                } */}
 
                             <View style={HomeStyles.buttonSubContainer}>
 
-                                <TouchableOpacity onPress={() => openMenu()} style={HomeStyles.dropdownContainer}>
-                                    <Image
-                                        source={Images.icon_hospital}
-                                        style={HomeStyles.iconStyle}
-                                    />
-                                    <Text
-                                        style={HomeStyles.speciality}>
-                                        {selectedClinicName}
-                                    </Text>
+                                <TouchableOpacity onPress={() => openMenu()}
+                                    style={HomeStyles.dropdownContainer}>
+                                    <View style={HomeStyles.dropdownIMGText} >
+                                        <Image
+                                            source={Images.icon_hospital}
+                                            style={HomeStyles.iconStyle2}
+                                        />
+                                        <Text
+                                            style={HomeStyles.speciality5}>
+                                            {selectedClinicName}
+                                        </Text>
+                                    </View>
+
                                     <Image
                                         source={Images.icon_dropdown3}
-                                        style={HomeStyles.iconStyle}
+                                        style={HomeStyles.iconStyle2}
                                     />
                                 </TouchableOpacity>
                                 <View style={{ flexDirection: "row" }}>
@@ -333,7 +286,7 @@ const HomeScreen = (props) => {
 
             <View style={HomeStyles.bottomView}>
                 <FloatingBackgroundCard customStyles={HomeStyles.customStyles}>
-                    {props.isVerified === 1 || !props.individual ?
+                    {!props.individual || props.isVerified === 1 ?
                         <View>
                             <View style={HomeStyles.dashboardtextContainer}>
                                 <Text style={HomeStyles.dashboardtext}>{t('Dashboard')}</Text>
@@ -467,23 +420,6 @@ const HomeScreen = (props) => {
                     buttonOnpress={handleBankDetails}
                 />
             </View>
-            {/* {menuVisible &&
-                <View style={{
-                    position: "absolute",
-                    maxHeight: "40%",
-                    width: (wp * 55) / 100,
-                    backgroundColor: Colors.lightblue4,
-                    top: "10%",
-                    marginLeft: '3%',
-                    borderRadius: 10
-                }}>
-                    <FlatList
-                        data={clinicname}
-                        renderItem={renderclinicname}
-                        showsVerticalScrollIndicator={false}
-                    />
-                </View>
-} */}
             {!props.individual && menuVisible &&
                 <View style={{
                     position: "absolute",
@@ -495,7 +431,10 @@ const HomeScreen = (props) => {
                     borderRadius: 10
                 }}>
                     <FlatList
-                        data={props?.allClinics}
+                        // data={props?.allClinics}
+                        // data={localclinic}
+                         // data={[{ id: 0, clinicName: 'Self' }, ...(localclinic || [])]}
+                        data={[{ id: 0, clinicName: 'Self' }, ...(props?.allClinics || [])]}
                         keyExtractor={(item) => item.id.toString()}
                         renderItem={renderclinicname}
                         showsVerticalScrollIndicator={false}
@@ -517,6 +456,7 @@ const mapStateToProps = state => {
         updateLoading: state.bankReducer.updateLoading,
         userId: state.authReducer.userId,
         individual: state.authReducer.individual,
+        // individual: false,
         allClinics: state.getAllClinicReducer.data,
 
     };
