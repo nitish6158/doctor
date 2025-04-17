@@ -10,13 +10,15 @@ export const EditSlotModal = ({
   onClose,
   selectedSlot,
   onPressUpdateSlot,
+  editMode,
+  setEditMode,
+  editStartTime,
+  setEditStartTime,
+  editEndTime,
+  setEditEndTime,
+  editLocation,
+  setEditLocation,
 }) => {
-
-
-  const [mode, setMode] = useState(selectedSlot?.mode || "online")
-  const [startTime, setStartTime] = useState(selectedSlot?.startTime )
-  const [endTime, setEndTime] = useState(selectedSlot?.endTime )
-  const [location, setLocation] = useState(selectedSlot?.location || "")
 
   const add15Minutes = (time) => {
     if (!time || !time.includes(":")) return "";
@@ -54,23 +56,23 @@ export const EditSlotModal = ({
               <TouchableOpacity
                 style={[styles.modeButton, {
                   marginHorizontal: '0%',
-                  backgroundColor: mode === 'online' ? Colors.blue : Colors.white
+                  backgroundColor: editMode === 'online' ? Colors.blue : Colors.white
                 }]}
-                onPress={() => setMode('online')}
+                onPress={() => setEditMode('online')}
               >
                 <Text style={[styles.modeText,
-                { color: mode === 'online' ? Colors.white : Colors.blue }]}>
+                { color: editMode === 'online' ? Colors.white : Colors.blue }]}>
                   online
                 </Text>
               </TouchableOpacity>
               <TouchableOpacity
                 style={[styles.modeButton, {
-                  backgroundColor: mode === 'offline' ? Colors.blue : Colors.white
+                  backgroundColor: editMode === 'offline' ? Colors.blue : Colors.white
                 }]}
-                onPress={() => setMode('offline')}
+                onPress={() => setEditMode('offline')}
               >
                 <Text style={[styles.modeText,
-                { color: mode === 'offline' ? Colors.white : Colors.blue }]}>
+                { color: editMode === 'offline' ? Colors.white : Colors.blue }]}>
                   offline
                 </Text>
               </TouchableOpacity>
@@ -79,29 +81,29 @@ export const EditSlotModal = ({
               <CustomTimeInput
                 placeholder={"From HH:MM"}
                 onTimeChange={(time) => {
-                  setStartTime(time)
+                  setEditStartTime(time)
                   const calculatedToTime = add15Minutes(time);
-                  setEndTime(calculatedToTime)
+                  setEditEndTime(calculatedToTime)
                 }}
-                value={startTime}
+                value={editStartTime}
                 paddingVertical='1.2%'
               />
               <CustomTimeInput
                 placeholder="To HH:MM"
                 onTimeChange={(time) => updateSlot(index, 'toTime', time)}
-                value={endTime}
+                value={editEndTime}
                 editable={false} // disables the input
                 paddingVertical='1.2%'
               />
             </View>
 
-            {mode === 'offline' && (
+            {editMode === 'offline' && (
               <View style={styles.addressContainer4}>
                 <AddressInput
                   heading='Select Location'
                   placeholder='Select Location'
-                  value={location}
-                  onChangeText={(setLocation)}
+                  value={editLocation}
+                  onChangeText={(setEditLocation)}
                   width='100%'
                 />
               </View>
@@ -112,16 +114,16 @@ export const EditSlotModal = ({
             width={wp * 90 / 100}
             marginVertical='1.5%'
             onPress={() => {
-              if (!startTime || !endTime) {
+              if (!editStartTime || !editEndTime) {
                 ToastMsg("Start and End time are required", "bottom");
                 return;
               }
               const updatedData = {
                 ...selectedSlot,
-                startTime,
-                endTime,
-                location,
-                mode,
+                startTime: editStartTime,
+                endTime: editEndTime,
+                location: editLocation,
+                mode: editMode,
               };
               onPressUpdateSlot(updatedData);
               onClose(); // optionally close modal here

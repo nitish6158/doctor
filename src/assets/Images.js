@@ -83,6 +83,8 @@ back_Icon: require('./icons/Back_Icon.png'),
   icon_profile_disable: require('./icons/user_profile_disable.png'),
 
   icon_chat: require('./icons/chat.png'),
+  dotOnline: require('./icons/dotOnline.png'),
+  dotOffline: require('./icons/dotOffline.png'),
   icon_notification: require('./icons/notification.png'),
   icon_notification2: require('./icons/notification2.png'),
   icon_user_doctor: require('./icons/user_doctor.png'),

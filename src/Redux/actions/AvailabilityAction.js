@@ -205,16 +205,11 @@ export const TeamAvailabilityListAction = data => {
         dispatch({ type: AVAILABILITY.TEAM_AVAILABILITY_LIST_REQUEST });
         console.log(data)
         const reqParam =
-        // {
-        //     "clinicId": data.clinicId,
-        //     "doctorId": data.doctorId,
-        //     "date": data.date,
-        // }
         {
-            "clinicId": 46,
-            "doctorId": 1,
-            "date": "12-04-2025"
-        };
+            "clinicId": data.clinicId,
+            "doctorId": data.doctorId,
+            "date": data.date,
+        }
         const method = API_METHODS.POST;
         const endPoint = BASE_URL + END_POINT.teamAvailabilityList;
         try {
@@ -254,6 +249,8 @@ export const EditSlotAction = data => {
             "date": data.date,
             "fromTime": data.fromTime,
             "toTime": data.toTime,
+            "location": data.location,
+            "mode": data.mode
         }
         const method = API_METHODS.POST;
         const endPoint = BASE_URL + END_POINT.editSlot;
@@ -290,10 +287,10 @@ export const DeleteSlotAction = data => {
         const reqParam = {
             "clinicId": data.clinicId,
             "doctorId": data.doctorId,
-            "timeSlotId": data.timeSlotId,
             "date": data.date,
-            "fromTime": data.fromTime,
-            "toTime": data.toTime,
+            "slotList": [
+                data.timeSlotId,
+            ]
         }
         const method = API_METHODS.POST;
         const endPoint = BASE_URL + END_POINT.deleteSlot;
@@ -336,7 +333,7 @@ export const RestoreDateAction = data => {
             "toTime": data.toTime,
         }
         const method = API_METHODS.POST;
-        const endPoint = BASE_URL + END_POINT.restoreDate;
+        const endPoint = BASE_URL + END_POINT.restoreDate(reqParam);
         try {
             const response = await ApiHandler({ endPoint, method, reqParam });
             console.log("check ", response)
@@ -368,15 +365,9 @@ export const RestoreSlotAction = data => {
         dispatch({ type: AVAILABILITY.RESTORE_SLOT_REQUEST });
         console.log(data)
         const reqParam = {
-            "clinicId": data.clinicId,
-            "doctorId": data.doctorId,
-            "timeSlotId": data.timeSlotId,
-            "date": data.date,
-            "fromTime": data.fromTime,
-            "toTime": data.toTime,
         }
-        const method = API_METHODS.GET;
-        const endPoint = BASE_URL + END_POINT.restoreSlot;
+        const method = API_METHODS.POST;
+        const endPoint = BASE_URL + END_POINT.restoreSlot(data);
         try {
             const response = await ApiHandler({ endPoint, method, reqParam });
             console.log("check ", response)
@@ -402,7 +393,6 @@ export const RestoreSlotAction = data => {
         }
     };
 };
-
 
 export const ClearAgendaStatus = data => {
     return async (dispatch, getState) => {

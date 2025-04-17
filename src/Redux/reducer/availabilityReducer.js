@@ -240,6 +240,11 @@ const availabilityReducer = (state = initialState, action) => {
         responseCodeOfBlockAvailabilityByTime: null,
         responseCodeOfBlockAvailabilityByTimeSlotId: null,
         responseCodeOfTeamAvailabilityList: null,
+
+        responseCodeOfEditSlot: null,
+        responseCodeOfDeleteSlot: null,
+        responseCodeOfRestoreDate: null,
+        responseCodeOfRestoreSlot: null,
       });
     default:
       return state;

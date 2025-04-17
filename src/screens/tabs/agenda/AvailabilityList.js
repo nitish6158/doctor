@@ -13,7 +13,6 @@ export const AvailabilityList = ({
     onDeletePress,
     onEditPress,
     onRestorePress,
-    onBlockPress,
 }) => {
     return (
         <FlatList
@@ -40,25 +39,14 @@ export const AvailabilityList = ({
                                         </Text>
                                     </View>
                                 </View>
-
-                                {isSelectedCard && selectedTimeSlot && (
-                                    selectedTimeSlot.isBlockedByTime ? (
-                                        <TouchableOpacity
-                                            style={AgendaStyles.restoreButton}
-                                            onPress={() => onRestorePress(selectedSlot)}
-                                        >
-                                            <Text style={AgendaStyles.restoreText}>Restore</Text>
-                                        </TouchableOpacity>
-                                    ) : (
-                                        <TouchableOpacity
-                                            style={AgendaStyles.restoreButton}
-                                            onPress={() => onBlockPress(selectedSlot)}
-                                        >
-                                            <Text style={AgendaStyles.restoreText}>Block</Text>
-                                        </TouchableOpacity>
-                                    )
-                                )}
-
+                                {isSelectedCard && selectedTimeSlot && selectedTimeSlot.isBlockedByTime &&
+                                    <TouchableOpacity
+                                        style={AgendaStyles.restoreButton}
+                                        onPress={() => onRestorePress(selectedSlot)}
+                                    >
+                                        <Text style={AgendaStyles.restoreText}>Restore</Text>
+                                    </TouchableOpacity>
+                                }
                             </View>
 
 
@@ -88,10 +76,11 @@ export const AvailabilityList = ({
                                                     endTime: slot.endTime,
                                                     timeSlotId: slot.id,
                                                     date: date,
+                                                    location: item.location ? item.location : ""
                                                 });
                                             }}
                                         >
-                                            <Text style={[AgendaStyles.tabText,{color: slot.isBlockedByTime ? Colors.red5 : Colors.black }]}>
+                                            <Text style={[AgendaStyles.tabText, { color: slot.isBlockedByTime ? Colors.red5 : Colors.black }]}>
                                                 {slot.startTime}-{slot.endTime}
                                             </Text>
                                         </TouchableOpacity>
@@ -103,7 +92,8 @@ export const AvailabilityList = ({
                                 <Text style={AgendaStyles.address2}>{item.clinicName}</Text>
                             )}
 
-                            {item.location && item.location !== "" && (
+                            {item.location && item.location !== "" ?
+
                                 <View style={AgendaStyles.addressContainer2}>
                                     <Image
                                         source={Images.icon_map}
@@ -111,7 +101,20 @@ export const AvailabilityList = ({
                                     />
                                     <Text style={AgendaStyles.address3}>{item.location}</Text>
                                 </View>
-                            )}
+                                :
+                                <>
+                                    {item.address && item.address != "" &&
+                                        <View style={AgendaStyles.addressContainer2}>
+                                            <Image
+                                                source={Images.icon_map}
+                                                style={AgendaStyles.iconStyle3}
+                                            />
+                                            <Text style={AgendaStyles.address3}>{item.address}</Text>
+                                        </View>}
+                                </>
+
+
+                            }
 
                             <View style={AgendaStyles.AvailalitytbuttonContainer}>
                                 <TouchableOpacity
