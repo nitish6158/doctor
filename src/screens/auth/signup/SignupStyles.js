@@ -62,7 +62,7 @@ export const SignupStyles = StyleSheet.create({
     label: {
         marginTop: '3%',
         fontFamily: Fonts.Bold,
-        fontSize: ResponsiveFont(16),
+        fontSize: ResponsiveFont(13),
         lineHeight: ResponsiveFont(20),
         color: Colors.black,
     },
@@ -96,7 +96,7 @@ export const SignupStyles = StyleSheet.create({
         marginBottom: '2%',
       },
       genderText: {
-        fontSize: ResponsiveFont(16),
+        fontSize: ResponsiveFont(13),
         fontFamily: Fonts.Bold,
         lineHeight: ResponsiveFont(20),
         color: Colors.black,

@@ -94,7 +94,7 @@ const styles = StyleSheet.create({
   },
   heading: {
     fontFamily: Fonts.Bold,
-    fontSize: ResponsiveFont(14),
+    fontSize: ResponsiveFont(13),
     lineHeight: ResponsiveFont(17.5),
     color: Colors.black
   }

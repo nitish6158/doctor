@@ -173,7 +173,7 @@ const styles = StyleSheet.create({
   },
   dropdownText: {
     fontFamily: Fonts.Regular,
-    fontSize: ResponsiveFont(16),
+    fontSize: ResponsiveFont(14),
     marginLeft: '7%'
   },
   modalContainer: {
@@ -191,7 +191,7 @@ const styles = StyleSheet.create({
   },
   heading: {
     fontFamily: Fonts.Bold,
-    fontSize: ResponsiveFont(14.5),
+    fontSize: ResponsiveFont(13),
     lineHeight: ResponsiveFont(17.5),
     color: Colors.black
   },

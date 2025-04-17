@@ -104,13 +104,13 @@ const styles = StyleSheet.create({
   },
   input: {
     flex: 1,
-    fontSize: ResponsiveFont(16),
+    fontSize: ResponsiveFont(14),
     fontFamily: Fonts.Regular,
     color: Colors.black,
   },
   heading: {
     fontFamily: Fonts.Bold,
-    fontSize: ResponsiveFont(14.5),
+    fontSize: ResponsiveFont(13),
     lineHeight: ResponsiveFont(17.5),
     color: Colors.black
   },

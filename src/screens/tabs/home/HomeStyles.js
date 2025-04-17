@@ -37,7 +37,8 @@ export const HomeStyles = StyleSheet.create({
     buttonSubContainer: {
         flexDirection: 'row',
         justifyContent: 'space-between',
-        width: wp * 27 / 100,
+        width:"100%",
+       
     },
     details: {
         flex: 1,
@@ -52,7 +53,8 @@ export const HomeStyles = StyleSheet.create({
     iconStyle: {
         width: wp * 6 / 100,
         height: wp * 6 / 100,
-        resizeMode:'contain'
+        resizeMode:'contain',
+     
     },
     textContainer: {
         width: (wp * 40) / 100,
@@ -71,15 +73,16 @@ export const HomeStyles = StyleSheet.create({
         backgroundColor: Colors.lightblue4,
         borderColor:Colors.lightblue4,
         padding :'5%',
-        width:'65%',
+        width: (wp * 55) / 100,
         flexDirection: "row",
         justifyContent: 'center',
         alignItems: 'center',
         justifyContent: 'space-between',
+        borderRadius:10
 
     },
     dropdownContainer2: {
-        backgroundColor: Colors.lightblue4,
+        backgroundColor: Colors.white,
         width:wp*39/100,
         justifyContent: 'center',
         alignItems: 'center',
@@ -104,6 +107,7 @@ export const HomeStyles = StyleSheet.create({
         fontSize: ResponsiveFont(14),
         lineHeight: ResponsiveFont(16),
         color: Colors.white,
+    
     },
     speciality2: {
         fontFamily: Fonts.Bold,
@@ -132,14 +136,17 @@ export const HomeStyles = StyleSheet.create({
     chatButtonContainer: {
         backgroundColor: Colors.light_blue,
         width: (wp * 12) / 100,
+        height: (wp * 12) / 100,
         justifyContent: 'center',
         alignItems: 'center',
         padding: (wp * 2.5) / 100,
-        borderRadius: (wp * 3) / 100
+        borderRadius: (wp * 3) / 100,
+        marginRight:15
     },
     notificationButtonContainer: {
         backgroundColor: Colors.white,
         width: (wp * 12) / 100,
+        height: (wp * 12) / 100,
         justifyContent: 'center',
         alignItems: 'center',
         padding: (wp * 2.5) / 100,

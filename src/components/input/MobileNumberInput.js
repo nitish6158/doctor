@@ -84,7 +84,7 @@ export const MobileNumberInput = ({
 const styles = StyleSheet.create({
     heading: {
         fontFamily: Fonts.Bold,
-        fontSize: ResponsiveFont(14.5),
+        fontSize: ResponsiveFont(13),
         color: Colors.black,
         marginBottom: 4,
     },
@@ -104,7 +104,7 @@ const styles = StyleSheet.create({
     },
     input: {
         flex: 1,
-        fontSize: ResponsiveFont(16),
+        fontSize: ResponsiveFont(14),
         fontFamily: Fonts.Regular,
         color: Colors.black,
     },
