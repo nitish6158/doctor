@@ -6,6 +6,9 @@ export const AgendaStyles = StyleSheet.create({
         width: '100%',
         height: '100%',
     },
+    keyBoardcontainer: {
+        flex: 1,
+    },
     topView: {
         flex: 1.5,
         justifyContent: 'space-around',
@@ -433,7 +436,7 @@ export const AgendaStyles = StyleSheet.create({
         width: '100%',
         flexDirection: 'row',
         justifyContent: 'flex-start',
-        paddingVertical: '3%'
+        paddingVertical: '3%',
     },
     modeContainer3: {
         width: '100%',
@@ -506,7 +509,7 @@ export const AgendaStyles = StyleSheet.create({
     },
     modeButton2: {
         paddingVertical: '2%',
-        marginHorizontal: '2%',
+        // marginHorizontal: '2%',
         borderRadius: (wp * 2) / 100,
         borderColor: Colors.blue,
         borderWidth: 1,

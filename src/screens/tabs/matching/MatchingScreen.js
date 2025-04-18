@@ -319,7 +319,13 @@ const MatchingScreen = (props) => {
             <View style={MatchingStyles.topView}>
                 <TouchableOpacity
                     style={MatchingStyles.tabNameContainer1}
-                    onPress={() => props.navigation.goBack()}>
+                    onPress={() => {
+                        addMatchingInProgess ?
+                        setIsAddMatchingprogress(false)
+                        :
+                        props.navigation.goBack()
+
+                    }}>
                     <Image
                         source={Images.back_Icon}
                         style={MatchingStyles.backIcon}

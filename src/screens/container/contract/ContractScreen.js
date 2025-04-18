@@ -56,7 +56,7 @@ import { FloatingBackgroundCard } from '../../../components/card';
 import { connect } from 'react-redux';
 import { BankFormStyles } from '../bankDetailsForm/BankFormStyles';
 import { SignupStyles } from '../../auth/signup/SignupStyles';
-
+import { FILE_BASE_URL } from '../../../Redux/config';
 
 const NexttextStyle = {
     fontSize: ResponsiveFont(18),
@@ -91,8 +91,6 @@ const ContractScreen = (props) => {
     const [uploadedFileURL, setUploadedFileURL] = useState(null);
 
     const [isModal, setIsmodal] = useState(false);
-
-
 
 
     const handleFileUpload = async () => {
@@ -183,11 +181,10 @@ const ContractScreen = (props) => {
                             <DownloadButton
                                 heading={t('SignDownloadContract')}
                                 title={t('DownloadContract')}
-                                onPress={() => downloadFile(pdfUrl)}
+                                onPress={() => downloadFile(FILE_BASE_URL+""+pdfUrl)}
                                 width='100%'
                                 textStyle={BankFormStyles.textStyle}
-                                disabled={downloadLoading}
-                            />
+                                disabled={downloadLoading || pdfUrl==null}                            />
 
                             <UploadFileButton
                                 heading={t('UploadSignedContract')}

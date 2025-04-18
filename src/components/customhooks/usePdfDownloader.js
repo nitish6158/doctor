@@ -30,6 +30,7 @@ export const usePdfDownloader = () => {
     };
 
     const downloadFile = async (pdfUrl) => {
+        console.log(pdfUrl)
         setLoading(true);
         setError(null);
         setSuccess(null);

@@ -1,5 +1,6 @@
 // export const BASE_URL = 'http://151.106.34.159:4000/api/v1';
 export const BASE_URL = 'http://72.167.33.207:4000/api/v1';
+export const FILE_BASE_URL = 'http://72.167.33.207:3030';
 
 export const END_POINT = {
   login: '/authController/login',

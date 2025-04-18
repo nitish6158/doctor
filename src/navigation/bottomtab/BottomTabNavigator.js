@@ -41,7 +41,7 @@ const tabIcons = {
 const TabBarIcon = ({ routeName, focused }) => (
   <Image
     source={focused ? tabIcons[routeName].active : tabIcons[routeName].inactive}
-    style={{ width: 38, height: 38, resizeMode: 'contain' }}
+    style={{ width: 42, height: 42, resizeMode: 'contain' }}
   />
 );
 
@@ -60,6 +60,7 @@ const BottomTabNavigator = ({ navigation }) => {
       screenOptions={({ route }) => ({
         headerShown: false,
         tabBarShowLabel: false,
+        tabBarHideOnKeyboard: true,
         tabBarIcon: ({ focused }) => (
           <TabBarIcon routeName={route.name} focused={focused} />
         ),

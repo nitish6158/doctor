@@ -3,7 +3,7 @@ import { View, Text, TouchableOpacity, StyleSheet, Modal, Image, } from 'react-n
 import { Images, Colors, WindowWidth as wp, WindowHeight as hp, Fonts, ResponsiveFont } from '../../assets';
 import { ToastMsg } from '../Toast';
 import { ListingCard } from '../card';
-import { CustomTimeInput, AddressInput } from '../input';
+import { CustomTimeInput, AddressInput, TimePicker } from '../input';
 import { CustomButton } from '../button';
 export const EditSlotModal = ({
   visible,
@@ -78,7 +78,7 @@ export const EditSlotModal = ({
               </TouchableOpacity>
             </View>
             <View style={styles.slotContainer}>
-              <CustomTimeInput
+              {/* <CustomTimeInput
                 placeholder={"From HH:MM"}
                 onTimeChange={(time) => {
                   setEditStartTime(time)
@@ -94,6 +94,25 @@ export const EditSlotModal = ({
                 value={editEndTime}
                 editable={false} // disables the input
                 paddingVertical='1.2%'
+              /> */}
+
+              <TimePicker
+                value={editStartTime}
+                onChange={(time) => {
+                  setEditStartTime(time)
+                  const calculatedToTime = add15Minutes(time);
+                  setEditEndTime(calculatedToTime)
+                }}
+                label="From Time"
+              />
+              <TimePicker
+                value={editEndTime}
+                onChange={(time) => {
+                  // updateSlot(index, 'toTime', time)
+                  setEditEndTime(time)
+                }}
+                label="To Time"
+                minTime={editStartTime}
               />
             </View>
 
