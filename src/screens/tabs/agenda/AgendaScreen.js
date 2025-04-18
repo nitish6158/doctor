@@ -1180,10 +1180,10 @@ const MyAgenda = (props) => {
 const mapStateToProps = state => {
     return {
         userId: state.authReducer.userId,
-        // individual: state.authReducer.individual,
-        individual: false,
-        allClinics: localclinic,
-        // allClinics: state.getAllClinicReducer.data,
+        individual: state.authReducer.individual,
+        // individual: false,
+        // allClinics: localclinic,
+        allClinics: state.getAllClinicReducer.data,
         availabilityAddedData: state.availabilityReducer.data,
         loading: state.availabilityReducer.loading,
         errMsg: state.availabilityReducer.errMsg,
