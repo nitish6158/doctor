@@ -26,7 +26,7 @@ export const MobileNumberInput = ({
             case '+91': return 10; // India
             case '+49': return 11; // Germany (max length of mobile numbers)
             case '+44': return 10; // UK
-            default: return 15; // Fallback
+            default: return 12; // Fallback
         }
     };
 

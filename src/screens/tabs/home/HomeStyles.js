@@ -38,8 +38,10 @@ export const HomeStyles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-between',
         width:"100%",
-       
     },
+    dropdownWrapper: {
+        width: (wp * 55) / 100, // same as dropdownContainer width
+    },    
     details: {
         flex: 1,
         flexDirection: 'row',
@@ -78,7 +80,8 @@ export const HomeStyles = StyleSheet.create({
     dropdownContainer: {
         backgroundColor: Colors.lightblue4,
         borderColor:Colors.lightblue4,
-        padding :'5%',
+        paddingHorizontal :'5%',
+        paddingVertical :'7.2%',
         width: (wp * 55) / 100,
         flexDirection: "row",
         justifyContent: 'center',

@@ -177,7 +177,7 @@ const HomeScreen = (props) => {
                 }}
                 style={{
                     borderColor: Colors.light_blue,
-                    paddingHorizontal: "9%",
+                    paddingHorizontal: "4.5%",
                     paddingVertical: "5%",
                     width: "100%",
                     flexDirection: 'row',
@@ -225,25 +225,28 @@ const HomeScreen = (props) => {
                         }>
 
                             <View style={HomeStyles.buttonSubContainer}>
+                                <View style={HomeStyles.dropdownWrapper}>
+                                    {
+                                        !props.individual &&
+                                        <TouchableOpacity onPress={() => openMenu()}
+                                            style={HomeStyles.dropdownContainer}>
+                                            <View style={HomeStyles.dropdownIMGText}>
+                                                <Image
+                                                    source={Images.icon_hospital}
+                                                    style={HomeStyles.iconStyle2}
+                                                />
+                                                <Text style={HomeStyles.speciality5}>
+                                                    {selectedClinicName}
+                                                </Text>
+                                            </View>
+                                            <Image
+                                                source={Images.icon_dropdown3}
+                                                style={HomeStyles.iconStyle2}
+                                            />
+                                        </TouchableOpacity>
+                                    }
+                                </View>
 
-                                <TouchableOpacity onPress={() => openMenu()}
-                                    style={HomeStyles.dropdownContainer}>
-                                    <View style={HomeStyles.dropdownIMGText} >
-                                        <Image
-                                            source={Images.icon_hospital}
-                                            style={HomeStyles.iconStyle2}
-                                        />
-                                        <Text
-                                            style={HomeStyles.speciality5}>
-                                            {selectedClinicName}
-                                        </Text>
-                                    </View>
-
-                                    <Image
-                                        source={Images.icon_dropdown3}
-                                        style={HomeStyles.iconStyle2}
-                                    />
-                                </TouchableOpacity>
                                 <View style={{ flexDirection: "row" }}>
                                     <TouchableOpacity style={HomeStyles.chatButtonContainer}>
                                         <Image
@@ -253,7 +256,6 @@ const HomeScreen = (props) => {
                                     </TouchableOpacity>
                                     <TouchableOpacity
                                         style={HomeStyles.notificationButtonContainer}
-                                        // onPress={() => props.navigation.navigate("NotificationScreen")}
                                         onPress={() => console.log('Notification')}
                                     >
                                         <Image
@@ -263,6 +265,7 @@ const HomeScreen = (props) => {
                                     </TouchableOpacity>
                                 </View>
                             </View>
+
 
                         </View>
 
@@ -433,7 +436,7 @@ const HomeScreen = (props) => {
                     <FlatList
                         // data={props?.allClinics}
                         // data={localclinic}
-                         // data={[{ id: 0, clinicName: 'Self' }, ...(localclinic || [])]}
+                        // data={[{ id: 0, clinicName: 'Self' }, ...(localclinic || [])]}
                         data={[{ id: 0, clinicName: 'Self' }, ...(props?.allClinics || [])]}
                         keyExtractor={(item) => item.id.toString()}
                         renderItem={renderclinicname}
