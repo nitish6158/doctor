@@ -58,7 +58,7 @@ const BottomTabNavigator = ({ isVerified , individual}) => {
           return (
             <View style={BottomtabStyles.iconContainer}>
               <Image source={icon} style={BottomtabStyles.iconStyle} />
-              {focused && <View style={BottomtabStyles.focusIndicator} />}
+              {/* {focused && <View style={BottomtabStyles.focusIndicator} />} */}
             </View>
           );
         },
