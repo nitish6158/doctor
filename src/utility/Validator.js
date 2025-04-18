@@ -43,7 +43,7 @@ export const validatePhoneNumber = (code, phoneNumber) => {
       return /^7[0-9]{9}$/.test(cleaned) && cleaned.length === 10;
 
     default:
-      return cleaned?.length >= 6 && cleaned?.length <= 15;
+      return cleaned?.length >= 6 && cleaned?.length <= 12;
   }
 };
 
