@@ -12,17 +12,19 @@ export const BottomtabStyles = StyleSheet.create({
         borderColor: Colors.blue,
         width: '90%',
         alignSelf: 'center',
-
-        // bottom: 8
-        // marginBottom:'1.5%'
-    },
+        height: (hp * 7) / 100, // consistent height for alignment
+        backgroundColor: Colors.white, // optional
+        // position: 'absolute', // prevents spacing issues
+        bottom: 4, // adjust to your spacing needs
+      },
     iconContainer: {
         alignItems: 'center',
         justifyContent: 'center',
         alignItems: 'center',
         justifyContent: 'center',
-        // flex: 1,
+        flex: 1,
         width: wp * 10 / 100,
+        paddingLeft: wp * 2 / 100, // Add this
     },
     focusIndicator: {
         // width: (wp * 5) / 100,
@@ -32,8 +34,8 @@ export const BottomtabStyles = StyleSheet.create({
         // marginTop: 2,
     },
     iconStyle: {
-        width: (wp * 8.5) / 100,
-        height: (wp * 8.5) / 100,
+        width: (wp * 10) / 100,
+        height: (wp * 10) / 100,
         resizeMode: 'contain'
     }
 });

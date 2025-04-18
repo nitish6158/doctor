@@ -1,5 +1,6 @@
 import React from 'react';
-import { Image, View, TouchableOpacity, Alert } from 'react-native';
+import { Image, View, TouchableOpacity, Alert ,StyleSheet} from 'react-native';
+import { ToastMsg } from '../../components/Toast';
 import { connect } from 'react-redux';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
@@ -8,75 +9,81 @@ import AppointmentScreen from '../../screens/tabs/appointment/AppointmentScreen'
 import AgendaScreen from '../../screens/tabs/agenda/AgendaScreen';
 import MatchingScreen from '../../screens/tabs/matching/MatchingScreen';
 import ProfileScreen from '../../screens/tabs/profile/ProfileScreen';
+import { useSelector } from 'react-redux';
 
 import { BottomtabStyles } from './BottomtabStyles';
-import { Images } from '../../assets';
-import { ToastMsg } from '../../components/Toast';
-
+import { Colors, Images } from '../../assets';
 const Tab = createBottomTabNavigator();
 
-const BottomTabNavigator = ({ isVerified , individual}) => {
-  const disabledTabs = ['AppointmentScreen', 'AgendaScreen', 'MatchingScreen', 'ProfileScreen'];
+const tabIcons = {
+  HomeScreen: {
+    active: Images.icon_home_enable,
+    inactive: Images.icon_home_disable,
+  },
+  AppointmentScreen: {
+    active: Images.icon_appointment_enable,
+    inactive: Images.icon_appointment_disable,
+  },
+  AgendaScreen: {
+    active: Images.icon_agenda_enable,
+    inactive: Images.icon_agenda_disable,
+  },
+  MatchingScreen: {
+    active: Images.icon_matching_enable,
+    inactive: Images.icon_matching_disable,
+  },
+  ProfileScreen: {
+    active: Images.icon_profile_enable,
+    inactive: Images.icon_profile_disable,
+  },
+};
 
-  const tabIcons = {
-    HomeScreen: {
-      active: Images.icon_home_enable,
-      inactive: Images.icon_home_disable,
-    },
-    AppointmentScreen: {
-      active: Images.icon_appointment_enable,
-      inactive: Images.icon_appointment_disable,
-    },
-    AgendaScreen: {
-      active: Images.icon_agenda_enable,
-      inactive: Images.icon_agenda_disable,
-    },
-    MatchingScreen: {
-      active: Images.icon_matching_enable,
-      inactive: Images.icon_matching_disable,
-    },
-    ProfileScreen: {
-      active: Images.icon_profile_enable,
-      inactive: Images.icon_profile_disable,
-    },
+const TabBarIcon = ({ routeName, focused }) => (
+  <Image
+    source={focused ? tabIcons[routeName].active : tabIcons[routeName].inactive}
+    style={{ width: 38, height: 38, resizeMode: 'contain' }}
+  />
+);
+
+const BottomTabNavigator = ({ navigation }) => {
+  const { isVerified, individual } = useSelector((state) => state.authReducer);
+
+  const allowAccess = () => {
+    if (!individual) return true;
+    return isVerified === 1;
   };
+
+  const protectedRoutes = ['AppointmentScreen', 'AgendaScreen', 'MatchingScreen', 'ProfileScreen'];
 
   return (
     <Tab.Navigator
-      initialRouteName="HomeScreen"
       screenOptions={({ route }) => ({
         headerShown: false,
-        tabBarStyle: BottomtabStyles.tabBarStyle,
         tabBarShowLabel: false,
-        animationEnabled: false,
-        tabBarHideOnKeyboard: true,
-        tabBarIcon: ({ focused }) => {
-          const icon = focused
-            ? tabIcons[route.name].active
-            : tabIcons[route.name].inactive;
-
+        tabBarIcon: ({ focused }) => (
+          <TabBarIcon routeName={route.name} focused={focused} />
+        ),
+        tabBarButton: (props) => {
+          const isProtected = protectedRoutes.includes(route.name);
           return (
-            <View style={BottomtabStyles.iconContainer}>
-              <Image source={icon} style={BottomtabStyles.iconStyle} />
-              {/* {focused && <View style={BottomtabStyles.focusIndicator} />} */}
-            </View>
+            <TouchableOpacity
+              {...props}
+              activeOpacity={0.8}
+              onPress={() => {
+                if (isProtected && !allowAccess()) {
+                  ToastMsg(
+                    'Access Denied, Your Profile is under review','bottom',
+                    'bottom'
+                  );
+                  return;
+                }
+                props.onPress();
+              }}
+              style={styles.tabButton}
+            />
           );
         },
-        tabBarButton: (props) => {
-          if ( !individual || ( isVerified == 1)) {
-            return <TouchableOpacity {...props} />;
-          }else{
-            return (
-              <TouchableOpacity
-                onPress={() => ToastMsg('Access Denied, Your Profile is under review','bottom')}
-                style={BottomtabStyles.iconContainer}
-                activeOpacity={1}
-              >
-                {props.children}
-              </TouchableOpacity>
-            );
-          }
-        },
+        tabBarStyle: styles.tabBar,
       })}
     >
       <Tab.Screen name="HomeScreen" component={HomeScreen} />
@@ -88,14 +95,155 @@ const BottomTabNavigator = ({ isVerified , individual}) => {
   );
 };
 
-const mapStateToProps = (state) => ({
-  isVerified: state.authReducer.isVerified,
-  // isVerified: 3,
-  individual: state.authReducer.individual,
-
+const styles = StyleSheet.create({
+  tabBar: {
+    // position: 'absolute',
+    // bottom: 20,
+    width:"90%",
+    alignSelf:'center',
+    // borderRadius:1,
+    borderWidth:1,
+    borderColor:Colors.blue,
+    left: 20,
+    right: 20,
+    // elevation: 5,
+    backgroundColor: '#fff',
+    borderRadius: 25,
+    height: 70,
+    // shadowColor: '#000',
+    // shadowOffset: {
+    //   width: 0,
+    //   height: 10,
+    // },
+    // shadowOpacity: 0.12,
+    // shadowRadius: 5,
+  },
+  tabButton: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
 });
 
-export default connect(mapStateToProps)(BottomTabNavigator);
+export default BottomTabNavigator;
+
+
+// const mapStateToProps = (state) => ({
+//   isVerified: state.authReducer.isVerified,
+//   individual: state.authReducer.individual,
+//   isVerified: 1,
+
+
+// });
+
+// export default connect(mapStateToProps)(BottomTabNavigator);
+
+
+
+
+
+
+// import React from 'react';
+// import { Image, View, TouchableOpacity, Alert } from 'react-native';
+// import { connect } from 'react-redux';
+// import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+
+// import HomeScreen from '../../screens/tabs/home/HomeScreen';
+// import AppointmentScreen from '../../screens/tabs/appointment/AppointmentScreen';
+// import AgendaScreen from '../../screens/tabs/agenda/AgendaScreen';
+// import MatchingScreen from '../../screens/tabs/matching/MatchingScreen';
+// import ProfileScreen from '../../screens/tabs/profile/ProfileScreen';
+
+// import { BottomtabStyles } from './BottomtabStyles';
+// import { Images } from '../../assets';
+// import { ToastMsg } from '../../components/Toast';
+
+// const Tab = createBottomTabNavigator();
+
+// const BottomTabNavigator = ({ isVerified , individual}) => {
+//   const disabledTabs = ['AppointmentScreen', 'AgendaScreen', 'MatchingScreen', 'ProfileScreen'];
+
+//   const tabIcons = {
+//     HomeScreen: {
+//       active: Images.icon_home_enable,
+//       inactive: Images.icon_home_disable,
+//     },
+//     AppointmentScreen: {
+//       active: Images.icon_appointment_enable,
+//       inactive: Images.icon_appointment_disable,
+//     },
+//     AgendaScreen: {
+//       active: Images.icon_agenda_enable,
+//       inactive: Images.icon_agenda_disable,
+//     },
+//     MatchingScreen: {
+//       active: Images.icon_matching_enable,
+//       inactive: Images.icon_matching_disable,
+//     },
+//     ProfileScreen: {
+//       active: Images.icon_profile_enable,
+//       inactive: Images.icon_profile_disable,
+//     },
+//   };
+
+//   return (
+//     <Tab.Navigator
+//       initialRouteName="HomeScreen"
+//       screenOptions={({ route }) => ({
+//         headerShown: false,
+//         tabBarStyle: BottomtabStyles.tabBarStyle,
+//         tabBarShowLabel: false,
+//         animationEnabled: false,
+//         tabBarHideOnKeyboard: true,
+//         tabBarIcon: ({ focused }) => {
+//           const icon = focused
+//             ? tabIcons[route.name].active
+//             : tabIcons[route.name].inactive;
+
+//           return (
+//             <View style={BottomtabStyles.iconContainer}>
+//               <Image source={icon} style={BottomtabStyles.iconStyle} />
+//               {/* {focused && <View style={BottomtabStyles.focusIndicator} />} */}
+//             </View>
+//           );
+//         },
+//         tabBarButton: (props) => {
+//           if ( !individual || ( isVerified == 1)) {
+//             return <TouchableOpacity
+//             style={BottomtabStyles.iconContainer}
+//              {...props} />;
+//           }else{
+//             return (
+//               <TouchableOpacity
+//                 onPress={() => ToastMsg('Access Denied, Your Profile is under review','bottom')}
+//                 style={BottomtabStyles.iconContainer}
+//                 // activeOpacity={1}
+//               >
+//                 {props.children}
+//               </TouchableOpacity>
+//             );
+//           }
+//         },
+//       })}
+//     >
+//       <Tab.Screen name="HomeScreen" component={HomeScreen} />
+//       <Tab.Screen name="AppointmentScreen" component={AppointmentScreen} />
+//       <Tab.Screen name="AgendaScreen" component={AgendaScreen} />
+//       <Tab.Screen name="MatchingScreen" component={MatchingScreen} />
+//       <Tab.Screen name="ProfileScreen" component={ProfileScreen} />
+//     </Tab.Navigator>
+//   );
+// };
+
+// const mapStateToProps = (state) => ({
+//   isVerified: state.authReducer.isVerified,
+//   individual: state.authReducer.individual,
+//   isVerified: 1,
+
+
+// });
+
+// export default connect(mapStateToProps)(BottomTabNavigator);
 
 
 
