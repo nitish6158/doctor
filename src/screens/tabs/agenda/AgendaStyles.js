@@ -9,6 +9,9 @@ export const AgendaStyles = StyleSheet.create({
     keyBoardcontainer: {
         flex: 1,
     },
+    keyBoardcontainer2: {
+        flex: 1,
+    },
     topView: {
         flex: 1.5,
         justifyContent: 'space-around',
@@ -39,10 +42,10 @@ export const AgendaStyles = StyleSheet.create({
     bottomView: {
         flex: 8.5,
         width: '100%',
-        paddingVertical: "5%",
+        // paddingVertical: "5%",
     },
     bottomView2: {
-        flex: 6,
+        flex: 8,
         width: '100%',
         paddingVertical: "5%",
     },
@@ -439,10 +442,11 @@ export const AgendaStyles = StyleSheet.create({
         paddingVertical: '3%',
     },
     modeContainer3: {
-        width: '100%',
+        // width: '90%',
         flexDirection: 'row',
         justifyContent: 'flex-start',
-        padding: '3%'
+        // padding: '3%'
+        backgroundColor:'red'
     },
     slotContainer: {
         width: '100%',

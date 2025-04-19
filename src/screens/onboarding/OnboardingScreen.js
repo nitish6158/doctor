@@ -14,19 +14,19 @@ const OnboardingScreen = (props) => {
 
     }
 
-    useFocusEffect(
-        React.useCallback(() => {
-            const backAction = () => {
-                BackHandler.exitApp();
-                return true;
-            };
-            const backHandler = BackHandler.addEventListener(
-                'hardwareBackPress',
-                backAction,
-            );
-            return () => backHandler.remove();
-        }, []),
-    );
+    // useFocusEffect(
+    //     React.useCallback(() => {
+    //         const backAction = () => {
+    //             BackHandler.exitApp();
+    //             return true;
+    //         };
+    //         const backHandler = BackHandler.addEventListener(
+    //             'hardwareBackPress',
+    //             backAction,
+    //         );
+    //         return () => backHandler.remove();
+    //     }, []),
+    // );
 
     return (
         <ImageBackground

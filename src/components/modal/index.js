@@ -8,6 +8,7 @@ import { DeleteSlotModal } from "./DeleteSlotModal";
 import { EditSlotModal } from "./EditSlotModal";
 import { AddLocationModal } from "./AddLocationModal";
 import { DeleteLocationModal } from "./DeleteLocationModal";
+import { BlockAvailabilityModal } from "./BlockAvailabilityModal";
 export {
     SuccessModal,
     LogoutModal,
@@ -18,5 +19,6 @@ export {
     DeleteSlotModal,
     EditSlotModal,
     AddLocationModal,
-    DeleteLocationModal
+    DeleteLocationModal,
+    BlockAvailabilityModal
 }

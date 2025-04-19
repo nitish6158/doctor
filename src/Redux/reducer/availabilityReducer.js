@@ -256,14 +256,14 @@ const availabilityReducer = (state = initialState, action) => {
 
     case AVAILABILITY.CLEAR_ERROR_STATUS:
       return Object.assign({}, state, {
+        errMsg: null,
+
         responseCodeOfAddAvailability: null,
         responseCodeOfGetAvailability: null,
-        errMsg: null,
         responseCodeOfBlockAvailabilityByDate: null,
         responseCodeOfBlockAvailabilityByTime: null,
         responseCodeOfBlockAvailabilityByTimeSlotId: null,
         responseCodeOfTeamAvailabilityList: null,
-
         responseCodeOfEditSlot: null,
         responseCodeOfDeleteSlot: null,
         responseCodeOfRestoreDate: null,
