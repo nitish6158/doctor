@@ -3,7 +3,9 @@ import { View, Text, Image } from 'react-native';
 import { AgendaStyles } from './AgendaStyles';
 import { Colors, Images } from '../../../assets';
 import { ListingCard } from '../../../components/card';
+import { useTranslation } from '../../../components/customhooks';
 const DoctorCard = ({ item }) => {
+    const t=useTranslation();
     return (
         <ListingCard customStyles={AgendaStyles.listItemContainer}>
             <View style={AgendaStyles.doctorItem}>
@@ -27,14 +29,14 @@ const DoctorCard = ({ item }) => {
                             resizeMode='contain'
 
                         />
-                        <Text style={[AgendaStyles.dotName, { marginLeft: '3%', color: Colors.blue }]}>Online</Text>
+                        <Text style={[AgendaStyles.dotName, { marginLeft: '3%', color: Colors.blue }]}>{t('Online')}</Text>
                         <View style={AgendaStyles.dotContainer}>
                             <Image
                                 source={Images.dotOffline}
                                 style={AgendaStyles.mapStyle3}
                                 resizeMode='contain'
                             />
-                            <Text style={AgendaStyles.dotName}>Offline</Text>
+                            <Text style={AgendaStyles.dotName}>{t('Offline')}</Text>
                         </View>
 
                     </View>

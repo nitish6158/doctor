@@ -436,7 +436,12 @@ const MatchingScreen = (props) => {
                                 </View>
 
                                 <CustomButton
-                                    title={t('AddMatching')}
+                                    title={
+                                        props?.getJobData?.id ?
+                                        t('UpdateMatching')
+                                        :
+                                        t('AddMatching')
+                                    }
                                     width='100%'
                                     marginVertical='7%'
                                     onPress={

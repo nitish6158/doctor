@@ -5,6 +5,7 @@ import { ToastMsg } from '../Toast';
 import { ListingCard } from '../card';
 import { CustomTimeInput, AddressInput, TimePicker, CustomDateInput } from '../input';
 import { CustomButton } from '../button';
+import { useTranslation } from '../customhooks';
 export const BlockAvailabilityModal = ({
     visible,
     onCloseBlockAvailabilityModal,
@@ -26,7 +27,7 @@ export const BlockAvailabilityModal = ({
 
 }) => {
 
-
+    const t = useTranslation();
 
     return (
         <Modal
@@ -42,7 +43,7 @@ export const BlockAvailabilityModal = ({
                 </TouchableOpacity>
 
                 <View style={styles.modal}>
-                    <Text style={styles.title}>Block Availability</Text>
+                    <Text style={styles.title}>{t('BlockAvailability')}</Text>
 
                     <View style={styles.modeContainer3}>
                         <TouchableOpacity
@@ -56,7 +57,7 @@ export const BlockAvailabilityModal = ({
                             <Text
                                 style={[styles.modeText2,
                                 { color: isBlockByDate ? Colors.white : Colors.blue }]}
-                            >Block By Date</Text>
+                            >{t('BlockByDate')}</Text>
                         </TouchableOpacity>
                         <TouchableOpacity
                             style={[styles.modeButton3, {
@@ -70,7 +71,7 @@ export const BlockAvailabilityModal = ({
                                         Colors.blue :
                                         Colors.white
                                 }]}
-                            >Block By Time</Text>
+                            >{t('BlockByTime')}</Text>
                         </TouchableOpacity>
                     </View>
                     {isBlockByDate ?
@@ -102,7 +103,7 @@ export const BlockAvailabilityModal = ({
                                 value={selectedBlockStartDate}
                                 onDateChange={setSelectedBlockStartDate}
                                 paddingVertical='1.5%'
-                                minimumDate={new Date()} 
+                                minimumDate={new Date()}
                             />
                             <View style={styles.startEndDateContainer}>
                                 <TimePicker

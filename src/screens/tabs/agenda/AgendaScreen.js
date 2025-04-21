@@ -15,6 +15,7 @@ import { AgendaStyles } from './AgendaStyles';
 import { FloatingBackgroundCard, ListingCard } from '../../../components/card';
 import { Calendar } from 'react-native-calendars';
 import { CustomButton, ToggleButton } from '../../../components/button';
+import { useTranslation } from '../../../components/customhooks';
 import {
     AddressInput,
     CustomDateInput,
@@ -54,6 +55,7 @@ const buttonTextStyle2 = {
     color: Colors.white,
 }
 const MyAgenda = (props) => {
+    const t=useTranslation();
     const today = new Date().toISOString().split("T")[0]
     const formatDateDDMMYYYY = moment(today).format("DD-MM-YYYY");
     const [currentDate, setCurrentDate] = useState(new Date());
@@ -315,12 +317,12 @@ const MyAgenda = (props) => {
                 (slot.type === 'offline' && !slot.location?.trim())
         );
         if (timeSlots.length == 0) {
-            ToastMsg("Please Add time slots before adding availability.", "bottom");
+            ToastMsg(t('AddTimeSlotsFirst'), "bottom");
             return;
         }
 
         if (invalidSlot) {
-            ToastMsg("Please complete all time slots before adding availability.", "bottom");
+            ToastMsg(t('CompleteTimeSlotsFirst'), "bottom");
             return;
         }
 
@@ -473,7 +475,7 @@ const MyAgenda = (props) => {
     }
     const onEditPress = (slot) => {
         if (!slot) {
-            ToastMsg("Please select a valid slot", "bottom");
+            ToastMsg(t('SelectValidSlot'), "bottom");
             return;
         }
         setSelectedSlot(slot);
@@ -493,7 +495,7 @@ const MyAgenda = (props) => {
     };
     const onDeletePress = (slot) => {
         if (!slot) {
-            ToastMsg("Please select a slot to delete", "bottom");
+            ToastMsg(t('SelectSlotToDelete'), "bottom");
             return;
         }
 
@@ -502,7 +504,7 @@ const MyAgenda = (props) => {
     };
     const onConfirmDelete = async (data) => {
         if (!selectedSlot) {
-            ToastMsg("No slot selected for deletion", "bottom");
+            ToastMsg(t('NoSlotSelectedForDeletion'), "bottom");
             return;
         }
         const reqParam = {
@@ -583,7 +585,7 @@ const MyAgenda = (props) => {
                                 />
                             </TouchableOpacity>
                             <View style={AgendaStyles.tabNameContainer}>
-                                <Text style={AgendaStyles.tabName}>My Agenda</Text>
+                                <Text style={AgendaStyles.tabName}>{t('MyAgenda')}</Text>
                             </View>
                         </>
                         :
@@ -618,8 +620,8 @@ const MyAgenda = (props) => {
                                 <ToggleButton
                                     isActive={isMyAvailabilityTabActive}
                                     onToggle={setIsMyAvailabilityTabActive}
-                                    leftText="My Availability"
-                                    rightText="Team Availability"
+                                    leftText={t('MyAvailability')}
+                                    rightText={t('TeamAvailability')}
                                 />
                             }
 
@@ -628,7 +630,7 @@ const MyAgenda = (props) => {
                                     <Text
                                         style={AgendaStyles.availabilityStyle
 
-                                        }>Add Availability</Text>
+                                        }>{t('AddAvailability')}</Text>
                                 </View>
                             }
 
@@ -670,13 +672,13 @@ const MyAgenda = (props) => {
 
                                                                 />
                                                                 <Text style={AgendaStyles.TextBlockAvailability}>
-                                                                    You Have Blocked Availability For This Date
+                                                                    {t('BlockedAvailabilityForDate')}
                                                                 </Text>
                                                                 <TouchableOpacity
                                                                     onPress={() => { onPressRestoreByDate() }}
                                                                     style={AgendaStyles.restoreDate}
                                                                 >
-                                                                    <Text style={AgendaStyles.restoreTextdate}>Restore</Text>
+                                                                    <Text style={AgendaStyles.restoreTextdate}>{t('Restore')}</Text>
                                                                 </TouchableOpacity>
                                                             </ListingCard>
                                                             :
@@ -695,7 +697,7 @@ const MyAgenda = (props) => {
                                                                             />
                                                                             <Text
                                                                                 style={AgendaStyles.NoAvailabilityText}
-                                                                            >You Haven't Added Availability Yet!</Text>
+                                                                            >{t('NoAvailabilityAdded')}</Text>
                                                                         </View>
                                                                         :
                                                                         <>
@@ -742,7 +744,7 @@ const MyAgenda = (props) => {
                                                     />
                                                     <Text
                                                         style={AgendaStyles.NoAvailabilityText}
-                                                    >You Haven't Added Availability Yet!</Text>
+                                                    >{t('NoAvailabilityAdded')}</Text>
                                                 </View>
                                             }
                                             {props?.myAvailabilityData?.onlineSlots?.length > 0
@@ -751,14 +753,14 @@ const MyAgenda = (props) => {
                                                 <View
                                                     style={AgendaStyles.availabilityButton} >
                                                     <CustomButton
-                                                        title={"Block Availability"}
+                                                        title={t('BlockAvailability')}
                                                         textStyle={buttonTextStyle1}
                                                         width='48%'
                                                         onPress={() => { setBlockAvailabilityInProgress(true) }}
                                                         backgroundColor={Colors.lightblue6}
                                                     />
                                                     <CustomButton
-                                                        title={"Add Availability"}
+                                                        title={t('AddAvailability')}
                                                         width='48%'
                                                         textStyle={buttonTextStyle2}
                                                         onPress={() => { setAddAvailabilityInProgress(true) }}
@@ -766,7 +768,7 @@ const MyAgenda = (props) => {
                                                 </View>
                                                 :
                                                 <CustomButton
-                                                    title={"Add Availability"}
+                                                    title={t('AddAvailability')}
                                                     width='90%'
                                                     textStyle={buttonTextStyle2}
                                                     onPress={() => { setAddAvailabilityInProgress(true) }}
@@ -782,7 +784,7 @@ const MyAgenda = (props) => {
 
                                                 <View style={{ width: '100%', alignItems: 'center', marginVertical: '2%' }}>
                                                     <CustomDropdown
-                                                        heading={'Select Clinic'}
+                                                        heading={t('SelectClinic')}
                                                         placeholder={
                                                             clinic?.clinicName || 'Select Clinic'
                                                         }
@@ -810,7 +812,7 @@ const MyAgenda = (props) => {
                                                 />
                                             </View>
                                             <View style={AgendaStyles.heading3}>
-                                                <Text style={AgendaStyles.slotText2}>Select Repeat</Text>
+                                                <Text style={AgendaStyles.slotText2}>{t('SelectRepeat')}</Text>
                                                 <View style={AgendaStyles.modeContainer}>
                                                     <TouchableOpacity
                                                         style={[AgendaStyles.modeButton2, {
@@ -823,7 +825,7 @@ const MyAgenda = (props) => {
                                                         <Text
                                                             style={[AgendaStyles.modeText2,
                                                             { color: isRepeat == 1 ? Colors.white : Colors.blue }]}
-                                                        >No Repeat</Text>
+                                                        >{t('NoRepeat')}</Text>
                                                     </TouchableOpacity>
                                                     <TouchableOpacity
                                                         style={[AgendaStyles.modeButton2, {
@@ -838,7 +840,7 @@ const MyAgenda = (props) => {
                                                                     Colors.white :
                                                                     Colors.blue
                                                             }]}
-                                                        >Date</Text>
+                                                        >{t('Date')}</Text>
                                                     </TouchableOpacity>
                                                     <TouchableOpacity
                                                         style={[AgendaStyles.modeButton2, {
@@ -852,14 +854,14 @@ const MyAgenda = (props) => {
                                                                 color: isRepeat == 3 ?
                                                                     Colors.white : Colors.blue
                                                             }]}
-                                                        >Week</Text>
+                                                        >{t('Week')}</Text>
                                                     </TouchableOpacity>
                                                 </View>
                                             </View>
 
 
                                             <View style={AgendaStyles.heading2}>
-                                                <Text style={AgendaStyles.slotText2}>Time Slot</Text>
+                                                <Text style={AgendaStyles.slotText2}>{t('TimeSlot')}</Text>
                                                 <TouchableOpacity
                                                     onPress={() => {
                                                         setSlots([...slots, {
@@ -903,7 +905,7 @@ const MyAgenda = (props) => {
                                                             >
                                                                 <Text style={[AgendaStyles.modeText,
                                                                 { color: slot.type === 'online' ? Colors.white : Colors.blue }]}>
-                                                                    online
+                                                                    {t('Online')}
                                                                 </Text>
                                                             </TouchableOpacity>
                                                             <TouchableOpacity
@@ -914,8 +916,8 @@ const MyAgenda = (props) => {
                                                             >
                                                                 <Text style={[AgendaStyles.modeText,
                                                                 { color: slot.type === 'offline' ? Colors.white : Colors.blue }]}>
-                                                                    offline
-                                                                </Text>
+                                                                    {t('Offline')}
+                                                                    </Text>
                                                             </TouchableOpacity>
                                                         </View>
 
@@ -943,7 +945,7 @@ const MyAgenda = (props) => {
                                                                     const calculatedToTime = add15Minutes(time);
                                                                     updateSlot(index, 'toTime', calculatedToTime);
                                                                 }}
-                                                                label="From Time"
+                                                                label={t('FromTime')}
                                                             />
 
 
@@ -952,7 +954,7 @@ const MyAgenda = (props) => {
                                                                 onChange={(time) => {
                                                                     updateSlot(index, 'toTime', time);
                                                                 }}
-                                                                label="To Time"
+                                                                label={t('ToTime')}
                                                                 minTime={slot.fromTime}
                                                             />
                                                         </View>
@@ -960,8 +962,8 @@ const MyAgenda = (props) => {
                                                         {slot.type === 'offline' && (
                                                             <View style={AgendaStyles.addressContainer4}>
                                                                 <AddressInput
-                                                                    heading='Address'
-                                                                    placeholder='Enter Address'
+                                                                    heading={t('Address')}
+                                                                    placeholder={t('EnterAddress')}
                                                                     value={slot.location}
                                                                     onChangeText={(text) => updateSlot(index, 'location', text)}
                                                                     width='100%'
@@ -977,7 +979,7 @@ const MyAgenda = (props) => {
                                                 style={AgendaStyles.availabilityButton2}
                                             >
                                                 <CustomButton
-                                                    title={"Add Availability"}
+                                                    title={t('AddAvailability')}
                                                     width='90%'
                                                     onPress={() => { handleAddAvailability() }}
                                                 />
@@ -993,7 +995,7 @@ const MyAgenda = (props) => {
                                 <>
                                     <View style={{ width: '100%', alignItems: 'center', marginVertical: '2%' }}>
                                         <CustomDropdown
-                                            heading={'Select Clinic'}
+                                            heading={t('SelectClinic')}
                                             placeholder={
                                                 clinicForTeam?.clinicName || 'Select Clinic'
                                             }
@@ -1060,7 +1062,7 @@ const MyAgenda = (props) => {
 
 
             <AvailabilityModal
-                heading={'Availability Added'}
+                heading={t('AvailabilityAdded')}
                 isModalOpen={isModalVisible}
                 onClose={() => {
                     setIsModalVisible(false)
@@ -1068,7 +1070,7 @@ const MyAgenda = (props) => {
             />
 
             <AvailabilityModal
-                heading={'Availability Blocked'}
+                heading={t('AvailabilityBlocked')}
                 isModalOpen={isBlockAvailabilityModelVisible}
                 onClose={() => {
                     setIsBlockAvailabilityModelVisible(false)

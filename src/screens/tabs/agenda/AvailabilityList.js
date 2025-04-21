@@ -4,6 +4,7 @@ import { Images, Colors } from '../../../assets';
 import { AgendaStyles } from './AgendaStyles';
 import { ListingCard } from '../../../components/card';
 import { ToastMsg } from '../../../components/Toast';
+import { useTranslation } from '../../../components/customhooks';
 export const AvailabilityList = ({
     type, // 'online' or 'offline'
     slots,
@@ -14,6 +15,7 @@ export const AvailabilityList = ({
     onEditPress,
     onRestorePress,
 }) => {
+    const t=useTranslation();
     return (
         <FlatList
             data={slots || []}
@@ -44,7 +46,7 @@ export const AvailabilityList = ({
                                         style={AgendaStyles.restoreButton}
                                         onPress={() => onRestorePress(selectedSlot)}
                                     >
-                                        <Text style={AgendaStyles.restoreText}>Restore</Text>
+                                        <Text style={AgendaStyles.restoreText}>{t('Restore')}</Text>
                                     </TouchableOpacity>
                                 }
                             </View>
@@ -92,7 +94,7 @@ export const AvailabilityList = ({
                                 <Text style={AgendaStyles.address2}>{item.clinicName}</Text>
                             )}
 
-                            {item.location && item.location !== "" ?
+                            {item.location && item.location !== "" && type == 'offline' ?
 
                                 <View style={AgendaStyles.addressContainer2}>
                                     <Image
@@ -103,7 +105,7 @@ export const AvailabilityList = ({
                                 </View>
                                 :
                                 <>
-                                    {item.address && item.address != "" &&
+                                    {item.address && item.address != "" &&  type == 'offline' &&
                                         <View style={AgendaStyles.addressContainer2}>
                                             <Image
                                                 source={Images.icon_map}
@@ -127,7 +129,7 @@ export const AvailabilityList = ({
                                         if (slotToDelete) {
                                             onDeletePress(slotToDelete); // Pass full slot info for accuracy
                                         } else {
-                                            ToastMsg("Please select a slot from this card to delete.", "bottom");
+                                            ToastMsg(t('SelectSlotToDeleteFromCard'), "bottom");
                                         }
                                     }}
                                 >
@@ -146,11 +148,11 @@ export const AvailabilityList = ({
                                                 location: item.clinicName,
                                             });
                                         } else {
-                                            ToastMsg("Please select a slot from this card to edit.", "bottom");
+                                            ToastMsg(t('SelectSlotToEditFromCard'), "bottom");
                                         }
                                     }}
                                 >
-                                    <Text style={AgendaStyles.text}>Edit</Text>
+                                    <Text style={AgendaStyles.text}>{t('Edit')}</Text>
                                 </TouchableOpacity>
 
                             </View>

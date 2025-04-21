@@ -1,5 +1,5 @@
 import React from 'react';
-import { Image, View, TouchableOpacity, Alert ,StyleSheet} from 'react-native';
+import { Image, View, TouchableOpacity, Alert, StyleSheet, Platform } from 'react-native';
 import { ToastMsg } from '../../components/Toast';
 import { connect } from 'react-redux';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
@@ -13,6 +13,7 @@ import { useSelector } from 'react-redux';
 
 import { BottomtabStyles } from './BottomtabStyles';
 import { Colors, Images } from '../../assets';
+import { WindowWidth as wp } from '../../assets';
 const Tab = createBottomTabNavigator();
 
 const tabIcons = {
@@ -73,7 +74,7 @@ const BottomTabNavigator = ({ navigation }) => {
               onPress={() => {
                 if (isProtected && !allowAccess()) {
                   ToastMsg(
-                    'Access Denied, Your Profile is under review','bottom',
+                    'Access Denied, Your Profile is under review', 'bottom',
                     'bottom'
                   );
                   return;
@@ -98,19 +99,13 @@ const BottomTabNavigator = ({ navigation }) => {
 
 const styles = StyleSheet.create({
   tabBar: {
-    // position: 'absolute',
-    // bottom: 20,
-    width:"90%",
-    alignSelf:'center',
-    // borderRadius:1,
-    borderWidth:1,
-    borderColor:Colors.blue,
-    left: 20,
-    right: 20,
-    // elevation: 5,
+    width: wp * 90 / 100,
+    alignSelf: 'center',
+    borderWidth: 1,
+    borderColor: Colors.blue,
     backgroundColor: '#fff',
     borderRadius: 25,
-    height: 70,
+    // height: 70,
     // shadowColor: '#000',
     // shadowOffset: {
     //   width: 0,
@@ -118,6 +113,13 @@ const styles = StyleSheet.create({
     // },
     // shadowOpacity: 0.12,
     // shadowRadius: 5,
+    // position: 'absolute',
+    bottom: 5,
+    // borderRadius:1,
+    // left: 20,
+    // right: 20,
+    // elevation: 5,
+
   },
   tabButton: {
     flex: 1,

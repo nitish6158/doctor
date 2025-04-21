@@ -815,6 +815,11 @@ export const Languages = {
     AR: "أضف تطابقًا",
     FN: "Ajouter une correspondance",
   },
+  UpdateMatching: {
+    EN: "Update Matching",
+    AR: "تحديث التطابق",
+    FN: "Mettre à jour la correspondance",
+  },
   Profile: {
     EN: "Profile",
     AR: "الملف الشخصي",
@@ -892,7 +897,148 @@ export const Languages = {
     AR: "تطابقاتي",
     FN: "Mes correspondances",
   },
-
+  AddTimeSlotsFirst: {
+    EN: "Please add time slots before adding availability",
+    AR: "يرجى إضافة الفترات الزمنية قبل إضافة التوفر",
+    FN: "Veuillez ajouter des créneaux horaires avant d'ajouter la disponibilité",
+  },
+  CompleteTimeSlotsFirst: {
+    EN: "Please complete all time slots before adding availability",
+    AR: "يرجى إكمال جميع الفترات الزمنية قبل إضافة التوفر",
+    FN: "Veuillez compléter tous les créneaux horaires avant d'ajouter la disponibilité",
+  },
+  SelectValidSlot: {
+    EN: "Please select a valid slot",
+    AR: "يرجى اختيار فترة زمنية صالحة",
+    FN: "Veuillez sélectionner un créneau valide",
+  },
+  SelectSlotToDelete: {
+    EN: "Please select a slot to delete",
+    AR: "يرجى اختيار فترة زمنية للحذف",
+    FN: "Veuillez sélectionner un créneau à supprimer",
+  },
+  NoSlotSelectedForDeletion: {
+    EN: "No slot selected for deletion",
+    AR: "لم يتم اختيار أي فترة زمنية للحذف",
+    FN: "Aucun créneau sélectionné pour la suppression",
+  },
+  MyAgenda: {
+    EN: "My Agenda",
+    AR: "جدولي",
+    FN: "Mon agenda",
+  },
+  MyAvailability: {
+    EN: "My Availability",
+    AR: "توفرّي",
+    FN: "Ma disponibilité",
+  },
+  TeamAvailability: {
+    EN: "Team Availability",
+    AR: "توفر الفريق",
+    FN: "Disponibilité de l'équipe",
+  },
+  AddAvailability: {
+    EN: "Add Availability",
+    AR: "أضف التوفر",
+    FN: "Ajouter la disponibilité",
+  },
+  BlockedAvailabilityForDate: {
+    EN: "You have blocked availability for this date",
+    AR: "لقد قمت بحظر التوفر لهذه التاريخ",
+    FN: "Vous avez bloqué la disponibilité pour cette date",
+  },
+  Restore: {
+    EN: "Restore",
+    AR: "استرجاع",
+    FN: "Restaurer",
+  },
+  NoAvailabilityAdded: {
+    EN: "You haven't added availability yet!",
+    AR: "لم تضف التوفر بعد!",
+    FN: "Vous n'avez pas encore ajouté de disponibilité !",
+  },
+  BlockAvailability: {
+    EN: "Block Availability",
+    AR: "حظر التوفر",
+    FN: "Bloquer la disponibilité",
+  },
+  SelectClinic: {
+    EN: "Select Clinic",
+    AR: "اختر العيادة",
+    FN: "Sélectionner la clinique",
+  },
+  SelectRepeat: {
+    EN: "Select Repeat",
+    AR: "اختر التكرار",
+    FN: "Sélectionner la répétition",
+  },
+  NoRepeat: {
+    EN: "No Repeat",
+    AR: "لا يوجد تكرار",
+    FN: "Pas de répétition",
+  },
+  Date: {
+    EN: "Date",
+    AR: "تاريخ",
+    FN: "Date",
+  },
+  Week: {
+    EN: "Week",
+    AR: "أسبوع",
+    FN: "Semaine",
+  },
+  TimeSlot: {
+    EN: "Time Slot",
+    AR: "الفترة الزمنية",
+    FN: "Créneau horaire",
+  },
+  FromTime: {
+    EN: "From Time",
+    AR: "من الوقت",
+    FN: "De l'heure",
+  },
+  ToTime: {
+    EN: "To Time",
+    AR: "إلى الوقت",
+    FN: "À l'heure",
+  },
+  AvailabilityAdded: {
+    EN: "Availability Added",
+    AR: "تم إضافة التوفر",
+    FN: "Disponibilité ajoutée",
+  },
+  AvailabilityBlocked: {
+    EN: "Availability Blocked",
+    AR: "تم حظر التوفر",
+    FN: "Disponibilité bloquée",
+  },
+  SelectSlotToDeleteFromCard: {
+    EN: "Please select a slot from this card to delete.",
+    AR: "يرجى اختيار فترة زمنية من هذه البطاقة للحذف.",
+    FN: "Veuillez sélectionner un créneau de cette carte pour le supprimer.",
+  },
+  SelectSlotToEditFromCard: {
+    EN: "Please select a slot from this card to edit.",
+    AR: "يرجى اختيار فترة زمنية من هذه البطاقة للتعديل.",
+    FN: "Veuillez sélectionner un créneau de cette carte pour le modifier.",
+  },
+  Edit: {
+    EN: "Edit",
+    AR: "تعديل",
+    FN: "Modifier",
+  },
+  BlockByDate: {
+    EN: "Block By Date",
+    AR: "الحظر حسب التاريخ",
+    FN: "Bloquer par date",
+  },
+  BlockByTime: {
+    EN: "Block By Time",
+    AR: "الحظر حسب الوقت",
+    FN: "Bloquer par heure",
+  },
+  
+  
 
 };
 

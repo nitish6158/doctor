@@ -312,11 +312,11 @@ export const AgendaStyles = StyleSheet.create({
     },
     crossButtonContainer: {
         backgroundColor: Colors.white,
-        width: '15%',
+        // width: '12%',
         justifyContent: 'center',
         alignItems: 'center',
         borderRadius: (wp * 12) / 100,
-        padding: '4.5%',
+        padding: '3.5%',
         marginHorizontal: '1.5%'
 
     },
@@ -487,13 +487,13 @@ export const AgendaStyles = StyleSheet.create({
 
     },
     NoAvailability: {
-        width: wp * 25 / 100,
-        height: wp * 25 / 100,
+        width: wp * 20 / 100,
+        height: wp * 20 / 100,
         resizeMode: 'contain'
     },
     NoAvailabilityText: {
         fontFamily: Fonts.SemiBold,
-        fontSize: ResponsiveFont(22),
+        fontSize: ResponsiveFont(18),
         // lineHeight: ResponsiveFont(20),
         color: Colors.light_gray4,
         width: '60%',
