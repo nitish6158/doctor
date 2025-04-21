@@ -19,12 +19,18 @@ export const UploadFileButton = ({
   isborder = true,
   borderColor = Colors.light_black,
   heading = '',
-  fileurl = null
+  fileurl = null,
+  required = false
 }) => {
   const t = useTranslation()
   return (
     <View style={{ marginVertical: '2%' }}>
-      <Text style={styles.heading}>{heading}</Text>
+      <View style={{ flexDirection: "row", alignItems: 'center' }}>
+        <Text style={styles.heading}>{heading}</Text>
+        {required &&
+          <Text style={styles.heading2}>*</Text>
+        }
+      </View>
       <TouchableOpacity
         style={[
           styles.button,
@@ -47,10 +53,10 @@ export const UploadFileButton = ({
         disabled={fileurl ? true : false}
       >
         <View style={styles.placeHolderContainer}>
-          {!fileurl && <Image
+          <Image
             source={Images.icon_upload}
             style={styles.iconStyle}
-          />}
+          />
           <Text style={[styles.buttonText,
           {
             color: textColor,
@@ -87,15 +93,21 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   iconStyle: {
-    width: wp * 6 / 100,
-    height: wp * 6 / 100,
+    width: wp * 5 / 100,
+    height: wp * 5 / 100,
     resizeMode: 'contain',
-    marginHorizontal: wp * 1 / 100
+    marginHorizontal: wp * 2 / 100
   },
   heading: {
     fontFamily: Fonts.Bold,
     fontSize: ResponsiveFont(13),
     lineHeight: ResponsiveFont(17.5),
     color: Colors.black
-  }
+  },
+  heading2: {
+    fontFamily: Fonts.Bold,
+    fontSize: ResponsiveFont(20),
+    lineHeight: ResponsiveFont(17.5),
+    color: Colors.red2
+  },
 });

@@ -37,9 +37,9 @@ export const Languages = {
     FN: 'Nouveau sur l’application Médecine ?',
   },
   userName: {
-    EN: 'User Name *',
-    AR: 'اسم المستخدم *',
-    FN: "Nom d'utilisateur *",
+    EN: 'User Name',
+    AR: 'اسم المستخدم ',
+    FN: "Nom d'utilisateur ",
   },
   enterUserName: {
     EN: 'Enter User Name',
@@ -47,9 +47,9 @@ export const Languages = {
     FN: 'Entrez le nom d’utilisateur',
   },
   password: {
-    EN: 'Password *',
-    AR: 'كلمة المرور *',
-    FN: 'Mot de passe *',
+    EN: 'Password',
+    AR: 'كلمة المرور ',
+    FN: 'Mot de passe ',
   },
   enterPassword: {
     EN: 'Enter Password',
@@ -116,9 +116,9 @@ export const Languages = {
     FN: '2. Professionnel',
   },
   firstName: {
-    EN: 'First Name *',
-    AR: 'الاسم الأول *',
-    FN: 'Prénom *',
+    EN: 'First Name',
+    AR: 'الاسم الأول',
+    FN: 'Prénom',
   },
 
   EnterFirstName: {
@@ -128,9 +128,9 @@ export const Languages = {
   },
 
   lastName: {
-    EN: 'Last Name *',
-    AR: 'اسم العائلة *',
-    FN: 'Nom de famille *',
+    EN: 'Last Name',
+    AR: 'اسم العائلة',
+    FN: 'Nom de famille',
   },
 
   EnterlastName: {
@@ -146,9 +146,9 @@ export const Languages = {
   },
 
   mobileNo: {
-    EN: 'Mobile No. *',
-    AR: 'رقم الهاتف المحمول *',
-    FN: 'Numéro de portable *',
+    EN: 'Mobile No.',
+    AR: 'رقم الهاتف المحمول',
+    FN: 'Numéro de portable',
   },
 
   Next: {
@@ -158,9 +158,9 @@ export const Languages = {
   },
 
   CV: {
-    EN: 'CV *',
-    AR: 'السيرة الذاتية *',
-    FN: 'CV *',
+    EN: 'CV',
+    AR: 'السيرة الذاتية',
+    FN: 'CV',
   },
 
   UploadCV: {
@@ -218,9 +218,9 @@ export const Languages = {
   },
 
   Email: {
-    EN: 'Email *',
-    AR: 'البريد الإلكتروني *',
-    FN: 'E-mail *',
+    EN: 'Email',
+    AR: 'البريد الإلكتروني',
+    FN: 'E-mail',
   },
 
   EnterMobileNumber: {
@@ -261,9 +261,9 @@ export const Languages = {
 
 
   FullName: {
-    EN: 'Full Name *',
-    AR: 'الاسم الكامل *',
-    FN: 'Nom complet *',
+    EN: 'Full Name',
+    AR: 'الاسم الكامل',
+    FN: 'Nom complet',
   },
 
   EnterFullName: {
@@ -544,9 +544,9 @@ export const Languages = {
     FN: 'Vous avez déjà un compte?',
   },
   email: {
-    EN: 'Email *',
-    AR: 'البريد الإلكتروني *',
-    FN: 'Email *',
+    EN: 'Email',
+    AR: 'البريد الإلكتروني',
+    FN: 'Email',
   },
 
   enterNumber: {
@@ -556,9 +556,9 @@ export const Languages = {
   },
 
   confirmPassword: {
-    EN: 'Confirm Password *',
-    AR: 'تأكيد كلمة المرور *',
-    FN: 'Confirmez le mot de passe *',
+    EN: 'Confirm Password ',
+    AR: 'تأكيد كلمة المرور ',
+    FN: 'Confirmez le mot de passe ',
   },
   enterConfirmPassword: {
     EN: 'Enter Confirm Password',
@@ -1037,8 +1037,8 @@ export const Languages = {
     AR: "الحظر حسب الوقت",
     FN: "Bloquer par heure",
   },
-  
-  
+
+
 
 };
 

@@ -36,7 +36,7 @@ import {
     BankFormAction,
     UpdateUserInfo,
     SendContract,
-    ClearContractStatus
+    ClearContractStatus,
 } from '../../../Redux/actions';
 import {
     useTranslation,
@@ -102,7 +102,6 @@ const ContractScreen = (props) => {
 
     const handleSuccessCase = async () => {
         await props.UpdateUserInfo(props.userId);
-        props.navigation.navigate('BottomTabNavigator');
     }
 
     useEffect(() => {
@@ -111,6 +110,12 @@ const ContractScreen = (props) => {
         }
     }, [props.responseCode])
 
+    useEffect(()=>{
+        if(props.isVerified == 5 ){
+         props.navigation.navigate('BottomTabNavigator');
+        }
+    },[props.isVerified])
+    
     useEffect(() => {
         if (!pdfUrl) {
             fetchPdfUrl()
@@ -181,10 +186,10 @@ const ContractScreen = (props) => {
                             <DownloadButton
                                 heading={t('SignDownloadContract')}
                                 title={t('DownloadContract')}
-                                onPress={() => downloadFile(FILE_BASE_URL+""+pdfUrl)}
+                                onPress={() => downloadFile(FILE_BASE_URL + "" + pdfUrl)}
                                 width='100%'
                                 textStyle={BankFormStyles.textStyle}
-                                disabled={downloadLoading || pdfUrl==null}                            />
+                                disabled={downloadLoading || pdfUrl == null} />
 
                             <UploadFileButton
                                 heading={t('UploadSignedContract')}
@@ -196,12 +201,8 @@ const ContractScreen = (props) => {
                                 fileurl={uploadedFileURL}
 
                             />
-
-
-
                             <CustomButton
                                 title={t('FinishSetup')}
-
                                 onPress={sendContract}
                                 backgroundColor={Colors.blue}
                                 textColor={Colors.white}
@@ -229,7 +230,8 @@ const ContractScreen = (props) => {
                     downloadLoading ||
                     uploadLoading ||
                     props.updateLoading ||
-                    props.contractLoading
+                    props.contractLoading ||
+                    props.userProfileUpdateLoading
                 }
             />
         </ImageBackground>
@@ -245,12 +247,12 @@ const mapStateToProps = state => {
         responseCode: state.bankReducer.responseCode,
         userId: state.authReducer.userId,
         authToken: state.authReducer.authToken,
+        userProfileUpdateLoading: state.authReducer.updateLoading,
         userName: state.authReducer.userName,
         appLanguage: state.authReducer.appLanguage,
-
         contractLoading: state.ContractReducer.loading,
         contractStatus: state.ContractReducer.responseCode,
-
+        isVerified: state.authReducer.isVerified,
 
     };
 };

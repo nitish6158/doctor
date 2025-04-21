@@ -77,7 +77,7 @@ export const LocationStyles = StyleSheet.create({
         backgroundColor: Colors.light_blue2,
         justifyContent: 'center',
         alignItems: 'center',
-        padding: (wp * 3) / 100,
+        padding: (wp * 2.5) / 100,
         borderRadius: (wp * 3) / 100,
         // width:'5%'
     },

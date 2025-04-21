@@ -354,7 +354,7 @@ const HomeScreen = (props) => {
                             </View>
                         </View>
                         :
-                        props.isVerified === 2 ?
+                        props.isVerified === 2 && props.userData?.isContractSend == 0 ?
                             <View style={HomeStyles.card}>
                                 <Image
                                     source={Images.documents}
@@ -384,7 +384,7 @@ const HomeScreen = (props) => {
                                     </View>
                                 </ScrollView>
                                 :
-                                props.isVerified === 4 ?
+                                props.isVerified === 4 &&  props.userData?.isContractSend == 1 ?
                                     <View style={HomeStyles.card} >
                                         <Image
                                             source={Images.handshake}

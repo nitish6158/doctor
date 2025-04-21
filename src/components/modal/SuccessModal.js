@@ -26,7 +26,7 @@ export const SuccessModal = ({
           alignItems: 'center',
           paddingVertical: (wp * 15) / 100
         }}
-        onPress={onClose}
+          onPress={onClose}
         >
           <View style={{
             backgroundColor: Colors.shadowBlue,
@@ -36,7 +36,11 @@ export const SuccessModal = ({
             justifyContent: 'center',
             borderRadius: (wp * 14) / 100
           }}>
-            <Image source={Images.icon_done} style={{ width: (wp * 18) / 100 }} />
+            <Image source={Images.icon_done} 
+            style={{ width: (wp * 18) / 100, 
+          }}
+          resizeMode='contain' 
+             />
 
           </View>
           <Text style={{
@@ -44,7 +48,7 @@ export const SuccessModal = ({
             lineHeight: ResponsiveFont(25),
             color: Colors.black,
             fontFamily: Fonts.Bold,
-            marginVertical:(wp*2)/100
+            marginVertical: (wp * 2) / 100
           }}>
             {heading}
           </Text>

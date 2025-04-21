@@ -17,7 +17,6 @@ export const Images = {
   temp1: require('./images/temp1.png'),
   temp2: require('./images/temp2.png'),
   temp3: require('./images/temp3.png'),
-  NoAvailability: require('./images/NoAvailability.png'),
 nodatafound:require('./images/noDataFound.png'),
 removeSlot:require('./images/removeSlot.png'),
 location_Added:require('./images/location_Added.png'),
@@ -26,6 +25,7 @@ location_Updated:require('./images/location_Updated.png'),
 back_Icon: require('./icons/Back_Icon.png'),
  
   // icons
+  NoAvailability: require('./icons/NoAvailability.png'),
   icon_copy : require('./icons/icon_copy.png'),
   icon_arrow_back: require('./icons/arrow_back.png'),
   icon_checkbox: require('./icons/checkbox.png'),
@@ -47,7 +47,6 @@ back_Icon: require('./icons/Back_Icon.png'),
   icon_select_contry_deactive: require('./icons/select_contry_deactive.png'),
 
   icon_success: require('./icons/success.png'),
-  icon_upload_doc: require('./icons/upload_doc.png'),
 
   icon_user_doctor_active: require('./icons/user_doctor_active.png'),
   icon_user_doctor_deactive: require('./icons/user_doctor_deactive.png'),
@@ -66,7 +65,7 @@ back_Icon: require('./icons/Back_Icon.png'),
   right_arrow: require('./icons/right_arrow.png'),
   light_right_arrow: require('./icons/light_right_arrow.png'),
 
-  icon_done: require('./icons/done.png'),
+  icon_done: require('./icons/Done.png'),
   icon_profileBackground: require('./images/profileBackground.png'),
 
 

@@ -26,6 +26,7 @@ const LoginScreen = (props) => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [isModal, setIsmodal] = useState(false);
+    const [isInvalidCredentails, setIsInvalidCredentails] = useState(false);
 
     const handleGoBack = () => {
         props.navigation.goBack();
@@ -77,6 +78,12 @@ const LoginScreen = (props) => {
         }
     }, [props.responseCode])
 
+    useEffect(()=>{
+        if(props.responseCode && props.responseCode === 404){
+            setIsInvalidCredentails(true);
+        }
+    },[props.responseCode])
+
     return (
         <ImageBackground
             source={Images.login_background}
@@ -114,6 +121,8 @@ const LoginScreen = (props) => {
                             onChangeText={setEmail}
                             type="email"
                             width='100%'
+                            required={true}
+                            isInvalidCredentails={isInvalidCredentails}
                         />
                         <CustomTextInput
                             heading={t('password')}
@@ -122,12 +131,12 @@ const LoginScreen = (props) => {
                             onChangeText={setPassword}
                             type="password"
                             width='100%'
+                            isForgotPasswordVisible={true}
+                            ForgotText={t('forgetPassword')}
+                            required={true}
+                            isInvalidCredentails={isInvalidCredentails}
+                            onPressForgotpassword={()=>handleNavigation('ForgotPasswordScreen')}
                         />
-                        <TouchableOpacity
-                            onPress={() => { handleNavigation('ForgotPasswordScreen') }}
-                            style={LoginStyles.forgotText}>
-                            <Text style={LoginStyles.subBoldText}>{t('forgetPassword')}</Text>
-                        </TouchableOpacity>
                         <CustomButton
                             title={t('login')}
                             onPress={() => { handleLogin() }}

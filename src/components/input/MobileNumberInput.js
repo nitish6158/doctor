@@ -16,6 +16,7 @@ export const MobileNumberInput = ({
     selectedCode,
     onChangeCode,
     countries = [],
+    required = false,
 }) => {
     const [isFocused, setIsFocused] = useState(false);
     const getMaxLength = () => {
@@ -30,12 +31,15 @@ export const MobileNumberInput = ({
         }
     };
 
-
-
     return (
         <View style={{ marginVertical: '2%' }}>
-            <Text style={styles.heading}>{heading}</Text>
+            <View style={{ flexDirection: "row", alignItems: 'center' }}>
+                <Text style={styles.heading}>{heading}</Text>
+                {required &&
+                    <Text style={styles.heading2}>*</Text>
 
+                }
+            </View>
             <View style={[styles.container, {
                 borderColor: isFocused ? Colors.blue : Colors.borderColor2,
             }]}>
@@ -113,6 +117,12 @@ const styles = StyleSheet.create({
         height: (wp * 4.6) / 100,
         resizeMode: 'contain',
         marginRight: wp * 2 / 100,
+    },
+    heading2: {
+        fontFamily: Fonts.Bold,
+        fontSize: ResponsiveFont(20),
+        lineHeight: ResponsiveFont(17.5),
+        color: Colors.red2
     },
 });
 

@@ -78,7 +78,7 @@ const LocationScreen = (props) => {
             <View style={LocationStyles.firstBox}>
                 <View style={LocationStyles.ButtonContainer}>
                     <Image
-                        source={Images.icon_home_enable}
+                        source={Images.icon_map}
                         style={LocationStyles.icon}
                         resizeMode="contain"
                     />
@@ -281,7 +281,7 @@ const LocationScreen = (props) => {
                 onConfirmDelete={onConfirmDelete}
             />
             <Loader
-                visible={props.loading}
+                visible={props.loading || loading}
             />
             <AvailabilityModal
                 isModalOpen={isLocationAddModalOpen}
@@ -295,6 +295,7 @@ const LocationScreen = (props) => {
                 type={"locationUpdate"}
                 heading={"Location Updated"}
             /> */}
+
         </ImageBackground>
     );
 };

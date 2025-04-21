@@ -341,8 +341,8 @@ export const AgendaStyles = StyleSheet.create({
 
     },
     iconStyle: {
-        width: wp * 6 / 100,
-        height: wp * 6 / 100,
+        width: wp * 4/ 100,
+        height: wp * 4 / 100,
         resizeMode: 'contain'
     },
     iconStyle3: {

@@ -115,25 +115,21 @@ const SignupScreen = (props) => {
             ToastMsg(t('PleaseUploadCV'), 'bottom');
             return false;
         }
+        if (profile == '') {
+            ToastMsg(t('PleaseSelectProfile'), 'bottom');
+            return false;
+        }
+
+        if (specialization == '') {
+            ToastMsg(t('SelectSpecialization'), 'bottom');
+            return false;
+        }
 
         if (!termsAccepted) {
             ToastMsg(t('AcceptTerms'), 'bottom');
             return false;
         }
 
-
-        // if (profile == '') {
-        //     ToastMsg(t('PleaseSelectProfile'), 'bottom');
-        //     return false;
-        // }
-        // if (specialization == '') {
-        //     ToastMsg(t('SelectSpecialization'), 'bottom');
-        //     return false;
-        // }
-        // if (country == '') {
-        //     ToastMsg(t('PleaseSelectCountry'), 'bottom');
-        //     return false;
-        // }
 
         const cleanedPhone = phone.replace(/^0+/, ''); // remove leading zeros
 
@@ -181,6 +177,11 @@ const SignupScreen = (props) => {
         }
         if (!validateEmail(email)) {
             ToastMsg(t('ValidEmailId'), 'bottom');
+            return false;
+        }
+
+        if (country == '') {
+            ToastMsg(t('PleaseSelectCountry'), 'bottom');
             return false;
         }
 
@@ -380,6 +381,7 @@ const SignupScreen = (props) => {
                                     onChangeText={setFirstName}
                                     type="text"
                                     width='100%'
+                                    required={true}
                                 />
                                 <CustomTextInput
                                     heading={t('lastName')}
@@ -388,6 +390,7 @@ const SignupScreen = (props) => {
                                     onChangeText={setLastName}
                                     type="text"
                                     width='100%'
+                                    required={true}
                                 />
                                 <CustomTextInput
                                     heading={t('Email')}
@@ -396,15 +399,18 @@ const SignupScreen = (props) => {
                                     onChangeText={setEmail}
                                     type="email"
                                     width='100%'
+                                    required={true}
                                 />
-                                {/* <CustomTextInput
-                                    heading={t('mobileNo')}
-                                    placeholder={t('EnterMobileNumber')}
-                                    value={phone}
-                                    onChangeText={setPhone}
-                                    type="phone"
+                                <CustomDropdown
+                                    heading={t('SelectCountry')}
+                                    placeholder={t('Select')}
+                                    selectedValue={country}
+                                    onValueChange={setCountry}
+                                    options={countryArr}
                                     width='100%'
-                                /> */}
+                                    type="country"
+                                    required={true}
+                                />
                                 <MobileNumberInput
                                     heading={t('mobileNo')}
                                     value={phone}
@@ -412,6 +418,7 @@ const SignupScreen = (props) => {
                                     selectedCode={selectedCode}
                                     onChangeCode={setSelectedCode}
                                     countries={countryArr}
+                                    required={true}
                                 />
                                 <CustomTextInput
                                     heading={t('password')}
@@ -420,11 +427,17 @@ const SignupScreen = (props) => {
                                     onChangeText={setPassword}
                                     type="password"
                                     width='100%'
+                                    required={true}
                                 />
                                 <View style={{ marginVertical: '1%' }}>
+                                    <View style={{flexDirection:'row',alignItems:'center'}}>
                                     <Text style={SignupStyles.label}>
                                         {t('SelectGender')}
                                     </Text>
+                                    <Text style={SignupStyles.label3}>*</Text>
+                                    </View>
+                                   
+
                                     <View style={SignupStyles.genderContainer}>
                                         {genderOptions.map((option, index) => (
                                             <TouchableOpacity
@@ -452,6 +465,7 @@ const SignupScreen = (props) => {
                                     onPress={handleFileUpload}
                                     width='100%'
                                     fileurl={uploadedFile}
+                                    required={true}
                                 />
                                 <CustomDropdown
                                     heading={t('SelectProfile')}
@@ -461,6 +475,7 @@ const SignupScreen = (props) => {
                                     options={profileArr}
                                     width='100%'
                                     type="profile"
+                                    required={true}
                                 />
                                 <CustomDropdown
                                     heading={t('EnterSpecialization')}
@@ -470,16 +485,9 @@ const SignupScreen = (props) => {
                                     options={specializationArr}
                                     width='100%'
                                     type="specialization"
+                                    required={true}
                                 />
-                                <CustomDropdown
-                                    heading={t('SelectCountry')}
-                                    placeholder={t('Select')}
-                                    selectedValue={country}
-                                    onValueChange={setCountry}
-                                    options={countryArr}
-                                    width='100%'
-                                    type="country"
-                                />
+                              
                                 <AddressInput
                                     heading={t('Address')}
                                     placeholder={t('EnterAddress')}

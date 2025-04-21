@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, Modal, Image, FlatList } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, Modal, Image, FlatList, Pressable } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
 import { Colors, Fonts, ResponsiveFont, WindowWidth as wp, WindowHeight as hp, opacityOfButton, Images } from '../../assets';
 
@@ -18,7 +18,8 @@ export const CustomDropdown = ({
   style = {},
   textStyle = {},
   type = 'profile',
-  containerstyle = {}
+  containerstyle = {},
+  required = false
 }) => {
   const [modalVisible, setModalVisible] = useState(false);
   const getIcons = () => {
@@ -62,7 +63,7 @@ export const CustomDropdown = ({
                     clinicName: item?.clinicName
                   }
                   :
-                    item
+                  item
         );
         setModalVisible(false);
       }}
@@ -95,7 +96,12 @@ export const CustomDropdown = ({
 
   return (
     <View style={containerstyle}>
-      <Text style={styles.heading}>{heading}</Text>
+      <View style={{ flexDirection: "row", alignItems: 'center' }}>
+        <Text style={styles.heading}>{heading}</Text>
+        {required &&
+          <Text style={styles.heading3}>*</Text>
+        }
+      </View>
       <TouchableOpacity
         style={[
           styles.dropdownButton,
@@ -125,7 +131,10 @@ export const CustomDropdown = ({
         animationType='fade'
         onRequestClose={() => setModalVisible(false)}
       >
-        <View style={styles.modalContainer}>
+        <Pressable 
+        style={styles.modalContainer}
+        onPress={()=>setModalVisible(false)}
+        >
           <View style={styles.pickerContainer}>
             {/* <Picker
                 selectedValue={selectedValue}
@@ -148,7 +157,7 @@ export const CustomDropdown = ({
 
             />
           </View>
-        </View>
+        </Pressable>
       </Modal>
     </View>
   );
@@ -185,8 +194,9 @@ const styles = StyleSheet.create({
   pickerContainer: {
     width: '90%',
     backgroundColor: Colors.white,
-    borderRadius: wp * 5 / 100,
+    borderRadius: wp * 3 / 100,
     paddingHorizontal: wp * 2 / 100,
+    paddingVertical: wp * 2 / 100,
     maxHeight: '50%',  // Ensure the modal only takes up to 50% of screen height
   },
   heading: {
@@ -194,6 +204,18 @@ const styles = StyleSheet.create({
     fontSize: ResponsiveFont(13),
     lineHeight: ResponsiveFont(17.5),
     color: Colors.black
+  },
+  heading2: {
+    fontFamily: Fonts.Bold,
+    fontSize: ResponsiveFont(20),
+    lineHeight: ResponsiveFont(17.5),
+    color: Colors.black
+  },
+  heading3: {
+    fontFamily: Fonts.Bold,
+    fontSize: ResponsiveFont(20),
+    lineHeight: ResponsiveFont(17.5),
+    color: Colors.red2
   },
   optionContainer: {
     width: '100%%',

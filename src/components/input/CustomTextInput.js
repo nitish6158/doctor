@@ -13,7 +13,12 @@ export const CustomTextInput = ({
   borderRadius = 16,
   borderColor = Colors.borderColor2,
   textStyles = {},
-  heading
+  heading,
+  required = false,
+  isForgotPasswordVisible = false,
+  onPressForgotpassword=()=>{},
+  ForgotText='Forgot Password',
+  isInvalidCredentails=false
 }) => {
   const [isFocused, setIsFocused] = useState(false);
   const [secureText, setSecureText] = useState(type === 'password' ? true : false); // Default: true for password
@@ -39,10 +44,16 @@ export const CustomTextInput = ({
 
   return (
     <View style={{ marginVertical: '2%' }}>
-      <Text style={[styles.heading, { textStyles }]}>{heading}</Text>
+      <View style={{ flexDirection: "row", alignItems: 'center' }}>
+        <Text style={[styles.heading, { textStyles }]}>{heading}</Text>
+        {required &&
+          <Text style={styles.heading2}>*</Text>
+        }
+      </View>
       <View style={[styles.container,
       {
-        borderColor: isFocused ? Colors.blue : borderColor,
+        // borderColor: isFocused ? Colors.blue : borderColor,
+        borderColor: isInvalidCredentails ? Colors.red2 : isFocused ? Colors.blue : borderColor,
         borderTopWidth: isFocused ? 1 : 1,
         width,
         height,
@@ -82,6 +93,12 @@ export const CustomTextInput = ({
           </TouchableOpacity>
         )}
       </View>
+      {isForgotPasswordVisible &&
+        <View style={styles.forgotText}>
+          <TouchableOpacity onPress={onPressForgotpassword}>
+          <Text style={styles.subBoldText}>{ForgotText}</Text>
+          </TouchableOpacity>
+        </View>}
     </View>
   );
 };
@@ -114,10 +131,26 @@ const styles = StyleSheet.create({
     lineHeight: ResponsiveFont(17.5),
     color: Colors.black
   },
+  heading2: {
+    fontFamily: Fonts.Bold,
+    fontSize: ResponsiveFont(20),
+    lineHeight: ResponsiveFont(17.5),
+    color: Colors.red2
+  },
   eyeIcon: {
     width: (wp * 4.6) / 100,
     height: (wp * 4.6) / 100,
     resizeMode: 'contain',
+  },
+  subBoldText: {
+    fontFamily: Fonts.Bold,
+    fontSize: ResponsiveFont(14),
+    // lineHeight: ResponsiveFont(20),
+    color: Colors.font_blue
+  },
+  forgotText: {
+    alignItems: 'flex-end',
+    // paddingVertical: (wp * 1) / 100,
   }
 });
 
