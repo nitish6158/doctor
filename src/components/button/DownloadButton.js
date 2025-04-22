@@ -90,8 +90,8 @@ const styles = StyleSheet.create({
 
   },
   iconStyle: {
-    width: wp * 10 / 100,
-    height: wp * 10 / 100,
+    width: wp * 8 / 100,
+    height: wp * 8 / 100,
     resizeMode: 'contain',
     marginHorizontal: wp * 1 / 100
   },

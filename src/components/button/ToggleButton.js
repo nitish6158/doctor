@@ -7,9 +7,10 @@ export const ToggleButton = ({
     onToggle = () => { },
     leftText = "My Availability",
     rightText = "Team Availability",
+    width= '90%',
 }) => {
     return (
-        <View style={styles.container}>
+        <View style={[styles.container,{width}]}>
             <Pressable
                 onPress={() => !isActive && onToggle(true)}
                 style={[
@@ -48,7 +49,6 @@ const styles = StyleSheet.create({
         justifyContent:'space-between',
         alignItems: 'center',
         backgroundColor: Colors.white,
-        width: '90%',
         borderRadius: 15,
         borderWidth: 0.8,
         borderColor: Colors.blue,

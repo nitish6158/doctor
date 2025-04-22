@@ -22,6 +22,7 @@ import { Provider as PaperProvider } from 'react-native-paper';
 import { Menu } from 'react-native-paper';
 import { UpdateUserInfo, GetAllClinicAction, UpdateClinicIdAction } from '../../../Redux/actions'
 import { FlatList } from 'react-native-gesture-handler';
+import { FILE_BASE_URL } from '../../../Redux/config';
 const localclinic = [
     {
         "id": '1',
@@ -45,6 +46,7 @@ const localclinic = [
     },
 ]
 const HomeScreen = (props) => {
+    const userProfilePicture = FILE_BASE_URL + props?.userData?.image;
     const [menuVisible, setMenuVisible] = useState(false);
     const [selectedClinicName, setSelectedClinicName] = useState(props.GlobalSelectedClinicName || "Self");
     const [selectedClinicId, setSelectedClinicId] = useState(props.GlobalSelectedClinicId || 0);
@@ -276,12 +278,19 @@ const HomeScreen = (props) => {
                 </View>
                 <View style={HomeStyles.details}>
                     <View style={HomeStyles.textContainer}>
-                        <Text style={HomeStyles.doctorName}>{t('DrWilliamJhonon')}</Text>
+                        <Text style={HomeStyles.doctorName}>
+                            {`${props?.userData?.firstName?.charAt(0).toUpperCase() + props?.userData?.firstName?.slice(1).toLowerCase()} ${props?.userData?.lastName?.charAt(0).toUpperCase() + props?.userData?.lastName?.slice(1).toLowerCase()}`}
+                        </Text>
                         <View style={HomeStyles.specialityContainer}>
-                            <Text style={HomeStyles.speciality}>{t('Dentist')}</Text>
+                            <Text style={HomeStyles.speciality}>{props?.userData?.specialization}</Text>
                         </View>
                     </View>
-                    <Image source={Images.doctor2} style={HomeStyles.doctorImage} />
+                    {props?.userData?.image && props?.userData?.image != '' &&
+                        <Image source={
+                            { uri: userProfilePicture }
+                        } style={HomeStyles.doctorImage} 
+                        />
+                    }
                 </View>
             </View>
 
@@ -307,11 +316,11 @@ const HomeScreen = (props) => {
                                     <View style={HomeStyles.dashboardUnderBox}>
                                         <View style={[HomeStyles.totalArea, { borderRightWidth: 0.5, width: '40%', }]}>
                                             <Text style={HomeStyles.totalText}>{t('Total')}</Text>
-                                            <Text style={HomeStyles.totalValue}>{t('FiftySix')}</Text>
+                                            <Text style={HomeStyles.totalValue}>0</Text>
                                         </View>
                                         <View style={[HomeStyles.totalArea, { borderLeftWidth: 0.5, width: '60%', }]}>
                                             <Text style={HomeStyles.totalText}>{t('Completed')}</Text>
-                                            <Text style={HomeStyles.totalValue}>{t('FiftySix')}</Text>
+                                            <Text style={HomeStyles.totalValue}>0</Text>
                                         </View>
                                     </View>
 
@@ -335,11 +344,11 @@ const HomeScreen = (props) => {
                                     <View style={HomeStyles.dashboardUnderBox}>
                                         <View style={[HomeStyles.totalArea, { borderRightWidth: 0.5, width: '40%', }]}>
                                             <Text style={HomeStyles.totalText}>{t('Total')}</Text>
-                                            <Text style={HomeStyles.totalValue}>{t('FiftySix')}</Text>
+                                            <Text style={HomeStyles.totalValue}>0</Text>
                                         </View>
                                         <View style={[HomeStyles.totalArea, { borderLeftWidth: 0.5, width: '60%', }]}>
                                             <Text style={HomeStyles.totalText}>{t('New')}</Text>
-                                            <Text style={HomeStyles.totalValue}>{t('FiftySix')}</Text>
+                                            <Text style={HomeStyles.totalValue}>0</Text>
                                         </View>
                                     </View>
 
@@ -384,7 +393,7 @@ const HomeScreen = (props) => {
                                     </View>
                                 </ScrollView>
                                 :
-                                props.isVerified === 4 &&  props.userData?.isContractSend == 1 ?
+                                props.isVerified === 4 && props.userData?.isContractSend == 1 ?
                                     <View style={HomeStyles.card} >
                                         <Image
                                             source={Images.handshake}

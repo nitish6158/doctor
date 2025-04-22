@@ -119,6 +119,7 @@ const ProfileScreen = (props) => {
                         <Image
                             source={item.icon}
                             style={ProfileStyles.iconstyle}
+                            resizeMode='contain'
                         />
                     </View>
                     <Text style={ProfileStyles.menuText}>{item.label}</Text>

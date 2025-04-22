@@ -16,9 +16,10 @@ export const CustomTextInput = ({
   heading,
   required = false,
   isForgotPasswordVisible = false,
-  onPressForgotpassword=()=>{},
-  ForgotText='Forgot Password',
-  isInvalidCredentails=false
+  onPressForgotpassword = () => { },
+  ForgotText = 'Forgot Password',
+  isInvalidCredentails = false,
+  editIcon = false,
 }) => {
   const [isFocused, setIsFocused] = useState(false);
   const [secureText, setSecureText] = useState(type === 'password' ? true : false); // Default: true for password
@@ -44,10 +45,21 @@ export const CustomTextInput = ({
 
   return (
     <View style={{ marginVertical: '2%' }}>
-      <View style={{ flexDirection: "row", alignItems: 'center' }}>
-        <Text style={[styles.heading, { textStyles }]}>{heading}</Text>
-        {required &&
-          <Text style={styles.heading2}>*</Text>
+      <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+        <View style={{ flexDirection: "row", alignItems: 'center' }}>
+          <Text style={[styles.heading, { textStyles }]}>{heading}</Text>
+          {required &&
+            <Text style={styles.heading2}>*</Text>
+          }
+        </View>
+        {editIcon &&
+          <TouchableOpacity>
+            <Image
+              source={Images.editBlack}
+              style={styles.editIcon}
+              resizeMode='contain'
+            />
+          </TouchableOpacity>
         }
       </View>
       <View style={[styles.container,
@@ -96,7 +108,7 @@ export const CustomTextInput = ({
       {isForgotPasswordVisible &&
         <View style={styles.forgotText}>
           <TouchableOpacity onPress={onPressForgotpassword}>
-          <Text style={styles.subBoldText}>{ForgotText}</Text>
+            <Text style={styles.subBoldText}>{ForgotText}</Text>
           </TouchableOpacity>
         </View>}
     </View>
@@ -151,6 +163,10 @@ const styles = StyleSheet.create({
   forgotText: {
     alignItems: 'flex-end',
     // paddingVertical: (wp * 1) / 100,
+  },
+  editIcon: {
+    width: wp * 5 / 100,
+    height: wp * 5 / 100
   }
 });
 

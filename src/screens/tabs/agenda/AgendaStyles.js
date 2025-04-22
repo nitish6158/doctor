@@ -186,7 +186,7 @@ export const AgendaStyles = StyleSheet.create({
         // marginTop: '1.8%'
     },
     calenderStyle: {
-        borderWidth: 0.5,
+        borderWidth: 1,
         borderColor: Colors.blue,
         borderRadius: 10,
         width: '100%',

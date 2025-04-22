@@ -65,7 +65,7 @@ back_Icon: require('./icons/Back_Icon.png'),
   right_arrow: require('./icons/right_arrow.png'),
   light_right_arrow: require('./icons/light_right_arrow.png'),
 
-  icon_done: require('./icons/Done.png'),
+  icon_done: require('./icons/done.png'),
   icon_profileBackground: require('./images/profileBackground.png'),
 
 
@@ -103,6 +103,7 @@ back_Icon: require('./icons/Back_Icon.png'),
   icon_logout: require('./icons/logout.png'),
   icon_edit: require('./icons/editIcon.png'),
   edit: require('./icons/edit.png'),
+  editBlack: require('./icons/editBlack.png'),
   icon_accountType: require('./icons/accountType.png'),
   icon_download: require('./icons/download.png'),
   icon_time: require('./icons/time.png'),

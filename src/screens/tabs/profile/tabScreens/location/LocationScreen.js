@@ -234,10 +234,12 @@ const LocationScreen = (props) => {
                         />
                         :
                         <View style={LocationStyles.NoDataFoundContainer}>
+                            { !props.loading &&
                             <Image
                                 source={Images.nodatafound}
                                 style={LocationStyles.NoDataFound}
                             />
+                            }
                         </View>
                     }
                     <TouchableOpacity
@@ -281,7 +283,7 @@ const LocationScreen = (props) => {
                 onConfirmDelete={onConfirmDelete}
             />
             <Loader
-                visible={props.loading || loading}
+                visible={props.loading}
             />
             <AvailabilityModal
                 isModalOpen={isLocationAddModalOpen}
