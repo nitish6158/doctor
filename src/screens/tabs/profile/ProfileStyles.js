@@ -8,7 +8,8 @@
             alignItems: 'center',
         },
         listContainer:{
-            paddingHorizontal:'5%'
+            paddingHorizontal:'5%',
+            paddingBottom:wp*20/100,
         },
         buttonContainer:{
             width:"100%",

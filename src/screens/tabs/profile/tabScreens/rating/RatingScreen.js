@@ -19,7 +19,7 @@ import { FloatingBackgroundCard } from '../../../../../components/card';
 import { ListingCard } from '../../../../../components/card';
 import { useTranslation } from '../../../../../components/customhooks';
 
-const RatingScreen = () => {
+const RatingScreen = (props) => {
     const t = useTranslation();
 
     const ratingData = [
