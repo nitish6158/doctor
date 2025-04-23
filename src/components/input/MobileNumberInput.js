@@ -65,7 +65,7 @@ export const MobileNumberInput = ({
                 {/* Mobile Number Input */}
                 <View style={styles.inputContainer}>
                     <Image
-                        source={isFocused || value ? Images.icon_mobile_active : Images.icon_mobile_deactive}
+                        source={isFocused ? Images.icon_mobile_active : Images.icon_mobile_deactive}
                         style={styles.icon}
                     />
                     <TextInput

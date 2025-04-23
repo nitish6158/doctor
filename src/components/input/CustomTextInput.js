@@ -27,22 +27,24 @@ export const CustomTextInput = ({
   const getIcons = () => {
     switch (type) {
       case 'userName':
-        return isFocused || value ? Images.user_icon_active : Images.user_icon_deactive;
+        return isFocused ? Images.user_icon_active : Images.user_icon_deactive;
       case 'email':
-        return isFocused || value ? Images.icon_email_active : Images.icon_email_deactive;
+        return isFocused ? Images.icon_email_active : Images.icon_email_deactive;
       case 'password':
-        return isFocused || value ? Images.icon_lock_active : Images.icon_lock_deactive;
+        return isFocused ? Images.icon_lock_active : Images.icon_lock_deactive;
       case 'phone':
-        return isFocused || value ? Images.icon_mobile_active : Images.icon_mobile_deactive;
+        return isFocused ? Images.icon_mobile_active : Images.icon_mobile_deactive;
+      case 'fees':
+        return isFocused ? Images.icon_user_doctor_active : Images.icon_user_doctor_deactive;
       case 'text':
-        return isFocused || value ? Images.user_icon_active : Images.user_icon_deactive;
+        return isFocused ? Images.user_icon_active : Images.user_icon_deactive;
       case 'experience':
-        return isFocused || value ? Images.experience_active : Images.experience_deactive;
+        return isFocused ? Images.experience_active : Images.experience_deactive;
       default:
-        return isFocused || value ? Images.user_icon_active : Images.user_icon_deactive;
+        return isFocused ? Images.user_icon_active : Images.user_icon_deactive;
     }
   };
-
+  
   return (
     <View style={{ marginVertical: '2%' }}>
       <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
@@ -79,7 +81,7 @@ export const CustomTextInput = ({
           secureTextEntry={secureText} // Toggling based on state
           onChangeText={onChangeText}
           keyboardType={
-            type === 'phone' || type === 'experience'
+            type === 'phone' || type === 'experience' || type === 'fees'
               ?
               'phone-pad'
               :
