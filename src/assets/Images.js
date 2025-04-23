@@ -17,16 +17,14 @@ export const Images = {
   temp1: require('./images/temp1.png'),
   temp2: require('./images/temp2.png'),
   temp3: require('./images/temp3.png'),
-nodatafound:require('./images/noDataFound.png'),
-removeSlot:require('./images/removeSlot.png'),
-location_Added:require('./images/location_Added.png'),
-location_Updated:require('./images/location_Updated.png'),
-
-back_Icon: require('./icons/Back_Icon.png'),
- 
+  nodatafound: require('./images/noDataFound.png'),
+  removeSlot: require('./images/removeSlot.png'),
+  location_Added: require('./images/location_Added.png'),
+  location_Updated: require('./images/location_Updated.png'),
+  back_Icon: require('./icons/Back_Icon.png'),
   // icons
   NoAvailability: require('./icons/NoAvailability.png'),
-  icon_copy : require('./icons/icon_copy.png'),
+  icon_copy: require('./icons/icon_copy.png'),
   icon_arrow_back: require('./icons/arrow_back.png'),
   icon_checkbox: require('./icons/checkbox.png'),
   icon_checkbox_enable: require('./icons/checkBoxEnable.png'),
@@ -138,5 +136,7 @@ back_Icon: require('./icons/Back_Icon.png'),
   questionMarkIcon: require('./icons/questionMarkIcon.png'),
   minus: require('./icons/minus.png'),
   AboutPlus: require('./icons/AboutPlus.png'),
-
+  Thumbnail: require('./images/Thumbnail.png'),
+  exclamation: require('./icons/exclamation.png'),
+  editProfile: require('./icons/editProfile.png'),
 };
