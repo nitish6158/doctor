@@ -125,4 +125,18 @@ back_Icon: require('./icons/Back_Icon.png'),
   offline: require('./icons/offline.png'),
   experience_active: require('./icons/experience_active_icon.png'),
   experience_deactive: require('./icons/experience_deactive_Icon.png'),
+
+  star_filled: require('./icons/star_filled.png'),
+  star_empty: require('./icons/star_empty.png'),
+  ratingUserIcon: require('./icons/ratingUserIcon.png'),
+  payment_success: require('./icons/payment_success.png'),
+  icon_notification3: require('./icons/notification3.png'),
+  changePasswordIcon: require('./icons/changePasswordIcon.png'),
+  icon_tick: require('./icons/icon_tick.png'),
+  icon_cross3: require('./icons/icon_cross3.png'),
+  aboutIcon: require('./icons/aboutIcon.png'),
+  questionMarkIcon: require('./icons/questionMarkIcon.png'),
+  minus: require('./icons/minus.png'),
+  AboutPlus: require('./icons/AboutPlus.png'),
+
 };

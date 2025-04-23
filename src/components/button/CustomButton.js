@@ -6,7 +6,7 @@ export const CustomButton = ({
   onPress,
   backgroundColor = Colors.blue,
   textColor = Colors.white,
-  fontSize = ResponsiveFont(20),
+  fontSize = ResponsiveFont(16),
   disabled = false,
   style = {},
   textStyle = {},

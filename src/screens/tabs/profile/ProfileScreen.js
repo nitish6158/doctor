@@ -27,7 +27,7 @@ const menuItems = [
     {
         icon: Images.icon_star,
         label: 'My Rating',
-        screenName:'',
+        screenName:'RatingScreen',
 
     },
     {
@@ -45,13 +45,19 @@ const menuItems = [
     {
         icon: Images.icon_notification2,
         label: 'Notification',
-        screenName:'',
+        screenName:'NotificationScreen',
+
+    },
+    {
+        icon: Images.icon_notification2,
+        label: 'Change Password',
+        screenName:'ChangePasswordScreen',
 
     },
     {
         icon: Images.icon_language,
         label: 'Language',
-        screenName:'',
+        screenName:'LanguageScreen',
 
     },
     {
@@ -63,7 +69,7 @@ const menuItems = [
     {
         icon: Images.icon_about,
         label: 'About',
-        screenName:'',
+        screenName:'AboutScreen',
 
     },
     {

@@ -11,11 +11,15 @@ import OnboardingLanguageScreen from '../screens/onboarding/OnboardingLanguageSc
 import BottomTabNavigator from './bottomtab/BottomTabNavigator';
 // container flow screens
 import BankFormScreen from '../screens/container/bankDetailsForm/BankFormScreen';
-import NotificationScreen from '../screens/container/notification/NotificationScreen';
 import ContractScreen from '../screens/container/contract/ContractScreen';
 // profile tab flow screen
 import LocationScreen from '../screens/tabs/profile/tabScreens/location/LocationScreen';
 import AccountScreen from '../screens/tabs/profile/tabScreens/account/AccountScreen';
+import RatingScreen from '../screens/tabs/profile/tabScreens/rating/RatingScreen';
+import NotificationScreen from '../screens/tabs/profile/tabScreens/notification/NotificationScreen';
+import ChangePasswordScreen from '../screens/tabs/profile/tabScreens/changepassword/ChangePasswordScreen';
+import LanguageScreen from '../screens/tabs/profile/tabScreens/language/LanguageScreen';
+import AboutScreen from '../screens/tabs/profile/tabScreens/about/AboutScreen';
 const Stack = createStackNavigator();
 const AppNavigator = () => {
   const loginStatus = useSelector(state => state.authReducer.loginStatus);
@@ -83,10 +87,6 @@ const AppNavigator = () => {
           }}
         />
         <Stack.Screen
-          name="NotificationScreen"
-          component={NotificationScreen}
-        />
-        <Stack.Screen
           name="ContractScreen"
           component={ContractScreen}
         />
@@ -100,6 +100,27 @@ const AppNavigator = () => {
           name="LocationScreen"
           component={LocationScreen}
         />
+        <Stack.Screen
+          name="RatingScreen"
+          component={RatingScreen}
+        />
+        <Stack.Screen
+          name="NotificationScreen"
+          component={NotificationScreen}
+        />
+        <Stack.Screen
+          name="ChangePasswordScreen"
+          component={ChangePasswordScreen}
+        />
+        <Stack.Screen
+          name="LanguageScreen"
+          component={LanguageScreen}
+        />
+        <Stack.Screen
+          name="AboutScreen"
+          component={AboutScreen}
+        />
+      
       </Stack.Navigator>
     </NavigationContainer>
   );

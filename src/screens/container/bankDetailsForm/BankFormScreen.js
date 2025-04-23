@@ -73,7 +73,24 @@ const BankFormScreen = (props) => {
     const [country, setCountry] = useState('')
     const [bankCode, setBankCode] = useState('');
     const [branchName, setBranchName] = useState('');
+    const [iban, setIban] = useState('');
+    const [swiftBicCode, setSwiftBicCode] = useState('');
+    const [sirenNo, setSirenNo] = useState('');
     const [countryArr, setCountryArr] = useState([])
+
+    const getVisibleFields = (countryName = '') => {
+        const upperCountry = countryName.trim().toUpperCase();
+
+        return {
+            showIban: ['FRANCE', 'GERMANY'].includes(upperCountry),
+            showSirenNo: upperCountry === 'FRANCE',
+            showNationalId: ['SAUDI ARABIA', 'UNITED ARAB EMIRATES'].includes(upperCountry),
+            showBankCode: ['FRANCE', 'GERMANY'].includes(upperCountry), // optional for Gulf
+        };
+    };
+
+    const { showIban, showSirenNo, showNationalId, showBankCode } = getVisibleFields(country);
+
 
     const isFormValid = () => {
         const cleanedPhone = phone.replace(/^0+/, '');
@@ -83,7 +100,8 @@ const BankFormScreen = (props) => {
             bankAccountNumber.trim() &&
             bankName.trim() &&
             bankAccountType.trim() &&
-            nationalId.trim() &&
+            (!showNationalId || nationalId.trim()) &&
+            // nationalId.trim() &&
             address.trim() &&
             email.trim() &&
             validateEmail(email) &&
@@ -92,6 +110,7 @@ const BankFormScreen = (props) => {
             country.trim() &&
             branchName.trim() &&
             bankCode.trim()
+            (!showBankCode || bankCode.trim())
         );
     };
 
@@ -148,6 +167,9 @@ const BankFormScreen = (props) => {
             "bankCode": bankCode,
             "languageType": props.appLanguage?.toLowerCase(),
             "doctorId": props.userId,
+            "iban": iban,
+            "swiftBicCode": swiftBicCode,
+            "sirenNo": sirenNo,
         }
 
         await props.BankFormAction(reqParam);
@@ -245,14 +267,14 @@ const BankFormScreen = (props) => {
                                 width='100%'
                             />
 
-                            <CustomTextInput
+                            {showNationalId && <CustomTextInput
                                 heading={t('NationalID')}
                                 placeholder={t('EnterNationalIDNumber')}
                                 value={nationalId}
                                 onChangeText={setNationalId}
                                 type="phone"
                                 width='100%'
-                            />
+                            />}
                             <AddressInput
                                 heading={t('Address')}
                                 placeholder={t('EnterAddress')}
@@ -303,14 +325,35 @@ const BankFormScreen = (props) => {
                                 type="text"
                                 width='100%'
                             />
-                            <CustomTextInput
+                            {showBankCode && <CustomTextInput
                                 heading={t('BankCode')}
                                 placeholder={t('EnterBankCode')}
                                 value={bankCode}
                                 onChangeText={setBankCode}
                                 type="phone"
                                 width='100%'
-                            />
+                            />}
+                            {showIban && (
+                                <CustomTextInput
+                                    heading='IBAN'
+                                    placeholder='EnterIBAN'
+                                    value={iban}
+                                    onChangeText={setIban}
+                                    type="text"
+                                    width='100%'
+                                />
+                            )}
+
+                            {showSirenNo && (
+                                <CustomTextInput
+                                    heading='SirenNo'
+                                    placeholder='EnterSirenNo'
+                                    value={sirenNo}
+                                    onChangeText={setSirenNo}
+                                    type="text"
+                                    width='100%'
+                                />
+                            )}
                             {/* <CustomButton
                                 title={t('FinishSetup')}
                                 onPress={handleVerifyDetails}

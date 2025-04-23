@@ -9,7 +9,7 @@ import {
 export const BankFormAction = data => {
   return async (dispatch, getState) => {
     dispatch({ type: BANK.BANK_FORM_REQUEST });
-    const reqParam = 
+    const reqParam =
     {
       "id": 0,
       "bankName": data.bankName,
@@ -25,13 +25,16 @@ export const BankFormAction = data => {
       "email": data.email,
       "mobileNumber": data.mobileNumber,
       "countryName": data.countryName,
+      "iban": data.iban,
+      "swiftBicCode": data.swiftBicCode,
+      "sirenNo": data.sirenNo,
     };
-    
+
     const method = API_METHODS.POST;
     const endPoint = BASE_URL + END_POINT.bankform;
     try {
       const response = await ApiHandler({ endPoint, method, reqParam });
-      console.log("check ",response)
+      console.log("check ", response)
       if (response?.data?.status === 200) {
         if (response.data?.data) {
           dispatch({
