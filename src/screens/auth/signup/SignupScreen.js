@@ -140,7 +140,7 @@ const SignupScreen = (props) => {
             "firstName": firstName,
             "lastName": lastName,
             "email": email,
-            "mobileNo": selectedCode?.code + "" + cleanedPhone,
+            "mobileNo":  cleanedPhone,
             "profile": profile,
             "cv": uploadedFile,
             "specialization": specialization,
@@ -148,6 +148,8 @@ const SignupScreen = (props) => {
             "address": address,
             "language": props.appLanguage?.toLowerCase(),
             "gender": selectedGender,
+            "fees": "",
+            "code": selectedCode?.code,
         }
         await props.SignupAction(reqParams);
     }

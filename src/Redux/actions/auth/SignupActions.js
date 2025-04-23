@@ -28,6 +28,8 @@ export const SignupAction = data => {
       "review": "",
       "description": "",
       "image": "",
+      "fees": "",
+      "code": data?.code,
     };
 
     const method = API_METHODS.POST;

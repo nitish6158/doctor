@@ -1,37 +1,108 @@
 import { StyleSheet } from 'react-native';
-import { Fonts, ResponsiveFont, Colors ,WindowWidth as wp} from '../../../../../assets';
+import { Fonts, ResponsiveFont, Colors, WindowWidth as wp } from '../../../../../assets';
+import { clamp } from 'react-native-reanimated';
 
 export const AccountStyle = StyleSheet.create({
+  background: {
+    flex: 1,
+    width: '100%',
+    height: '100%',
+  },
+  MobileNumberInput: {
+    width: wp * 90 / 100,
+  },
+  bankContainer: {
+    width: wp * 100 / 100,
+  },
   container: {
     backgroundColor: '#fff',
     paddingBottom: 40,
   },
   header: {
-    backgroundColor: '#0D9EFF',
+    flex: 1.5,
+  },
+  header5: {
+    flex: 8,
+    flexDirection: 'row',
+    width: '100%'
+  },
+  backIconContainer: {
+    width: wp * 10 / 100,
+    height: wp * 10 / 100,
+    alignSelf: "flex-start"
+  },
+  backIcon: {
+    width: wp * 5 / 100,
+    height: wp * 5 / 100,
+    resizeMode: 'contain',
+    alignSelf: 'flex-end'
+  },
+  tabName: {
+    fontFamily: Fonts.Medium,
+    fontSize: ResponsiveFont(22),
+    color: Colors.white,
+    marginLeft: '25%'
+  },
+  header1: {
     alignItems: 'center',
-    paddingVertical: 20,
-    borderBottomLeftRadius: 20,
-    borderBottomRightRadius: 20,
+    position: 'absolute',
+    top: 0,
+    transform: [{ translateY: '-35%', }],
+  },
+  blankSpace: {
+    width: '100%',
+    flex: 1.6,
+  },
+  workingSpace: {
+    width: '100%',
+    flex: 8.4,
+    alignItems: 'center',
+    paddingVertical: wp * 2 / 100,
+  },
+  scroolContainer: {
+    flexGrow: 1,
+    paddingHorizontal: wp * 5 / 100,
+  },
+  buttonContainer: {
+    width: wp * 100 / 100,
+    alignItems: 'center',
+    paddingVertical: wp * 3.5 / 100,
   },
   profilePic: {
-    width: 100,
-    height: 100,
-    borderRadius: 50,
-    borderWidth: 3,
-    borderColor: '#fff',
+    width: wp * 35 / 100,
+    height: wp * 35 / 100,
+    borderRadius: wp * 25 / 100,
+    borderWidth: 4,
+    borderColor: Colors.blue,
   },
-  editIcon: {
+
+  editImageIcon: {
+    position: 'absolute',
+    right: 3,
+    bottom: 2,
+    backgroundColor: Colors.blue,
+    borderRadius: 50,
+    padding: 10,
+    // paddingVertical:7,
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
+  editImageIcon2: {
     position: 'absolute',
     right: -10,
-    bottom: 10,
-    backgroundColor: '#0D9EFF',
-    borderRadius: 20,
-    padding: 5,
+    bottom: -15,
+    backgroundColor: Colors.blue,
+    borderRadius: 50,
+    padding: 10,
+    // paddingVertical:7,
+    alignItems: 'center',
+    justifyContent: 'center'
   },
   profileName: {
-    fontSize: 20,
-    color: '#fff',
-    marginTop: 10,
+    fontFamily: Fonts.Medium,
+    fontSize: ResponsiveFont(22),
+    lineHeight: ResponsiveFont(50),
+    color: Colors.black,
   },
   tabContainer: {
     flexDirection: 'row',
@@ -51,11 +122,9 @@ export const AccountStyle = StyleSheet.create({
     color: '#000',
   },
   floatingCard: {
-    marginTop: -30,
-    paddingTop: 30,
-    paddingBottom: 40,
-    paddingHorizontal: 20,
+    // paddingVertical:wp*5/100,
     width: '100%',
+    flex: 8.5
   },
   form: {
     width: '100%',
@@ -76,7 +145,7 @@ export const AccountStyle = StyleSheet.create({
     width: 20,
     height: 20,
     resizeMode: 'contain',
-    marginRight: 10,
+    // marginRight: 10,
   },
   datePickerRow: {
     flexDirection: 'row',
@@ -140,15 +209,71 @@ export const AccountStyle = StyleSheet.create({
   },
 
 
-  textStyle:{
+  textStyle: {
     fontFamily: Fonts.Bold,
     fontSize: ResponsiveFont(14),
     lineHeight: ResponsiveFont(50),
     color: Colors.black,
   },
-   editIcon: {
-      width: wp * 5 / 100,
-      height: wp * 5 / 100
-    }
+  editIcon: {
+    width: wp * 5 / 100,
+    height: wp * 5 / 100
+  },
+  profilePicEditArea: {
+    width: "100%",
+    flexDirection: "row",
+    paddingVertical: '5%',
+    justifyContent: 'space-between',
+    // backgroundColor:'red',
+
+  },
+  editImageContainer: {
+    width: '25%',
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
+  editImageDetail: {
+    width: '68%',
+  },
+  markCover: {
+    padding: wp * 1 / 100,
+    backgroundColor: Colors.red6,
+    borderRadius: wp * 1.5 / 100
+  },
+  pointsCover: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    width: '100%',
+    marginVertical: '1%'
+    // justifyContent:'space-between'
+  },
+  thumbnailIMG: {
+    width: wp * 25 / 100,
+    height: wp * 29 / 100,
+  },
+  exclamation: {
+    width: wp * 3.5 / 100,
+    height: wp * 3.5 / 100,
+  },
+  thumbnail: {
+    fontFamily: Fonts.Bold,
+    fontSize: ResponsiveFont(14),
+    color: Colors.black,
+  },
+  shortThumbnail: {
+    fontFamily: Fonts.Bold,
+    fontSize: ResponsiveFont(12),
+    color: Colors.black,
+    maxWidth: "80%",
+    marginLeft: '2%'
+  },
+  shortThumbnail2: {
+    fontFamily: Fonts.Bold,
+    fontSize: ResponsiveFont(12),
+    color: Colors.blue,
+    marginLeft: '2%',
+    maxWidth: "80%",
+  },
+
 });
 
