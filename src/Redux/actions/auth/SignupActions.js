@@ -65,12 +65,19 @@ export const ClearStatusSignup = data => {
 };
 
 
+export const ClearUpdateUerStatus = data => {
+  return async (dispatch, getState) => {
+    dispatch({ type: AUTH.CLEAR_UPDATE_ACCOUNT_STATUS });
+  };
+};
+
+
 
 export const UpdateUserProfileAction = data => {
   return async (dispatch, getState) => {
     dispatch({ type: AUTH.UPDATE_USER_REQUEST });
     const reqParam = {
-      "id": data.userId,
+      "id": data.id,
       "firstName": data.firstName,
       "lastName": data.lastName,
       "dateOfBirth":data.dateOfBirth,
@@ -87,6 +94,10 @@ export const UpdateUserProfileAction = data => {
       "image": data.image,
       "fees": data.fees,
       "code": data?.code,
+      "clinicId": 0,
+      "password": "Doctor@gmail.net45",
+      "email":data.email,
+      "mobileNo": data?.mobileNo,
     };
     
     const method = API_METHODS.POST;

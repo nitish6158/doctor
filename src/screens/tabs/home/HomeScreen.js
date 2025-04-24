@@ -58,8 +58,8 @@ const HomeScreen = (props) => {
         props.navigation.navigate('BankFormScreen');
     }
     const handleContractDetails = () => {
-        props.navigation.navigate('ContractScreen');
-        // props.navigation.navigate('AccountScreen');
+        //props.navigation.navigate('ContractScreen');
+         props.navigation.navigate('AccountScreen');
     }
 
     const [isBankModalOpen, setIsBankModalOpen] = useState(false)

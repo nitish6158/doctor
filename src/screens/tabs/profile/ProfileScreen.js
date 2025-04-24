@@ -14,7 +14,7 @@ const menuItems = [
         icon: Images.user_icon_active,
         label: 'My Account',
         screenName: 'AccountScreen',
-        isProtected: false
+        isProtected: true
     },
     {
         icon: Images.icon_select_contry_active,
