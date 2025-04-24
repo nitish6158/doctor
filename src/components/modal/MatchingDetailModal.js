@@ -3,10 +3,12 @@ import { View, Text, TouchableOpacity, StyleSheet, Modal, Image,  } from 'react-
 import { Images, Colors, WindowWidth as wp, WindowHeight as hp, Fonts, ResponsiveFont } from '../../assets';
 import { ToastMsg } from '../Toast';
 import Clipboard from '@react-native-clipboard/clipboard';
+import { useTranslation } from '../customhooks';
 export const MatchingDetailModal = ({ visible, onClose,mobileNumber,email }) => {
+  const t=useTranslation()
   const handleCopy = (text) => {
     Clipboard.setString(text);
-    ToastMsg('Copied to Clipboard', "bottom");
+    ToastMsg(t('CopiedToClipboard'), "bottom");
   };
 
   return (
@@ -23,7 +25,7 @@ export const MatchingDetailModal = ({ visible, onClose,mobileNumber,email }) => 
         </TouchableOpacity>
 
         <View style={styles.modal}>
-          <Text style={styles.title}>Matching Detail</Text>
+          <Text style={styles.title}>{t('MatchingDetail')}</Text>
 
           <View style={styles.row}>
             <Image source={Images.icon_mobile_active} style={styles.icon} />

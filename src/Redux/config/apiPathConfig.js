@@ -5,6 +5,7 @@ export const FILE_BASE_URL = 'http://72.167.33.207:3030';
 export const END_POINT = {
   login: '/authController/login',
   signup: '/doctor/doctorProfileRegister',
+  changePassword:'/authController/changePassword',
   forgotpassword: '/authController/forgotPassword',
   fileUpload: '/authController/uploadPost',
   specilization: lang => `/admin/getSpecializationByType?lang=${lang}`,

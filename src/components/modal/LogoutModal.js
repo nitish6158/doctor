@@ -2,11 +2,13 @@ import React from 'react';
 import { Text, TouchableOpacity, StyleSheet, Modal, Image, View } from 'react-native';
 import { Colors, Fonts, Images, WindowWidth as wp, ResponsiveFont, WindowHeight as hp, opacityOfButton } from '../../assets';
 import { CustomButton } from '../button';
+import { useTranslation } from '../customhooks';
 export const LogoutModal = ({
   isModalOpen = false,
   onClose,
   onLogout
 }) => {
+  const t=useTranslation();
   return (
     <Modal
       visible={isModalOpen}
@@ -22,18 +24,18 @@ export const LogoutModal = ({
         >
           <View style={styles.logoutContainer}>
             <View style={styles.logoutButton}>
-              <Text style={styles.logoutText}>Logout</Text>
+              <Text style={styles.logoutText}>{t('Logout')}</Text>
             </View>
             <Image
               source={Images.icon_logout}
               style={styles.logoutIconstyle}
             />
           </View>
-          <Text style={styles.headingcontainer}>Do You Want to Logout ?</Text>
+          <Text style={styles.headingcontainer}>{t('LogoutConfirmation')}</Text>
 
           <View style={styles.buttonContainer}>
             <CustomButton
-              title={"Cancel"}
+              title={t('Cancel')}
               onPress={onClose}
               style={styles.buttonStyles}
               backgroundColor={Colors.light_blue2}
@@ -44,7 +46,7 @@ export const LogoutModal = ({
 
             />
             <CustomButton
-              title={"Logout"}
+              title={t('Logout')}
               onPress={onLogout}
               style={styles.buttonStyles}
               backgroundColor={Colors.red}

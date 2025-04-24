@@ -2,12 +2,14 @@ import React from 'react';
 import { Text, TouchableOpacity, StyleSheet, Modal, Image, View } from 'react-native';
 import { Colors, Fonts, Images, WindowWidth as wp, ResponsiveFont, WindowHeight as hp, opacityOfButton } from '../../assets';
 import { CustomButton } from '../button';
+import { useTranslation } from '../customhooks';
 export const DeleteLocationModal = ({
   isModalOpen = false,
   onClose,
   onConfirmDelete,
   selectedSlot,
 }) => {
+  const t=useTranslation();
   return (
     <Modal
       visible={isModalOpen}
@@ -25,11 +27,11 @@ export const DeleteLocationModal = ({
               source={Images.location_Updated}
               style={styles.logoutIconstyle}
             />
-          <Text style={styles.headingcontainer}>Do You Want to Remove this location?</Text>
+          <Text style={styles.headingcontainer}>{t('RemoveLocationConfirmation')}</Text>
 
           <View style={styles.buttonContainer}>
             <CustomButton
-              title={"Cancel"}
+              title={t('Cancel')}
               onPress={onClose}
               style={styles.buttonStyles}
               backgroundColor={Colors.light_blue2}
@@ -38,7 +40,7 @@ export const DeleteLocationModal = ({
               marginVertical='3%'
             />
             <CustomButton
-              title={"Remove"}
+              title={t('Remove')}
               onPress={()=>{
                 onConfirmDelete(selectedSlot);
                 onClose

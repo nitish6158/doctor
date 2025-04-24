@@ -77,7 +77,7 @@ export const BlockAvailabilityModal = ({
                     {isBlockByDate ?
                         <View style={styles.startEndDateContainer}>
                             <CustomDateInput
-                                placeholder="From Date"
+                                placeholder={t('FromDate')}
                                 value={selectedBlockStartDate}
                                 onDateChange={setSelectedBlockStartDate}
                                 minimumDate={new Date()} // optional
@@ -85,7 +85,7 @@ export const BlockAvailabilityModal = ({
                             />
 
                             <CustomDateInput
-                                placeholder="To Date"
+                                placeholder={t('ToDate')}
                                 value={selectedBlockEndDate}
                                 onDateChange={setSelectedBlockEndDate}
                                 minimumDate={new Date()} // optional
@@ -111,14 +111,14 @@ export const BlockAvailabilityModal = ({
                                     onChange={(time) => {
                                         setBlockStartTime(time)
                                     }}
-                                    label="From Time"
+                                    label={t('FromDate')}
                                 />
                                 <TimePicker
                                     value={blockEndTime}
                                     onChange={(time) => {
                                         setBlockEndTime(time)
                                     }}
-                                    label="To Time"
+                                    label={t('ToDate')}
                                     minTime={blockStartTime}
                                 />
                             </View>
@@ -126,8 +126,8 @@ export const BlockAvailabilityModal = ({
                     }
                     <View style={styles.addressContainer3}>
                         <AddressInput
-                            heading='Reason'
-                            placeholder='Enter Reason'
+                            heading={t('Reason')}
+                            placeholder={t('EnterReason')}
                             value={reason}
                             onChangeText={setReason}
                             width='100%'
@@ -138,7 +138,7 @@ export const BlockAvailabilityModal = ({
                         style={styles.BlockButtonContainer}
                     >
                         <CustomButton
-                            title={"Block Availability"}
+                            title={t('BlockAvailability')}
                             width='94%'
                             onPress={() => {
                                 if (isBlockByDate) {

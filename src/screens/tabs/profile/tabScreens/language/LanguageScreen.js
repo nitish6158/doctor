@@ -20,6 +20,8 @@ import {
 import { FloatingBackgroundCard } from '../../../../../components/card';
 import { useTranslation } from '../../../../../components/customhooks';
 import { LanguageSelectionButton, CustomButton } from '../../../../../components/button';
+import { LanguageAction } from '../../../../../Redux/actions';
+import { connect } from 'react-redux';
 
 const LanguageScreen = (props) => {
     const t = useTranslation();
@@ -28,7 +30,12 @@ const LanguageScreen = (props) => {
     const [arabic, setArabic] = useState('');
 
     const selectlanguage = async (target) => {
-        console.log('language');
+        if (target !== props.appLanguage) {
+            await props.LanguageAction(target);
+        }
+    }
+    const handleLanguage = async () => {
+        props.navigation.navigate('BottomTabNavigator')
     }
 
     return (
@@ -65,7 +72,7 @@ const LanguageScreen = (props) => {
                             width='100%'
                             type="english"
                             onPress={() => {
-                                // selectlanguage("EN")
+                                selectlanguage("EN")
                             }}
                         />
                         <LanguageSelectionButton
@@ -76,7 +83,7 @@ const LanguageScreen = (props) => {
                             width='100%'
                             type="france"
                             onPress={() => {
-                                // selectlanguage("FN")
+                                selectlanguage("FN")
                             }}
 
                         />
@@ -88,13 +95,12 @@ const LanguageScreen = (props) => {
                             width='100%'
                             type="arabic"
                             onPress={() => {
-                                // selectlanguage("AR")
+                                selectlanguage("AR")
                             }}
                         />
                         <CustomButton
                             title="Change Language"
-                            onPress={() => {
-                            }}
+                            onPress={handleLanguage}
                             backgroundColor={Colors.blue}
                             textColor={Colors.white}
                             width="95%"
@@ -107,6 +113,17 @@ const LanguageScreen = (props) => {
     );
 };
 
-export default LanguageScreen;
+const mapStateToProps = state => {
+    return {
+        loading: state.authReducer.loading,
+        errMsg: state.authReducer.errMsg,
+        responseCode: state.authReducer.responseCode,
+        appLanguage: state.authReducer.appLanguage,
+    };
+};
 
+const mapDispatchToProps = {
+    LanguageAction
+};
+export default connect(mapStateToProps, mapDispatchToProps)(LanguageScreen);
 

@@ -69,23 +69,14 @@ const AboutScreen = (props) => {
         <View style={{ flexDirection: 'row', alignItems: 'center' }}>
           <Image
             source={Images.questionMarkIcon}
-            style={{
-              width: wp * 6 / 100,
-              height: wp * 6 / 100,
-              marginRight: wp * 3 / 100,
-              resizeMode: 'contain',
-            }}
+            style={AboutStyles.questionMarkIcon}
           />
           <Text style={AboutStyles.faqQuestion}>{item.question}</Text>
         </View>
 
         <Image
           source={item.expanded ? Images.minus : Images.icon_plus}
-          style={{
-            width: wp * 4.5 / 100,
-            height: wp * 4.5 / 100,
-            resizeMode: 'contain',
-          }}
+          style={AboutStyles.plusminusIconStyle}
         />
       </TouchableOpacity>
 
@@ -118,37 +109,43 @@ const AboutScreen = (props) => {
 
       <View style={AboutStyles.bottomView}>
         <FloatingBackgroundCard>
-        <View style={AboutStyles.infoIconContainer}>
-              <Image source={Images.aboutIcon} style={AboutStyles.aboutIcon}resizeMode='contain' />
+          {faqList ?
+            <>
+              <View style={AboutStyles.infoIconContainer}>
+                <Image source={Images.aboutIcon} style={AboutStyles.aboutIcon} resizeMode='contain' />
+              </View>
+              <View>
+                <Text style={AboutStyles.appTitle}>
+                  Medicine
+                  <Text style={AboutStyles.appTitleDot}>.</Text>
+                </Text>
+                <Text style={[AboutStyles.appSubTitle]}>
+                  Doctor
+                </Text>
+              </View>
+
+              <View style={AboutStyles.aboutContainer}>
+                <Text style={AboutStyles.faqQuestion}>About Medicine App</Text>
+                <Text style={AboutStyles.descriptionText}>
+                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                </Text>
+              </View>
+              <Text style={AboutStyles.faqTitle}>Frequently Asked Question</Text>
+              <FlatList
+                data={faqList}
+                renderItem={renderItem}
+                keyExtractor={(item) => item.id}
+                showsVerticalScrollIndicator={false}
+              />
+            </>
+            :
+            <View style={AboutStyles.NoDataFoundContainer}>
+              <Image
+                source={Images.nodatafound}
+                style={AboutStyles.NoDataFound}
+              />
             </View>
-            <View>
-            <Text style={AboutStyles.appTitle}>
-            Medicine
-            <Text style={AboutStyles.appTitleDot}>.</Text>
-          </Text>
-
-          <Text style={[AboutStyles.appSubTitle]}>
-            Doctor
-          </Text>
-
-            </View>
-
-       <View style={{width:'90%'}}>
-        <Text style={AboutStyles.faqQuestion}>About Medicine App</Text>
-        <Text style={AboutStyles.descriptionText}>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-          </Text>
-       </View>
-           
-
-          <Text style={AboutStyles.faqTitle}>Frequently Asked Question</Text>
-
-          <FlatList
-            data={faqList}
-            renderItem={renderItem}
-            keyExtractor={(item) => item.id}
-            showsVerticalScrollIndicator={false}
-          />
+          }
         </FloatingBackgroundCard>
       </View>
     </ImageBackground>

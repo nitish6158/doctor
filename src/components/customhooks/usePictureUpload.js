@@ -1,11 +1,12 @@
 import { useState } from 'react';
 import axios from 'axios';
-import { BASE_URL ,END_POINT } from '../../Redux/config';
+import { BASE_URL, END_POINT } from '../../Redux/config';
+import useTranslation from './useTranslation';
 export const usePictureUpload = () => {
   const [isUploading, setIsUploading] = useState(false);
   const [error, setError] = useState(null);
-
-  const apiName = BASE_URL+END_POINT.fileUpload
+  const t = useTranslation();
+  const apiName = BASE_URL + END_POINT.fileUpload
 
   const uploadPhoto = async (file) => {
     setIsUploading(true);
@@ -28,10 +29,10 @@ export const usePictureUpload = () => {
       if (response?.data?.status === 200) {
         return response.data.data; // Return the file URL
       } else {
-        throw new Error(response?.data?.message || 'Upload failed');
+        throw new Error(response?.data?.message || t('UploadFailed'));
       }
     } catch (error) {
-      const errorMessage = error.message || 'An error occurred during the upload.';
+      const errorMessage = error.message || t('UploadErrorOccurred');
       setError(errorMessage);
       throw error;
     } finally {

@@ -1037,8 +1037,193 @@ export const Languages = {
     AR: "الحظر حسب الوقت",
     FN: "Bloquer par heure",
   },
-
-
+  ImageUploaded: {
+    EN: "Image uploaded successfully!",
+    AR: "تم تحميل الصورة بنجاح!",
+    FN: "Image téléchargée avec succès !",
+  },
+  UploadError: {
+    EN: "Something went wrong while uploading.",
+    AR: "حدث خطأ أثناء التحميل.",
+    FN: "Une erreur s'est produite lors du téléchargement.",
+  },
+  NoMediaSelected: {
+    EN: "No media selected",
+    AR: "لم يتم تحديد أي وسائط",
+    FN: "Aucun média sélectionné",
+  },
+  StoragePermissionRequired: {
+    EN: "Storage permission is required to download the PDF.",
+    AR: "يتطلب إذن التخزين لتنزيل ملف PDF.",
+    FN: "L'autorisation de stockage est requise pour télécharger le PDF.",
+  },
+  
+  PermissionDenied: {
+    EN: "Permission Denied",
+    AR: "تم رفض الإذن",
+    FN: "Permission refusée",
+  },
+  
+  PDFDownloaded: {
+    EN: "PDF Downloaded Successfully",
+    AR: "تم تنزيل ملف PDF بنجاح",
+    FN: "PDF téléchargé avec succès",
+  },
+  
+  PDFDownloadFailed: {
+    EN: "Failed to download PDF",
+    AR: "فشل في تنزيل ملف PDF",
+    FN: "Échec du téléchargement du PDF",
+  },
+  UploadErrorOccurred: {
+    EN: "An error occurred during the upload.",
+    AR: "حدث خطأ أثناء التحميل.",
+    FN: "Une erreur s'est produite lors du téléchargement.",
+  },
+  EnterValidTime24H: {
+    EN: "Please enter a valid time in 24-hour format (HH:MM)",
+    AR: "يرجى إدخال وقت صالح بتنسيق 24 ساعة (HH:MM)",
+    FN: "Veuillez entrer une heure valide au format 24 heures (HH:MM)",
+  },
+  InvalidTime: {
+    EN: "Invalid Time",
+    AR: "وقت غير صالح",
+    FN: "Heure invalide",
+  },
+  
+  SelectTimeAfter: {
+    EN: "Please select a time after",
+    AR: "يرجى اختيار وقت بعد",
+    FN: "Veuillez sélectionner une heure après",
+  },
+  UpdateLocation: {
+    EN: "Update Location",
+    AR: "تحديث الموقع",
+    FN: "Mettre à jour l'emplacement",
+  },
+  
+  AddNewLocation: {
+    EN: "Add New Location",
+    AR: "أضف موقعًا جديدًا",
+    FN: "Ajouter un nouvel emplacement",
+  },
+  
+  LocationName: {
+    EN: "Location Name",
+    AR: "اسم الموقع",
+    FN: "Nom de l'emplacement",
+  },
+  
+  EnterLocationName: {
+    EN: "Enter Location Name",
+    AR: "أدخل اسم الموقع",
+    FN: "Entrez le nom de l'emplacement",
+  },
+  
+  BuildingNameFloorNumber: {
+    EN: "Building Name & Floor Number",
+    AR: "اسم المبنى ورقم الطابق",
+    FN: "Nom du bâtiment et numéro d'étage",
+  },
+  
+  EnterDetail: {
+    EN: "Enter Detail",
+    AR: "أدخل التفاصيل",
+    FN: "Entrez les détails",
+  },
+  FromDate: {
+    EN: "From Date",
+    AR: "من التاريخ",
+    FN: "À partir de la date",
+  },
+  
+  ToDate: {
+    EN: "To Date",
+    AR: "إلى التاريخ",
+    FN: "Jusqu'à la date",
+  },
+  
+  Reason: {
+    EN: "Reason",
+    AR: "السبب",
+    FN: "Raison",
+  },
+  
+  EnterReason: {
+    EN: "Enter Reason",
+    AR: "أدخل السبب",
+    FN: "Entrez la raison",
+  },
+  Camera: {
+    EN: "Camera",
+    AR: "الكاميرا",
+    FN: "Caméra",
+  },
+  
+  Gallery: {
+    EN: "Gallery",
+    AR: "المعرض",
+    FN: "Galerie",
+  },
+  
+  Cancel: {
+    EN: "Cancel",
+    AR: "إلغاء",
+    FN: "Annuler",
+  },
+  RemoveLocationConfirmation: {
+    EN: "Do You Want to Remove this location?",
+    AR: "هل تريد إزالة هذا الموقع؟",
+    FN: "Voulez-vous supprimer cet emplacement ?",
+  },
+  Remove: {
+    EN: "Remove",
+    AR: "إزالة",
+    FN: "Supprimer",
+  },
+  RemoveSlotConfirmation: {
+    EN: "Do You Want to Remove Slot?",
+    AR: "هل تريد إزالة الفترة الزمنية؟",
+    FN: "Voulez-vous supprimer ce créneau ?",
+  },
+  
+  EditTimeSlot: {
+    EN: "Edit Time Slot",
+    AR: "تعديل الفترة الزمنية",
+    FN: "Modifier le créneau horaire",
+  },
+  SelectLocation: {
+    EN: "Select Location",
+    AR: "اختر الموقع",
+    FN: "Sélectionner l'emplacement",
+  },
+  UpdateSlot: {
+    EN: "Update Slot",
+    AR: "تحديث الفترة الزمنية",
+    FN: "Mettre à jour le créneau",
+  },
+  StartEndTimeRequired: {
+    EN: "Start and End time are required",
+    AR: "الوقت البدء والانتهاء مطلوبان",
+    FN: "L'heure de début et de fin est requise",
+  },
+  LogoutConfirmation: {
+    EN: "Do You Want to Logout?",
+    AR: "هل تريد تسجيل الخروج؟",
+    FN: "Voulez-vous vous déconnecter ?",
+  },
+  CopiedToClipboard: {
+    EN: "Copied to Clipboard",
+    AR: "تم النسخ إلى الحافظة",
+    FN: "Copié dans le presse-papiers",
+  },
+  
+  MatchingDetail: {
+    EN: "Matching Detail",
+    AR: "تفاصيل التطابق",
+    FN: "Détail de la correspondance",
+  },
+  
 
 };
 

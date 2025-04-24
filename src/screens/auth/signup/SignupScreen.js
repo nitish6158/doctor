@@ -198,7 +198,6 @@ const SignupScreen = (props) => {
         }
 
         if (!password) {
-            958
             ToastMsg(t('PleasePassword'), 'bottom');
             return false;
         }

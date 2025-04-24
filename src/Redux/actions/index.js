@@ -9,7 +9,12 @@ import {
     SignupAction,
     ClearStatusSignup,
     UpdateUserProfileAction,
+    ClearUpdateUerStatus,
 } from "./auth/SignupActions";
+import {
+    ChangePassowordAction,
+    ClearStatusChangePassword
+} from "./auth/ChangePasswordAction";
 import {
     ForgotPasswordAction,
     ClearErrorStatusForgotPassword
@@ -54,6 +59,8 @@ export {
     LanguageAction,
     LoginAction,
     SignupAction,
+    ChangePassowordAction,
+    ClearStatusChangePassword,
     ForgotPasswordAction,
     ClearErrorStatus,
     LogoutAction,
@@ -84,5 +91,6 @@ export {
     AddLocationAction,
     GetLocationAction,
     BlockAvailabilityByFutureTimeAction,
+    ClearUpdateUerStatus
 }
 

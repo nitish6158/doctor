@@ -2,7 +2,7 @@ import React from 'react';
 import { Text, Pressable, StyleSheet, Modal, Image, View, TouchableOpacity } from 'react-native';
 import { Colors, Fonts, Images, WindowWidth as wp, ResponsiveFont, WindowHeight as hp, opacityOfButton } from '../../assets';
 import { CustomButton } from '../button';
-
+import { useTranslation } from '../customhooks';
 export const BankModal = ({
     buttonText = 'Add Bank Details',
     subHeading = 'You have not added your bank details',
@@ -10,6 +10,7 @@ export const BankModal = ({
     onClose,
     buttonOnpress,
 }) => {
+    const t=useTranslation();
     return (
         <Modal
             visible={isModalOpen}
@@ -98,7 +99,7 @@ export const BankModal = ({
                             fontFamily: Fonts.Bold,
                             marginVertical: '2%',
                             textAlign: 'center'
-                        }}>Add Bank Details</Text>
+                        }}>{t('AddBankDetails')}</Text>
                     </TouchableOpacity>
                     {/* <CustomButton
                         title={buttonText}

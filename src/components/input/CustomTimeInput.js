@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { View, TextInput, TouchableOpacity, StyleSheet, Image } from "react-native";
 import { Images, Colors, WindowWidth as wp, Fonts, ResponsiveFont } from "../../assets";
 import { ToastMsg } from "../Toast";
+import { useTranslation } from "../customhooks";
 export const CustomTimeInput = ({
   placeholder = "HH:MM",
   onTimeChange,
@@ -10,6 +11,7 @@ export const CustomTimeInput = ({
   editable = true,
   paddingVertical = '0%'
 }) => {
+  const t=useTranslation()
 
 
   const handleTimeChange = (text) => {
@@ -28,7 +30,7 @@ export const CustomTimeInput = ({
       const isValidTime = hours >= 0 && hours <= 23 && minutes >= 0 && minutes <= 59;
 
       if (!isValidTime) {
-        ToastMsg("Please enter a valid time in 24-hour format (HH:MM)");
+        ToastMsg(t('EnterValidTime24H'));
         return;
       }
     }

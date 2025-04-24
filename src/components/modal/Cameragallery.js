@@ -8,9 +8,11 @@ import {
   Text,
 } from 'react-native';
 import { Colors, Fonts , ResponsiveFont, WindowWidth} from '../../assets';
+import { useTranslation } from '../customhooks';
 const screenWidth = Math.round(Dimensions.get('window').width);
 
 export const Cameragallery = props => {
+  const t=useTranslation();
   return (
     <Modal
       animationType="slide"
@@ -27,7 +29,7 @@ export const Cameragallery = props => {
                 props.Camerapopen();
               }}>
               <View style={styles.cameraCss}>
-                <Text style={styles.cameraText}>Camera</Text>
+                <Text style={styles.cameraText}>{t('Camera')}</Text>
               </View>
             </TouchableOpacity>
             <TouchableOpacity
@@ -37,7 +39,7 @@ export const Cameragallery = props => {
                 props.Galleryopen();
               }}>
               <View style={styles.galleryCss}>
-                <Text style={styles.galleryText}>Gallery</Text>
+                <Text style={styles.galleryText}>{t('Gallery')}</Text>
               </View>
             </TouchableOpacity>
           </View>
@@ -48,7 +50,7 @@ export const Cameragallery = props => {
                 props.Canclemedia();
               }}
               style={styles.cancelCss}>
-              <Text style={styles.cancelText}>Cancel</Text>
+              <Text style={styles.cancelText}>{t('Cancel')}</Text>
             </TouchableOpacity>
           </View>
         </View>

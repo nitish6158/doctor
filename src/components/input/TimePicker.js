@@ -3,6 +3,7 @@ import { View, Text, TouchableOpacity, Platform } from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import moment from 'moment';
 import { Colors } from '../../assets';
+import { useTranslation } from '../customhooks';
 
 export const TimePicker = ({
    value, 
@@ -14,13 +15,14 @@ export const TimePicker = ({
    }) => {
   const [show, setShow] = useState(false);
   const [selectedTime, setSelectedTime] = useState(value ? moment(value, 'HH:mm').toDate() : new Date());
+  const t=useTranslation();
 
   const handleChange = (event, date) => {
     setShow(false);
     if (date) {
 
       if (minTime && moment(date).isBefore(moment(minTime, 'HH:mm'))) {
-        Alert.alert("Invalid Time", `Please select a time after ${minTime}`);
+        Alert.alert(t('InvalidTime'), `t('SelectTimeAfter) ${minTime}`);
         return;
       } 
 

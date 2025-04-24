@@ -5,6 +5,7 @@ import { ToastMsg } from '../Toast';
 import { ListingCard } from '../card';
 import { CustomTimeInput, AddressInput } from '../input';
 import { CustomButton } from '../button';
+import { useTranslation } from '../customhooks';
 export const AddLocationModal = ({
   visible,
   onClose,
@@ -17,6 +18,7 @@ export const AddLocationModal = ({
   setAddress,
   isUpdate,
 }) => {
+  const t=useTranslation();
 
   return (
     <Modal
@@ -33,22 +35,22 @@ export const AddLocationModal = ({
 
         <View style={styles.modal}>
           {isUpdate ?
-            <Text style={styles.title}>Update Location</Text>
+            <Text style={styles.title}>{t('UpdateLocation')}</Text>
             :
-            <Text style={styles.title}>Add New Location</Text>
+            <Text style={styles.title}>{t('AddNewLocation')}</Text>
           }
 
           <AddressInput
-            heading='Location Name'
-            placeholder={'Enter Location Name'}
+            heading={t('LocationName')}
+            placeholder={t('EnterLocationName')}
             value={locationName}
             onChangeText={setLocationName}
             width='100%'
             containerstyle={styles.containerstyle}
           />
           <AddressInput
-            heading='Building Name & Floor Number'
-            placeholder={'Enter Detail'}
+            heading={t('BuildingNameFloorNumber')}
+            placeholder={t('EnterDetail')}
             value={buildingDetail}
             onChangeText={setBuildingDetail}
             width='100%'
@@ -56,8 +58,8 @@ export const AddLocationModal = ({
 
           />
           <AddressInput
-            heading='Address'
-            placeholder={'Enter Address'}
+            heading={t('Address')}
+            placeholder={t('EnterAddress')}
             value={address}
             onChangeText={setAddress}
             width='100%'
@@ -70,9 +72,9 @@ export const AddLocationModal = ({
           >
             <Text style={styles.buttonText}>{
               isUpdate ?
-                "Update Location"
+                t('UpdateLocation')
                 :
-                "Add New Location"
+                t('AddNewLocation')
             }</Text>
           </TouchableOpacity>
 

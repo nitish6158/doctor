@@ -1,10 +1,12 @@
 import { useState, useCallback } from "react";
 import axios from "axios";
 import { BASE_URL } from "../../Redux/config";
+import useTranslation from "./useTranslation";
 export const useApi = () => {
   const [apiData, setApiData] = useState({});
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState({});
+  const t=useTranslation()
 
   const request = useCallback(async (key, endpoint, method = "GET", body = null, headers = {}) => {
     setLoading(true);
@@ -24,7 +26,7 @@ export const useApi = () => {
       setApiData((prevData) => ({ ...prevData, [key]: response.data }));
       return response.data;
     } catch (err) {
-      const errorMsg = err.response?.data?.message || err.message || "Something went wrong";
+      const errorMsg = err.response?.data?.message || err.message || t('SomethingWentWrong');
       setErrors((prevErrors) => ({ ...prevErrors, [key]: errorMsg }));
       return null;
     } finally {

@@ -9,6 +9,7 @@ const initialState = {
   responseCode: null,
   updateUseResponseCode: null,
   responseCodeLogin: null,
+  changePasswordResponseCode:null,
   errMsg: null,
   loading: false,
 
@@ -227,8 +228,44 @@ const authReducer = (state = initialState, action) => {
         loading: false,
       });
 
+    case AUTH.CHANGE_PASSWORD_REQUEST:
+      return Object.assign({}, state, {
+        changePasswordResponseCode: null,
+        errMsg: null,
+        loading: true,
+        authToken: null,
+      });
+    case AUTH.CHANGE_PASSWORD_SUCCESS:
+      return Object.assign({}, state, {
+        changePasswordResponseCode: action?.payload?.status,
+        errMsg: action?.payload?.message,
+        loading: false,
+        userData: action?.payload?.data,
+        authToken: action?.payload?.data?.token,
+        userId: action?.payload?.data?.id,
+        email: action?.payload?.data?.email,
+        userType: action?.payload?.data?.userType,
+
+      });
+    case AUTH.CHANGE_PASSWORD_FAIL:
+      return Object.assign({}, state, {
+        changePasswordResponseCode: action?.payload?.status,
+        errMsg: action?.payload?.message,
+        loading: false,
+      });
 
 
+    case AUTH.CLEAR_RESPONSE_STATUS_CHANGE_PASSWORD:
+      return Object.assign({}, state, {
+        changePasswordResponseCode: null,
+        errMsg: null,
+      });
+
+      case AUTH.CLEAR_UPDATE_ACCOUNT_STATUS:
+        return Object.assign({}, state, {
+          updateUseResponseCode: null,
+          errMsg: null,
+        });
     case AUTH.CLEAR_ERROR_STATUS:
       return Object.assign({}, state, {
         responseCodeLogin: null,

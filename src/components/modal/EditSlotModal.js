@@ -5,6 +5,7 @@ import { ToastMsg } from '../Toast';
 import { ListingCard } from '../card';
 import { CustomTimeInput, AddressInput, TimePicker } from '../input';
 import { CustomButton } from '../button';
+import { useTranslation } from '../customhooks';
 export const EditSlotModal = ({
   visible,
   onClose,
@@ -19,6 +20,7 @@ export const EditSlotModal = ({
   editLocation,
   setEditLocation,
 }) => {
+  const t=useTranslation()
 
   const add15Minutes = (time) => {
     if (!time || !time.includes(":")) return "";
@@ -49,7 +51,7 @@ export const EditSlotModal = ({
         </TouchableOpacity>
 
         <View style={styles.modal}>
-          <Text style={styles.title}>Edit Time Slot</Text>
+          <Text style={styles.title}>{t('EditTimeSlot')}</Text>
 
           <ListingCard customStyles={styles.listingCard}>
             <View style={styles.modeContainer}>
@@ -62,7 +64,7 @@ export const EditSlotModal = ({
               >
                 <Text style={[styles.modeText,
                 { color: editMode === 'online' ? Colors.white : Colors.blue }]}>
-                  online
+                  {t('Online')}
                 </Text>
               </TouchableOpacity>
               <TouchableOpacity
@@ -73,7 +75,7 @@ export const EditSlotModal = ({
               >
                 <Text style={[styles.modeText,
                 { color: editMode === 'offline' ? Colors.white : Colors.blue }]}>
-                  offline
+                  {t('Offline')}
                 </Text>
               </TouchableOpacity>
             </View>
@@ -103,7 +105,7 @@ export const EditSlotModal = ({
                   const calculatedToTime = add15Minutes(time);
                   setEditEndTime(calculatedToTime)
                 }}
-                label="From Time"
+                label={t('FromDate')}
               />
               <TimePicker
                 value={editEndTime}
@@ -111,7 +113,7 @@ export const EditSlotModal = ({
                   // updateSlot(index, 'toTime', time)
                   setEditEndTime(time)
                 }}
-                label="To Time"
+                label={t('ToDate')}
                 minTime={editStartTime}
               />
             </View>
@@ -119,8 +121,8 @@ export const EditSlotModal = ({
             {editMode === 'offline' && (
               <View style={styles.addressContainer4}>
                 <AddressInput
-                  heading='Select Location'
-                  placeholder='Select Location'
+                  heading={t('SelectLocation')}
+                  placeholder={t('SelectLocation')}
                   value={editLocation}
                   onChangeText={(setEditLocation)}
                   width='100%'
@@ -129,12 +131,12 @@ export const EditSlotModal = ({
             )}
           </ListingCard>
           <CustomButton
-            title={"Update Slot"}
+            title={t('UpdateSlot')}
             width={wp * 90 / 100}
             marginVertical='1.5%'
             onPress={() => {
               if (!editStartTime || !editEndTime) {
-                ToastMsg("Start and End time are required", "bottom");
+                ToastMsg(t('StartEndTimeRequired'), "bottom");
                 return;
               }
               const updatedData = {

@@ -5,11 +5,13 @@ import ReactNativeBlobUtil from 'react-native-blob-util';
 import { check, request, PERMISSIONS, RESULTS } from 'react-native-permissions';
 import FileViewer from 'react-native-file-viewer';
 import Share from 'react-native-share';
+import useTranslation from './useTranslation';
 
 export const usePdfDownloader = () => {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
     const [success, setSuccess] = useState(null);
+    const t=useTranslation();
 
     const requestStoragePermission = async () => {
         if (Platform.OS === 'android') {
@@ -45,8 +47,8 @@ export const usePdfDownloader = () => {
                 const hasPermission = await requestStoragePermission();
                 if (!hasPermission) {
                     setLoading(false);
-                    setError("Storage permission is required to download the PDF.");
-                    Alert.alert("Permission Denied", "Storage permission is required to download the PDF.");
+                    setError(t('StoragePermissionRequired'));
+                    Alert.alert(t('PermissionDenied'), t('StoragePermissionRequired'));
                     return;
                 }
             }
@@ -57,8 +59,8 @@ export const usePdfDownloader = () => {
             }).promise;
 
             if (response.statusCode === 200) {
-                setSuccess("PDF Downloaded Successfully");
-                Alert.alert("Success", "PDF Downloaded Successfully");
+                setSuccess(t('PDFDownloaded'));
+                Alert.alert(t('Success'), t('PDFDownloaded'));
                 
                 if (Platform.OS === 'ios') {
                     Share.open({
@@ -69,12 +71,12 @@ export const usePdfDownloader = () => {
                     FileViewer.open(path);
                 }
             } else {
-                setError("Failed to download PDF");
-                Alert.alert("Error", "Failed to download PDF");
+                setError(t('PDFDownloadFailed'));
+                Alert.alert(t('Error'), t('PDFDownloadFailed'));
             }
         } catch (err) {
             setError(err.message);
-            Alert.alert("Error", "Something went wrong: " + err.message);
+            Alert.alert(t('Error'), t('SomethingWentWrong') + err.message);
         } finally {
             setLoading(false);
         }
