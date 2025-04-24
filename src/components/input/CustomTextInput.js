@@ -20,6 +20,8 @@ export const CustomTextInput = ({
   ForgotText = 'Forgot Password',
   isInvalidCredentails = false,
   editIcon = false,
+  editable=true,
+  onPressEditIcon
 }) => {
   const [isFocused, setIsFocused] = useState(false);
   const [secureText, setSecureText] = useState(type === 'password' ? true : false); // Default: true for password
@@ -55,13 +57,13 @@ export const CustomTextInput = ({
           }
         </View>
         {editIcon &&
-          <TouchableOpacity>
+          // <TouchableOpacity onPress={onPressEditIcon}>
             <Image
               source={Images.editBlack}
               style={styles.editIcon}
               resizeMode='contain'
             />
-          </TouchableOpacity>
+          // </TouchableOpacity>
         }
       </View>
       <View style={[styles.container,
@@ -80,6 +82,7 @@ export const CustomTextInput = ({
           value={value}
           secureTextEntry={secureText} // Toggling based on state
           onChangeText={onChangeText}
+          editable={editable}
           keyboardType={
             type === 'phone' || type === 'experience' || type === 'fees'
               ?

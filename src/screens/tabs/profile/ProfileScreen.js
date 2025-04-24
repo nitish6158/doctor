@@ -8,83 +8,102 @@ import { useTranslation } from '../../../components/customhooks';
 import { connect } from 'react-redux';
 // import { LogoutAction } from '../../../Redux/actions/auth';
 import { LogoutAction } from '../../../Redux/actions';
+import { ToastMsg } from '../../../components/Toast';
 const menuItems = [
     {
         icon: Images.user_icon_active,
         label: 'My Account',
-        screenName:'AccountScreen',
+        screenName: 'AccountScreen',
+        isProtected: false
     },
     {
         icon: Images.icon_select_contry_active,
         label: 'My Bank Details',
-        screenName:'BankFormScreen',
+        screenName: 'BankFormScreen',
+        isProtected: true
     },
     {
         icon: Images.icon_location,
         label: 'My Location',
-        screenName:'LocationScreen'
+        screenName: 'LocationScreen',
+        isProtected: true
+
     },
     {
         icon: Images.icon_star,
         label: 'My Rating',
-        screenName:'RatingScreen',
+        screenName: 'RatingScreen',
+        isProtected: true
 
     },
     {
         icon: Images.icon_contract,
         label: 'My Contract',
-        screenName:'',
+        screenName: '',
+        isProtected: true
 
     },
     {
         icon: Images.icon_payment,
         label: 'Payments',
-        screenName:'',
+        screenName: '',
+        isProtected: true
+
 
     },
     {
         icon: Images.icon_notification2,
         label: 'Notification',
-        screenName:'NotificationScreen',
+        screenName: 'NotificationScreen',
+        isProtected: true
+
 
     },
     {
         icon: Images.icon_notification2,
         label: 'Change Password',
-        screenName:'ChangePasswordScreen',
+        screenName: 'ChangePasswordScreen',
+        isProtected: true
+
 
     },
     {
         icon: Images.icon_language,
         label: 'Language',
-        screenName:'LanguageScreen',
+        screenName: 'LanguageScreen',
+        isProtected: true
+
 
     },
     {
         icon: Images.icon_lock,
         label: 'Security',
-        screenName:'',
+        screenName: '',
+        isProtected: true
+
 
     },
     {
         icon: Images.icon_about,
         label: 'About',
-        screenName:'AboutScreen',
+        screenName: 'AboutScreen',
+        isProtected: true
+
 
     },
     {
         icon: Images.icon_logout,
         label: 'Logout',
         isLogout: true,
-        screenName:'',
-
+        screenName: '',
+        isProtected: false
     }
 
 ];
 
 
 const ProfileScreen = (props) => {
-    const t=useTranslation();
+    const t = useTranslation();
     const [isLogoutModalVisible, setLogoutModalVisible] = useState(false);
 
     const handleLogoutPress = () => {
@@ -95,7 +114,7 @@ const ProfileScreen = (props) => {
         setLogoutModalVisible(false);
     };
 
-    const handleConfirmLogout =async () => {
+    const handleConfirmLogout = async () => {
         await props.LogoutAction();
         setLogoutModalVisible(false);
         props.navigation.navigate('OnboardingScreen')
@@ -115,12 +134,14 @@ const ProfileScreen = (props) => {
             :
             <View style={ProfileStyles.menuItemcontainer}>
                 <TouchableOpacity
-                onPress={()=>{
-                    if(item.screenName != ''){
-                        props.navigation.navigate(item.screenName)
-                    }
-                }}
-                 style={ProfileStyles.menuItem}>
+                    onPress={() => {
+                        if (item?.isProtected && props?.isVerified != 1 && !item.isLogout) {
+                            ToastMsg("You cant access this feature now ", 'bottom')
+                        } else if (item.screenName != '') {
+                            props.navigation.navigate(item.screenName)
+                        }
+                    }}
+                    style={ProfileStyles.menuItem}>
                     <View style={ProfileStyles.iconContainer}>
                         <Image
                             source={item.icon}
@@ -159,7 +180,7 @@ const ProfileScreen = (props) => {
 
                 </ImageBackground>
                 <View style={ProfileStyles.textContainer}>
-                    <Text  style={ProfileStyles.profileName}>{t('DoctorTitle')}</Text>
+                    <Text style={ProfileStyles.profileName}>{t('DoctorTitle')}</Text>
                     <Text style={ProfileStyles.profileName}> {props.firstName}</Text>
                     <Text style={ProfileStyles.profileName}> {props.lastName}</Text>
                 </View>
@@ -192,6 +213,7 @@ const mapStateToProps = state => {
         userName: state.authReducer.userName,
         firstName: state.authReducer.firstName,
         lastName: state.authReducer.lastName,
+        isVerified: state.authReducer.isVerified,
     };
 };
 

@@ -3,10 +3,11 @@ import { AUTH } from "../../config/types";
 const initialState = {
   appLanguage: 'EN', // can be "AR" and "FN"
   loginStatus: false,
-  selectedClinicId:null,
-  selectedClinicName:null,
-  isJobAdded:null,
+  selectedClinicId: null,
+  selectedClinicName: null,
+  isJobAdded: null,
   responseCode: null,
+  updateUseResponseCode: null,
   responseCodeLogin: null,
   errMsg: null,
   loading: false,
@@ -15,7 +16,7 @@ const initialState = {
   isVerified: null,
   status: null,
 
-  individual:null,
+  individual: null,
 
   updateLoading: false,
 
@@ -63,7 +64,7 @@ const authReducer = (state = initialState, action) => {
       return Object.assign({}, state, {
         isVerified: action?.payload?.data?.isVerified,
         updateLoading: false,
-        individual:action?.payload?.data?.individual,
+        individual: action?.payload?.data?.individual,
         userData: action?.payload?.data,
         status: action?.payload?.data?.status,
         userName: action?.payload?.data?.userName,
@@ -97,7 +98,7 @@ const authReducer = (state = initialState, action) => {
         loading: false,
         loginStatus: true,
         userData: action?.payload?.data,
-        individual:action?.payload?.data?.individual,
+        individual: action?.payload?.data?.individual,
         isVerified: action?.payload?.data?.isVerified,
         status: action?.payload?.data?.status,
         authToken: action?.payload?.data?.token,
@@ -140,7 +141,7 @@ const authReducer = (state = initialState, action) => {
         isVerified: action?.payload?.data?.isVerified,
         status: action?.payload?.data?.status,
         userData: action?.payload?.data,
-        individual:action?.payload?.data?.individual,
+        individual: action?.payload?.data?.individual,
         authToken: action?.payload?.data?.token,
         userId: action?.payload?.data?.id,
         userName: action?.payload?.data?.userName,
@@ -169,13 +170,14 @@ const authReducer = (state = initialState, action) => {
         status: null,
         responseCode: null,
         responseCodeLogin: null,
+        updateUseResponseCode: null,
         errMsg: null,
         loading: false,
         authToken: null,
         userData: null,
         userId: null,
         userName: null,
-        individual:null,
+        individual: null,
         email: null,
         mobileNumber: null,
         country: null,
@@ -187,10 +189,45 @@ const authReducer = (state = initialState, action) => {
         country: null,
         address: null,
         userType: null,
-        isJobAdded:null,
-        selectedClinicId:null,
-        selectedClinicName:null,
+        isJobAdded: null,
+        selectedClinicId: null,
+        selectedClinicName: null,
       });
+
+    case AUTH.UPDATE_USER_REQUEST:
+      return Object.assign({}, state, {
+        updateUseResponseCode: null,
+        errMsg: null,
+        loading: true,
+      });
+    case AUTH.UPDATE_USER_SUCCESS:
+      return Object.assign({}, state, {
+        updateUseResponseCode: action?.payload?.status,
+        errMsg: action?.payload?.message,
+        loading: false,
+        isJobAdded: action?.payload?.data?.isJobAdded,
+        loginStatus: true,
+        isVerified: action?.payload?.data?.isVerified,
+        status: action?.payload?.data?.status,
+        userData: action?.payload?.data,
+        individual: action?.payload?.data?.individual,
+        userName: action?.payload?.data?.userName,
+        country: action?.payload?.data?.country,
+        address: action?.payload?.data?.address,
+        firstName: action?.payload?.data?.firstName,
+        lastName: action?.payload?.data?.lastName,
+        specialization: action?.payload?.data?.specialization,
+        cv: action?.payload?.data?.cv,
+        userType: action?.payload?.data?.userType,
+      });
+    case AUTH.UPDATE_USER_FAIL:
+      return Object.assign({}, state, {
+        updateUseResponseCode: action?.payload?.status,
+        errMsg: action?.payload?.message,
+        loading: false,
+      });
+
+
 
     case AUTH.CLEAR_ERROR_STATUS:
       return Object.assign({}, state, {

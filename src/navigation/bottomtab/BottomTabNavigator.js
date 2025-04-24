@@ -54,7 +54,8 @@ const BottomTabNavigator = ({ navigation }) => {
     return isVerified === 1;
   };
 
-  const protectedRoutes = ['AppointmentScreen', 'AgendaScreen', 'MatchingScreen', 'ProfileScreen'];
+  // const protectedRoutes = ['AppointmentScreen', 'AgendaScreen', 'MatchingScreen', 'ProfileScreen'];
+  const protectedRoutes = ['AppointmentScreen', 'AgendaScreen', 'MatchingScreen',];
 
   return (
     <Tab.Navigator

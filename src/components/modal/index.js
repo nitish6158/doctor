@@ -9,6 +9,7 @@ import { EditSlotModal } from "./EditSlotModal";
 import { AddLocationModal } from "./AddLocationModal";
 import { DeleteLocationModal } from "./DeleteLocationModal";
 import { BlockAvailabilityModal } from "./BlockAvailabilityModal";
+import { Cameragallery } from "./Cameragallery";
 export {
     SuccessModal,
     LogoutModal,
@@ -20,5 +21,6 @@ export {
     EditSlotModal,
     AddLocationModal,
     DeleteLocationModal,
-    BlockAvailabilityModal
+    BlockAvailabilityModal,
+    Cameragallery
 }

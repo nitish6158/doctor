@@ -315,7 +315,7 @@ const SignupScreen = (props) => {
     };
 
 
-
+   
     return (
         <ImageBackground
             source={Images.login_background_scroll}

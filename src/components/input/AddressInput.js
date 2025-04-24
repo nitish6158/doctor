@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { View, TextInput, StyleSheet, Text } from 'react-native';
-import { Colors, Fonts, ResponsiveFont, WindowHeight as hp, WindowWidth as wp } from '../../assets';
+import { View, TextInput, StyleSheet, Text ,TouchableOpacity,Image} from 'react-native';
+import { Colors, Fonts, ResponsiveFont, WindowHeight as hp, WindowWidth as wp ,Images} from '../../assets';
 
 export const AddressInput = ({
   placeholder,
@@ -12,15 +12,25 @@ export const AddressInput = ({
   borderColor = Colors.borderColor2,
   textStyles = {},
   heading,
-  autocapitalize= "words",
-  containerstyle={}
+  autocapitalize = "words",
+  containerstyle = {},
+  editIcon = false,
 }) => {
   const [height, setHeight] = useState(minHeight);
   const [isFocused, setIsFocused] = useState(false);
 
   return (
     <View style={containerstyle}>
+      <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
       <Text style={[styles.heading, textStyles]}>{heading}</Text>
+      <TouchableOpacity>
+          <Image
+            source={Images.editBlack}
+            style={styles.editIcon}
+            resizeMode='contain'
+          />
+        </TouchableOpacity>
+      </View>
       <View
         style={[
           styles.container,
@@ -32,6 +42,7 @@ export const AddressInput = ({
             borderRadius,
             minHeight: height
           }]}>
+
         <TextInput
           style={[styles.input, { height }]}
           placeholder={placeholder}
@@ -69,5 +80,9 @@ const styles = StyleSheet.create({
     fontSize: ResponsiveFont(13),
     lineHeight: ResponsiveFont(17.5),
     color: Colors.black,
+  },
+  editIcon: {
+    width: wp * 5 / 100,
+    height: wp * 5 / 100
   },
 });

@@ -121,8 +121,8 @@ const AboutScreen = (props) => {
         <View style={AboutStyles.infoIconContainer}>
               <Image source={Images.aboutIcon} style={AboutStyles.aboutIcon}resizeMode='contain' />
             </View>
-
-          <Text style={AboutStyles.appTitle}>
+            <View>
+            <Text style={AboutStyles.appTitle}>
             Medicine
             <Text style={AboutStyles.appTitleDot}>.</Text>
           </Text>
@@ -131,9 +131,15 @@ const AboutScreen = (props) => {
             Doctor
           </Text>
 
-          <Text style={AboutStyles.descriptionText}>
+            </View>
+
+       <View style={{width:'90%'}}>
+        <Text style={AboutStyles.faqQuestion}>About Medicine App</Text>
+        <Text style={AboutStyles.descriptionText}>
             Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
           </Text>
+       </View>
+           
 
           <Text style={AboutStyles.faqTitle}>Frequently Asked Question</Text>
 

@@ -7,7 +7,8 @@ import {
 } from "./auth/LoginActions";
 import {
     SignupAction,
-    ClearStatusSignup
+    ClearStatusSignup,
+    UpdateUserProfileAction,
 } from "./auth/SignupActions";
 import {
     ForgotPasswordAction,
@@ -58,6 +59,7 @@ export {
     LogoutAction,
     ClearErrorStatusForgotPassword,
     ClearStatusSignup,
+    UpdateUserProfileAction,
     UpdateUserInfo,
     BankFormAction,
     SendContract,

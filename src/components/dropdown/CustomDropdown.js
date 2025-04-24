@@ -19,7 +19,9 @@ export const CustomDropdown = ({
   textStyle = {},
   type = 'profile',
   containerstyle = {},
-  required = false
+  required = false,
+  editable=true
+
 }) => {
   const [modalVisible, setModalVisible] = useState(false);
   const getIcons = () => {
@@ -108,14 +110,19 @@ export const CustomDropdown = ({
           { backgroundColor, borderRadius, width, height, borderColor },
           style,
         ]}
-        onPress={() => setModalVisible(true)}
-        activeOpacity={opacityOfButton}
+        onPress={() =>{ 
+          if(editable){
+            setModalVisible(true)
+          }
+        }
+        }
+        activeOpacity={1}
       >
         <View style={styles.dropsownTextContainer}>
           <Image source={getIcons()} style={styles.icon} />
           {type == "phone" ?
             <Text style={[styles.dropdownText, { color: textColor }, textStyle]}>
-              {selectedValue?.code || placeholder}
+              {selectedValue?.code|| placeholder}
             </Text>
             :
             <Text style={[styles.dropdownText, { color: textColor }, textStyle]}>

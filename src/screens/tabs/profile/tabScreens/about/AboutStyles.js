@@ -75,21 +75,23 @@ export const AboutStyles = StyleSheet.create({
         marginTop: '2%',
       },
       appTitleDot: {
-        color: Colors.pink,
+        color: Colors.red,
       },
       appSubTitle: {
-        fontFamily: 'italic',
+        // fontStyle: 'italic',
+        fontFamily: "cursive",
         color: Colors.blue,
-        fontSize: ResponsiveFont(16),
+        fontSize: ResponsiveFont(24),
         marginBottom: '5%',
+        textAlign:'right',
+        width:wp*25/100
       },
     
       // Description
       descriptionText: {
         fontSize: ResponsiveFont(13),
         color: Colors.gray,
-        textAlign: 'center',
-        width: '90%',
+        // textAlign: 'center',
         marginBottom: '5%',
       },
     

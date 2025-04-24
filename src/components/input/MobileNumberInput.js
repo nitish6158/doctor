@@ -17,6 +17,8 @@ export const MobileNumberInput = ({
     onChangeCode,
     countries = [],
     required = false,
+    editable=true
+
 }) => {
     const [isFocused, setIsFocused] = useState(false);
     const getMaxLength = () => {
@@ -59,6 +61,7 @@ export const MobileNumberInput = ({
                         // style={{ borderRightWidth: 1, borderColor: Colors.borderColor2 }}
                         textStyle={{ fontSize: ResponsiveFont(14) }}
                         containerstyle={{ marginBottom: 1 }}
+                        editable={editable}
                     />
                 </View>
 
@@ -78,6 +81,7 @@ export const MobileNumberInput = ({
                         onFocus={() => setIsFocused(true)}
                         onBlur={() => setIsFocused(false)}
                         maxLength={getMaxLength()}
+                        editable={editable}
                     />
                 </View>
             </View>
