@@ -10,7 +10,7 @@ import {
   Alert,
 } from 'react-native';
 import { Images } from '../../../../../assets';
-import { Cameragallery, Loader } from '../../../../../components/modal';
+import { Cameragallery, Loader, SuccessModal } from '../../../../../components/modal';
 import { AccountStyle } from './AccountStyles';
 import { FloatingBackgroundCard } from '../../../../../components/card';
 import {
@@ -37,14 +37,16 @@ import {
   BankFormAction,
   ClearBankStatus,
   ClearContractStatus,
+  ClearUpdateUerStatus,
   SendContract,
-  UpdateUserInfo,
   UpdateUserProfileAction,
 } from '../../../../../Redux/actions';
 import { connect } from 'react-redux';
 import { getRequest } from '../../../../../Redux/config';
 import { handleMediaSelection } from '../../../../../utility/Helperfunction';
 import { useMediaSelectorAndUploader } from '../../../../../components/customhooks';
+import { ToastMsg } from '../../../../../components/Toast';
+import { validatePhoneNumber } from '../../../../../utility/Validator';
 
 const genderOptions = [
   { label: 'Male', icon: Images.male },
@@ -56,8 +58,9 @@ const NexttextStyle = {
   lineHeight: ResponsiveFont(49),
 }
 
-const AccountScreen = (props) => {
 
+const AccountScreen = (props) => {
+  const [successModalVisible, setSuccessModalVisible] = useState(false)
   const t = useTranslation()
   const {
     downloadFile,
@@ -65,6 +68,12 @@ const AccountScreen = (props) => {
     error: downloadError,
     success
   } = usePdfDownloader();
+  const [apiStatus, setApiStatus] = useState({
+    user: null,
+    bank: null,
+    contract: null,
+  });
+
 
   const [selectedStep, setSelectedStep] = useState(0);
 
@@ -87,17 +96,30 @@ const AccountScreen = (props) => {
   const [country, setCountry] = useState(props?.userData?.country);
   const [fees, setFees] = useState(props?.userData?.fees);
   const [experience, setExperience] = useState(props?.userData?.experience)
-  const [language, setLanguage] = useState('');
-  const [description, setDescription] = useState('');
+  const [language, setLanguage] = useState();
+  const [description, setDescription] = useState(props?.userData?.description);
   const [selectedGender, setSelectedGender] = useState(props?.userData?.gender);
-  const [profileImage, setProfileImage] = useState(dummyImage);
+  const [profileImage, setProfileImage] = useState(props?.userData?.image);
+  const [cv, setCv] = useState(props?.userData?.cv)
+  const [pdfUrl, setPdfUrl] = useState(null)
+  //
+  const [fullName, setFullName] = useState(props?.userData?.bankDetailsResponse?.doctorName);
+  const [bankAccountNumber, setBankAccountNumber] = useState(props?.userData?.bankDetailsResponse?.accountNumber);
+  const [bankName, setBankName] = useState(props?.userData?.bankDetailsResponse?.bankName);
+  const [bankAccountType, setBankAccountType] = useState(props?.userData?.bankDetailsResponse?.accountType);
+  const [nationalId, setNationalId] = useState(props?.userData?.bankDetailsResponse?.nationalId);
+  const [address, setAddress] = useState(props?.userData?.bankDetailsResponse?.bankAddress);
+  const [bankCode, setBankCode] = useState(props?.userData?.bankDetailsResponse?.bankCode);
+  const [branchName, setBranchName] = useState(props?.userData?.bankDetailsResponse?.branchName);
+  const [iban, setIban] = useState(props?.userData?.bankDetailsResponse?.iban);
+  const [swiftBicCode, setSwiftBicCode] = useState(props?.userData?.bankDetailsResponse?.swiftBicCode);
+  const [sirenNo, setSirenNo] = useState(props?.userData?.bankDetailsResponse?.sirenNo);
 
   const { handleImageUpload,
     isUploading
   } = useMediaSelectorAndUploader(
     (uploadedUrl) => {
-      setProfileImage(FILE_BASE_URL + uploadedUrl);     // set uploaded image to state
-      // console.log("change", uploadedUrl)
+      setProfileImage(uploadedUrl);
     },
     () => setmediamodal(false)
   );
@@ -107,29 +129,6 @@ const AccountScreen = (props) => {
     setmediamodal(true);
   };
 
-
-
-
-
-  const [pdfUrl, setPdfUrl] = useState(null)
-  const [uploadedFileURL, setUploadedFileURL] = useState(null);
-
-  const [isModal, setIsmodal] = useState(false);
-
-  const [fullName, setFullName] = useState('');
-  const [bankAccountNumber, setBankAccountNumber] = useState('');
-  const [bankName, setBankName] = useState('');
-  const [bankAccountType, setBankAccountType] = useState('');
-  const [nationalId, setNationalId] = useState('');
-  const [address, setAddress] = useState('');
-  const [bankCode, setBankCode] = useState('');
-  const [branchName, setBranchName] = useState('');
-
-
-
-  const [iban, setIban] = useState('');
-  const [swiftBicCode, setSwiftBicCode] = useState('');
-  const [sirenNo, setSirenNo] = useState('');
 
   const getVisibleFields = (countryName = '') => {
     const upperCountry = countryName.trim().toUpperCase();
@@ -141,15 +140,12 @@ const AccountScreen = (props) => {
       showBankCode: ['FRANCE', 'GERMANY'].includes(upperCountry), // optional for Gulf
     };
   };
-
   const {
     showIban,
     showSirenNo,
     showNationalId,
     showBankCode
   } = getVisibleFields(country);
-
-
 
   useEffect(() => {
     fetchDoctorProfile();
@@ -198,8 +194,10 @@ const AccountScreen = (props) => {
       console.warn("Error fetching specializations:", err);
     }
   };
-  const ClearcontractStatus = async () => {
-    props.ClearContractStatus()
+  const ClearAllStatus = async () => {
+    await props.ClearContractStatus()
+    await props.ClearBankStatus()
+    await props.ClearUpdateUerStatus()
   }
 
   const handleFileUpload = async () => {
@@ -208,36 +206,92 @@ const AccountScreen = (props) => {
       setUploadedFile(response?.fileUrl);
     }
   };
-  const sendContract = async () => {
-    const contractData = {
-      doctorId: props.userId,
-      contractURL: uploadedFileURL,
-      type: "DOCTOR"
-    };
-    props.SendContract(contractData)
+
+  const handleFinishSetup = async () => {
+    if (!phone) {
+      ToastMsg(t('PleaseMobileNumber'), 'bottom');
+      return false;
+    }
+    const cleanedPhone = phone.replace(/^0+/, ''); // remove leading zeros
+    if (!validatePhoneNumber(selectedCode?.code, cleanedPhone)) {
+      ToastMsg(t('ValidMobileNumber'), 'bottom');
+      return false;
+    }
+
+    if (profileImage == '' || !profileImage) {
+      ToastMsg("Please Upload Your Picture", 'bottom');
+      return false;
+    }
+
+
+    if (fees == '' || !fees) {
+      ToastMsg("Please Enter Your fees", 'bottom');
+      return false;
+    }
+
+    if (experience == '' || !experience) {
+      ToastMsg("Please Enter Experience", 'bottom');
+      return false;
+    }
+
+    if (language == '' || !language) {
+      ToastMsg("Please Enter Language", 'bottom');
+      return false;
+    }
+
+    if (description == '' || !description) {
+      ToastMsg("Please Enter Description", 'bottom');
+      return false;
+    }
+
+
+    if (uploadedFile == null || !uploadedFile || uploadedFile == '') {
+      ToastMsg('Please Upload Your Signed Contract', 'bottom');
+      return false;
+    }
+
+    if (fullName == '' || !fullName) {
+      ToastMsg("Please Enter Account Holder Name", 'bottom');
+      return false;
+    }
+    if (bankAccountNumber == '' || !bankAccountNumber) {
+      ToastMsg("Please Enter Bank Account Number", 'bottom');
+      return false;
+    }
+    if (bankName == '' || !bankName) {
+      ToastMsg("Please Enter Bank Name", 'bottom');
+      return false;
+    }
+    if (bankAccountType == '' || !bankAccountType) {
+      ToastMsg("Please Enter Bank Account Type", 'bottom');
+      return false;
+    }
+    if (address == '' || !address) {
+      ToastMsg("Please Enter Address", 'bottom');
+      return false;
+    }
+    if (branchName == '' || !branchName) {
+      ToastMsg("Please Enter Branch Name", 'bottom');
+      return false;
+    }
+    handleActions()
   };
 
+  const handleActions = async () => {
+    setApiStatus({ user: null, bank: null, contract: null });
+    handleBankDetails();
+    handleUserDetail();
+    sendContract();
+  }
 
   const handleUserDetail = async () => {
-
-    if (profile == '') {
-      ToastMsg(t('PleaseSelectProfile'), 'bottom');
-      return false;
-    }
-
-    if (specialization == '') {
-      ToastMsg(t('SelectSpecialization'), 'bottom');
-      return false;
-    }
-    const cleanedPhone = phone.replace(/^0+/, '');
-
     const reqParams = {
       "id": props.userId,
       "firstName": firstName,
       "lastName": lastName,
       "dateOfBirth": "",
       "profile": profile,
-      "cv": uploadedFile,
+      "cv": cv,
       "specialization": specialization,
       "country": country,
       "address": address,
@@ -249,8 +303,11 @@ const AccountScreen = (props) => {
       "description": description,
       "image": profileImage,
       "fees": fees,
+      "email": email,
+      "mobileNo": phone,
     }
     await props.UpdateUserProfileAction(reqParams);
+
   }
 
   const handleBankDetails = async () => {
@@ -274,36 +331,101 @@ const AccountScreen = (props) => {
       "sirenNo": sirenNo,
     }
     await props.BankFormAction(reqParam);
+
   }
 
-  const handleFinishSetup = async () => {
-    // await handleBankDetails();
-    // await handleUserDetail();
-    // await sendContract();
+  const sendContract = async () => {
+    const contractData = {
+      doctorId: props.userId,
+      contractURL: uploadedFile,
+      type: "DOCTOR"
+    };
+    props.SendContract(contractData)
+
   };
 
   const handleSuccess = () => {
-
+    setSuccessModalVisible(true)
+    setTimeout(() => {
+      setSuccessModalVisible(false)
+      props.navigation.goBack()
+      if (!props.contractLoading &&
+        !props.loading &&
+        !props.Bankloading) {
+        ClearAllStatus()
+      }
+    }, 1500)
   }
   const handleFailer = () => {
-
+    if (
+      props?.BankResponseCode != 200
+      && props?.BankErrMsg
+      && props?.BankErrMsg != null
+      && !props.Bankloading
+    ) {
+      ToastMsg(props?.BankErrMsg, 'bottom')
+    } else if (
+      props?.updateUseResponseCode != 200
+      && props?.errMsg
+      && props?.errMsg != null
+      && !props.loading
+    ) {
+      ToastMsg(props?.errMsg, 'bottom')
+    } else if (
+      props?.contractStatus != 200
+      && props?.ContractErrMsg
+      && props?.ContractErrMsg != null
+      && !props.contractLoading
+    ) {
+      ToastMsg(props?.ContractErrMsg, 'bottom')
+    }
+    if (!props.contractLoading &&
+      !props.loading &&
+      !props.Bankloading) {
+      ClearAllStatus()
+    }
   }
 
   useEffect(() => {
-    if (props.contractStatus == 200 &&
-      props.BankResponseCode == 200 &&
-      props.updateUseResponseCode == 200) {
-      handleSuccess()
-    } else {
-      handleFailer()
+    const { user, bank, contract } = apiStatus;
+    const allLoaded = [user, bank, contract].every(status => status !== null);
+    const allSuccessful = user === 200 && bank === 200 && contract === 200;
+
+    if (allLoaded) {
+      if (allSuccessful) {
+        handleSuccess();
+      } else {
+        handleFailer();
+      }
     }
+  }, [apiStatus]);
+  useEffect(() => {
+    setApiStatus({
+      user: props.updateUseResponseCode,
+      bank: props.BankResponseCode,
+      contract: props.contractStatus
+    });
   }, [
-    props.contractStatus,
-    props.BankResponseCode,
     props.updateUseResponseCode,
+    props.BankResponseCode,
+    props.contractStatus
+  ]);
 
-  ])
 
+
+  useEffect(() => {
+    console.log("contract", props.contractStatus, props.ContractErrMsg)
+  }, [props.contractStatus])
+
+
+  useEffect(() => {
+    console.log("bank", props.BankResponseCode, props.BankErrMsg)
+  }, [props.BankResponseCode])
+
+
+  useEffect(() => {
+    console.log("update", props.updateUseResponseCode, props.errMsg)
+  }, [props.updateUseResponseCode])
 
   return (
     <ImageBackground
@@ -387,7 +509,7 @@ const AccountScreen = (props) => {
                       selectedCode={selectedCode}
                       onChangeCode={setSelectedCode}
                       countries={countryArr}
-                      editable={false}
+                    // editable={false}
                     />
                   </View>
 
@@ -517,7 +639,7 @@ const AccountScreen = (props) => {
                   <View style={{ width: '100%', marginVertical: '1%' }}>
                     <AddressInput
                       heading={"Language Known"}
-                      placeholder={"English"}
+                      placeholder={"Enter Languages"}
                       value={language}
                       onChangeText={setLanguage}
                       width='100%'
@@ -532,6 +654,7 @@ const AccountScreen = (props) => {
                       value={description}
                       onChangeText={setDescription}
                       width='100%'
+                      autocapitalize="sentence"
                     />
                   </View>
                   {props?.isVerified == 1 &&
@@ -566,7 +689,7 @@ const AccountScreen = (props) => {
                       handleFileUpload()
                     }}
                     width='100%'
-                    fileurl={uploadedFileURL}
+                    fileurl={uploadedFile}
                   />
                   {/* <CustomButton
                     title={t('FinishSetup')}
@@ -598,7 +721,7 @@ const AccountScreen = (props) => {
                     value={fullName}
                     onChangeText={setFullName}
                     type="text"
-                    width='100%'
+                    width='90%'
                     borderColor={Colors.borderColor2}
                   />
                   <CustomTextInput
@@ -625,15 +748,7 @@ const AccountScreen = (props) => {
                     type="text"
                     width='90%'
                   />
-                  {showNationalId && <CustomTextInput
-                    heading={t('NationalID')}
-                    placeholder={t('EnterNationalIDNumber')}
-                    value={nationalId}
-                    onChangeText={setNationalId}
-                    type="phone"
-                    width='90%'
-                  />
-                  }
+
                   <AddressInput
                     heading={t('Address')}
                     placeholder={t('EnterAddress')}
@@ -641,32 +756,6 @@ const AccountScreen = (props) => {
                     onChangeText={setAddress}
                     width='90%'
                   />
-                  <CustomTextInput
-                    heading={"Account Holder Email Address"}
-                    placeholder={t('enterEmail')}
-                    value={email}
-                    onChangeText={setEmail}
-                    type="email"
-                    width='90%'
-                  />
-                  <View style={AccountStyle.MobileNumberInput}>
-                    <MobileNumberInput
-                      heading={"Account Holder Mobile Number"}
-                      value={phone}
-                      onChangePhone={setPhone}
-                      selectedCode={selectedCode}
-                      onChangeCode={setSelectedCode}
-                      countries={countryArr}
-                    />
-                  </View>
-                  {/* <CustomTextInput
-                    heading={t('Country')}
-                    placeholder={t('EnterCountryName')}
-                    value={country}
-                    onChangeText={setCountry}
-                    type="text"
-                    width='90%'
-                  /> */}
 
                   <CustomTextInput
                     heading={t('BranchName')}
@@ -676,23 +765,26 @@ const AccountScreen = (props) => {
                     type="text"
                     width='90%'
                   />
-                  <CustomTextInput
-                    heading={t('BankCode')}
-                    placeholder={t('EnterBankCode')}
-                    value={bankCode}
-                    onChangeText={setBankCode}
-                    type="phone"
-                    width='90%'
-                  />
 
-                  {showBankCode && <CustomTextInput
-                    heading={t('BankCode')}
-                    placeholder={t('EnterBankCode')}
-                    value={bankCode}
-                    onChangeText={setBankCode}
-                    type="phone"
-                    width='100%'
-                  />}
+                  {showBankCode &&
+                    <CustomTextInput
+                      heading={t('BankCode')}
+                      placeholder={t('EnterBankCode')}
+                      value={bankCode}
+                      onChangeText={setBankCode}
+                      type="text"
+                      width='90%'
+                    />}
+                  {showNationalId &&
+                    <CustomTextInput
+                      heading={t('NationalID')}
+                      placeholder={t('EnterNationalIDNumber')}
+                      value={nationalId}
+                      onChangeText={setNationalId}
+                      type="phone"
+                      width='90%'
+                    />
+                  }
                   {showIban && (
                     <CustomTextInput
                       heading='IBAN'
@@ -700,7 +792,7 @@ const AccountScreen = (props) => {
                       value={iban}
                       onChangeText={setIban}
                       type="text"
-                      width='100%'
+                      width='90%'
                     />
                   )}
                   {showSirenNo && (
@@ -710,18 +802,10 @@ const AccountScreen = (props) => {
                       value={sirenNo}
                       onChangeText={setSirenNo}
                       type="text"
-                      width='100%'
+                      width='90%'
                     />
                   )}
 
-                  {/* <CustomButton
-                    title={t('FinishSetup')}
-                    onPress={handleVerifyDetails}
-                    backgroundColor={Colors.blue}
-                    textColor={Colors.white}
-                    textStyle={NexttextStyle}
-                    width='90%'
-                  /> */}
                 </View>
               }
 
@@ -761,8 +845,13 @@ const AccountScreen = (props) => {
           <View style={AccountStyle.header1}>
             <View style={{ position: 'relative' }}>
               <Image
-                // source={{ uri: FILE_BASE_URL + dummyImage }}
-                source={{ uri: FILE_BASE_URL + profileImage }}
+                source={{
+                  uri: profileImage && profileImage != ""
+                    ?
+                    FILE_BASE_URL + profileImage
+                    :
+                    FILE_BASE_URL + dummyImage
+                }}
                 style={AccountStyle.profilePic}
               />
               <TouchableOpacity
@@ -796,9 +885,20 @@ const AccountScreen = (props) => {
       />
       <Loader
         visible={isUploading
+          || loading
           || props.loading
           || props.Bankloading
+          || props.userProfileUpdateLoading
+          || props.contractLoading
         }
+      />
+      <SuccessModal
+        heading={'Success'}
+        subHeading={'Profile Updated SuccessFully'}
+        isModalOpen={successModalVisible}
+        onClose={() => {
+          setSuccessModalVisible(false)
+        }}
       />
     </ImageBackground>
   );
@@ -827,20 +927,21 @@ const mapStateToProps = state => {
 
     contractLoading: state.ContractReducer.loading,
     contractStatus: state.ContractReducer.responseCode,
+    ContractErrMsg: state.ContractReducer.errMsg,
 
   };
 };
 const mapDispatchToProps = {
   BankFormAction,
-  UpdateUserInfo,
   ClearBankStatus,
   SendContract,
   ClearContractStatus,
   UpdateUserProfileAction,
+  ClearUpdateUerStatus
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(AccountScreen);
 
 
 
-const dummyImage = '/doctorandpatient/0a3341af-32f9-4cfa-a27c-28a182bc50d2.jpeg'
+const dummyImage = '/doctorandpatient/21366e84-ccbf-4aab-88b9-144eb6731bf2.png'
