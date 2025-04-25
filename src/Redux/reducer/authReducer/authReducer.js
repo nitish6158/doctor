@@ -9,7 +9,7 @@ const initialState = {
   responseCode: null,
   updateUseResponseCode: null,
   responseCodeLogin: null,
-  changePasswordResponseCode:null,
+  changePasswordResponseCode: null,
   errMsg: null,
   loading: false,
 
@@ -45,20 +45,25 @@ const authReducer = (state = initialState, action) => {
         appLanguage: action.payload,
       });
 
+    case AUTH.SET_IS_VERIFIED:
+      return Object.assign({}, state, {
+        isVerified: action.payload,
+      });
+
     case AUTH.UPDATE_CLINIC_ID:
       return Object.assign({}, state, {
         selectedClinicId: action.payload.ClinicId,
         selectedClinicName: action.payload.ClinicName,
       });
 
-    case AUTH.UPDATE_ACCOUNT_REQUEST:
-      return Object.assign({}, state, {
-        updateLoading: true,
-      });
-
     case AUTH.UPDATE_JOB_DETAIL:
       return Object.assign({}, state, {
         isJobAdded: action.payload,
+      });
+
+    case AUTH.UPDATE_ACCOUNT_REQUEST:
+      return Object.assign({}, state, {
+        updateLoading: true,
       });
 
     case AUTH.UPDATE_ACCOUNT_SUCCESS:
@@ -261,11 +266,11 @@ const authReducer = (state = initialState, action) => {
         errMsg: null,
       });
 
-      case AUTH.CLEAR_UPDATE_ACCOUNT_STATUS:
-        return Object.assign({}, state, {
-          updateUseResponseCode: null,
-          errMsg: null,
-        });
+    case AUTH.CLEAR_UPDATE_ACCOUNT_STATUS:
+      return Object.assign({}, state, {
+        updateUseResponseCode: null,
+        errMsg: null,
+      });
     case AUTH.CLEAR_ERROR_STATUS:
       return Object.assign({}, state, {
         responseCodeLogin: null,

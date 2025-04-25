@@ -59,7 +59,7 @@ const HomeScreen = (props) => {
     }
     const handleContractDetails = () => {
         //props.navigation.navigate('ContractScreen');
-         props.navigation.navigate('AccountScreen');
+        props.navigation.navigate('AccountScreen');
     }
 
     const [isBankModalOpen, setIsBankModalOpen] = useState(false)
@@ -289,7 +289,7 @@ const HomeScreen = (props) => {
                     {props?.userData?.image && props?.userData?.image != '' &&
                         <Image source={
                             { uri: userProfilePicture }
-                        } style={HomeStyles.doctorImage} 
+                        } style={HomeStyles.doctorImage}
                         />
                     }
                 </View>
@@ -376,23 +376,39 @@ const HomeScreen = (props) => {
                             </View>
                             :
                             props.isVerified === 3 ?
-                                <ScrollView contentContainerStyle={HomeStyles.card2}>
-                                    <Image
-                                        source={Images.filenotfound}
-                                        style={HomeStyles.cardImage2}
-                                    />
-                                    <Text
-                                        style={HomeStyles.text2}
-                                    >{t('ApplicationRejected')}</Text>
-                                    <Text
-                                        style={HomeStyles.resion}
-                                    >{t('ApplicationRejectionReason')}</Text>
-                                    <View style={HomeStyles.resiontextContainer}>
+                                <View style={{ flex: 1 }}>
+                                    <ScrollView
+                                        showsVerticalScrollIndicator={false}
+                                    >
+                                        <Image
+                                            source={Images.filenotfound}
+                                            style={HomeStyles.cardImage2}
+                                        />
                                         <Text
-                                            style={HomeStyles.resiontext}
-                                        >{t('AdminWillGiveReason')}</Text>
-                                    </View>
-                                </ScrollView>
+                                            style={HomeStyles.text2}
+                                        >{t('ApplicationRejected')}</Text>
+                                        {
+                                            props?.userData?.remark
+                                            && props?.userData?.remark != ''
+                                            &&
+                                            <>
+                                                <Text
+                                                    style={HomeStyles.resion}
+                                                >{t('ApplicationRejectionReason')}</Text>
+                                                <View style={HomeStyles.resiontextContainer}>
+
+                                                    <Text
+                                                        style={HomeStyles.resiontext}
+                                                        numberOfLines={null}
+                                                        ellipsizeMode="tail"
+                                                    >{props?.userData?.remark}
+                                                    </Text>
+
+                                                </View>
+                                            </>
+                                        }
+                                    </ScrollView>
+                                </View>
                                 :
                                 props.isVerified === 4 && props.userData?.isContractSend == 1 ?
                                     <View style={HomeStyles.card} >
@@ -424,9 +440,9 @@ const HomeScreen = (props) => {
                                     </View>
                     }
                 </FloatingBackgroundCard>
-                <Loader
+                {/* <Loader
                     visible={props.updateLoading}
-                />
+                /> */}
                 <BankModal
                     isModalOpen={isBankModalOpen}
                     onClose={handleCloseBankModal}
@@ -465,7 +481,7 @@ const mapStateToProps = state => {
         userData: state.authReducer.userData,
         GlobalSelectedClinicId: state.authReducer.selectedClinicId,
         GlobalSelectedClinicName: state.authReducer.selectedClinicName,
-        // isVerified: 1, //  2-4-5-3/1  6 for bank 
+        // isVerified: 3, //  2-4-5-3/1  6 for bank 
         updateLoading: state.bankReducer.updateLoading,
         userId: state.authReducer.userId,
         individual: state.authReducer.individual,

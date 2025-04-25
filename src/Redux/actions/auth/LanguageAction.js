@@ -10,3 +10,12 @@ export const LanguageAction = data => {
       });
   };
 };
+
+export const UpdateIsVerifiedAction = data => {
+  return async (dispatch, getState) => {
+    dispatch({
+        type: AUTH.SET_IS_VERIFIED,
+        payload: data,
+      });
+  };
+};
