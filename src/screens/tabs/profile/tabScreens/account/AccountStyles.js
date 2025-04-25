@@ -8,6 +8,9 @@ export const AccountStyle = StyleSheet.create({
     width: '100%',
     height: '100%',
   },
+  keyboardContainer:{
+    flex: 1,
+  },
   MobileNumberInput: {
     width: wp * 90 / 100,
   },

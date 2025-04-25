@@ -9,7 +9,7 @@ import {
     ScrollView,
     Alert,
     Platform,
-    Linking
+    Linking,
 } from 'react-native';
 import { SignupStyles } from './SignupStyles';
 import { AddressInput, CustomTextInput, MobileNumberInput } from '../../../components/input';
