@@ -5,6 +5,7 @@ import {
   TextInput,
   ImageBackground,
   TouchableOpacity,
+  KeyboardAvoidingView,
   Image,
   ScrollView,
   Alert,
@@ -39,6 +40,7 @@ import {
   ClearContractStatus,
   ClearUpdateUerStatus,
   SendContract,
+  UpdateIsVerifiedAction,
   UpdateUserProfileAction,
 } from '../../../../../Redux/actions';
 import { connect } from 'react-redux';
@@ -126,7 +128,8 @@ const AccountScreen = (props) => {
   const [mediamodal, setmediamodal] = useState(false)
 
   const handleUploadPicture = async () => {
-    setmediamodal(true);
+    // setmediamodal(true);
+    handleImageUpload(false)
   };
 
 
@@ -194,6 +197,9 @@ const AccountScreen = (props) => {
       console.warn("Error fetching specializations:", err);
     }
   };
+  const SetIsVerified = async () => {
+    await props.UpdateIsVerifiedAction(5)
+  }
   const ClearAllStatus = async () => {
     await props.ClearContractStatus()
     await props.ClearBankStatus()
@@ -346,9 +352,10 @@ const AccountScreen = (props) => {
 
   const handleSuccess = () => {
     setSuccessModalVisible(true)
+    SetIsVerified();
     setTimeout(() => {
       setSuccessModalVisible(false)
-      props.navigation.goBack()
+      props.navigation.navigate("BottomTabNavigator")
       if (!props.contractLoading &&
         !props.loading &&
         !props.Bankloading) {
@@ -440,7 +447,7 @@ const AccountScreen = (props) => {
           <TouchableOpacity
             style={AccountStyle.backIconContainer}
             onPress={() => {
-              props.navigation.goBack()
+              props.navigation.navigate("BottomTabNavigator")
             }}>
             <Image
               source={Images.back_Icon}
@@ -465,234 +472,238 @@ const AccountScreen = (props) => {
               steps={["Personnal", "Professional", "Contract", "Bank"]}
               width='91%'
             />
-            <ScrollView
-              contentContainerStyle={AccountStyle.scroolContainer}
-              showsVerticalScrollIndicator={false}
+            <KeyboardAvoidingView
+              style={AccountStyle.keyboardContainer}
+              behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
             >
+              <ScrollView
+                contentContainerStyle={AccountStyle.scroolContainer}
+                showsVerticalScrollIndicator={false}
+              >
 
-              {
-                selectedStep == 0 &&
-                <>
-                  <CustomTextInput
-                    heading={t('firstName')}
-                    placeholder={t('EnterFirstName')}
-                    value={firstName}
-                    onChangeText={setFirstName}
-                    type="text"
-                    width='100%'
-                    editIcon={true}
-                  />
-                  <CustomTextInput
-                    heading={t('lastName')}
-                    placeholder={t('EnterlastName')}
-                    value={lastName}
-                    onChangeText={setLastName}
-                    type="text"
-                    width='100%'
-                    editIcon={true}
-                  />
-                  <CustomTextInput
-                    heading={t('Email')}
-                    placeholder={t('enterEmail')}
-                    value={email}
-                    onChangeText={setEmail}
-                    type="email"
-                    width='100%'
-                    editable={false}
-
-                  />
-                  <View style={{ width: '100%', marginVertical: '1%' }}>
-                    <MobileNumberInput
-                      heading={t('mobileNo')}
-                      value={phone}
-                      onChangePhone={setPhone}
-                      selectedCode={selectedCode}
-                      onChangeCode={setSelectedCode}
-                      countries={countryArr}
-                    // editable={false}
-                    codeDisable={false}
+                {
+                  selectedStep == 0 &&
+                  <>
+                    <CustomTextInput
+                      heading={t('firstName')}
+                      placeholder={t('EnterFirstName')}
+                      value={firstName}
+                      onChangeText={setFirstName}
+                      type="text"
+                      width='100%'
+                      editIcon={true}
                     />
-                  </View>
+                    <CustomTextInput
+                      heading={t('lastName')}
+                      placeholder={t('EnterlastName')}
+                      value={lastName}
+                      onChangeText={setLastName}
+                      type="text"
+                      width='100%'
+                      editIcon={true}
+                    />
+                    <CustomTextInput
+                      heading={t('Email')}
+                      placeholder={t('enterEmail')}
+                      value={email}
+                      onChangeText={setEmail}
+                      type="email"
+                      width='100%'
+                      editable={false}
 
-                  <View style={{ marginVertical: '1%' }}>
-                    <View style={{
-                      flexDirection: 'row',
-                      alignItems: 'center',
-                      justifyContent: 'space-between'
-                    }}>
-                      <Text style={SignupStyles.label}>
-                        {t('SelectGender')}
-                      </Text>
-                      <Image
-                        source={Images.editBlack}
-                        style={AccountStyle.editIcon}
-                        resizeMode='contain'
+                    />
+                    <View style={{ width: '100%', marginVertical: '1%' }}>
+                      <MobileNumberInput
+                        heading={t('mobileNo')}
+                        value={phone}
+                        onChangePhone={setPhone}
+                        selectedCode={selectedCode}
+                        onChangeCode={setSelectedCode}
+                        countries={countryArr}
+                        // editable={false}
+                        codeDisable={false}
                       />
-                      {/* {editIcon && (
+                    </View>
+
+                    <View style={{ marginVertical: '1%' }}>
+                      <View style={{
+                        flexDirection: 'row',
+                        alignItems: 'center',
+                        justifyContent: 'space-between'
+                      }}>
+                        <Text style={SignupStyles.label}>
+                          {t('SelectGender')}
+                        </Text>
+                        <Image
+                          source={Images.editBlack}
+                          style={AccountStyle.editIcon}
+                          resizeMode='contain'
+                        />
+                        {/* {editIcon && (
                         <TouchableOpacity onPress={onPressEditIcon}>
                           <Image source={Images.editBlack} style={styles.editIcon} resizeMode='contain' />
                         </TouchableOpacity>
                       )} */}
-                    </View>
+                      </View>
 
-                    <View style={SignupStyles.genderContainer}>
-                      {genderOptions.map((option, index) => (
-                        <TouchableOpacity
-                          key={index}
-                          style={[
-                            SignupStyles.selectGender,
-                            selectedGender === option.label && SignupStyles.selectedGender,
-                          ]}
-                          onPress={() => setSelectedGender(option.label)}>
-                          <Image source={option.icon} style={SignupStyles.icon} />
-                          <Text style={SignupStyles.genderText}>{option.label}</Text>
-                        </TouchableOpacity>
-                      ))}
+                      <View style={SignupStyles.genderContainer}>
+                        {genderOptions.map((option, index) => (
+                          <TouchableOpacity
+                            key={index}
+                            style={[
+                              SignupStyles.selectGender,
+                              selectedGender === option.label && SignupStyles.selectedGender,
+                            ]}
+                            onPress={() => setSelectedGender(option.label)}>
+                            <Image source={option.icon} style={SignupStyles.icon} />
+                            <Text style={SignupStyles.genderText}>{option.label}</Text>
+                          </TouchableOpacity>
+                        ))}
+                      </View>
                     </View>
-                  </View>
-                </>
-              }
-              {
-                selectedStep == 1 &&
-                <>
-                  <View style={AccountStyle.profilePicEditArea}>
+                  </>
+                }
+                {
+                  selectedStep == 1 &&
+                  <>
+                    <View style={AccountStyle.profilePicEditArea}>
 
-                    <View style={AccountStyle.editImageContainer}>
-                      <Image
-                        source={Images.Thumbnail}
-                        style={AccountStyle.thumbnailIMG}
-                        resizeMode='contain'
-                      />
-                      {/* <TouchableOpacity 
+                      <View style={AccountStyle.editImageContainer}>
+                        <Image
+                          source={Images.Thumbnail}
+                          style={AccountStyle.thumbnailIMG}
+                          resizeMode='contain'
+                        />
+                        {/* <TouchableOpacity 
                       onPress={()=>{handleUploadPicture()}}
                       style={AccountStyle.editImageIcon2}>
                         <Image source={Images.editProfile} style={AccountStyle.inputIcon} />
                       </TouchableOpacity> */}
-                    </View>
-
-                    <View style={AccountStyle.editImageDetail}>
-
-                      <Text style={AccountStyle.thumbnail}>Thumbnail Image</Text>
-
-                      <View style={AccountStyle.pointsCover}>
-                        <View style={AccountStyle.markCover}>
-                          <Image
-                            source={Images.exclamation}
-                            style={AccountStyle.exclamation}
-                            resizeMode='contain'
-                          />
-                        </View>
-                        <Text style={AccountStyle.shortThumbnail}>Image should in</Text>
-                        <Text style={AccountStyle.shortThumbnail2}>290px - 345px</Text>
-                      </View>
-                      <View style={AccountStyle.pointsCover}>
-                        <View style={AccountStyle.markCover}>
-                          <Image
-                            source={Images.exclamation}
-                            style={AccountStyle.exclamation}
-                            resizeMode='contain'
-                          />
-                        </View>
-                        <Text style={AccountStyle.shortThumbnail}>Image With Transparent Background</Text>
                       </View>
 
-                    </View>
-                  </View>
+                      <View style={AccountStyle.editImageDetail}>
 
-                  <CustomDropdown
-                    heading={t('SelectProfile')}
-                    placeholder={t('Select')}
-                    selectedValue={profile}
-                    onValueChange={setProfile}
-                    options={profileArr}
-                    width='100%'
-                    type="profile"
-                  />
-                  <CustomDropdown
-                    heading={"Specialization"}
-                    placeholder={t('Select')}
-                    selectedValue={specialization}
-                    onValueChange={setSpecialization}
-                    options={specializationArr}
-                    width='100%'
-                    type="specialization"
-                  />
-                  <CustomTextInput
-                    heading={"Fees"}
-                    placeholder={"Enter Fees"}
-                    value={fees}
-                    onChangeText={setFees}
-                    type="fees"
-                    width='100%'
-                    editIcon={true}
-                    isEditable={false}
-                  />
-                  <CustomTextInput
-                    heading={"Years of Experience"}
-                    placeholder={"Enter Experience"}
-                    value={experience}
-                    onChangeText={setExperience}
-                    type="experience"
-                    width='100%'
-                    editIcon={true}
-                    isEditable={false}
-                  />
-                  <View style={{ width: '100%', marginVertical: '1%' }}>
-                    <AddressInput
-                      heading={"Language Known"}
-                      placeholder={"Enter Languages"}
-                      value={language}
-                      onChangeText={setLanguage}
+                        <Text style={AccountStyle.thumbnail}>Thumbnail Image</Text>
+
+                        <View style={AccountStyle.pointsCover}>
+                          <View style={AccountStyle.markCover}>
+                            <Image
+                              source={Images.exclamation}
+                              style={AccountStyle.exclamation}
+                              resizeMode='contain'
+                            />
+                          </View>
+                          <Text style={AccountStyle.shortThumbnail}>Image should in</Text>
+                          <Text style={AccountStyle.shortThumbnail2}>290px - 345px</Text>
+                        </View>
+                        <View style={AccountStyle.pointsCover}>
+                          <View style={AccountStyle.markCover}>
+                            <Image
+                              source={Images.exclamation}
+                              style={AccountStyle.exclamation}
+                              resizeMode='contain'
+                            />
+                          </View>
+                          <Text style={AccountStyle.shortThumbnail}>Image With Transparent Background</Text>
+                        </View>
+
+                      </View>
+                    </View>
+
+                    <CustomDropdown
+                      heading={t('SelectProfile')}
+                      placeholder={t('Select')}
+                      selectedValue={profile}
+                      onValueChange={setProfile}
+                      options={profileArr}
                       width='100%'
-                      autocapitalize="words"
+                      type="profile"
+                    />
+                    <CustomDropdown
+                      heading={"Specialization"}
+                      placeholder={t('Select')}
+                      selectedValue={specialization}
+                      onValueChange={setSpecialization}
+                      options={specializationArr}
+                      width='100%'
+                      type="specialization"
+                    />
+                    <CustomTextInput
+                      heading={"Fees"}
+                      placeholder={"Enter Fees"}
+                      value={fees}
+                      onChangeText={setFees}
+                      type="fees"
+                      width='100%'
                       editIcon={true}
+                      isEditable={false}
                     />
-                  </View>
-                  <View style={{ width: '100%', marginVertical: '1%' }}>
-                    <AddressInput
-                      heading={"Profile Description"}
-                      placeholder={"I am Doctor"}
-                      value={description}
-                      onChangeText={setDescription}
+                    <CustomTextInput
+                      heading={"Years of Experience"}
+                      placeholder={"Enter Experience"}
+                      value={experience}
+                      onChangeText={setExperience}
+                      type="experience"
                       width='100%'
-                      autocapitalize="sentence"
+                      editIcon={true}
+                      isEditable={false}
                     />
-                  </View>
-                  {props?.isVerified == 1 &&
-                    <DownloadButton
-                      heading={"CV"}
-                      title={"CV.pdf"}
-                      onPress={() => downloadFile(FILE_BASE_URL + "" + props?.userData?.cv)}
-                      width='100%'
-                      textStyle={AccountStyle.textStyle}
-                      disabled={downloadLoading}
-                      paddingVertical="0%"
-                    />
-                  }
-                </>
-              }
+                    <View style={{ width: '100%', marginVertical: '1%' }}>
+                      <AddressInput
+                        heading={"Language Known"}
+                        placeholder={"Enter Languages"}
+                        value={language}
+                        onChangeText={setLanguage}
+                        width='100%'
+                        autocapitalize="words"
+                        editIcon={true}
+                      />
+                    </View>
+                    <View style={{ width: '100%', marginVertical: '1%' }}>
+                      <AddressInput
+                        heading={"Profile Description"}
+                        placeholder={"I am Doctor"}
+                        value={description}
+                        onChangeText={setDescription}
+                        width='100%'
+                        autocapitalize="sentence"
+                      />
+                    </View>
+                    {props?.isVerified == 1 &&
+                      <DownloadButton
+                        heading={"CV"}
+                        title={"CV.pdf"}
+                        onPress={() => downloadFile(FILE_BASE_URL + "" + props?.userData?.cv)}
+                        width='100%'
+                        textStyle={AccountStyle.textStyle}
+                        disabled={downloadLoading}
+                        paddingVertical="0%"
+                      />
+                    }
+                  </>
+                }
 
-              {
-                selectedStep == 2 &&
-                <>
-                  <DownloadButton
-                    heading={t('SignDownloadContract')}
-                    title={t('DownloadContract')}
-                    onPress={() => downloadFile(FILE_BASE_URL + "" + pdfUrl)}
-                    width='100%'
-                    textStyle={BankFormStyles.textStyle}
-                    disabled={downloadLoading || pdfUrl == null}
-                  />
-                  <UploadFileButton
-                    heading={t('UploadSignedContract')}
-                    title={t('UploadContract')}
-                    onPress={() => {
-                      handleFileUpload()
-                    }}
-                    width='100%'
-                    fileurl={uploadedFile}
-                  />
-                  {/* <CustomButton
+                {
+                  selectedStep == 2 &&
+                  <>
+                    <DownloadButton
+                      heading={t('SignDownloadContract')}
+                      title={t('DownloadContract')}
+                      onPress={() => downloadFile(FILE_BASE_URL + "" + pdfUrl)}
+                      width='100%'
+                      textStyle={BankFormStyles.textStyle}
+                      disabled={downloadLoading || pdfUrl == null}
+                    />
+                    <UploadFileButton
+                      heading={t('UploadSignedContract')}
+                      title={t('UploadContract')}
+                      onPress={() => {
+                        handleFileUpload()
+                      }}
+                      width='100%'
+                      fileurl={uploadedFile}
+                    />
+                    {/* <CustomButton
                     title={t('FinishSetup')}
                     onPress={sendContract}
                     backgroundColor={Colors.blue}
@@ -701,117 +712,117 @@ const AccountScreen = (props) => {
                     width='100%'
                     disabled={uploadedFileURL ? false : true}
                   /> */}
-                </>
-              }
+                  </>
+                }
 
-              {selectedStep == 3 &&
-                <View style={AccountStyle.bankContainer}>
-                  <CustomDropdown
-                    heading={t('SelectCountry')}
-                    placeholder={t('Select')}
-                    selectedValue={country}
-                    onValueChange={setCountry}
-                    options={countryArr}
-                    width='90%'
-                    type="country"
-                    required={true}
-                  />
-                  <CustomTextInput
-                    heading={"Account Holder Name"}
-                    placeholder={"Enter Account Holder Name"}
-                    value={fullName}
-                    onChangeText={setFullName}
-                    type="text"
-                    width='90%'
-                    borderColor={Colors.borderColor2}
-                  />
-                  <CustomTextInput
-                    heading={t('AccountNumber')}
-                    placeholder={t('EnterAccountNumber')}
-                    value={bankAccountNumber}
-                    onChangeText={setBankAccountNumber}
-                    type="phone"
-                    width='90%'
-                  />
-                  <CustomTextInput
-                    heading={t('BankName')}
-                    placeholder={t('EnterBankName')}
-                    value={bankName}
-                    onChangeText={setBankName}
-                    type="text"
-                    width='90%'
-                  />
-                  <CustomTextInput
-                    heading={t('AccountType')}
-                    placeholder={t('EnterAccountType')}
-                    value={bankAccountType}
-                    onChangeText={setBankAccountType}
-                    type="text"
-                    width='90%'
-                  />
-
-                  <AddressInput
-                    heading={t('Address')}
-                    placeholder={t('EnterAddress')}
-                    value={address}
-                    onChangeText={setAddress}
-                    width='90%'
-                  />
-
-                  <CustomTextInput
-                    heading={t('BranchName')}
-                    placeholder={t('EnterBranchName')}
-                    value={branchName}
-                    onChangeText={setBranchName}
-                    type="text"
-                    width='90%'
-                  />
-
-                  {showBankCode &&
+                {selectedStep == 3 &&
+                  <View style={AccountStyle.bankContainer}>
+                    <CustomDropdown
+                      heading={t('SelectCountry')}
+                      placeholder={t('Select')}
+                      selectedValue={country}
+                      onValueChange={setCountry}
+                      options={countryArr}
+                      width='90%'
+                      type="country"
+                      required={true}
+                    />
                     <CustomTextInput
-                      heading={t('BankCode')}
-                      placeholder={t('EnterBankCode')}
-                      value={bankCode}
-                      onChangeText={setBankCode}
+                      heading={"Account Holder Name"}
+                      placeholder={"Enter Account Holder Name"}
+                      value={fullName}
+                      onChangeText={setFullName}
                       type="text"
                       width='90%'
-                    />}
-                  {showNationalId &&
+                      borderColor={Colors.borderColor2}
+                    />
                     <CustomTextInput
-                      heading={t('NationalID')}
-                      placeholder={t('EnterNationalIDNumber')}
-                      value={nationalId}
-                      onChangeText={setNationalId}
+                      heading={t('AccountNumber')}
+                      placeholder={t('EnterAccountNumber')}
+                      value={bankAccountNumber}
+                      onChangeText={setBankAccountNumber}
                       type="phone"
                       width='90%'
                     />
-                  }
-                  {showIban && (
                     <CustomTextInput
-                      heading='IBAN'
-                      placeholder='Enter IBAN'
-                      value={iban}
-                      onChangeText={setIban}
+                      heading={t('BankName')}
+                      placeholder={t('EnterBankName')}
+                      value={bankName}
+                      onChangeText={setBankName}
                       type="text"
                       width='90%'
                     />
-                  )}
-                  {showSirenNo && (
                     <CustomTextInput
-                      heading='Siren No'
-                      placeholder='Enter Siren No'
-                      value={sirenNo}
-                      onChangeText={setSirenNo}
+                      heading={t('AccountType')}
+                      placeholder={t('EnterAccountType')}
+                      value={bankAccountType}
+                      onChangeText={setBankAccountType}
                       type="text"
                       width='90%'
                     />
-                  )}
 
-                </View>
-              }
+                    <AddressInput
+                      heading={t('Address')}
+                      placeholder={t('EnterAddress')}
+                      value={address}
+                      onChangeText={setAddress}
+                      width='90%'
+                    />
 
-            </ScrollView>
+                    <CustomTextInput
+                      heading={t('BranchName')}
+                      placeholder={t('EnterBranchName')}
+                      value={branchName}
+                      onChangeText={setBranchName}
+                      type="text"
+                      width='90%'
+                    />
 
+                    {showBankCode &&
+                      <CustomTextInput
+                        heading={t('BankCode')}
+                        placeholder={t('EnterBankCode')}
+                        value={bankCode}
+                        onChangeText={setBankCode}
+                        type="text"
+                        width='90%'
+                      />}
+                    {showNationalId &&
+                      <CustomTextInput
+                        heading={t('NationalID')}
+                        placeholder={t('EnterNationalIDNumber')}
+                        value={nationalId}
+                        onChangeText={setNationalId}
+                        type="phone"
+                        width='90%'
+                      />
+                    }
+                    {showIban && (
+                      <CustomTextInput
+                        heading='IBAN'
+                        placeholder='Enter IBAN'
+                        value={iban}
+                        onChangeText={setIban}
+                        type="text"
+                        width='90%'
+                      />
+                    )}
+                    {showSirenNo && (
+                      <CustomTextInput
+                        heading='Siren No'
+                        placeholder='Enter Siren No'
+                        value={sirenNo}
+                        onChangeText={setSirenNo}
+                        type="text"
+                        width='90%'
+                      />
+                    )}
+
+                  </View>
+                }
+
+              </ScrollView>
+            </KeyboardAvoidingView>
             <View style={AccountStyle.buttonContainer}>
               {
                 (selectedStep <= 2) ?
@@ -938,7 +949,8 @@ const mapDispatchToProps = {
   SendContract,
   ClearContractStatus,
   UpdateUserProfileAction,
-  ClearUpdateUerStatus
+  ClearUpdateUerStatus,
+  UpdateIsVerifiedAction,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(AccountScreen);

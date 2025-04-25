@@ -32,16 +32,16 @@ export const HomeStyles = StyleSheet.create({
     },
     buttonContainer: {
         flexDirection: 'row',
-        width:'100%',
+        width: '100%',
     },
     buttonSubContainer: {
         flexDirection: 'row',
         justifyContent: 'space-between',
-        width:"100%",
+        width: "100%",
     },
     dropdownWrapper: {
         width: (wp * 55) / 100, // same as dropdownContainer width
-    },    
+    },
     details: {
         flex: 1,
         flexDirection: 'row',
@@ -55,14 +55,14 @@ export const HomeStyles = StyleSheet.create({
     iconStyle: {
         width: wp * 6 / 100,
         height: wp * 6 / 100,
-        resizeMode:'contain',
-     
+        resizeMode: 'contain',
+
     },
     iconStyle2: {
         width: wp * 4 / 100,
         height: wp * 4 / 100,
-        resizeMode:'contain',
-     
+        resizeMode: 'contain',
+
     },
     textContainer: {
         width: (wp * 40) / 100,
@@ -79,25 +79,25 @@ export const HomeStyles = StyleSheet.create({
     },
     dropdownContainer: {
         backgroundColor: Colors.lightblue4,
-        borderColor:Colors.lightblue4,
-        paddingHorizontal :'5%',
-        paddingVertical :'7.2%',
+        borderColor: Colors.lightblue4,
+        paddingHorizontal: '5%',
+        paddingVertical: '7.2%',
         width: (wp * 55) / 100,
         flexDirection: "row",
         justifyContent: 'center',
         alignItems: 'center',
         justifyContent: 'space-between',
-        borderRadius:10
+        borderRadius: 10
 
     },
-    dropdownIMGText:{
-        width:'85%',
-        flexDirection:'row',
-        alignItems:'center',
+    dropdownIMGText: {
+        width: '85%',
+        flexDirection: 'row',
+        alignItems: 'center',
     },
     dropdownContainer2: {
         backgroundColor: Colors.white,
-        width:wp*39/100,
+        width: wp * 39 / 100,
         justifyContent: 'center',
         alignItems: 'center',
     },
@@ -121,14 +121,14 @@ export const HomeStyles = StyleSheet.create({
         fontSize: ResponsiveFont(14),
         lineHeight: ResponsiveFont(16),
         color: Colors.white,
-    
+
     },
     speciality5: {
         fontFamily: Fonts.Bold,
         fontSize: ResponsiveFont(14),
         lineHeight: ResponsiveFont(16),
         color: Colors.white,
-        marginLeft:'8%'
+        marginLeft: '8%'
     },
     speciality2: {
         fontFamily: Fonts.Bold,
@@ -162,7 +162,7 @@ export const HomeStyles = StyleSheet.create({
         alignItems: 'center',
         padding: (wp * 2.5) / 100,
         borderRadius: (wp * 3) / 100,
-        marginRight:15
+        marginRight: 15
     },
     notificationButtonContainer: {
         backgroundColor: Colors.white,
@@ -176,6 +176,7 @@ export const HomeStyles = StyleSheet.create({
     customStyles: {
         padding: '4%',
         width: '100%',
+        flex: 1,
     },
     dashboardtextContainer: {
         width: '100%',
@@ -269,8 +270,8 @@ export const HomeStyles = StyleSheet.create({
 
     },
     card2: {
-        width: '100%',
         flex: 1,
+        alignItems:'center',
     },
     cardImage: {
         width: wp * 30 / 100,
@@ -278,7 +279,7 @@ export const HomeStyles = StyleSheet.create({
         resizeMode: 'contain'
     },
     cardImage2: {
-        width: wp * 30 / 100,
+        width: wp * 27 / 100,
         height: wp * 30 / 100,
         resizeMode: 'contain',
         alignSelf:'center'
@@ -292,25 +293,27 @@ export const HomeStyles = StyleSheet.create({
         width: '70%',
         marginVertical: '3%'
     },
-   
+
     resiontextContainer: {
         backgroundColor: Colors.shadowBlue,
-        borderRadius:10,
-        padding:"2%",
-        marginVertical:'2%'
+        borderRadius: 10,
+        padding:wp*2/100,
+        marginVertical:wp*2/100,
+        // width: wp * 90 / 100,
     },
     resion: {
         fontFamily: Fonts.Bold,
         fontSize: ResponsiveFont(17),
         color: Colors.black,
-        width: '90%',
+        width: wp * 85 / 100,
+        // alignSelf:'center'
     },
     resiontext: {
         fontFamily: Fonts.SemiBold,
         fontSize: ResponsiveFont(16),
         color: Colors.black,
-        width: '90%',
-        marginHorizontal: '5%',
+        width: wp * 85 / 100,
+        // marginHorizontal: '5%',
     },
     text2: {
         fontFamily: Fonts.SemiBold,
@@ -318,12 +321,13 @@ export const HomeStyles = StyleSheet.create({
         lineHeight: ResponsiveFont(28),
         color: Colors.black,
         textAlign: 'center',
-        marginVertical: '3%'
+        marginVertical: '3%',
+        width: wp * 85/ 100,
     },
-    firstAddBoxIcon:{
-        width:(wp*6)/100,
-        height:(wp*6)/100,
-        resizeMode:'contain'
+    firstAddBoxIcon: {
+        width: (wp * 6) / 100,
+        height: (wp * 6) / 100,
+        resizeMode: 'contain'
     },
-        
+
 });

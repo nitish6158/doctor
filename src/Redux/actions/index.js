@@ -1,4 +1,4 @@
-import { LanguageAction } from "./auth/LanguageAction";
+import { LanguageAction ,UpdateIsVerifiedAction} from "./auth/LanguageAction";
 import {
     LoginAction,
     LogoutAction,
@@ -57,6 +57,7 @@ import {
 } from "./LocationAction";
 export {
     LanguageAction,
+    UpdateIsVerifiedAction,
     LoginAction,
     SignupAction,
     ChangePassowordAction,
