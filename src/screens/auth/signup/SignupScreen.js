@@ -8,7 +8,8 @@ import {
     Image,
     ScrollView,
     Alert,
-    Platform
+    Platform,
+    Linking
 } from 'react-native';
 import { SignupStyles } from './SignupStyles';
 import { AddressInput, CustomTextInput, MobileNumberInput } from '../../../components/input';
@@ -31,6 +32,7 @@ import {
     validatePassword,
 } from '../../../utility/Validator';
 import { useFileUpload } from '../../../components/customhooks';
+import { PRIVACY_POLICY,TERM_CONDITIONS,SERVER_URL } from '../../../Redux/config';
 
 // import { SignupAction, ClearStatusSignup } from '../../../Redux/actions/auth';
 import {
@@ -83,11 +85,13 @@ const SignupScreen = (props) => {
     const [lastName, setLastName] = useState('');
     const [email, setEmail] = useState('');
     const [phone, setPhone] = useState('');
-    const [selectedCode, setSelectedCode] = useState(countryArr?.[0] || {
-        "name": "SAUDI ARABIA",
-        "code": "+966"
-    }
-    ); // default to first from API
+    // const [selectedCode, setSelectedCode] = useState(countryArr?.[0] || {
+    //     "name": "SAUDI ARABIA",
+    //     "code": "+966"
+    // }
+    // );
+    const [selectedCode, setSelectedCode] = useState('select');
+     // default to first from API
     const { uploadFile, loading, fileUrl, error } = useFileUpload(END_POINT.fileUpload);
     const [uploadedFile, setUploadedFile] = useState(null);
     const [profile, setProfile] = useState('');
@@ -140,7 +144,7 @@ const SignupScreen = (props) => {
             "firstName": firstName,
             "lastName": lastName,
             "email": email,
-            "mobileNo":  cleanedPhone,
+            "mobileNo": cleanedPhone,
             "profile": profile,
             "cv": uploadedFile,
             "specialization": specialization,
@@ -314,7 +318,7 @@ const SignupScreen = (props) => {
     };
 
 
-   
+
     return (
         <ImageBackground
             source={Images.login_background_scroll}
@@ -406,7 +410,14 @@ const SignupScreen = (props) => {
                                     heading={t('SelectCountry')}
                                     placeholder={t('Select')}
                                     selectedValue={country}
-                                    onValueChange={setCountry}
+                                    // onValueChange={setCountry}
+                                    onValueChange={(value) => {
+                                        setCountry(value);
+                                        const selected = countryArr.find(item => item.name === value)
+                                        if (selected?.code) {
+                                            setSelectedCode(selected);
+                                        }
+                                    }}                                    
                                     options={countryArr}
                                     width='100%'
                                     type="country"
@@ -420,6 +431,7 @@ const SignupScreen = (props) => {
                                     onChangeCode={setSelectedCode}
                                     countries={countryArr}
                                     required={true}
+                                    codeDisable={true}
                                 />
                                 <CustomTextInput
                                     heading={t('password')}
@@ -431,13 +443,13 @@ const SignupScreen = (props) => {
                                     required={true}
                                 />
                                 <View style={{ marginVertical: '1%' }}>
-                                    <View style={{flexDirection:'row',alignItems:'center'}}>
-                                    <Text style={SignupStyles.label}>
-                                        {t('SelectGender')}
-                                    </Text>
-                                    <Text style={SignupStyles.label3}>*</Text>
+                                    <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                                        <Text style={SignupStyles.label}>
+                                            {t('SelectGender')}
+                                        </Text>
+                                        <Text style={SignupStyles.label3}>*</Text>
                                     </View>
-                                   
+
 
                                     <View style={SignupStyles.genderContainer}>
                                         {genderOptions.map((option, index) => (
@@ -488,7 +500,7 @@ const SignupScreen = (props) => {
                                     type="specialization"
                                     required={true}
                                 />
-                              
+
                                 <AddressInput
                                     heading={t('Address')}
                                     placeholder={t('EnterAddress')}
@@ -496,7 +508,8 @@ const SignupScreen = (props) => {
                                     onChangeText={setAddress}
                                     width='100%'
                                 />
-                                <TouchableOpacity
+
+                                {/* <TouchableOpacity
                                     onPress={() => setTermsAccepted(!termsAccepted)}
                                     style={SignupStyles.iconContainer}
                                 >
@@ -508,7 +521,34 @@ const SignupScreen = (props) => {
                                         }
                                     />
                                     <Text style={SignupStyles.termText}>{t('termscondition')}</Text>
+                                </TouchableOpacity> */}
+
+                                <TouchableOpacity
+                                    onPress={() => setTermsAccepted(!termsAccepted)}
+                                    style={SignupStyles.iconContainer}
+                                >
+                                    <Image
+                                        style={SignupStyles.iconStyle}
+                                        source={termsAccepted ? Images.icon_checkbox_enable : Images.icon_checkbox}
+                                    />
+                                    <Text style={SignupStyles.termText}>
+                                    {t('IAccept')}&nbsp;
+                                        <Text
+                                            style={{ color: Colors.blue, textDecorationLine: 'underline' }}
+                                            onPress={() => Linking.openURL(`${SERVER_URL}${TERM_CONDITIONS}`)}
+                                        >
+                                            {t('TermsAndConditions')}
+                                        </Text>
+                                        &nbsp;{t('And')}&nbsp;
+                                        <Text
+                                            style={{ color: Colors.blue, textDecorationLine: 'underline' }}
+                                            onPress={() => Linking.openURL(`${SERVER_URL}${PRIVACY_POLICY}`)}
+                                        >
+                                            {t('PrivacyPolicy')}
+                                        </Text>
+                                    </Text>
                                 </TouchableOpacity>
+
                             </>
                         )}
 

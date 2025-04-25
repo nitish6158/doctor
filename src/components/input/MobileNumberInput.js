@@ -17,7 +17,8 @@ export const MobileNumberInput = ({
     onChangeCode,
     countries = [],
     required = false,
-    editable=true
+    editable=true,
+    codeDisable=false
 
 }) => {
     const [isFocused, setIsFocused] = useState(false);
@@ -61,7 +62,7 @@ export const MobileNumberInput = ({
                         // style={{ borderRightWidth: 1, borderColor: Colors.borderColor2 }}
                         textStyle={{ fontSize: ResponsiveFont(14) }}
                         containerstyle={{ marginBottom: 1 }}
-                        editable={editable}
+                        editable={!codeDisable}
                     />
                 </View>
 

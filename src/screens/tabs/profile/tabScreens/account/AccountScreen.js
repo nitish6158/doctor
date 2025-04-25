@@ -510,6 +510,7 @@ const AccountScreen = (props) => {
                       onChangeCode={setSelectedCode}
                       countries={countryArr}
                     // editable={false}
+                    codeDisable={false}
                     />
                   </View>
 

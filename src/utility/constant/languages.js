@@ -1223,7 +1223,51 @@ export const Languages = {
     AR: "تفاصيل التطابق",
     FN: "Détail de la correspondance",
   },
-  
+  CopiedToClipboard: {
+  EN: "Copied to Clipboard",
+  AR: "تم النسخ إلى الحافظة",
+  FN: "Copié dans le presse-papiers",
+},
+
+MatchingDetail: {
+  EN: "Matching Detail",
+  AR: "تفاصيل التطابق",
+  FN: "Détail de la correspondance",
+},
+CopiedToClipboard: {
+  EN: "Copied to Clipboard",
+  AR: "تم النسخ إلى الحافظة",
+  FN: "Copié dans le presse-papiers",
+},
+
+MatchingDetail: {
+  EN: "Matching Detail",
+  AR: "تفاصيل التطابق",
+  FN: "Détail de la correspondance",
+},
+TermsAndConditions: {
+  EN: "Terms & Conditions",
+  AR: "الشروط والأحكام",
+  FN: "Termes et conditions",
+},
+
+PrivacyPolicy: {
+  EN: "Privacy Policy",
+  AR: "سياسة الخصوصية",
+  FN: "Politique de confidentialité",
+},
+IAccept: {
+  EN: "I accept",
+  AR: "أوافق",
+  FN: "J'accepte",
+},
+
+And: {
+  EN: "and",
+  AR: "و",
+  FN: "et",
+},
+
 
 };
 

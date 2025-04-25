@@ -307,6 +307,7 @@ const BankFormScreen = (props) => {
                                 selectedCode={selectedCode}
                                 onChangeCode={setSelectedCode}
                                 countries={countryArr}
+                                codeDisable={false}
                             />
 
                             <CustomTextInput

@@ -74,8 +74,8 @@ export const HomeStyles = StyleSheet.create({
         fontSize: ResponsiveFont(28),
         lineHeight: ResponsiveFont(34),
         color: Colors.white,
-        width: (wp * 40) / 100,
-        marginBottom: (wp * 2) / 100
+        width: (wp * 37) / 100,
+        marginBottom: (wp * 2) / 100,
     },
     dropdownContainer: {
         backgroundColor: Colors.lightblue4,
