@@ -129,7 +129,7 @@ const HomeScreen = (props) => {
 
     useFocusEffect(
         useCallback(() => {
-            if (props?.isVerified === 1 || !props.individual) return; // Stop polling if already verified
+            // if (props?.isVerified === 1 || !props.individual) return; // Stop polling if already verified
 
             const interval = setInterval(() => {
                 updateUserData();
@@ -418,7 +418,7 @@ const HomeScreen = (props) => {
                                         />
                                         <Text
                                             style={HomeStyles.text}
-                                        >{t('PleaseAddYourBankInformationAndContract')}</Text>
+                                        >{t('PleaseCompleteYourProfile')}</Text>
                                         <CustomButton
                                             title={t('FinishSetup')}
                                             height={'16%'}

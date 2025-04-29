@@ -1,7 +1,7 @@
 import { StyleSheet } from 'react-native';
 
 
-import { Colors,ResponsiveFont,Fonts } from '../../../assets';
+import { Colors,ResponsiveFont,Fonts } from '../../../../../assets';
 
 export const BankFormStyles= StyleSheet.create({
     background: {

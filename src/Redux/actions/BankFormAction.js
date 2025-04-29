@@ -11,7 +11,7 @@ export const BankFormAction = data => {
     dispatch({ type: BANK.BANK_FORM_REQUEST });
     const reqParam =
     {
-      "id": 0,
+      "id":data.id,
       "bankName": data.bankName,
       "accountNumber": data.accountNumber,
       "accountType": data.accountType,

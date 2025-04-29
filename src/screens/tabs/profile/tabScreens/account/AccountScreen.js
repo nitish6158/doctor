@@ -33,7 +33,7 @@ import { SignupStyles } from '../../../../auth/signup/SignupStyles';
 import { Colors, ResponsiveFont, Fonts } from '../../../../../assets';
 import { usePdfDownloader, useApi } from '../../../../../components/customhooks';
 import { FILE_BASE_URL } from '../../../../../Redux/config';
-import { BankFormStyles } from '../../../../container/bankDetailsForm/BankFormStyles';
+import { BankFormStyles } from '../bankDetailsForm/BankFormStyles';
 import {
   BankFormAction,
   ClearBankStatus,
@@ -318,6 +318,14 @@ const AccountScreen = (props) => {
 
   const handleBankDetails = async () => {
     const cleanedPhone = phone.replace(/^0+/, '');
+    const bankId =
+      props.userData?.bankDetailsResponse?.id !== null &&
+        props.userData?.bankDetailsResponse?.id !== undefined &&
+        props.userData?.bankDetailsResponse?.id !== 0
+        ? props.userData.bankDetailsResponse.id
+        : 0;
+
+
     let reqParam = {
       "doctorName": fullName,
       "accountNumber": bankAccountNumber,
@@ -335,6 +343,7 @@ const AccountScreen = (props) => {
       "iban": iban,
       "swiftBicCode": swiftBicCode,
       "sirenNo": sirenNo,
+      "id": bankId
     }
     await props.BankFormAction(reqParam);
 

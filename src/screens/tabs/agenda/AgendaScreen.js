@@ -55,7 +55,7 @@ const buttonTextStyle2 = {
     color: Colors.white,
 }
 const MyAgenda = (props) => {
-    const t=useTranslation();
+    const t = useTranslation();
     const today = new Date().toISOString().split("T")[0]
     const formatDateDDMMYYYY = moment(today).format("DD-MM-YYYY");
     const [currentDate, setCurrentDate] = useState(new Date());
@@ -146,7 +146,7 @@ const MyAgenda = (props) => {
             handleDiscard()
             clearResponseCode()
         }
-         else if (props.errMsg && props.errMsg != null) {
+        else if (props.errMsg && props.errMsg != null) {
             ToastMsg(props.errMsg, 'bottom')
             clearResponseCode()
         }
@@ -428,7 +428,7 @@ const MyAgenda = (props) => {
             setEditModalOpen(false)
             setRemoveSlotModalVisible(false)
             clearResponseCode();
-        } else if (props.errMsg != null ) {
+        } else if (props.errMsg != null) {
             // ToastMsg(props.errMsg, 'bottom')
             clearResponseCode();
 
@@ -917,7 +917,7 @@ const MyAgenda = (props) => {
                                                                 <Text style={[AgendaStyles.modeText,
                                                                 { color: slot.type === 'offline' ? Colors.white : Colors.blue }]}>
                                                                     {t('Offline')}
-                                                                    </Text>
+                                                                </Text>
                                                             </TouchableOpacity>
                                                         </View>
 
@@ -1129,6 +1129,13 @@ const MyAgenda = (props) => {
                 handleBlockDate={handleBlockDate}
                 onBlockPress={onBlockPress}
             />
+            {/* <CustomDateInput
+                placeholder={t('FromDate')}
+                value={selectedBlockStartDate}
+                onDateChange={setSelectedBlockStartDate}
+                minimumDate={new Date()} // optional
+                icon="calender"
+            /> */}
         </ImageBackground >
     );
 };

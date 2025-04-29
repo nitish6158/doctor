@@ -17,40 +17,39 @@ import {
     CustomTextInput,
     AddressInput,
     MobileNumberInput
-} from '../../../components/input';
+} from '../../../../../components/input';
 import {
     ResponsiveFont,
     Colors,
     Images,
-} from '../../../assets';
+} from '../../../../../assets';
 import {
     CustomButton,
-} from '../../../components/button';
+} from '../../../../../components/button';
 import {
     SuccessModal,
     Loader
-} from '../../../components/modal';
+} from '../../../../../components/modal';
 import {
     BankFormAction,
     UpdateUserInfo,
     ClearBankStatus
-} from '../../../Redux/actions';
+} from '../../../../../Redux/actions';
 import {
     useTranslation,
-} from '../../../components/customhooks';
+} from '../../../../../components/customhooks';
 import {
     validateEmail,
     validatePhoneNumber,
-} from '../../../utility/Validator';
-import { ToastMsg } from '../../../components/Toast';
-import { SignupStyles } from '../../auth/signup/SignupStyles';
-import { LoginStyles } from '../../auth/login/LoginStyles';
+} from '../../../../../utility/Validator';
+import { ToastMsg } from '../../../../../components/Toast';
+import { SignupStyles } from '../../../../auth/signup/SignupStyles';
+import { LoginStyles } from '../../../../auth/login/LoginStyles';
 import { BankFormStyles } from './BankFormStyles';
-import { FloatingBackgroundCard } from '../../../components/card';
+import { FloatingBackgroundCard } from '../../../../../components/card';
 import { connect } from 'react-redux';
-import { END_POINT } from '../../../Redux/config';
-import { getRequest } from '../../../Redux/config';
-
+import { END_POINT } from '../../../../../Redux/config';
+import { getRequest } from '../../../../../Redux/config';
 const NexttextStyle = {
     fontSize: ResponsiveFont(18),
     lineHeight: ResponsiveFont(49),
@@ -58,24 +57,24 @@ const NexttextStyle = {
 const BankFormScreen = (props) => {
     const t = useTranslation()
     const [isModal, setIsmodal] = useState(false);
-    const [fullName, setFullName] = useState('');
-    const [bankAccountNumber, setBankAccountNumber] = useState('');
-    const [bankName, setBankName] = useState('');
-    const [bankAccountType, setBankAccountType] = useState('');
-    const [nationalId, setNationalId] = useState('');
-    const [address, setAddress] = useState('');
-    const [email, setEmail] = useState('');
-    const [selectedCode, setSelectedCode] = useState(countryArr?.[0] || {
-        "name": "SAUDI ARABIA",
-        "code": "+966"
-    });
-    const [phone, setPhone] = useState('');
-    const [country, setCountry] = useState('')
-    const [bankCode, setBankCode] = useState('');
-    const [branchName, setBranchName] = useState('');
-    const [iban, setIban] = useState('');
-    const [swiftBicCode, setSwiftBicCode] = useState('');
-    const [sirenNo, setSirenNo] = useState('');
+    const [fullName, setFullName] = useState(props?.bankDetailsResponse?.doctorName);
+    const [bankAccountNumber, setBankAccountNumber] = useState(props?.bankDetailsResponse?.accountNumber);
+    const [bankName, setBankName] = useState(props?.bankDetailsResponse?.bankName);
+    const [bankAccountType, setBankAccountType] = useState(props?.bankDetailsResponse?.accountType);
+    const [nationalId, setNationalId] = useState(props?.bankDetailsResponse?.nationalId);
+    const [address, setAddress] = useState(props?.bankDetailsResponse?.bankAddress);
+    const [email, setEmail] = useState(props?.bankDetailsResponse?.email);
+    const [selectedCode, setSelectedCode] = useState({
+        "code": props?.userData?.code,
+        "name": 'Select',
+    } || {}); 
+    const [phone, setPhone] = useState(props?.bankDetailsResponse?.mobileNumber);
+    const [country, setCountry] = useState(props?.bankDetailsResponse?.countryName)
+    const [bankCode, setBankCode] = useState(props?.bankDetailsResponse?.bankCode);
+    const [branchName, setBranchName] = useState(props?.bankDetailsResponse?.branchName);
+    const [iban, setIban] = useState(props?.bankDetailsResponse?.iban);
+    const [swiftBicCode, setSwiftBicCode] = useState(props?.bankDetailsResponse?.swiftBicCode);
+    const [sirenNo, setSirenNo] = useState(props?.bankDetailsResponse?.sirenNo);
     const [countryArr, setCountryArr] = useState([])
 
     const getVisibleFields = (countryName = '') => {
@@ -110,15 +109,15 @@ const BankFormScreen = (props) => {
             country.trim() &&
             branchName.trim() &&
             bankCode.trim()
-            (!showBankCode || bankCode.trim())
+                (!showBankCode || bankCode.trim())
         );
     };
 
-    useEffect(() => {
-        if (countryArr.length > 0 && !selectedCode?.code) {
-            setSelectedCode(countryArr[0]);
-        }
-    }, [countryArr]);
+    // useEffect(() => {
+    //     if (countryArr.length > 0 && !selectedCode?.code) {
+    //         setSelectedCode(countryArr[0]);
+    //     }
+    // }, [countryArr]);
 
     const fetchDoctorCountry = async () => {
         try {
@@ -240,6 +239,7 @@ const BankFormScreen = (props) => {
                                 type="text"
                                 width='100%'
                                 borderColor={Colors.borderColor2}
+                                editable={false}
                             />
                             <CustomTextInput
                                 heading={t('AccountNumber')}
@@ -248,6 +248,7 @@ const BankFormScreen = (props) => {
                                 onChangeText={setBankAccountNumber}
                                 type="phone"
                                 width='100%'
+                                editable={false}
                             />
                             <CustomTextInput
                                 heading={t('BankName')}
@@ -256,6 +257,7 @@ const BankFormScreen = (props) => {
                                 onChangeText={setBankName}
                                 type="text"
                                 width='100%'
+                                editable={false}
                             />
 
                             <CustomTextInput
@@ -265,6 +267,7 @@ const BankFormScreen = (props) => {
                                 onChangeText={setBankAccountType}
                                 type="text"
                                 width='100%'
+                                editable={false}
                             />
 
                             {showNationalId && <CustomTextInput
@@ -274,6 +277,7 @@ const BankFormScreen = (props) => {
                                 onChangeText={setNationalId}
                                 type="phone"
                                 width='100%'
+                                editable={false}
                             />}
                             <AddressInput
                                 heading={t('Address')}
@@ -281,6 +285,8 @@ const BankFormScreen = (props) => {
                                 value={address}
                                 onChangeText={setAddress}
                                 width='100%'
+                                editable={false}
+                                editIcon={false}
                             />
 
                             <CustomTextInput
@@ -290,6 +296,7 @@ const BankFormScreen = (props) => {
                                 onChangeText={setEmail}
                                 type="email"
                                 width='100%'
+                                editable={false}
                             />
                             {/* <CustomTextInput
                                 heading={t('mobileNo')}
@@ -317,6 +324,7 @@ const BankFormScreen = (props) => {
                                 onChangeText={setCountry}
                                 type="text"
                                 width='100%'
+                                editable={false}
                             />
                             <CustomTextInput
                                 heading={t('BranchName')}
@@ -325,6 +333,7 @@ const BankFormScreen = (props) => {
                                 onChangeText={setBranchName}
                                 type="text"
                                 width='100%'
+                                editable={false}
                             />
                             {showBankCode && <CustomTextInput
                                 heading={t('BankCode')}
@@ -333,6 +342,7 @@ const BankFormScreen = (props) => {
                                 onChangeText={setBankCode}
                                 type="phone"
                                 width='100%'
+                                editable={false}
                             />}
                             {showIban && (
                                 <CustomTextInput
@@ -342,6 +352,7 @@ const BankFormScreen = (props) => {
                                     onChangeText={setIban}
                                     type="text"
                                     width='100%'
+                                    editable={false}
                                 />
                             )}
 
@@ -353,6 +364,7 @@ const BankFormScreen = (props) => {
                                     onChangeText={setSirenNo}
                                     type="text"
                                     width='100%'
+                                    editable={false}
                                 />
                             )}
                             {/* <CustomButton
@@ -363,7 +375,7 @@ const BankFormScreen = (props) => {
                                 textStyle={NexttextStyle}
                                 width='100%'
                             /> */}
-                            <CustomButton
+                            {/* <CustomButton
                                 title={t('FinishSetup')}
                                 onPress={handleVerifyDetails}
                                 backgroundColor={Colors.blue}
@@ -372,7 +384,7 @@ const BankFormScreen = (props) => {
                                 width='100%'
                             // disabled={!isFormValid()} // cleaner and easier to read
 
-                            />
+                            /> */}
 
                             <SuccessModal
                                 heading={t('SignUpSuccessful')}
@@ -408,7 +420,8 @@ const mapStateToProps = state => {
         userName: state.authReducer.userName,
         appLanguage: state.authReducer.appLanguage,
         errMsg: state.bankReducer.errMsg,
-
+        bankDetailsResponse: state.authReducer.userData?.bankDetailsResponse,
+        userData: state.authReducer?.userData,
     };
 };
 

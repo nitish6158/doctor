@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Text, TouchableOpacity, StyleSheet, Image } from 'react-native';
 import { Colors, Fonts, Images, ResponsiveFont, WindowHeight as hp, WindowWidth as wp, opacityOfButton } from '../../assets';
 export const CustomButton = ({
@@ -17,9 +17,20 @@ export const CustomButton = ({
   borderRadius = 16,
   isborder = false,
   borderColor = Colors.blue,
-  type = 'none' ,// home,
-  marginVertical='0%'
+  type = 'none',// home,
+  marginVertical = '0%'
 }) => {
+  const [isProcessing, setIsProcessing] = useState(false);
+  const handlePress = async () => {
+    if (isProcessing) return;
+
+    setIsProcessing(true);
+    try {
+      await onPress?.();
+    } finally {
+      setIsProcessing(false);
+    }
+  };
   return (
     <TouchableOpacity
       style={[
@@ -35,10 +46,10 @@ export const CustomButton = ({
           borderWidth: isborder ? 2 : 0,
           marginVertical
         },
-        disabled && styles.disabledButton,
+        (disabled || isProcessing) && styles.disabledButton,
         style,
       ]}
-      onPress={onPress}
+      onPress={handlePress}
       activeOpacity={opacityOfButton}
       disabled={disabled}
     >

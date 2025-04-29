@@ -63,7 +63,7 @@ const authReducer = (state = initialState, action) => {
 
     case AUTH.UPDATE_ACCOUNT_REQUEST:
       return Object.assign({}, state, {
-        updateLoading: true,
+        updateLoading: false,
       });
 
     case AUTH.UPDATE_ACCOUNT_SUCCESS:

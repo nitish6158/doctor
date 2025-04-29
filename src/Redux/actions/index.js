@@ -49,7 +49,8 @@ import {
     addMatchingAction,
     getMyJobData,
     getMyMatchingAction,
-    ClearStatusMatching
+    ClearStatusMatching,
+    ClearMatchingReducer,
 } from "./MatchingAction";
 import {
     AddLocationAction,
@@ -81,6 +82,7 @@ export {
     getMyJobData,
     getMyMatchingAction,
     ClearStatusMatching,
+    ClearMatchingReducer,
     ClearAgendaStatus,
     BlockAvailabilityByDateAction,
     BlockAvailabilityByTimeSlotIDAction,

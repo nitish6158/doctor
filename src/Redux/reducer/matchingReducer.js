@@ -4,6 +4,7 @@ const initialState = {
   errMsg: null,
   responseCode: null,
   responseCode2: null,
+  responseCode3:null,
   loading: false,
   data: null,
   addMatchingData: null,
@@ -34,24 +35,23 @@ const matchingReducer = (state = initialState, action) => {
         loading: false,
         addMatchingData: null,
       });
-
     case MATCHING.GET_JOB_DATA_REQUEST:
       return Object.assign({}, state, {
-        responseCode: null,
+        responseCode3: null,
         errMsg: null,
         loading: true,
         getJobData: null,
       });
     case MATCHING.GET_JOB_DATA_SUCCESS:
       return Object.assign({}, state, {
-        responseCode: action?.payload?.status,
+        responseCode3: action?.payload?.status,
         errMsg: action?.payload?.message,
         loading: false,
         getJobData: action?.payload?.data,
       });
     case MATCHING.GET_JOB_DATA_FAIL:
       return Object.assign({}, state, {
-        responseCode: action?.payload?.status,
+        responseCode3: action?.payload?.status,
         errMsg: action?.payload?.message,
         loading: false,
         getJobData: null,
@@ -80,8 +80,24 @@ const matchingReducer = (state = initialState, action) => {
     case MATCHING.CLEAR_RESPONSE_STATUS:
       return Object.assign({}, state, {
         errMsg: null,
-        responseCode2:null
+        responseCode2:null,
+        responseCode3:null,
+
       });
+
+    case MATCHING.CLEAR_REDUCER:
+      return  Object.assign({},state,{
+        errMsg: null,
+        responseCode: null,
+        responseCode2: null,
+        loading: false,
+        data: null,
+        addMatchingData: null,
+        getJobData: null,
+        myMatchingData:null,
+        responseCode3:null,
+
+      })
 
 
     default:

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { View, TextInput, StyleSheet, Text ,TouchableOpacity,Image} from 'react-native';
-import { Colors, Fonts, ResponsiveFont, WindowHeight as hp, WindowWidth as wp ,Images} from '../../assets';
+import { View, TextInput, StyleSheet, Text, TouchableOpacity, Image } from 'react-native';
+import { Colors, Fonts, ResponsiveFont, WindowHeight as hp, WindowWidth as wp, Images } from '../../assets';
 
 export const AddressInput = ({
   placeholder,
@@ -15,21 +15,24 @@ export const AddressInput = ({
   autocapitalize = "words",
   containerstyle = {},
   editIcon = false,
+  editable = true
 }) => {
   const [height, setHeight] = useState(minHeight);
   const [isFocused, setIsFocused] = useState(false);
 
   return (
     <View style={containerstyle}>
-      <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-      <Text style={[styles.heading, textStyles]}>{heading}</Text>
-      <TouchableOpacity>
-          <Image
-            source={Images.editBlack}
-            style={styles.editIcon}
-            resizeMode='contain'
-          />
-        </TouchableOpacity>
+      <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+        <Text style={[styles.heading, textStyles]}>{heading}</Text>
+        {editIcon &&
+          <TouchableOpacity>
+            <Image
+              source={Images.editBlack}
+              style={styles.editIcon}
+              resizeMode='contain'
+            />
+          </TouchableOpacity>
+        }
       </View>
       <View
         style={[
@@ -54,6 +57,7 @@ export const AddressInput = ({
           autoCapitalize={autocapitalize}
           onFocus={() => setIsFocused(true)}
           onBlur={() => setIsFocused(false)}
+          editable={editable}
         />
       </View>
     </View>

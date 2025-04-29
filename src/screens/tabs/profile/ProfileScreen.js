@@ -7,7 +7,7 @@ import { LogoutModal } from '../../../components/modal';
 import { useTranslation } from '../../../components/customhooks';
 import { connect } from 'react-redux';
 // import { LogoutAction } from '../../../Redux/actions/auth';
-import { LogoutAction } from '../../../Redux/actions';
+import { ClearMatchingReducer, LogoutAction } from '../../../Redux/actions';
 import { ToastMsg } from '../../../components/Toast';
 const menuItems = [
     {
@@ -39,7 +39,7 @@ const menuItems = [
     {
         icon: Images.icon_contract,
         label: 'My Contract',
-        screenName: '',
+        screenName: 'ContractScreen',
         isProtected: true
 
     },
@@ -60,14 +60,6 @@ const menuItems = [
 
     },
     {
-        icon: Images.icon_notification2,
-        label: 'Change Password',
-        screenName: 'ChangePasswordScreen',
-        isProtected: true
-
-
-    },
-    {
         icon: Images.icon_language,
         label: 'Language',
         screenName: 'LanguageScreen',
@@ -78,7 +70,7 @@ const menuItems = [
     {
         icon: Images.icon_lock,
         label: 'Security',
-        screenName: '',
+        screenName: 'ChangePasswordScreen',
         isProtected: true
 
 
@@ -116,6 +108,7 @@ const ProfileScreen = (props) => {
 
     const handleConfirmLogout = async () => {
         await props.LogoutAction();
+        await props.ClearMatchingReducer();
         setLogoutModalVisible(false);
         props.navigation.navigate('OnboardingScreen')
     };
@@ -218,6 +211,7 @@ const mapStateToProps = state => {
 };
 
 const mapDispatchToProps = {
-    LogoutAction
+    LogoutAction,
+    ClearMatchingReducer
 };
 export default connect(mapStateToProps, mapDispatchToProps)(ProfileScreen);

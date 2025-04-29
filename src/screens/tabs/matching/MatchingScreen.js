@@ -183,12 +183,12 @@ const MatchingScreen = (props) => {
         }
     }, [addMatchingInProgess]);
     useEffect(() => {
-        if (props.isJobAdded == 1) {
-            fetchJobData()
-        }
-    }, [props.isJobAdded, props.responseCode2]);
+        // if (props?.userData?.isJobAdded == 1) {
+        fetchJobData()
+        // }
+    }, [props?.userData?.isJobAdded, props.responseCode2]);
     useEffect(() => {
-        if (props.isJobAdded == 1) {
+        if (props?.userData?.isJobAdded == 1) {
             fetchMatchingList()
         }
     }, [props.responseCode2,])
@@ -321,9 +321,9 @@ const MatchingScreen = (props) => {
                     style={MatchingStyles.tabNameContainer1}
                     onPress={() => {
                         addMatchingInProgess ?
-                        setIsAddMatchingprogress(false)
-                        :
-                        props.navigation.goBack()
+                            setIsAddMatchingprogress(false)
+                            :
+                            props.navigation.goBack()
 
                     }}>
                     <Image
@@ -438,9 +438,9 @@ const MatchingScreen = (props) => {
                                 <CustomButton
                                     title={
                                         props?.getJobData?.id ?
-                                        t('UpdateMatching')
-                                        :
-                                        t('AddMatching')
+                                            t('UpdateMatching')
+                                            :
+                                            t('AddMatching')
                                     }
                                     width='100%'
                                     marginVertical='7%'
@@ -451,103 +451,107 @@ const MatchingScreen = (props) => {
                             </View>
                             :
                             <>
-                                {!props.isJobAdded == 1 ?
-                                    <View
-                                        style={MatchingStyles.matchingContainer}>
-                                        <Image
-                                            source={Images.MatchingAdd}
-                                            style={MatchingStyles.matchingIcon}
-                                        />
-                                        <Text style={MatchingStyles.jobInfoText}>{t('AddJobInformation')}</Text>
-                                        <TouchableOpacity
-                                            onPress={() => setIsAddMatchingprogress(true)}
-                                            style={MatchingStyles.tabButton}>
-                                        <Text style={MatchingStyles.tabText}>{t('AddMatching')}</Text>
-                                        </TouchableOpacity>
-                                    </View>
-                                    :
-                                    <>
-
+                            
+                                <>
+                                    {!props?.userData?.isJobAdded == 1 ?
+                                        <View
+                                            style={MatchingStyles.matchingContainer}>
+                                            <Image
+                                                source={Images.MatchingAdd}
+                                                style={MatchingStyles.matchingIcon}
+                                            />
+                                            <Text style={MatchingStyles.jobInfoText}>{t('AddJobInformation')}</Text>
+                                            <TouchableOpacity
+                                                onPress={() => setIsAddMatchingprogress(true)}
+                                                style={MatchingStyles.tabButton}>
+                                                <Text style={MatchingStyles.tabText}>{t('AddMatching')}</Text>
+                                            </TouchableOpacity>
+                                        </View>
+                                        :
                                         <>
-                                            {props?.getJobData &&
-                                                <ListingCard customStyles={MatchingStyles.listingCard}>
-                                                    <View style={MatchingStyles.cardTopView}>
-                                                        <View style={MatchingStyles.cardTextcontainer}>
-                                                            <Text style={MatchingStyles.headingText}>{t('Specialty')}</Text>
-                                                            <Text style={MatchingStyles.headingTextValue2}>{
-                                                                props?.getJobData?.specialization
-                                                            }</Text>
-                                                        </View>
-                                                        <View style={MatchingStyles.cardImageContainer}>
-                                                            <TouchableOpacity
-                                                                style={MatchingStyles.editIconContainer}
-                                                                onPress={handleEdit}
-                                                            >
-                                                                <Image
-                                                                    source={Images.edit}
-                                                                    style={MatchingStyles.editIcon}
-                                                                />
-                                                            </TouchableOpacity>
-                                                        </View>
 
-                                                    </View>
-                                                    <View style={MatchingStyles.cardBottomView}>
-                                                        <View style={MatchingStyles.cardUpperView}>
-                                                            <View style={MatchingStyles.part1}>
-                                                                <Text style={MatchingStyles.headingText}>
-                                                                    {t('ConsultationType')}
-                                                                </Text>
-                                                                <View style={MatchingStyles.modeButton1}>
-                                                                    <Text style={MatchingStyles.modeText1}>
-                                                                        {props?.getJobData?.type}
+                                            <>
+                                                {props?.getJobData &&
+                                                    <ListingCard customStyles={MatchingStyles.listingCard}>
+                                                        <View style={MatchingStyles.cardTopView}>
+                                                            <View style={MatchingStyles.cardTextcontainer}>
+                                                                <Text style={MatchingStyles.headingText}>{t('Specialty')}</Text>
+                                                                <Text style={MatchingStyles.headingTextValue2}>{
+                                                                    props?.getJobData?.specialization
+                                                                }</Text>
+                                                            </View>
+                                                            <View style={MatchingStyles.cardImageContainer}>
+                                                                <TouchableOpacity
+                                                                    style={MatchingStyles.editIconContainer}
+                                                                    onPress={handleEdit}
+                                                                >
+                                                                    <Image
+                                                                        source={Images.edit}
+                                                                        style={MatchingStyles.editIcon}
+                                                                    />
+                                                                </TouchableOpacity>
+                                                            </View>
+
+                                                        </View>
+                                                        <View style={MatchingStyles.cardBottomView}>
+                                                            <View style={MatchingStyles.cardUpperView}>
+                                                                <View style={MatchingStyles.part1}>
+                                                                    <Text style={MatchingStyles.headingText}>
+                                                                        {t('ConsultationType')}
                                                                     </Text>
+                                                                    <View style={MatchingStyles.modeButton1}>
+                                                                        <Text style={MatchingStyles.modeText1}>
+                                                                            {props?.getJobData?.type}
+                                                                        </Text>
+                                                                    </View>
+                                                                </View>
+                                                                <View style={MatchingStyles.part2}>
+                                                                    <Text style={MatchingStyles.headingText}>{t('WorkExperience')}</Text>
+                                                                    <Text style={MatchingStyles.headingTextValue}>{props?.getJobData?.experience}</Text>
                                                                 </View>
                                                             </View>
-                                                            <View style={MatchingStyles.part2}>
-                                                                <Text style={MatchingStyles.headingText}>{t('WorkExperience')}</Text>
-                                                                <Text style={MatchingStyles.headingTextValue}>{props?.getJobData?.experience}</Text>
+                                                            <View style={MatchingStyles.cardLowerView}>
+                                                                <View style={MatchingStyles.part2}>
+                                                                    <Text style={MatchingStyles.headingText}>{t('Country')}</Text>
+                                                                    <Text style={MatchingStyles.headingTextValue}>{props?.getJobData?.country}</Text>
+                                                                </View>
+                                                                <View style={MatchingStyles.part1}>
+                                                                    <Text style={MatchingStyles.headingText}>{t('Profile')}</Text>
+                                                                    <Text style={MatchingStyles.headingTextValue}>{props?.getJobData?.profile}</Text>
+                                                                </View>
                                                             </View>
                                                         </View>
-                                                        <View style={MatchingStyles.cardLowerView}>
-                                                            <View style={MatchingStyles.part2}>
-                                                                <Text style={MatchingStyles.headingText}>{t('Country')}</Text>
-                                                                <Text style={MatchingStyles.headingTextValue}>{props?.getJobData?.country}</Text>
-                                                            </View>
-                                                            <View style={MatchingStyles.part1}>
-                                                                <Text style={MatchingStyles.headingText}>{t('Profile')}</Text>
-                                                                <Text style={MatchingStyles.headingTextValue}>{props?.getJobData?.profile}</Text>
-                                                            </View>
-                                                        </View>
-                                                    </View>
-                                                </ListingCard>
+                                                    </ListingCard>
+                                                }
+                                            </>
+
+                                            <Text style={MatchingStyles.heading2}>{t('MyMatchings')}</Text>
+                                            {props?.getMyMatchingData && props?.getMyMatchingData?.jobPostingResponseList ?
+                                                <>
+                                                    <FlatList
+                                                        data={props?.getMyMatchingData?.jobPostingResponseList}
+                                                        // data={data}
+                                                        renderItem={renderItem}
+                                                        keyExtractor={(item) => item.id.toString()}
+                                                        contentContainerStyle={MatchingStyles.flatlistStyle}
+                                                        showsVerticalScrollIndicator={false}
+                                                        scrollEnabled={false}
+                                                    />
+
+                                                </>
+                                                :
+                                                <View style={MatchingStyles.NoDataFoundContainer}>
+                                                    <Image
+                                                        source={Images.nodatafound}
+                                                        style={MatchingStyles.NoDataFound}
+                                                    />
+                                                </View>
                                             }
                                         </>
-
-                                        <Text style={MatchingStyles.heading2}>{t('MyMatchings')}</Text>
-                                        {props?.getMyMatchingData && props?.getMyMatchingData?.jobPostingResponseList ?
-                                            <>
-                                                <FlatList
-                                                    data={props?.getMyMatchingData?.jobPostingResponseList}
-                                                    // data={data}
-                                                    renderItem={renderItem}
-                                                    keyExtractor={(item) => item.id.toString()}
-                                                    contentContainerStyle={MatchingStyles.flatlistStyle}
-                                                    showsVerticalScrollIndicator={false}
-                                                    scrollEnabled={false}
-                                                />
-
-                                            </>
-                                            :
-                                            <View style={MatchingStyles.NoDataFoundContainer}>
-                                                <Image
-                                                    source={Images.nodatafound}
-                                                    style={MatchingStyles.NoDataFound}
-                                                />
-                                            </View>
-                                        }
-                                    </>
-                                }
+                                    }
+                                </>
                             </>
+
                     }
                 </ScrollView>
 
@@ -581,6 +585,7 @@ const MatchingScreen = (props) => {
 const mapStateToProps = state => {
     return {
         userId: state.authReducer.userId,
+        userData: state.authReducer.userData,
         loading: state.matchingReducer.loading,
         appLanguage: state.authReducer.appLanguage,
         isJobAdded: state.authReducer.isJobAdded,

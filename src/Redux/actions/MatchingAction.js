@@ -87,7 +87,7 @@ export const getMyJobData = id => {
 export const getMyMatchingAction = data => {
     return async (dispatch, getState) => {
         dispatch({ type: MATCHING.MY_MATCHING_REQUEST });
-        const reqParam = 
+        const reqParam =
         {
             "pageIndex": data.pageIndex,
             "pageSize": data.pageSize,
@@ -148,6 +148,14 @@ export const getMyMatchingAction = data => {
 
 export const ClearStatusMatching = data => {
     return async (dispatch, getState) => {
-      dispatch({ type: MATCHING.CLEAR_RESPONSE_STATUS });
+        dispatch({ type: MATCHING.CLEAR_RESPONSE_STATUS });
     };
-  };
+};
+
+
+
+export const ClearMatchingReducer = data => {
+    return async (dispatch, getState) => {
+        dispatch({ type: MATCHING.CLEAR_REDUCER })
+    };
+};
