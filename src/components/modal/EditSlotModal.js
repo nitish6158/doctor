@@ -55,7 +55,7 @@ export const EditSlotModal = ({
 
           <ListingCard customStyles={styles.listingCard}>
             <View style={styles.modeContainer}>
-              <TouchableOpacity
+              {/* <TouchableOpacity
                 style={[styles.modeButton, {
                   marginHorizontal: '0%',
                   backgroundColor: editMode === 'online' ? Colors.blue : Colors.white
@@ -77,7 +77,16 @@ export const EditSlotModal = ({
                 { color: editMode === 'offline' ? Colors.white : Colors.blue }]}>
                   {t('Offline')}
                 </Text>
-              </TouchableOpacity>
+              </TouchableOpacity> */}
+              <View
+                style={[styles.modeButton, {
+                  marginHorizontal: '0%',
+                  backgroundColor:  Colors.blue 
+                }]}
+              >
+                <Text style={[styles.modeText,
+                { color:  Colors.white  }]}>{editMode}</Text>
+              </View>
             </View>
             <View style={styles.slotContainer}>
               {/* <CustomTimeInput

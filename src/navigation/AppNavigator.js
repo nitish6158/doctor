@@ -10,10 +10,10 @@ import OnboardingScreen from '../screens/onboarding/OnboardingScreen';
 import OnboardingLanguageScreen from '../screens/onboarding/OnboardingLanguageScreen';
 import BottomTabNavigator from './bottomtab/BottomTabNavigator';
 // container flow screens
-import BankFormScreen from '../screens/container/bankDetailsForm/BankFormScreen';
 import ContractScreen from '../screens/container/contract/ContractScreen';
 // profile tab flow screen
 import LocationScreen from '../screens/tabs/profile/tabScreens/location/LocationScreen';
+import BankFormScreen from '../screens/tabs/profile/tabScreens/bankDetailsForm/BankFormScreen';
 import AccountScreen from '../screens/tabs/profile/tabScreens/account/AccountScreen';
 import RatingScreen from '../screens/tabs/profile/tabScreens/rating/RatingScreen';
 import NotificationScreen from '../screens/tabs/profile/tabScreens/notification/NotificationScreen';

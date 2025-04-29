@@ -450,6 +450,11 @@ export const Languages = {
     AR: 'يرجى توقيع العقد',
     FN: 'Veuillez signer votre contrat',
   },
+  PleaseCompleteYourProfile: {
+    EN: 'Please Complete Your Profile',
+    AR: 'يرجى إكمال ملفك الشخصي',
+    FN: 'Veuillez compléter votre profil',
+  },  
   Cancel: {
     EN: 'Cancel',
     AR: 'إلغاء',

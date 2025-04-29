@@ -1,37 +1,29 @@
 import {
     useState,
-    useMemo,
     useEffect,
 } from 'react';
 import {
     View,
     Text,
-    TouchableOpacity,
     ImageBackground,
     KeyboardAvoidingView,
     ScrollView,
     Platform,
 } from 'react-native';
 import {
-    CustomTextInput,
-    AddressInput
-} from '../../../components/input';
-import {
     ResponsiveFont,
     Colors,
     Images,
-    WindowWidth as wp
-} from '../../../assets';
+} from '../../../../../assets';
 import {
     CustomButton,
     UploadFileButton,
     DownloadButton
 } from '../../../components/button';
-import { ProgressBar } from 'react-native-paper';
 import {
     SuccessModal,
     Loader
-} from '../../../components/modal';
+} from '../../../../../components/modal';
 import {
     BankFormAction,
     UpdateUserInfo,
@@ -43,20 +35,18 @@ import {
     usePdfDownloader,
     useFileUpload,
     useApi
-} from '../../../components/customhooks';
-import {
-    validateEmail,
-    validatePhoneNumber,
-} from '../../../utility/Validator';
-import { getRequest } from '../../../Redux/config';
-import { END_POINT } from '../../../Redux/config';
-import { ToastMsg } from '../../../components/Toast';
-import { LoginStyles } from '../../auth/login/LoginStyles';
-import { FloatingBackgroundCard } from '../../../components/card';
+} from '../../../../../components/customhooks';
+
+import { getRequest } from '../../../../../Redux/config';
+import { END_POINT } from '../../../../../Redux/config';
+import { ToastMsg } from '../../../../../components/Toast';
+import { LoginStyles } from '../../../../auth/login/LoginStyles';
+import { FloatingBackgroundCard } from '../../../../../components/card';
 import { connect } from 'react-redux';
-import { SignupStyles } from '../../auth/signup/SignupStyles';
-import { FILE_BASE_URL } from '../../../Redux/config';
-import { BankFormStyles } from '../../tabs/profile/tabScreens/bankDetailsForm/BankFormStyles';
+import { SignupStyles } from '../../../../auth/signup/SignupStyles';
+import { FILE_BASE_URL } from '../../../../../Redux/config';
+import { BankFormStyles } from '../bankDetailsForm/BankFormStyles';
+
 const NexttextStyle = {
     fontSize: ResponsiveFont(18),
     lineHeight: ResponsiveFont(49),
