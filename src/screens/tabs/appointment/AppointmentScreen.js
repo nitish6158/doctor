@@ -108,7 +108,11 @@ const AppointmentScreen = () => {
                     <Text style={AppointmentStyles.id}>{item.id}</Text>
                     <Text style={AppointmentStyles.id}>{item.appointmentTime}</Text>
                     <View style={AppointmentStyles.addressContainer}>
-                        <Image source={Images.icon_map} style={AppointmentStyles.mapIcon} />
+                        <Image 
+                        source={Images.icon_map} 
+                        style={AppointmentStyles.mapIcon} 
+                        resizeMode='contain'
+                        />
                         <Text style={[AppointmentStyles.Name, { marginLeft: '2%', width: '100%' }]}>{item.address}</Text>
                     </View>
                 </View>
@@ -165,7 +169,7 @@ const AppointmentScreen = () => {
                         ))}
                     </View >
                     <View style={AppointmentStyles.listContainer}>
-                        {!appointments ? <FlatList
+                        {appointments ? <FlatList
                             data={appointments}
                             renderItem={renderItem}
                             keyExtractor={(item) => item.id.toString()}

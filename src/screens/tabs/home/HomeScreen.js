@@ -23,6 +23,7 @@ import { Menu } from 'react-native-paper';
 import { UpdateUserInfo, GetAllClinicAction, UpdateClinicIdAction } from '../../../Redux/actions'
 import { FlatList } from 'react-native-gesture-handler';
 import { FILE_BASE_URL } from '../../../Redux/config';
+import ChatCallHistoryScreen from '../../container/history/ChatCallHistoryScreen';
 const localclinic = [
     {
         "id": '1',
@@ -251,7 +252,9 @@ const HomeScreen = (props) => {
                                 </View>
 
                                 <View style={{ flexDirection: "row" }}>
-                                    <TouchableOpacity style={HomeStyles.chatButtonContainer}>
+                                    <TouchableOpacity 
+                                    onPress={()=>{props.navigation.navigate('ChatCallHistoryScreen')}}
+                                    style={HomeStyles.chatButtonContainer}>
                                         <Image
                                             source={Images.icon_chat}
                                             style={HomeStyles.iconStyle}
@@ -259,7 +262,7 @@ const HomeScreen = (props) => {
                                     </TouchableOpacity>
                                     <TouchableOpacity
                                         style={HomeStyles.notificationButtonContainer}
-                                        onPress={() => console.log('Notification')}
+                                        onPress={() => props.navigation.navigate('NotificationScreen')}
                                     >
                                         <Image
                                             source={Images.icon_notification}

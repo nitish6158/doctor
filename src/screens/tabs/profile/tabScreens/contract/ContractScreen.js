@@ -9,6 +9,8 @@ import {
     KeyboardAvoidingView,
     ScrollView,
     Platform,
+    TouchableOpacity,
+    Image
 } from 'react-native';
 import {
     ResponsiveFont,
@@ -19,7 +21,7 @@ import {
     CustomButton,
     UploadFileButton,
     DownloadButton
-} from '../../../components/button';
+} from '../../../../../components/button';
 import {
     SuccessModal,
     Loader
@@ -29,7 +31,7 @@ import {
     UpdateUserInfo,
     SendContract,
     ClearContractStatus,
-} from '../../../Redux/actions';
+} from '../../../../../Redux/actions';
 import {
     useTranslation,
     usePdfDownloader,
@@ -99,12 +101,12 @@ const ContractScreen = (props) => {
         }
     }, [props.responseCode])
 
-    useEffect(()=>{
-        if(props.isVerified == 5 ){
-         props.navigation.navigate('BottomTabNavigator');
+    useEffect(() => {
+        if (props.isVerified == 5) {
+            props.navigation.navigate('BottomTabNavigator');
         }
-    },[props.isVerified])
-    
+    }, [props.isVerified])
+
     useEffect(() => {
         if (!pdfUrl) {
             fetchPdfUrl()
@@ -151,8 +153,22 @@ const ContractScreen = (props) => {
             resizeMode="cover"
         >
 
+            {/* <View style={BankFormStyles.topView}>
+                <Text style={BankFormStyles.tabName}>Contract</Text>
+            </View> */}
             <View style={BankFormStyles.topView}>
-                <Text style={BankFormStyles.tabName}>Submit the signed Contract</Text>
+                <TouchableOpacity
+                    style={BankFormStyles.tabNameContainer1}
+                    onPress={() => props.navigation.goBack()}
+                >
+                    <Image
+                        source={Images.back_Icon}
+                        style={BankFormStyles.backIcon}
+                    />
+                </TouchableOpacity>
+                <View style={BankFormStyles.tabNameContainer}>
+                    <Text style={BankFormStyles.tabName}>Contract</Text>
+                </View>
             </View>
 
             <FloatingBackgroundCard customStyles={BankFormStyles.bottomView} >
@@ -169,18 +185,25 @@ const ContractScreen = (props) => {
 
 
                         <View style={SignupStyles.bottomView}>
-
-
-
-                            <DownloadButton
+                            {/* <DownloadButton
                                 heading={t('SignDownloadContract')}
                                 title={t('DownloadContract')}
                                 onPress={() => downloadFile(FILE_BASE_URL + "" + pdfUrl)}
                                 width='100%'
                                 textStyle={BankFormStyles.textStyle}
-                                disabled={downloadLoading || pdfUrl == null} />
+                                disabled={downloadLoading || pdfUrl == null}
+                            /> */}
 
-                            <UploadFileButton
+                            <DownloadButton
+                                heading={'You can download your contract from here'}
+                                title={'Download your uploaded contract'}
+                                onPress={() => downloadFile(FILE_BASE_URL + "" + props?.userData?.contractDoctor)}
+                                width='100%'
+                                textStyle={BankFormStyles.textStyle}
+                                // disabled={downloadLoading || pdfUrl == null}
+                            />
+
+                            {/* <UploadFileButton
                                 heading={t('UploadSignedContract')}
                                 title={t('UploadContract')}
                                 onPress={() => {
@@ -189,8 +212,8 @@ const ContractScreen = (props) => {
                                 width='100%'
                                 fileurl={uploadedFileURL}
 
-                            />
-                            <CustomButton
+                            /> */}
+                            {/* <CustomButton
                                 title={t('FinishSetup')}
                                 onPress={sendContract}
                                 backgroundColor={Colors.blue}
@@ -198,7 +221,7 @@ const ContractScreen = (props) => {
                                 textStyle={NexttextStyle}
                                 width='100%'
                                 disabled={uploadedFileURL ? false : true}
-                            />
+                            /> */}
                             <SuccessModal
                                 heading={t('SignUpSuccessful')}
                                 subHeading={t('welcomeToMedicineApp')}
@@ -242,6 +265,7 @@ const mapStateToProps = state => {
         contractLoading: state.ContractReducer.loading,
         contractStatus: state.ContractReducer.responseCode,
         isVerified: state.authReducer.isVerified,
+        userData: state.authReducer.userData,
 
     };
 };

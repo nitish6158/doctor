@@ -27,7 +27,7 @@ export const LogoutModal = ({
               <Text style={styles.logoutText}>{t('Logout')}</Text>
             </View>
             <Image
-              source={Images.icon_logout}
+              source={Images.icon_logout2}
               style={styles.logoutIconstyle}
             />
           </View>
@@ -72,8 +72,8 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.shadow
   },
   logoutIconstyle: {
-    width: wp * 8 / 100,
-    height: (wp * 8) / 100,
+    width: wp * 9 / 100,
+    height: (wp * 9) / 100,
     resizeMode: 'contain'
   },
   modalarea: {

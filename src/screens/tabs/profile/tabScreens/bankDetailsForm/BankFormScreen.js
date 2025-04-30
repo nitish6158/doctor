@@ -11,6 +11,8 @@ import {
     ScrollView,
     Platform,
     BackHandler,
+    Image,
+    TouchableOpacity
 } from 'react-native';
 import { useFocusEffect } from '@react-navigation/native';
 import {
@@ -214,9 +216,24 @@ const BankFormScreen = (props) => {
             style={LoginStyles.background}
             resizeMode="cover"
         >
-            <View style={BankFormStyles.topView}>
+            {/* <View style={BankFormStyles.topView}>
                 <Text style={BankFormStyles.tabName}>{t('AddBankDetails')}</Text>
-            </View>
+            </View> */}
+
+               <View style={BankFormStyles.topView}>
+                    <TouchableOpacity
+                      style={BankFormStyles.tabNameContainer1}
+                      onPress={() => props.navigation.goBack()}
+                    >
+                      <Image
+                        source={Images.back_Icon}
+                        style={BankFormStyles.backIcon}
+                      />
+                    </TouchableOpacity>
+                    <View style={BankFormStyles.tabNameContainer}>
+                      <Text style={BankFormStyles.tabName}>Add Bank Details</Text>
+                    </View>
+                  </View>
 
             <FloatingBackgroundCard customStyles={BankFormStyles.bottomView} >
                 <KeyboardAvoidingView

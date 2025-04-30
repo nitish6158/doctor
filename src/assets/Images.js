@@ -99,6 +99,7 @@ export const Images = {
   icon_about: require('./icons/about.png'),
   icon_profile_background: require('./icons/profile_background.png'),
   icon_logout: require('./icons/logout.png'),
+  icon_logout2: require('./icons/logout2.png'),
   icon_edit: require('./icons/editIcon.png'),
   edit: require('./icons/edit.png'),
   editBlack: require('./icons/editBlack.png'),
@@ -139,4 +140,6 @@ export const Images = {
   Thumbnail: require('./images/Thumbnail.png'),
   exclamation: require('./icons/exclamation.png'),
   editProfile: require('./icons/editProfile.png'),
+  videoCall_Icon: require('./icons/vediocall.png'),
+  call_Icon: require('./icons/call.png'),
 };

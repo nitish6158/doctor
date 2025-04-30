@@ -10,9 +10,10 @@ import OnboardingScreen from '../screens/onboarding/OnboardingScreen';
 import OnboardingLanguageScreen from '../screens/onboarding/OnboardingLanguageScreen';
 import BottomTabNavigator from './bottomtab/BottomTabNavigator';
 // container flow screens
-import ContractScreen from '../screens/container/contract/ContractScreen';
+import ChatCallHistoryScreen from '../screens/container/history/ChatCallHistoryScreen';
 // profile tab flow screen
 import LocationScreen from '../screens/tabs/profile/tabScreens/location/LocationScreen';
+import ContractScreen from '../screens/tabs/profile/tabScreens/contract/ContractScreen';
 import BankFormScreen from '../screens/tabs/profile/tabScreens/bankDetailsForm/BankFormScreen';
 import AccountScreen from '../screens/tabs/profile/tabScreens/account/AccountScreen';
 import RatingScreen from '../screens/tabs/profile/tabScreens/rating/RatingScreen';
@@ -89,6 +90,10 @@ const AppNavigator = () => {
         <Stack.Screen
           name="ContractScreen"
           component={ContractScreen}
+        />
+        <Stack.Screen
+          name="ChatCallHistoryScreen"
+          component={ChatCallHistoryScreen}
         />
 
         {/* // profile tab flow screen */}

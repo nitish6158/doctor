@@ -23,8 +23,11 @@ import {
 import {
   CustomTextInput,
   MobileNumberInput,
-  AddressInput
+  AddressInput,
+  CustomDateOfBirth,
+  DateOfBirth
 } from '../../../../../components/input';
+import { WindowWidth as wp } from '../../../../../assets';
 import { CustomDropdown } from '../../../../../components/dropdown';
 import { useTranslation } from '../../../../../components/customhooks';
 import { useFileUpload } from '../../../../../components/customhooks';
@@ -49,6 +52,7 @@ import { handleMediaSelection } from '../../../../../utility/Helperfunction';
 import { useMediaSelectorAndUploader } from '../../../../../components/customhooks';
 import { ToastMsg } from '../../../../../components/Toast';
 import { validatePhoneNumber } from '../../../../../utility/Validator';
+import { DateOfBirthPicker } from '../../../../../components/input/DateOfBirthPicker';
 
 const genderOptions = [
   { label: 'Male', icon: Images.male },
@@ -87,6 +91,8 @@ const AccountScreen = (props) => {
   const [lastName, setLastName] = useState(props?.userData?.lastName);
   const [email, setEmail] = useState(props?.userData?.email);
   const [phone, setPhone] = useState(props?.userData?.mobileNo);
+  const [showDate, setShowDate] = useState('');
+  const [dob, setDob] = useState('');
   const [selectedCode, setSelectedCode] = useState({
     "code": props?.userData?.code,
     "name": 'something',
@@ -533,7 +539,12 @@ const AccountScreen = (props) => {
                         codeDisable={false}
                       />
                     </View>
-
+                    {/* <View style={{ width: '100%', marginVertical: '1%',backgroundColor:'red'}}> */}
+                    <DateOfBirth
+                      onDateChange={(dobString) => console.log('Selected DOB:', dobString)}
+                    />
+                    {/* </View> */}
+                  
                     <View style={{ marginVertical: '1%' }}>
                       <View style={{
                         flexDirection: 'row',

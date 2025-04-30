@@ -32,7 +32,7 @@ import {
     validatePassword,
 } from '../../../utility/Validator';
 import { useFileUpload } from '../../../components/customhooks';
-import { PRIVACY_POLICY,TERM_CONDITIONS,SERVER_URL } from '../../../Redux/config';
+import { PRIVACY_POLICY, TERM_CONDITIONS, SERVER_URL } from '../../../Redux/config';
 
 // import { SignupAction, ClearStatusSignup } from '../../../Redux/actions/auth';
 import {
@@ -85,27 +85,35 @@ const SignupScreen = (props) => {
     const [lastName, setLastName] = useState('');
     const [email, setEmail] = useState('');
     const [phone, setPhone] = useState('');
+    const [otherProfile, setOtherProfile] = useState(false);
     // const [selectedCode, setSelectedCode] = useState(countryArr?.[0] || {
     //     "name": "SAUDI ARABIA",
     //     "code": "+966"
     // }
     // );
     const [selectedCode, setSelectedCode] = useState('select');
-     // default to first from API
+    // default to first from API
     const { uploadFile, loading, fileUrl, error } = useFileUpload(END_POINT.fileUpload);
     const [uploadedFile, setUploadedFile] = useState(null);
-    const [profile, setProfile] = useState('');
+    const [uploadMedicalDocument, setUploadMedicalDocument] = useState(null);
+    const [profile, setProfile] = useState('OTHER');
     const [specialization, setSpecialization] = useState('');
     const [country, setCountry] = useState('');
     const [address, setAddress] = useState('');
     const [termsAccepted, setTermsAccepted] = useState(false);
     const [isModal, setIsmodal] = useState(false);
     const [selectedGender, setSelectedGender] = useState('');
+    const [selectedSector, setSelectedSector] = useState('');
 
     const genderOptions = [
         { label: 'Male', icon: Images.male },
         { label: 'Female', icon: Images.female },
         { label: 'Other', icon: Images.other },
+    ];
+    const sectorOptions = [
+        { label: 'Private', icon: Images.Online_Icon },
+        { label: 'Public', icon: Images.Online_Icon },
+        { label: 'Both', icon: Images.Online_Icon },
     ];
     const handleGoBack = () => {
         props.navigation.goBack();
@@ -316,6 +324,12 @@ const SignupScreen = (props) => {
             setUploadedFile(response?.fileUrl); // Store uploaded file URL
         }
     };
+    const handleDocumentUpload = async () => {
+        const response = await uploadFile();
+        if (response?.success) {
+            setUploadMedicalDocument(response?.fileUrl); // Store uploaded file URL
+        }
+    };
 
 
 
@@ -417,7 +431,7 @@ const SignupScreen = (props) => {
                                         if (selected?.code) {
                                             setSelectedCode(selected);
                                         }
-                                    }}                                    
+                                    }}
                                     options={countryArr}
                                     width='100%'
                                     type="country"
@@ -473,11 +487,19 @@ const SignupScreen = (props) => {
                         {step === 2 && (
                             <>
                                 <UploadFileButton
-                                    heading={t('CV')}
+                                    heading={"CV must include doctor's photo"}
                                     title={t('UploadCV')}
                                     onPress={handleFileUpload}
                                     width='100%'
                                     fileurl={uploadedFile}
+                                    required={true}
+                                />
+                                <UploadFileButton
+                                    heading={'Medical Document'}
+                                    title={'Upload Your Medical Document'}
+                                    onPress={handleDocumentUpload}
+                                    width='100%'
+                                    fileurl={uploadMedicalDocument}
                                     required={true}
                                 />
                                 <CustomDropdown
@@ -485,13 +507,25 @@ const SignupScreen = (props) => {
                                     placeholder={t('Select')}
                                     selectedValue={profile}
                                     onValueChange={setProfile}
-                                    options={profileArr}
+                                    // options={profileArr}
                                     width='100%'
                                     type="profile"
                                     required={true}
+                                    options={[...(profileArr || []), 'OTHER']}
                                 />
+                                {profile?.toLowerCase() === 'other' &&
+                                    <CustomTextInput
+                                        heading={'Profile Name'}
+                                        placeholder={'Enter Profile Name'}
+                                        value={otherProfile}
+                                        onChangeText={setOtherProfile}
+                                        type="text"
+                                        width='100%'
+                                        required={true}
+                                    />
+                                }
                                 <CustomDropdown
-                                    heading={t('EnterSpecialization')}
+                                    heading={'Select Specialization'}
                                     placeholder={t('Select')}
                                     selectedValue={specialization}
                                     onValueChange={setSpecialization}
@@ -500,6 +534,32 @@ const SignupScreen = (props) => {
                                     type="specialization"
                                     required={true}
                                 />
+
+                                <View style={{ marginVertical: '1%' }}>
+                                    <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                                        <Text style={SignupStyles.label}>
+                                            {'Select Sector'}
+                                        </Text>
+                                        <Text style={SignupStyles.label3}>*</Text>
+                                    </View>
+
+
+                                    <View style={SignupStyles.genderContainer}>
+                                        {sectorOptions.map((option, index) => (
+                                            <TouchableOpacity
+                                                key={index}
+                                                style={[
+                                                    SignupStyles.selectGender,
+                                                    selectedSector === option.label && SignupStyles.selectedGender,
+                                                ]}
+                                                onPress={() => setSelectedSector(option.label)}>
+                                                <Image source={option.icon} style={SignupStyles.icon} />
+                                                <Text style={SignupStyles.genderText}>{option.label}</Text>
+                                            </TouchableOpacity>
+                                        ))}
+                                    </View>
+                                </View>
+
 
                                 <AddressInput
                                     heading={t('Address')}
@@ -532,7 +592,7 @@ const SignupScreen = (props) => {
                                         source={termsAccepted ? Images.icon_checkbox_enable : Images.icon_checkbox}
                                     />
                                     <Text style={SignupStyles.termText}>
-                                    {t('IAccept')}&nbsp;
+                                        {t('IAccept')}&nbsp;
                                         <Text
                                             style={{ color: Colors.blue, textDecorationLine: 'underline' }}
                                             onPress={() => Linking.openURL(`${SERVER_URL}${TERM_CONDITIONS}`)}
@@ -600,7 +660,8 @@ const mapStateToProps = state => {
         loading: state.authReducer.loading,
         errMsg: state.authReducer.errMsg,
         responseCode: state.authReducer.responseCode,
-        appLanguage: state.authReducer.appLanguage
+        appLanguage: state.authReducer.appLanguage,
+        data: state.authReducer.data
     };
 };
 

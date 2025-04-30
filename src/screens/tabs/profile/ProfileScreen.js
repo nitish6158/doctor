@@ -9,6 +9,7 @@ import { connect } from 'react-redux';
 // import { LogoutAction } from '../../../Redux/actions/auth';
 import { ClearMatchingReducer, LogoutAction } from '../../../Redux/actions';
 import { ToastMsg } from '../../../components/Toast';
+import { FILE_BASE_URL } from '../../../Redux/config';
 const menuItems = [
     {
         icon: Images.user_icon_active,
@@ -155,7 +156,7 @@ const ProfileScreen = (props) => {
                     style={ProfileStyles.profileCover}
                     resizeMode='contain'
                 >
-                    <ImageBackground
+                    {/* <ImageBackground
                         source={
                             {
                                 uri: 'https://randomuser.mee/api/portraits/men/17.jpg'
@@ -169,7 +170,22 @@ const ProfileScreen = (props) => {
                                 style={ProfileStyles.editIconstyle}
                             />
                         </View>
-                    </ImageBackground>
+                    </ImageBackground> */}
+
+                    <View style={{ position: 'relative' }}>
+                        <Image
+                            source={
+                                props?.userData?.image && props?.userData?.image != ""
+                                    ?
+                                    {
+                                        uri:
+                                            FILE_BASE_URL + props?.userData?.image
+                                    }
+                                    : Images.user_icon_active
+                            }
+                            style={ProfileStyles.profilePic}
+                        />
+                    </View>
 
                 </ImageBackground>
                 <View style={ProfileStyles.textContainer}>
@@ -207,6 +223,8 @@ const mapStateToProps = state => {
         firstName: state.authReducer.firstName,
         lastName: state.authReducer.lastName,
         isVerified: state.authReducer.isVerified,
+        userData: state.authReducer?.userData,
+
     };
 };
 

@@ -102,9 +102,8 @@ export const AppointmentStyles = StyleSheet.create({
         alignItems: 'center',
     },
     mapIcon:{
-        width:(wp*6)/100,
-        height:(wp*6)/100,
-        resizeMode:'contain'
+        width:(wp*5)/100,
+        height:(wp*5)/100,
     },
     NoDataFoundContainer: {
         paddingVertical: '45%',
