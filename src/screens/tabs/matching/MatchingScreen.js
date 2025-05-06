@@ -8,7 +8,6 @@ import { useTranslation } from '../../../components/customhooks';
 import { CustomDropdown } from '../../../components/dropdown';
 import { AddressInput, CustomTextInput } from '../../../components/input';
 import { getRequest } from '../../../Redux/config';
-import { END_POINT } from '../../../Redux/config';
 import {
     addMatchingAction,
     ClearStatusMatching,
@@ -20,8 +19,10 @@ import { ToastMsg } from '../../../components/Toast';
 import {
     AvailabilityModal,
     Loader,
+    MakePaymentModal,
     MatchingDetailModal
 } from '../../../components/modal';
+import { END_POINT, BASE_URL, API_METHODS, ApiHandler } from '../../../Redux/config';
 const data = [
     {
         id: '1',
@@ -117,6 +118,7 @@ const MatchingScreen = (props) => {
     const [specializationArr, setSpecializationArr] = useState(null)
     const [addMatchingInProgess, setIsAddMatchingprogress] = useState(false);
     const [isModalVisible, setIsModalVisible] = useState(false);
+    const [isMakePaymentModalVisible, setIsMakePaymentModalVisible] = useState(false);
     const [isMatchingModalVisible, setIsMatchingModalVisible] = useState(false)
     const [specialization, setSpecialization] = useState("");
     const [address, setAddress] = useState("");
@@ -307,6 +309,24 @@ const MatchingScreen = (props) => {
         setConsultationType(props?.getJobData?.type ? props?.getJobData?.type : 'online')
         setIsAddMatchingprogress(true);
     }
+    const handleMakePayment = async () => {
+        try {
+            // Simulate backend delay
+            await new Promise(resolve => setTimeout(resolve, 1000));
+    
+            // Mock approval URL with fake success and cancel redirection
+            const mockApprovalUrl = 'https://www.mockpaypal.com/checkout?token=MOCK12345';
+    
+            props.navigation.navigate("PayPalWebView", {
+                url: mockApprovalUrl,
+            });
+        } catch (error) {
+            console.error('Mock payment flow error:', error);
+        }
+    };
+    
+
+
     return (
         <ImageBackground
             source={Images.backgroundImage}
@@ -451,7 +471,7 @@ const MatchingScreen = (props) => {
                             </View>
                             :
                             <>
-                            
+
                                 <>
                                     {!props?.userData?.isJobAdded == 1 ?
                                         <View
@@ -577,6 +597,17 @@ const MatchingScreen = (props) => {
                 mobileNumber={mobileNumber}
                 email={email}
             />
+
+            <MakePaymentModal
+                heading={"You Have 10 Matching to Your Job Preference. Please Make Payment to Access Your Matchings ! "}
+                // isModalOpen={isMakePaymentModalVisible}
+                isModalOpen={false}
+                onClose={() => {
+                    setIsMakePaymentModalVisible(false)
+                }}
+                handleOnpress={handleMakePayment}
+            />
+
         </ImageBackground>
     );
 };

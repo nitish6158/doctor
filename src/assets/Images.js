@@ -21,6 +21,7 @@ export const Images = {
   removeSlot: require('./images/removeSlot.png'),
   location_Added: require('./images/location_Added.png'),
   location_Updated: require('./images/location_Updated.png'),
+  makepayment: require('./images/makepayment.png'),
   back_Icon: require('./icons/Back_Icon.png'),
   // icons
   NoAvailability: require('./icons/NoAvailability.png'),
