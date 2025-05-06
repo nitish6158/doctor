@@ -167,7 +167,7 @@ const ContractScreen = (props) => {
                     />
                 </TouchableOpacity>
                 <View style={BankFormStyles.tabNameContainer}>
-                    <Text style={BankFormStyles.tabName}>{t('Contract')}</Text>
+                    <Text style={BankFormStyles.tabName}>{t('contract')}</Text>
                 </View>
             </View>
 

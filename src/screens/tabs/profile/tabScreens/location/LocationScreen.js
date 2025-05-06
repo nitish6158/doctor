@@ -176,19 +176,34 @@ const LocationScreen = (props) => {
             getAllLocations()
             setIdForDelete(null)
         }
+
         if (props?.addLocationResponseCode === 200) {
             setIsModalOpen(false)
             setIsLocationAddModalOpen(true)
             setTimeout(() => {
                 setIsLocationAddModalOpen(false)
+                setIsUpdate(false) // move this inside timeout, after modal closes
             }, 1100)
             getAllLocations()
-            setIsUpdate(false)
             setLocationName("")
             setBuildingDetail("")
             setAddress("")
             setUpdateLocationId(0)
-        } else if (props?.errMsg != null && props.getLocationResponseCode != 200) {
+        }
+        // if (props?.addLocationResponseCode === 200) {
+        //     setIsModalOpen(false)
+        //     setIsLocationAddModalOpen(true)
+        //     setTimeout(() => {
+        //         setIsLocationAddModalOpen(false)
+        //     }, 1100)
+        //     getAllLocations()
+        //     setIsUpdate(false)
+        //     setLocationName("")
+        //     setBuildingDetail("")
+        //     setAddress("")
+        //     setUpdateLocationId(0)
+        // } 
+        else if (props?.errMsg != null && props.getLocationResponseCode != 200) {
             ToastMsg(props.errMsg, 'bottom');
         }
         ClearStatus()
@@ -234,11 +249,11 @@ const LocationScreen = (props) => {
                         />
                         :
                         <View style={LocationStyles.NoDataFoundContainer}>
-                            { !props.loading &&
-                            <Image
-                                source={Images.nodatafound}
-                                style={LocationStyles.NoDataFound}
-                            />
+                            {!props.loading &&
+                                <Image
+                                    source={Images.nodatafound}
+                                    style={LocationStyles.NoDataFound}
+                                />
                             }
                         </View>
                     }
@@ -285,18 +300,18 @@ const LocationScreen = (props) => {
             <Loader
                 visible={props.loading}
             />
-            <AvailabilityModal
+            {/* <AvailabilityModal
                 isModalOpen={isLocationAddModalOpen}
                 onClose={() => (setIsLocationAddModalOpen(false))}
                 type={!isUpdate ? "locationUpdate" : "locationAdd"}
                 heading={!isUpdate ? t('LocationUpdated') : t('LocationAdded')}
-            />
-            {/* <AvailabilityModal
-                isModalOpen={isLocationUpdateModalOpen}
-                onClose={() => (setIsLocationUpdateModalOpen(false))}
-                type={"locationUpdate"}
-                heading={"Location Updated"}
             /> */}
+            <AvailabilityModal
+                isModalOpen={isLocationAddModalOpen}
+                onClose={() => (setIsLocationAddModalOpen(false))}
+                type={!isUpdate ? "locationAdd" : "locationUpdate"}
+                heading={!isUpdate ? t('LocationAdded') : t('LocationUpdated')}
+            />
 
         </ImageBackground>
     );

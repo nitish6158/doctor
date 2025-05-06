@@ -112,8 +112,7 @@ export const HomeStyles = StyleSheet.create({
         alignSelf: 'flex-start',
         maxWidth: '100%',
         paddingHorizontal: '7%',
-        paddingVertical: '3%'
-
+        paddingVertical: '3%',
     },
     speciality: {
         fontFamily: Fonts.Bold,

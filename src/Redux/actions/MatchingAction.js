@@ -159,3 +159,14 @@ export const ClearMatchingReducer = data => {
         dispatch({ type: MATCHING.CLEAR_REDUCER })
     };
 };
+
+
+  export const UpdateIsJobAddedAction = data => {
+    return async (dispatch, getState) => {
+      dispatch({
+          type: MATCHING.SET_JOB_ADDED,
+          payload: data,
+        });
+    };
+  };
+  

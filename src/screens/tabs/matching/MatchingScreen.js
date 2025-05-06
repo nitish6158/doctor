@@ -12,7 +12,8 @@ import {
     addMatchingAction,
     ClearStatusMatching,
     getMyJobData,
-    getMyMatchingAction
+    getMyMatchingAction,
+    UpdateIsJobAddedAction
 } from '../../../Redux/actions';
 import { connect } from 'react-redux';
 import { ToastMsg } from '../../../components/Toast';
@@ -188,15 +189,16 @@ const MatchingScreen = (props) => {
         // if (props?.userData?.isJobAdded == 1) {
         fetchJobData()
         // }
-    }, [props?.userData?.isJobAdded, props.responseCode2]);
+    }, [props?.isJobAdded, props.responseCode2]);
     useEffect(() => {
-        if (props?.userData?.isJobAdded == 1) {
+        if (props?.isJobAdded == 1) {
             fetchMatchingList()
         }
     }, [props.responseCode2,])
 
     useEffect(() => {
         if (props.responseCode2 === 200) {
+            updatejobStatus(1)
             setIsModalVisible(true);
             setTimeout(() => {
                 setIsModalVisible(false)
@@ -205,6 +207,10 @@ const MatchingScreen = (props) => {
             ClearStatus()
         }
     }, [props.responseCode2]);
+
+    const updatejobStatus = async (data) =>{
+        await props.UpdateIsJobAddedAction(data)
+    }
 
 
     const fetchDoctorSpecialization = async () => {
@@ -288,11 +294,11 @@ const MatchingScreen = (props) => {
             "searchText": "",
             "direction": "",
             "filterByFieldName": "",
-            "country": props?.getJobData?.country ? props?.getJobData?.country : country,
-            "address": props?.getJobData?.address ? props?.getJobData?.address : address,
-            "profile": props?.getJobData?.profile ? props?.getJobData?.profile : profile,
-            "specialization": props?.getJobData?.specialization ? props?.getJobData?.specialization : specialization,
-            "experience": props?.getJobData?.experience ? props?.getJobData?.experience : experience,
+            "country": (props?.getJobData?.country && props?.getJobData?.country != '') ? props?.getJobData?.country : country,
+            "address": (props?.getJobData?.address && props?.getJobData?.address != '') ? props?.getJobData?.address : address,
+            "profile": (props?.getJobData?.profile && props?.getJobData?.profile != '') ? props?.getJobData?.profile : profile,
+            "specialization": (props?.getJobData?.specialization && props?.getJobData?.specialization!='' ) ? props?.getJobData?.specialization : specialization,
+            "experience": (props?.getJobData?.experience && props?.getJobData?.experience != '') ? props?.getJobData?.experience : experience,
             "type": props?.getJobData?.type ? props?.getJobData?.type : consultationType,
         }
         await props.getMyMatchingAction(reqParam)
@@ -473,7 +479,7 @@ const MatchingScreen = (props) => {
                             <>
 
                                 <>
-                                    {!props?.userData?.isJobAdded == 1 ?
+                                    {props?.isJobAdded == 0 ?
                                         <View
                                             style={MatchingStyles.matchingContainer}>
                                             <Image
@@ -633,6 +639,7 @@ const mapDispatchToProps = {
     addMatchingAction,
     getMyJobData,
     getMyMatchingAction,
-    ClearStatusMatching
+    ClearStatusMatching,
+    UpdateIsJobAddedAction
 }
 export default connect(mapStateToProps, mapDispatchToProps)(MatchingScreen);

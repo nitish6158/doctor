@@ -134,6 +134,8 @@ export const MatchingStyles = StyleSheet.create({
         fontSize: ResponsiveFont(18),
         // lineHeight: ResponsiveFont(18),
         color: Colors.black,
+        textAlign:"center",
+        width:'90%',
     },
     tabButton: {
         paddingVertical: '3%',
@@ -149,6 +151,7 @@ export const MatchingStyles = StyleSheet.create({
         fontSize: ResponsiveFont(18),
         // lineHeight: ResponsiveFont(17),
         color: Colors.blue,
+        textAlign:'center',
     },
     matchingContainer: {
         width: wp * 100 / 100,

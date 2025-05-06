@@ -268,6 +268,13 @@ export const Languages = {
     AR: '١. العقد',
     FN: '1. Contrat',
   },
+  contract: {
+    EN: "Contract",
+    AR: "العقد",
+    FN: "Contrat",
+  },
+  
+  
   DownloadContractInfo: {
     EN: "You can download your contract from here",
     AR: "يمكنك تنزيل عقدك من هنا",

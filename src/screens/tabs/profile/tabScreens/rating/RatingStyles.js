@@ -80,4 +80,15 @@ export const RatingStyles = StyleSheet.create({
         justifyContent: 'flex-start',
         width: wp*90/100,
     },
+    NoDataFoundContainer: {
+        paddingVertical: '45%',
+        alignItems: 'center',
+        justifyContent: 'center'
+    },
+    NoDataFound: {
+        width: wp * 40 / 100,
+        height: wp * 40 / 100,
+        resizeMode: 'contain'
+    }
+    
 });

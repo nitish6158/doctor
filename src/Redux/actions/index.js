@@ -51,6 +51,7 @@ import {
     getMyMatchingAction,
     ClearStatusMatching,
     ClearMatchingReducer,
+    UpdateIsJobAddedAction
 } from "./MatchingAction";
 import {
     AddLocationAction,
@@ -58,6 +59,7 @@ import {
 } from "./LocationAction";
 
 import { GetAllRatingAction } from "./getAllRatingAction";
+import { ImageAction } from "./auth/ImageAction";
 
 export {
     LanguageAction,
@@ -98,6 +100,8 @@ export {
     GetLocationAction,
     BlockAvailabilityByFutureTimeAction,
     ClearUpdateUerStatus,
-    GetAllRatingAction
+    GetAllRatingAction,
+    ImageAction,
+    UpdateIsJobAddedAction,
 }
 

@@ -143,5 +143,22 @@ export const ProfileStyles = StyleSheet.create({
         alignItems: 'center',
         padding: '4%',
         borderRadius: (wp * 18) / 100,
-    }
+    },
+    editImageIcon: {
+        position: 'absolute',
+        right: 3,
+        bottom: 2,
+        backgroundColor: Colors.blue,
+        borderRadius: 50,
+        padding: 6,
+        // paddingVertical:7,
+        alignItems: 'center',
+        justifyContent: 'center'
+      },
+      inputIcon: {
+        width: wp*3/100,
+        height: wp*3/100,
+        resizeMode: 'contain',
+        // marginRight: 10,
+      },
 });

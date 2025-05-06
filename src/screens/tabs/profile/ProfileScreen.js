@@ -3,13 +3,15 @@ import React, { useState } from 'react';
 import { View, Text, Image, TouchableOpacity, FlatList, ImageBackground } from 'react-native';
 import { ProfileStyles } from './ProfileStyles';
 import { Images } from '../../../assets';
-import { LogoutModal } from '../../../components/modal';
+import { Loader, LogoutModal } from '../../../components/modal';
 import { useTranslation } from '../../../components/customhooks';
 import { connect } from 'react-redux';
 // import { LogoutAction } from '../../../Redux/actions/auth';
-import { ClearMatchingReducer, LogoutAction } from '../../../Redux/actions';
+import { ClearMatchingReducer, ImageAction, LogoutAction } from '../../../Redux/actions';
 import { ToastMsg } from '../../../components/Toast';
 import { FILE_BASE_URL } from '../../../Redux/config';
+import { useMediaSelectorAndUploader } from '../../../components/customhooks';
+import { Cameragallery } from '../../../components/modal';
 
 const ProfileScreen = (props) => {
     const t = useTranslation();
@@ -31,61 +33,59 @@ const ProfileScreen = (props) => {
             label: t('MyLocation'),
             screenName: 'LocationScreen',
             isProtected: true
-    
+
         },
         {
             icon: Images.icon_star,
             label: t('MyRating'),
             screenName: 'RatingScreen',
             isProtected: true
-    
+
         },
         {
             icon: Images.icon_contract,
             label: t('MyContract'),
             screenName: 'ContractScreen',
             isProtected: true
-    
+
         },
         {
             icon: Images.icon_payment,
-            label:t('Payments'),
-            screenName: '',
+            label: t('Payments'),
+            screenName: 'PaymentScreen',
             isProtected: true
-    
-    
         },
         {
             icon: Images.icon_notification2,
             label: t('Notification'),
             screenName: 'NotificationScreen',
             isProtected: true
-    
-    
+
+
         },
         {
             icon: Images.icon_language,
             label: t('Language'),
             screenName: 'LanguageScreen',
             isProtected: true
-    
-    
+
+
         },
         {
             icon: Images.icon_lock,
             label: t('Security'),
             screenName: 'ChangePasswordScreen',
             isProtected: true
-    
-    
+
+
         },
         {
             icon: Images.icon_about,
             label: t('About'),
             screenName: 'AboutScreen',
             isProtected: true
-    
-    
+
+
         },
         {
             icon: Images.icon_logout,
@@ -94,12 +94,15 @@ const ProfileScreen = (props) => {
             screenName: '',
             isProtected: false
         }
-    
+
     ];
     const [isLogoutModalVisible, setLogoutModalVisible] = useState(false);
 
     const handleLogoutPress = () => {
         setLogoutModalVisible(!isLogoutModalVisible);
+    };
+    const setProfileImageInReducer = async(data) => {
+        await props.ImageAction(data);
     };
 
     const handleCancelLogout = () => {
@@ -111,6 +114,23 @@ const ProfileScreen = (props) => {
         await props.ClearMatchingReducer();
         setLogoutModalVisible(false);
         props.navigation.navigate('OnboardingScreen')
+    };
+    const [profileImage, setProfileImage] = useState(props?.profileImageUrl);
+
+    const { handleImageUpload,
+        isUploading
+    } = useMediaSelectorAndUploader(
+        (uploadedUrl) => {
+            setProfileImage(uploadedUrl);
+            setProfileImageInReducer(uploadedUrl);
+        },
+        () => setmediamodal(false)
+    );
+    const [mediamodal, setmediamodal] = useState(false)
+
+    const handleUploadPicture = async () => {
+        // setmediamodal(true);
+        handleImageUpload(false)
     };
 
     const renderItem = ({ item }) => (
@@ -178,12 +198,19 @@ const ProfileScreen = (props) => {
                                     ?
                                     {
                                         uri:
-                                            FILE_BASE_URL + props?.userData?.image
+                                            FILE_BASE_URL + profileImage
                                     }
                                     : Images.user_icon_active
                             }
                             style={ProfileStyles.profilePic}
                         />
+                        <TouchableOpacity
+                            onPress={handleUploadPicture}
+                            style={ProfileStyles.editImageIcon}
+
+                        >
+                            <Image source={Images.editProfile} style={ProfileStyles.inputIcon} />
+                        </TouchableOpacity>
                     </View>
 
                 </ImageBackground>
@@ -204,11 +231,30 @@ const ProfileScreen = (props) => {
                 />
             </View>
 
+            <Cameragallery
+                mediamodal={mediamodal}
+                Camerapopen={() => {
+                    handleImageUpload(true)
+
+                }}
+                Galleryopen={() => {
+                    handleImageUpload(false)
+
+                }}
+                Canclemedia={() => {
+                    setmediamodal(false);
+                }}
+            />
+
             <LogoutModal
                 isModalOpen={isLogoutModalVisible}
                 onLogout={handleConfirmLogout}
                 onClose={handleCancelLogout}
             />
+              <Loader
+                    visible={isUploading
+                    }
+                  />
 
         </View >
     );
@@ -223,12 +269,15 @@ const mapStateToProps = state => {
         lastName: state.authReducer.lastName,
         isVerified: state.authReducer.isVerified,
         userData: state.authReducer?.userData,
+        profileImageUrl: state.authReducer.profileImageUrl,
+
 
     };
 };
 
 const mapDispatchToProps = {
     LogoutAction,
-    ClearMatchingReducer
+    ClearMatchingReducer,
+    ImageAction
 };
 export default connect(mapStateToProps, mapDispatchToProps)(ProfileScreen);

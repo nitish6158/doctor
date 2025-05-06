@@ -60,13 +60,6 @@ const ChangePasswordScreen = (props) => {
             newPassword: newPassword,
             token: props?.authToken,
         };
-        // const reqParam = {
-        //     "email": data.email,
-        //     "password": data.password,
-        //     "newPassword": data.newPassword,
-        //     "token": data.token,
-        //     "userType": "DOCTOR"
-        //   }
         console.log(reqParams, 'reqparam')
         await props.ChangePassowordAction(reqParams);
     };

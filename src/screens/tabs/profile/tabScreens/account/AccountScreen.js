@@ -42,6 +42,7 @@ import {
   ClearBankStatus,
   ClearContractStatus,
   ClearUpdateUerStatus,
+  ImageAction,
   SendContract,
   UpdateIsVerifiedAction,
   UpdateUserProfileAction,
@@ -110,7 +111,7 @@ const AccountScreen = (props) => {
   const [language, setLanguage] = useState();
   const [description, setDescription] = useState(props?.userData?.description);
   const [selectedGender, setSelectedGender] = useState(props?.userData?.gender);
-  const [profileImage, setProfileImage] = useState(props?.userData?.image);
+  const [profileImage, setProfileImage] = useState(props?.profileImageUrl);
   const [cv, setCv] = useState(props?.userData?.cv)
   const [pdfUrl, setPdfUrl] = useState(null)
   //
@@ -126,11 +127,15 @@ const AccountScreen = (props) => {
   const [swiftBicCode, setSwiftBicCode] = useState(props?.userData?.bankDetailsResponse?.swiftBicCode);
   const [sirenNo, setSirenNo] = useState(props?.userData?.bankDetailsResponse?.sirenNo);
 
+  const setProfileImageInReducer = async (data) => {
+    await props.ImageAction(data);
+  };
   const { handleImageUpload,
     isUploading
   } = useMediaSelectorAndUploader(
     (uploadedUrl) => {
       setProfileImage(uploadedUrl);
+      setProfileImageInReducer(uploadedUrl);
     },
     () => setmediamodal(false)
   );
@@ -547,7 +552,7 @@ const AccountScreen = (props) => {
                       onDateChange={(dobString) => console.log('Selected DOB:', dobString)}
                     />
                     {/* </View> */}
-                  
+
                     <View style={{ marginVertical: '1%' }}>
                       <View style={{
                         flexDirection: 'row',
@@ -964,6 +969,7 @@ const mapStateToProps = state => {
     contractStatus: state.ContractReducer.responseCode,
     ContractErrMsg: state.ContractReducer.errMsg,
 
+    profileImageUrl: state.authReducer.profileImageUrl,
   };
 };
 const mapDispatchToProps = {
@@ -974,6 +980,7 @@ const mapDispatchToProps = {
   UpdateUserProfileAction,
   ClearUpdateUerStatus,
   UpdateIsVerifiedAction,
+  ImageAction
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(AccountScreen);

@@ -2,6 +2,7 @@ import { AUTH } from "../../config/types";
 
 const initialState = {
   appLanguage: 'EN', // can be "AR" and "FN"
+  profileImageUrl: null,
   loginStatus: false,
   selectedClinicId: null,
   selectedClinicName: null,
@@ -44,6 +45,14 @@ const authReducer = (state = initialState, action) => {
       return Object.assign({}, state, {
         appLanguage: action.payload,
       });
+    case AUTH.SET_IMAGE:
+      return Object.assign({}, state, {
+        profileImageUrl: action.payload,
+      });
+    case AUTH.SET_JOB_ADDED:
+      return Object.assign({}, state, {
+        isJobAdded: action.payload,
+      });
 
     case AUTH.SET_IS_VERIFIED:
       return Object.assign({}, state, {
@@ -55,7 +64,6 @@ const authReducer = (state = initialState, action) => {
         selectedClinicId: action.payload.ClinicId,
         selectedClinicName: action.payload.ClinicName,
       });
-
     case AUTH.UPDATE_JOB_DETAIL:
       return Object.assign({}, state, {
         isJobAdded: action.payload,

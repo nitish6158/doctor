@@ -47,7 +47,7 @@ const localclinic = [
     },
 ]
 const HomeScreen = (props) => {
-    const userProfilePicture = FILE_BASE_URL + props?.userData?.image;
+    const userProfilePicture = FILE_BASE_URL + props?.profileImageUrl;
     const [menuVisible, setMenuVisible] = useState(false);
     const [selectedClinicName, setSelectedClinicName] = useState(props.GlobalSelectedClinicName || "Self");
     const [selectedClinicId, setSelectedClinicId] = useState(props.GlobalSelectedClinicId || 0);
@@ -490,7 +490,7 @@ const mapStateToProps = state => {
         individual: state.authReducer.individual,
         // individual: false,
         allClinics: state.getAllClinicReducer.data,
-
+        profileImageUrl: state.authReducer.profileImageUrl,
     };
 };
 

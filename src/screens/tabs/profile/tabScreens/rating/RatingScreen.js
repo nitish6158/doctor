@@ -65,6 +65,7 @@ const RatingScreen = (props) => {
                         style={RatingStyles.avatar}
                     />
                     <View style={RatingStyles.textContainer}>
+                        {/* <Text style={RatingStyles.userName}>{item?.doctorName}</Text> */}
                         <Text style={RatingStyles.userName}>{t('Anonymous')}</Text>
                         <View style={RatingStyles.starRow}>
                             {[...Array(5)].map((_, index) => (
@@ -81,15 +82,22 @@ const RatingScreen = (props) => {
         );
     };
     const getAllRating = async () => {
-        const reqParam={
-            "vaish":1
+        const reqParam = {
+            "pageIndex": 0,
+            "pageSize": 0,
+            "searchText": '',
+            "direction": '',
+            "filterByFieldName": '',
+            "clinicId": 0,
+            "doctorId": props.userId,
+            // "doctorId": 1
         }
         await props.GetAllRatingAction(reqParam)
     }
 
     useEffect(() => {
         getAllRating()
-    },[])
+    }, [])
 
     return (
         <ImageBackground
@@ -113,13 +121,26 @@ const RatingScreen = (props) => {
 
             <View style={RatingStyles.bottomView}>
                 <FloatingBackgroundCard>
-                    <FlatList
-                        data={ratingData}
-                        renderItem={renderRatingItem}
-                        keyExtractor={(item) => item.id}
-                        contentContainerStyle={RatingStyles.listContainer}
-                        showsVerticalScrollIndicator={false}
-                    />
+                    {/* {
+                        props?.getAllRating
+                     ? */}
+
+                        <FlatList
+                            data={ratingData}
+                            renderItem={renderRatingItem}
+                            keyExtractor={(item) => item.id}
+                            contentContainerStyle={RatingStyles.listContainer}
+                            showsVerticalScrollIndicator={false}
+                        />
+{/*                     
+                    :
+                    <View style={RatingStyles.NoDataFoundContainer}>
+                        <Image
+                            source={Images.nodatafound}
+                            style={RatingStyles.NoDataFound}
+                        />
+                    </View>
+} */}
                 </FloatingBackgroundCard>
             </View>
         </ImageBackground>
@@ -132,6 +153,7 @@ const mapStateToProps = (state) => ({
     getRatingData: state.getAllRatingReducer.getRatingData,
     getRatingResponseCode: state.getAllRatingReducer.getRatingResponseCode,
     userData: state.authReducer.userData,
+    userId: state.authReducer.userId,
 });
 
 const mapDispatchToProps = {
