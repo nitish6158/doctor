@@ -96,7 +96,7 @@ const SignupScreen = (props) => {
     const { uploadFile, loading, fileUrl, error } = useFileUpload(END_POINT.fileUpload);
     const [uploadedFile, setUploadedFile] = useState(null);
     const [uploadMedicalDocument, setUploadMedicalDocument] = useState(null);
-    const [profile, setProfile] = useState('OTHER');
+    const [profile, setProfile] = useState('');
     const [specialization, setSpecialization] = useState('');
     const [country, setCountry] = useState('');
     const [address, setAddress] = useState('');
@@ -127,8 +127,17 @@ const SignupScreen = (props) => {
             ToastMsg(t('PleaseUploadCV'), 'bottom');
             return false;
         }
+        if (!uploadMedicalDocument) {
+            ToastMsg('Please select MRN document', 'bottom');
+            return false;
+        }
         if (profile == '') {
             ToastMsg(t('PleaseSelectProfile'), 'bottom');
+            return false;
+        }
+
+        if (profile=='OTHER' && otherProfile == '' ) {
+            ToastMsg('Please enter profile name', 'bottom');
             return false;
         }
 
@@ -136,13 +145,15 @@ const SignupScreen = (props) => {
             ToastMsg(t('SelectSpecialization'), 'bottom');
             return false;
         }
+        if (selectedSector == '') {
+            ToastMsg('Please select sector', 'bottom');
+            return false;
+        }
 
         if (!termsAccepted) {
             ToastMsg(t('AcceptTerms'), 'bottom');
             return false;
         }
-
-
         const cleanedPhone = phone.replace(/^0+/, ''); // remove leading zeros
 
 
@@ -495,8 +506,8 @@ const SignupScreen = (props) => {
                                     required={true}
                                 />
                                 <UploadFileButton
-                                    heading={'Medical Document'}
-                                    title={'Upload Your Medical Document'}
+                                    heading={'MRN Document'}
+                                    title={'Upload Your MRN Document'}
                                     onPress={handleDocumentUpload}
                                     width='100%'
                                     fileurl={uploadMedicalDocument}

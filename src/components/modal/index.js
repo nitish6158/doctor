@@ -10,6 +10,7 @@ import { AddLocationModal } from "./AddLocationModal";
 import { DeleteLocationModal } from "./DeleteLocationModal";
 import { BlockAvailabilityModal } from "./BlockAvailabilityModal";
 import { Cameragallery } from "./Cameragallery";
+import { MakePaymentModal } from "./MakePaymentModal";
 export {
     SuccessModal,
     LogoutModal,
@@ -22,5 +23,6 @@ export {
     AddLocationModal,
     DeleteLocationModal,
     BlockAvailabilityModal,
-    Cameragallery
+    Cameragallery,
+    MakePaymentModal,
 }

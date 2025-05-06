@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, Platform, TouchableOpacity,Image } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Image, Alert } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
-import Icon from 'react-native-vector-icons/Feather';
 import { Colors, Fonts, ResponsiveFont, WindowHeight as hp, WindowWidth as wp } from '../../assets';
 import { Images } from '../../assets';
+
 export const DateOfBirth = ({ onDateChange }) => {
     const [day, setDay] = useState('Day');
     const [month, setMonth] = useState('Month');
@@ -11,11 +11,25 @@ export const DateOfBirth = ({ onDateChange }) => {
 
     const days = Array.from({ length: 31 }, (_, i) => String(i + 1).padStart(2, '0'));
     const months = Array.from({ length: 12 }, (_, i) => String(i + 1).padStart(2, '0'));
-    const years = Array.from({ length: 100 }, (_, i) => String(2025 - i));
+    const years = Array.from({ length: 100 }, (_, i) => String(new Date().getFullYear() - i));
+
+    const isFutureDate = (d, m, y) => {
+        if (d === 'Day' || m === 'Month' || y === 'Year') return false;
+        const selected = new Date(`${y}-${m}-${d}T00:00:00`);
+        const today = new Date();
+        return selected > today;
+    };
 
     const handleChange = (d, m, y) => {
-        const dateStr = `${y}-${m}-${d}`;
-        onDateChange && onDateChange(dateStr);
+        if (isFutureDate(d, m, y)) {
+            Alert.alert("Invalid Date", "You cannot select a future date.");
+            return false;
+        }
+        setDay(d);
+        setMonth(m);
+        setYear(y);
+        onDateChange && onDateChange(`${y}-${m}-${d}`);
+        return true;
     };
 
     return (
@@ -27,49 +41,61 @@ export const DateOfBirth = ({ onDateChange }) => {
                         source={Images.editBlack}
                         style={styles.editIcon}
                         resizeMode='contain'
-                    />       
-                     </TouchableOpacity>
+                    />
+                </TouchableOpacity>
             </View>
 
             <View style={styles.pickerRow}>
+                {/* Day Picker */}
                 <View style={styles.pickerBox}>
                     <Picker
                         selectedValue={day}
                         onValueChange={(val) => {
-                            setDay(val);
-                            handleChange(val, month, year);
+                            if (val === 'Day') return;
+                            if (handleChange(val, month, year)) {
+                                setDay(val);
+                            }
                         }}
                         style={styles.picker}
                         dropdownIconColor={Colors.black}
                     >
+                        <Picker.Item label="Day" value="Day" />
                         {days.map(d => <Picker.Item key={d} label={d} value={d} />)}
                     </Picker>
                 </View>
 
+                {/* Month Picker */}
                 <View style={styles.pickerBox}>
                     <Picker
                         selectedValue={month}
                         onValueChange={(val) => {
-                            setMonth(val);
-                            handleChange(day, val, year);
+                            if (val === 'Month') return;
+                            if (handleChange(day, val, year)) {
+                                setMonth(val);
+                            }
                         }}
                         style={styles.picker}
                         dropdownIconColor={Colors.black}
                     >
+                        <Picker.Item label="Month" value="Month" />
                         {months.map(m => <Picker.Item key={m} label={m} value={m} />)}
                     </Picker>
                 </View>
 
+                {/* Year Picker */}
                 <View style={styles.pickerBox}>
                     <Picker
                         selectedValue={year}
                         onValueChange={(val) => {
-                            setYear(val);
-                            handleChange(day, month, val);
+                            if (val === 'Year') return;
+                            if (handleChange(day, month, val)) {
+                                setYear(val);
+                            }
                         }}
                         style={styles.picker}
                         dropdownIconColor={Colors.black}
                     >
+                        <Picker.Item label="Year" value="Year" />
                         {years.map(y => <Picker.Item key={y} label={y} value={y} />)}
                     </Picker>
                 </View>
@@ -80,14 +106,12 @@ export const DateOfBirth = ({ onDateChange }) => {
 
 const styles = StyleSheet.create({
     wrapper: {
-        // marginVertical: hp * 2 / 100,
         width: '100%',
     },
     header: {
         flexDirection: 'row',
         justifyContent: 'space-between',
         marginBottom: hp * 0.5 / 100,
-        // paddingHorizontal: wp * 2 / 100,
     },
     label: {
         fontFamily: Fonts.Bold,
@@ -97,26 +121,27 @@ const styles = StyleSheet.create({
     pickerRow: {
         flexDirection: 'row',
         justifyContent: 'space-between',
-        // paddingHorizontal: wp * 2 / 100,
     },
     pickerBox: {
         width: '30%',
         borderWidth: 1,
         borderColor: Colors.borderColor2,
         borderRadius: wp * 2 / 100,
-        backgroundColor:Colors.white,
+        backgroundColor: Colors.white,
         justifyContent: 'center',
     },
     picker: {
-        height: wp*14/100,
+        height: wp * 14 / 100,
         width: '100%',
         color: Colors.black,
     },
     editIcon: {
         width: wp * 5 / 100,
         height: wp * 5 / 100
-      },
+    },
 });
+
+
 
 // import React, { useState } from 'react';
 // import { View, StyleSheet, Text, Platform } from 'react-native';
