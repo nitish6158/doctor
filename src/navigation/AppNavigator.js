@@ -5,7 +5,9 @@ import { Colors } from '../assets';
 import { createStackNavigator } from '@react-navigation/stack';
 import { NavigationContainer } from '@react-navigation/native';
 
+//auth
 import AuthStack from './AuthStack';
+//onboarding
 import OnboardingScreen from '../screens/onboarding/OnboardingScreen';
 import OnboardingLanguageScreen from '../screens/onboarding/OnboardingLanguageScreen';
 import BottomTabNavigator from './bottomtab/BottomTabNavigator';
@@ -21,6 +23,7 @@ import NotificationScreen from '../screens/tabs/profile/tabScreens/notification/
 import ChangePasswordScreen from '../screens/tabs/profile/tabScreens/changepassword/ChangePasswordScreen';
 import LanguageScreen from '../screens/tabs/profile/tabScreens/language/LanguageScreen';
 import AboutScreen from '../screens/tabs/profile/tabScreens/about/AboutScreen';
+
 const Stack = createStackNavigator();
 const AppNavigator = () => {
   const loginStatus = useSelector(state => state.authReducer.loginStatus);

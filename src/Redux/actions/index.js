@@ -56,6 +56,9 @@ import {
     AddLocationAction,
     GetLocationAction
 } from "./LocationAction";
+
+import { GetAllRatingAction } from "./getAllRatingAction";
+
 export {
     LanguageAction,
     UpdateIsVerifiedAction,
@@ -94,6 +97,7 @@ export {
     AddLocationAction,
     GetLocationAction,
     BlockAvailabilityByFutureTimeAction,
-    ClearUpdateUerStatus
+    ClearUpdateUerStatus,
+    GetAllRatingAction
 }
 

@@ -569,11 +569,8 @@ const MyAgenda = (props) => {
             style={AgendaStyles.background}
             resizeMode="cover"
         >
-
-
             <>
                 <View style={AgendaStyles.topView}>
-
                     {!addAvailabilityInProgress ?
                         <>
                             <TouchableOpacity

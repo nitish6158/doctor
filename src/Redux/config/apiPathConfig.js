@@ -38,5 +38,8 @@ export const END_POINT = {
   getLocation: id => `/doctor/location/list?id=${id}`,
   deleteLocation: id => `/doctor/location/delete/{id}?id=${id}`,
 
+  //rating
+  getAllRating:'/clinic/getAllRating',
+
 }
 

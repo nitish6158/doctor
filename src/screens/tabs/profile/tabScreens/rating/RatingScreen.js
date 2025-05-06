@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
     View,
     Text,
@@ -18,6 +18,8 @@ import {
 import { FloatingBackgroundCard } from '../../../../../components/card';
 import { ListingCard } from '../../../../../components/card';
 import { useTranslation } from '../../../../../components/customhooks';
+import { GetAllRatingAction } from '../../../../../Redux/actions';
+import { connect } from 'react-redux';
 
 const RatingScreen = (props) => {
     const t = useTranslation();
@@ -52,7 +54,7 @@ const RatingScreen = (props) => {
         { id: '27', rating: 5 },
         { id: '28', rating: 5 },
     ];
-    
+
 
     const renderRatingItem = ({ item }) => {
         return (
@@ -78,6 +80,16 @@ const RatingScreen = (props) => {
             </ListingCard>
         );
     };
+    const getAllRating = async () => {
+        const reqParam={
+            "vaish":1
+        }
+        await props.GetAllRatingAction(reqParam)
+    }
+
+    useEffect(() => {
+        getAllRating()
+    },[])
 
     return (
         <ImageBackground
@@ -114,6 +126,19 @@ const RatingScreen = (props) => {
     );
 };
 
-export default RatingScreen;
+const mapStateToProps = (state) => ({
+    loading: state.getAllRatingReducer.loading,
+    errMsg: state.getAllRatingReducer.errMsg,
+    getRatingData: state.getAllRatingReducer.getRatingData,
+    getRatingResponseCode: state.getAllRatingReducer.getRatingResponseCode,
+    userData: state.authReducer.userData,
+});
+
+const mapDispatchToProps = {
+    GetAllRatingAction
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(RatingScreen);
+
 
 
