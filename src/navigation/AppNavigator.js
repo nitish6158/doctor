@@ -23,6 +23,7 @@ import NotificationScreen from '../screens/tabs/profile/tabScreens/notification/
 import ChangePasswordScreen from '../screens/tabs/profile/tabScreens/changepassword/ChangePasswordScreen';
 import LanguageScreen from '../screens/tabs/profile/tabScreens/language/LanguageScreen';
 import AboutScreen from '../screens/tabs/profile/tabScreens/about/AboutScreen';
+import PaymentScreen from '../screens/tabs/profile/tabScreens/payment/PaymentScreen';
 
 const Stack = createStackNavigator();
 const AppNavigator = () => {
@@ -127,6 +128,10 @@ const AppNavigator = () => {
         <Stack.Screen
           name="AboutScreen"
           component={AboutScreen}
+        />
+        <Stack.Screen
+          name="PaymentScreen"
+          component={PaymentScreen}
         />
       
       </Stack.Navigator>

@@ -10,6 +10,7 @@ import { Loader, SuccessModal } from '../../../components/modal';
 import { useTranslation } from '../../../components/customhooks';
 import { ToastMsg } from '../../../components/Toast';
 import { validateEmail, validatePassword } from '../../../utility/Validator';
+import * as Keychain from 'react-native-keychain';
 
 // import { LoginAction, ClearErrorStatus } from '../../../Redux/actions/auth';
 import {
@@ -27,10 +28,29 @@ const LoginScreen = (props) => {
     const [password, setPassword] = useState('');
     const [isModal, setIsmodal] = useState(false);
     const [isInvalidCredentails, setIsInvalidCredentails] = useState(false);
+    const [rememberMe, setRememberMe] = useState(false);
 
     const handleGoBack = () => {
         props.navigation.goBack();
     }
+
+    useEffect(() => {
+        loadCredentials();
+    }, []);
+
+    const loadCredentials = async () => {
+        try {
+            const credentials = await Keychain.getGenericPassword();
+            if (credentials) {
+                setEmail(credentials.username);
+                setPassword(credentials.password);
+                setRememberMe(true);
+                console.log('Credentials loaded');
+            }
+        } catch (error) {
+            console.log('Keychain access failed', error);
+        }
+    };
 
     const handleLogin = async () => {
         if (!email) {
@@ -45,12 +65,44 @@ const LoginScreen = (props) => {
             ToastMsg(t('PleasePassword'), 'bottom');
             return false;
         }
-        const reqParams = {
-            "email": email,
-            "password": password,
+
+        if (rememberMe) {
+            await Keychain.setGenericPassword(email, password);
+            console.log('Credentials saved');
+        } else {
+            await Keychain.resetGenericPassword();
+            console.log('Credentials cleared');
         }
+
+        const reqParams = {
+            email,
+            password,
+        };
+
         await props.LoginAction(reqParams);
-    }
+    };
+
+
+
+    // const handleLogin = async () => {
+    //     if (!email) {
+    //         ToastMsg(t('PleaseEmailId'), 'bottom');
+    //         return false;
+    //     }
+    //     if (!validateEmail(email)) {
+    //         ToastMsg(t('ValidEmailId'), 'bottom');
+    //         return false;
+    //     }
+    //     if (!password) {
+    //         ToastMsg(t('PleasePassword'), 'bottom');
+    //         return false;
+    //     }
+    //     const reqParams = {
+    //         "email": email,
+    //         "password": password,
+    //     }
+    //     await props.LoginAction(reqParams);
+    // }
 
     const handleNavigation = (target) => {
         props.navigation.navigate(target)
@@ -78,11 +130,11 @@ const LoginScreen = (props) => {
         }
     }, [props.responseCode])
 
-    useEffect(()=>{
-        if(props.responseCode && props.responseCode === 404){
+    useEffect(() => {
+        if (props.responseCode && props.responseCode === 404) {
             setIsInvalidCredentails(true);
         }
-    },[props.responseCode])
+    }, [props.responseCode])
 
     return (
         <ImageBackground
@@ -124,7 +176,36 @@ const LoginScreen = (props) => {
                             required={true}
                             isInvalidCredentails={isInvalidCredentails}
                         />
+
                         <CustomTextInput
+                            heading={t('password')}
+                            placeholder={t('enterPassword')}
+                            value={password}
+                            onChangeText={setPassword}
+                            type="password"
+                            width='100%'
+                            required={true}
+                            isInvalidCredentails={isInvalidCredentails}
+                        />
+
+                        {/* This goes just below the input */}
+                        <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginVertical: 10 }}>
+                            <TouchableOpacity
+                                onPress={() => setRememberMe(!rememberMe)}
+                                style={{ flexDirection: 'row', alignItems: 'center' }}
+                            >
+                                <Image
+                                    source={rememberMe ? Images.checked : Images.unchecked}
+                                    style={{ width: 20, height: 20, marginRight: 8 }}
+                                />
+                                <Text style={{ color: Colors.blue, fontWeight: 'bold' }}>Remember me</Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity onPress={() => handleNavigation('ForgotPasswordScreen')}>
+                                <Text style={{ color: Colors.blue, fontWeight: 'bold' }}>{t('forgetPassword')}</Text>
+                            </TouchableOpacity>
+                        </View>
+
+                        {/* <CustomTextInput
                             heading={t('password')}
                             placeholder={t('enterPassword')}
                             value={password}
@@ -135,8 +216,18 @@ const LoginScreen = (props) => {
                             ForgotText={t('forgetPassword')}
                             required={true}
                             isInvalidCredentails={isInvalidCredentails}
-                            onPressForgotpassword={()=>handleNavigation('ForgotPasswordScreen')}
+                            onPressForgotpassword={() => handleNavigation('ForgotPasswordScreen')}
                         />
+                        <View style={{ flexDirection: 'row', alignItems: 'center',marginVertical:10}}>
+                            <TouchableOpacity onPress={() => setRememberMe(!rememberMe)}>
+                                <Image
+                                    source={rememberMe ? Images.checked : Images.unchecked}
+                                    style={{ width: 20, height: 20, marginRight: 8 }}
+                                />
+                            </TouchableOpacity>
+                            <Text style={{ color: Colors.blue,fontWeight:'bold'}}>Rememeber Me</Text>
+                        </View> */}
+
                         <CustomButton
                             title={t('login')}
                             onPress={() => { handleLogin() }}
