@@ -143,4 +143,6 @@ export const Images = {
   editProfile: require('./icons/editProfile.png'),
   videoCall_Icon: require('./icons/vediocall.png'),
   call_Icon: require('./icons/call.png'),
+  checked: require('./icons/checked.png'),
+  unchecked: require('./icons/unchecked.png'),
 };

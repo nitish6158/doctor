@@ -10,6 +10,10 @@ if (__DEV__) {
 }
 
 import SplashScreen from 'react-native-splash-screen';
+import { StripeProvider } from '@stripe/stripe-react-native';
+
+const SP_KEY="YOUR_KEY"
+const SECRET_KEY="YOUR_SECRET_KEY"
 
 const App = () => {
   useEffect(() => {
@@ -20,14 +24,20 @@ const App = () => {
   //console
 
   return (
-    <Provider store={store}>
-      <PersistGate loading={null} persistor={persistor}>
+    <StripeProvider
+      publishableKey={SP_KEY}
+      merchantIdentifier="merchant.identifier" // required for Apple Pay
+      urlScheme="your-url-scheme" // required for 3D Secure and bank redirects
+    >
+      <Provider store={store}>
+        <PersistGate loading={null} persistor={persistor}>
           <CustomStatusBar />
           <View style={{ flex: 1 }}>
             <AppNavigator />
           </View>
-      </PersistGate>
-    </Provider>
+        </PersistGate>
+      </Provider>
+    </StripeProvider>
   )
 };
 
