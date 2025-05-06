@@ -973,6 +973,11 @@ export const Languages = {
     AR: "تم إضافة التطابق",
     FN: "Correspondance ajoutée",
   },
+  MatchingUpdated: {
+    EN: "Matching Updated",
+    AR: "تم تحديث التطابق",
+    FN: "Correspondance mise à jour",
+  },  
   MyMatchings: {
     EN: "My Matchings",
     AR: "تطابقاتي",

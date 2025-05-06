@@ -119,6 +119,7 @@ const MatchingScreen = (props) => {
     const [specializationArr, setSpecializationArr] = useState(null)
     const [addMatchingInProgess, setIsAddMatchingprogress] = useState(false);
     const [isModalVisible, setIsModalVisible] = useState(false);
+    const [modalText, setModalText] = useState('');
     const [isMakePaymentModalVisible, setIsMakePaymentModalVisible] = useState(false);
     const [isMatchingModalVisible, setIsMatchingModalVisible] = useState(false)
     const [specialization, setSpecialization] = useState("");
@@ -272,6 +273,8 @@ const MatchingScreen = (props) => {
             "profile": profile
 
         };
+        setModalText(editId ? t('MatchingUpdated') : t('MatchingAdded'));
+
         await props.addMatchingAction(reqParams);
     }
 
@@ -585,7 +588,7 @@ const MatchingScreen = (props) => {
             </FloatingBackgroundCard>
 
             <AvailabilityModal
-                heading={t('MatchingAdded')}
+                heading={ modalText}
                 isModalOpen={isModalVisible}
                 onClose={() => {
                     setIsModalVisible(false)
