@@ -6,12 +6,14 @@ import { CustomButton } from '../../../components/button';
 import { CustomTextInput } from '../../../components/input';
 import { LoginStyles } from '../login/LoginStyles';
 import { ResetPasswordStyles } from './ResetPasswordStyles';
+import { useTranslation } from '../../../components/customhooks';
 
 const LogintextStyle = {
     fontSize: ResponsiveFont(18),
     lineHeight: ResponsiveFont(49),
 }
 const ResetPasswordScreen = (props) => {
+    const t=useTranslation();
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
 
@@ -47,25 +49,25 @@ const ResetPasswordScreen = (props) => {
                             />
                         </TouchableOpacity>
                         <View style={LoginStyles.textContainer}>
-                            <Text style={LoginStyles.heading}>Reset Password</Text>
+                            <Text style={LoginStyles.heading}>{t('ResetPassword')}</Text>
                         </View>
 
                         <View style={LoginStyles.textContainer}>
-                            <Text style={ResetPasswordStyles.subHeading}>Enter New Password</Text>
+                            <Text style={ResetPasswordStyles.subHeading}>{t('EnterNewPassword')}</Text>
                         </View>
                     </View>
                     <View style={LoginStyles.bottomView}>
                         <CustomTextInput
-                            heading='New Password '
-                            placeholder="Enter Password"
+                            heading={t('NewPassword')}
+                            placeholder={t('EnterPassword')}
                             value={password}
                             onChangeText={setPassword}
                             type="password"
                             width='100%'
                         />
                         <CustomTextInput
-                            heading='Confirm New Password '
-                            placeholder="Enter Password"
+                            heading={t('ConfirmNewPassword')}
+                            placeholder={t('EnterPassword')}
                             value={confirmPassword}
                             onChangeText={setConfirmPassword}
                             type="password"
@@ -73,8 +75,8 @@ const ResetPasswordScreen = (props) => {
                         />
 
                         <CustomButton
-                            title='Reset Password'
-                            onPress={() => { }}
+                            title={t('ResetPassword')}
+                            onPress={() => {handleNavigation('BottomTabNavigator')}}
                             backgroundColor={Colors.blue}
                             textColor={Colors.white}
                             textStyle={LogintextStyle}

@@ -17,12 +17,11 @@ export const HomeStyles = StyleSheet.create({
     },
     textHeader: {
         flex: 1,
-        paddingHorizontal: '3%'
+        paddingHorizontal: '3%',
     },
     textHeaderContent: {
         fontFamily: Fonts.SemiBold,
-        fontSize: ResponsiveFont(40),
-        lineHeight: ResponsiveFont(51),
+        fontSize: ResponsiveFont(30),
         color: Colors.white,
     },
     buttonHeader: {

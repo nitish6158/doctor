@@ -167,7 +167,7 @@ const ContractScreen = (props) => {
                     />
                 </TouchableOpacity>
                 <View style={BankFormStyles.tabNameContainer}>
-                    <Text style={BankFormStyles.tabName}>Contract</Text>
+                    <Text style={BankFormStyles.tabName}>{t('Contract')}</Text>
                 </View>
             </View>
 
@@ -195,8 +195,8 @@ const ContractScreen = (props) => {
                             /> */}
 
                             <DownloadButton
-                                heading={'You can download your contract from here'}
-                                title={'Download your uploaded contract'}
+                                heading={t('DownloadContractInfo')}
+                                title={t('DownloadUploadedContract')}
                                 onPress={() => downloadFile(FILE_BASE_URL + "" + props?.userData?.contractDoctor)}
                                 width='100%'
                                 textStyle={BankFormStyles.textStyle}

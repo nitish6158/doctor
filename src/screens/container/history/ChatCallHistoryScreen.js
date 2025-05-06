@@ -16,10 +16,11 @@ import {
 } from '../../../assets';
 import { FloatingBackgroundCard, ListingCard } from '../../../components/card';
 import { ChatCallStyles } from './ChatCallStyles';
+import { useTranslation } from '../../../components/customhooks';
 
 const ChatCallHistoryScreen = (props) => {
     const [activeTab, setActiveTab] = useState('Chat');
-
+    const t=useTranslation();
     const chatData = [
         {
              id: '1', 
@@ -123,7 +124,7 @@ const ChatCallHistoryScreen = (props) => {
                     <Image source={Images.back_Icon} style={ChatCallStyles.backIcon} />
                 </TouchableOpacity>
                 <View style={ChatCallStyles.tabNameContainer}>
-                    <Text style={ChatCallStyles.tabName}>My History</Text>
+                    <Text style={ChatCallStyles.tabName}>{t('MyHistory')}</Text>
                 </View>
             </View>
 
@@ -138,7 +139,7 @@ const ChatCallHistoryScreen = (props) => {
             ChatCallStyles.tabText,
             activeTab === 'Chat' && ChatCallStyles.activeTabText
         ]}>
-            Chat
+            {t('Chat')}
         </Text>
     </TouchableOpacity>
     <TouchableOpacity
@@ -149,7 +150,7 @@ const ChatCallHistoryScreen = (props) => {
             ChatCallStyles.tabText,
             activeTab === 'Call' && ChatCallStyles.activeTabText
         ]}>
-            Call
+            {t('Call')}
         </Text>
     </TouchableOpacity>
 </View>

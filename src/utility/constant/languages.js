@@ -5,6 +5,11 @@ export const Languages = {
     AR: 'دواء',
     FN: 'Médicament',
   },
+  Doctor: {
+    EN: "Doctor",
+    AR: "طبيب",
+    FN: "Médecin",
+  },  
   BecomeADoctorFor: {
     EN: 'Become a Doctor, For a Healthier Future',
     AR: 'كن طبيبًا، من أجل مستقبل أكثر صحة',
@@ -162,7 +167,12 @@ export const Languages = {
     AR: 'السيرة الذاتية',
     FN: 'CV',
   },
-
+  CVPDF: {
+    EN: "CV.pdf",
+    AR: "السيرة الذاتية.pdf",
+    FN: "CV.pdf",
+  },
+  
   UploadCV: {
     EN: 'Upload CV',
     AR: 'تحميل السيرة الذاتية',
@@ -258,7 +268,16 @@ export const Languages = {
     AR: '١. العقد',
     FN: '1. Contrat',
   },
-
+  DownloadContractInfo: {
+    EN: "You can download your contract from here",
+    AR: "يمكنك تنزيل عقدك من هنا",
+    FN: "Vous pouvez télécharger votre contrat à partir d'ici",
+  },
+  DownloadUploadedContract: {
+    EN: "Download your uploaded contract",
+    AR: "قم بتنزيل عقدك الذي تم تحميله",
+    FN: "Téléchargez votre contrat téléchargé",
+  },
 
   FullName: {
     EN: 'Full Name',
@@ -488,7 +507,11 @@ export const Languages = {
     AR: 'حسابي',
     FN: 'Mon compte',
   },
-
+  MyBankDetails: {
+    EN: "My Bank Details",
+    AR: "تفاصيل بنكي",
+    FN: "Mes coordonnées bancaires",
+  },
   MyLocation: {
     EN: 'My Location',
     AR: 'موقعي',
@@ -500,6 +523,28 @@ export const Languages = {
     AR: 'تقييمي',
     FN: 'Ma note',
   },
+  Anonymous: {
+    EN: "Anonymous",
+    AR: "مجهول",
+    FN: "Anonyme",
+  },
+  MyHistory: {
+    EN: "My History",
+    AR: "تاريخي",
+    FN: "Mon historique",
+  },
+  Chat: {
+    EN: "Chat",
+    AR: "دردشة",
+    FN: "Discussion",
+  },
+  
+  Call: {
+    EN: "Call",
+    AR: "مكالمة",
+    FN: "Appel",
+  },
+  
 
   MyContract: {
     EN: 'My Contract',
@@ -524,6 +569,12 @@ export const Languages = {
     AR: 'اللغة',
     FN: 'Langue',
   },
+  ChoosePreferredLanguage: {
+    EN: "Choose Your Preferred Language",
+    AR: "اختر لغتك المفضلة",
+    FN: "Choisissez votre langue préférée",
+  },
+  
 
   Security: {
     EN: 'Security',
@@ -542,6 +593,12 @@ export const Languages = {
     AR: 'تسجيل الخروج',
     FN: 'Déconnexion',
   },
+  ChangeLanguage: {
+    EN: "Change Language",
+    AR: "تغيير اللغة",
+    FN: "Changer la langue",
+  },
+  
   // Signup screen
   alreadyHaveAnAccount: {
     EN: 'Already Have An Account?',
@@ -675,6 +732,18 @@ export const Languages = {
     AR: "نجاح",
     FN: "Succès",
   },
+  DateOfBirth: {
+    EN: "Date of Birth",
+    AR: "تاريخ الميلاد",
+    FN: "Date de naissance",
+  },
+  
+  ProfileUpdatedSuccessfully: {
+    EN: "Profile Updated Successfully",
+    AR: "تم تحديث الملف الشخصي بنجاح",
+    FN: "Profil mis à jour avec succès",
+  },
+  
   UploadFailed: {
     EN: "Upload failed",
     AR: "فشل التحميل",
@@ -1271,6 +1340,356 @@ And: {
   EN: "and",
   AR: "و",
   FN: "et",
+},
+AddBankDetails: {
+  EN: "Add Bank Details",
+  AR: "أضف تفاصيل البنك",
+  FN: "Ajouter les coordonnées bancaires",
+},
+BankDetailsNotAdded: {
+  EN: "You have not added your bank details",
+  AR: "لم تقم بإضافة تفاصيل البنك الخاصة بك",
+  FN: "Vous n'avez pas ajouté vos coordonnées bancaires",
+},
+ResetPassword: {
+  EN: "Reset Password",
+  AR: "إعادة تعيين كلمة المرور",
+  FN: "Réinitialiser le mot de passe",
+},
+EnterNewPassword: {
+  EN: "Enter New Password",
+  AR: "أدخل كلمة مرور جديدة",
+  FN: "Entrez un nouveau mot de passe",
+},
+NewPassword: {
+  EN: "New Password",
+  AR: "كلمة مرور جديدة",
+  FN: "Nouveau mot de passe",
+},
+
+EnterPassword: {
+  EN: "Enter Password",
+  AR: "أدخل كلمة المرور",
+  FN: "Entrez le mot de passe",
+},
+
+ConfirmNewPassword: {
+  EN: "Confirm New Password",
+  AR: "تأكيد كلمة المرور الجديدة",
+  FN: "Confirmez le nouveau mot de passe",
+},
+SelectMRNDocument: {
+  EN: "Please select MRN document",
+  AR: "يرجى اختيار مستند MRN",
+  FN: "Veuillez sélectionner le document MRN",
+},
+EnterProfileName: {
+  EN: "Please enter profile name",
+  AR: "يرجى إدخال اسم الملف الشخصي",
+  FN: "Veuillez entrer le nom du profil",
+},
+SelectSector: {
+  EN: "Please select sector",
+  AR: "يرجى اختيار القطاع",
+  FN: "Veuillez sélectionner le secteur",
+},
+SelectSector1: {
+  EN: "Select Sector",
+  AR: "اختر القطاع",
+  FN: "Sélectionner le secteur",
+},
+
+CVMustIncludePhoto: {
+  EN: "CV must include doctor's photo",
+  AR: "يجب أن تحتوي السيرة الذاتية على صورة الطبيب",
+  FN: "Le CV doit inclure la photo du médecin",
+},
+MRNDocument: {
+  EN: "MRN Document",
+  AR: "مستند MRN",
+  FN: "Document MRN",
+},
+
+UploadMRNDocument: {
+  EN: "Upload Your MSelectSpecializationRN Document",
+  AR: "قم بتحميل مستند MRN الخاص بك",
+  FN: "Téléchargez votre document MRN",
+},
+ProfileName: {
+  EN: "Profile Name",
+  AR: "اسم الملف الشخصي",
+  FN: "Nom du profil",
+},
+
+EnterProfileName: {
+  EN: "Enter Profile Name",
+  AR: "أدخل اسم الملف الشخصي",
+  FN: "Entrez le nom du profil",
+},
+SelectSpecialization: {
+  EN: "Select Specialization",
+  AR: "اختر التخصص",
+  FN: "Sélectionner la spécialisation",
+},
+Years: {
+  EN: "Years",
+  AR: "سنوات",
+  FN: "Années",
+},
+AccessDeniedFeature: {
+  EN: "You can't access this feature now",
+  AR: "لا يمكنك الوصول إلى هذه الميزة الآن",
+  FN: "Vous ne pouvez pas accéder à cette fonctionnalité maintenant",
+},
+FrequentlyAskedQuestion: {
+  EN: "Frequently Asked Question",
+  AR: "الأسئلة الشائعة",
+  FN: "Questions fréquemment posées",
+},
+EnterYourFees: {
+  EN: "Please Enter Your Fees",
+  AR: "يرجى إدخال الرسوم الخاصة بك",
+  FN: "Veuillez entrer vos frais",
+},
+Fees: {
+  EN: "Fees",
+  AR: "الرسوم",
+  FN: "Frais",
+},
+EnterFees: {
+  EN: "Enter Fees",
+  AR: "أدخل الرسوم",
+  FN: "Entrez les frais",
+},
+
+
+EnterExperience: {
+  EN: "Please Enter Experience",
+  AR: "يرجى إدخال الخبرة",
+  FN: "Veuillez entrer votre expérience",
+},
+EnterDescription: {
+  EN: "Please Enter Description",
+  AR: "يرجى إدخال الوصف",
+  FN: "Veuillez entrer une description",
+},
+UploadSignedContract: {
+  EN: "Please Upload Your Signed Contract",
+  AR: "يرجى تحميل العقد الموقع الخاص بك",
+  FN: "Veuillez télécharger votre contrat signé",
+},
+EnterAccountHolderName: {
+  EN: "Please Enter Account Holder Name",
+  AR: "يرجى إدخال اسم صاحب الحساب",
+  FN: "Veuillez entrer le nom du titulaire du compte",
+},
+EnterBankAccountNumber: {
+  EN: "Please Enter Bank Account Number",
+  AR: "يرجى إدخال رقم الحساب البنكي",
+  FN: "Veuillez entrer le numéro de compte bancaire",
+},
+
+EnterBankName: {
+  EN: "Please Enter Bank Name",
+  AR: "يرجى إدخال اسم البنك",
+  FN: "Veuillez entrer le nom de la banque",
+},
+
+EnterBankAccountType: {
+  EN: "Please Enter Bank Account Type",
+  AR: "يرجى إدخال نوع الحساب البنكي",
+  FN: "Veuillez entrer le type de compte bancaire",
+},
+
+EnterAddress: {
+  EN: "Please Enter Address",
+  AR: "يرجى إدخال العنوان",
+  FN: "Veuillez entrer l'adresse",
+},
+
+EnterBranchName: {
+  EN: "Please Enter Branch Name",
+  AR: "يرجى إدخال اسم الفرع",
+  FN: "Veuillez entrer le nom de l'agence",
+},
+MyProfile: {
+  EN: "My Profile",
+  AR: "ملفي الشخصي",
+  FN: "Mon profil",
+},
+ThumbnailImage: {
+  EN: "Thumbnail Image",
+  AR: "صورة مصغرة",
+  FN: "Image miniature",
+},
+ImageShouldBeIn: {
+  EN: "Image should be in",
+  AR: "يجب أن تكون الصورة بصيغة",
+  FN: "L'image doit être au format",
+},
+ImageDimensions: {
+  EN: "290px - 345px",
+  AR: "٢٩٠ بكسل - ٣٤٥ بكسل",
+  FN: "290px - 345px",
+},
+ImageWithTransparentBackground: {
+  EN: "Image With Transparent Background",
+  AR: "صورة بخلفية شفافة",
+  FN: "Image avec fond transparent",
+},
+YearsOfExperience: {
+  EN: "Years of Experience",
+  AR: "سنوات الخبرة",
+  FN: "Années d'expérience",
+},
+
+EnterExperience: {
+  EN: "Enter Experience",
+  AR: "أدخل الخبرة",
+  FN: "Entrez l'expérience",
+},
+
+LanguageKnown: {
+  EN: "Language Known",
+  AR: "اللغات المعروفة",
+  FN: "Langue connue",
+},
+
+EnterLanguages: {
+  EN: "Enter Languages",
+  AR: "أدخل اللغات",
+  FN: "Entrez les langues",
+},
+ProfileDescription: {
+  EN: "Profile Description",
+  AR: "وصف الملف الشخصي",
+  FN: "Description du profil",
+},
+EnterDescription: {
+  EN: "Enter Description",
+  AR: "أدخل الوصف",
+  FN: "Entrez la description",
+},
+AccountHolderName: {
+  EN: "Account Holder Name",
+  AR: "اسم صاحب الحساب",
+  FN: "Nom du titulaire du compte",
+},
+EnterAccountHolderName: {
+  EN: "Enter Account Holder Name",
+  AR: "أدخل اسم صاحب الحساب",
+  FN: "Entrez le nom du titulaire du compte",
+},
+IBAN: {
+  EN: "IBAN",
+  AR: "رقم الحساب الدولي",
+  FN: "IBAN",
+},
+EnterIBAN: {
+  EN: "Enter IBAN",
+  AR: "أدخل رقم الحساب الدولي",
+  FN: "Entrez l'IBAN",
+},
+SirenNo: {
+  EN: "Siren No",
+  AR: "رقم سيرين",
+  FN: "Numéro Siren",
+},
+
+EnterSirenNo: {
+  EN: "Enter Siren No",
+  AR: "أدخل رقم سيرين",
+  FN: "Entrez le numéro Siren",
+},
+Male: {
+  EN: "Male",
+  AR: "ذكر",
+  FN: "Homme",
+},
+
+Female: {
+  EN: "Female",
+  AR: "أنثى",
+  FN: "Femme",
+},
+
+Other: {
+  EN: "Other",
+  AR: "أخرى",
+  FN: "Autre",
+},
+AddBankDetails: {
+  EN: "Add Bank Details",
+  AR: "أضف تفاصيل البنك",
+  FN: "Ajouter les coordonnées bancaires",
+},
+EnterCurrentPassword: {
+  EN: "Please enter current password",
+  AR: "يرجى إدخال كلمة المرور الحالية",
+  FN: "Veuillez entrer le mot de passe actuel",
+},
+EnterNewPassword: {
+  EN: "Please enter new password",
+  AR: "يرجى إدخال كلمة المرور الجديدة",
+  FN: "Veuillez entrer le nouveau mot de passe",
+},
+InvalidPassword: {
+  EN: "Password must be at least 8 characters long, contain at least one uppercase letter, one lowercase letter, and one special character (.@#$%^&+=)",
+  AR: "يجب أن تكون كلمة المرور على الأقل 8 أحرف طويلة، وتحتوي على حرف كبير واحد، وحرف صغير واحد، وحرف خاص (.@#$%^&+=)",
+  FN: "Le mot de passe doit comporter au moins 8 caractères, contenir une lettre majuscule, une lettre minuscule et un caractère spécial (.@#$%^&+=)",
+},
+EnterConfirmPassword: {
+  EN: "Please enter confirm password",
+  AR: "يرجى إدخال تأكيد كلمة المرور",
+  FN: "Veuillez entrer le mot de passe de confirmation",
+},
+PasswordMismatch: {
+  EN: "New password and confirm password should be the same",
+  AR: "يجب أن تكون كلمة المرور الجديدة وكلمة المرور المؤكدة متطابقتين",
+  FN: "Le nouveau mot de passe et le mot de passe de confirmation doivent être identiques",
+},
+ChangePassword: {
+  EN: "Change Password",
+  AR: "تغيير كلمة المرور",
+  FN: "Changer le mot de passe",
+},
+PasswordChangedSuccessfully: {
+  EN: "Password changed successfully",
+  AR: "تم تغيير كلمة المرور بنجاح",
+  FN: "Mot de passe changé avec succès",
+},
+
+CurrentPassword: {
+  EN: "Current Password",
+  AR: "كلمة المرور الحالية",
+  FN: "Mot de passe actuel",
+},
+EnterCurrentPassword: {
+  EN: "Enter Current Password",
+  AR: "أدخل كلمة المرور الحالية",
+  FN: "Entrez le mot de passe actuel",
+},
+NewPassword: {
+  EN: "New Password",
+  AR: "كلمة المرور الجديدة",
+  FN: "Nouveau mot de passe",
+},
+
+EnterNewPassword: {
+  EN: "Enter New Password",
+  AR: "أدخل كلمة المرور الجديدة",
+  FN: "Entrez le nouveau mot de passe",
+},
+ConfirmNewPassword: {
+  EN: "Confirm New Password",
+  AR: "تأكيد كلمة المرور الجديدة",
+  FN: "Confirmer le nouveau mot de passe",
+},
+
+EnterConfirmNewPassword: {
+  EN: "Enter Confirm New Password",
+  AR: "أدخل تأكيد كلمة المرور الجديدة",
+  FN: "Entrez la confirmation du nouveau mot de passe",
 },
 
 

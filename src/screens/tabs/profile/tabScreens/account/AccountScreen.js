@@ -54,11 +54,7 @@ import { ToastMsg } from '../../../../../components/Toast';
 import { validatePhoneNumber } from '../../../../../utility/Validator';
 import { DateOfBirthPicker } from '../../../../../components/input/DateOfBirthPicker';
 
-const genderOptions = [
-  { label: 'Male', icon: Images.male },
-  { label: 'Female', icon: Images.female },
-  { label: 'Other', icon: Images.other },
-];
+
 const NexttextStyle = {
   fontSize: ResponsiveFont(18),
   lineHeight: ResponsiveFont(49),
@@ -67,7 +63,14 @@ const NexttextStyle = {
 
 const AccountScreen = (props) => {
   const [successModalVisible, setSuccessModalVisible] = useState(false)
-  const t = useTranslation()
+  const t = useTranslation();
+
+  const genderOptions = [
+    { label: t('Male'), icon: Images.male },
+    { label: t('Female'), icon: Images.female },
+    { label: t('Other'), icon: Images.other },
+  ];
+
   const {
     downloadFile,
     loading: downloadLoading,
@@ -237,12 +240,12 @@ const AccountScreen = (props) => {
 
 
     if (fees == '' || !fees) {
-      ToastMsg("Please Enter Your fees", 'bottom');
+      ToastMsg(t('EnterYourFees'), 'bottom');
       return false;
     }
 
     if (experience == '' || !experience) {
-      ToastMsg("Please Enter Experience", 'bottom');
+      ToastMsg(t('EnterExperience'), 'bottom');
       return false;
     }
 
@@ -252,38 +255,38 @@ const AccountScreen = (props) => {
     }
 
     if (description == '' || !description) {
-      ToastMsg("Please Enter Description", 'bottom');
+      ToastMsg(t('EnterDescription'), 'bottom');
       return false;
     }
 
 
     if (uploadedFile == null || !uploadedFile || uploadedFile == '') {
-      ToastMsg('Please Upload Your Signed Contract', 'bottom');
+      ToastMsg(t('UploadSignedContract'), 'bottom');
       return false;
     }
 
     if (fullName == '' || !fullName) {
-      ToastMsg("Please Enter Account Holder Name", 'bottom');
+      ToastMsg(t('EnterAccountHolderName'), 'bottom');
       return false;
     }
     if (bankAccountNumber == '' || !bankAccountNumber) {
-      ToastMsg("Please Enter Bank Account Number", 'bottom');
+      ToastMsg(t('EnterBankAccountNumber'), 'bottom');
       return false;
     }
     if (bankName == '' || !bankName) {
-      ToastMsg("Please Enter Bank Name", 'bottom');
+      ToastMsg(t('EnterBankName'), 'bottom');
       return false;
     }
     if (bankAccountType == '' || !bankAccountType) {
-      ToastMsg("Please Enter Bank Account Type", 'bottom');
+      ToastMsg(t('EnterBankAccountType'), 'bottom');
       return false;
     }
     if (address == '' || !address) {
-      ToastMsg("Please Enter Address", 'bottom');
+      ToastMsg(tr('EnterAddress'), 'bottom');
       return false;
     }
     if (branchName == '' || !branchName) {
-      ToastMsg("Please Enter Branch Name", 'bottom');
+      ToastMsg(t('EnterBranchName'), 'bottom');
       return false;
     }
     handleActions()
@@ -469,7 +472,7 @@ const AccountScreen = (props) => {
               style={AccountStyle.backIcon}
             />
           </TouchableOpacity>
-          <Text style={AccountStyle.tabName}>My Profile</Text>
+          <Text style={AccountStyle.tabName}>{t('MyProfile')}</Text>
         </View>
 
       </View>
@@ -603,7 +606,7 @@ const AccountScreen = (props) => {
 
                       <View style={AccountStyle.editImageDetail}>
 
-                        <Text style={AccountStyle.thumbnail}>Thumbnail Image</Text>
+                        <Text style={AccountStyle.thumbnail}>{t('ThumbnailImage')}</Text>
 
                         <View style={AccountStyle.pointsCover}>
                           <View style={AccountStyle.markCover}>
@@ -613,8 +616,8 @@ const AccountScreen = (props) => {
                               resizeMode='contain'
                             />
                           </View>
-                          <Text style={AccountStyle.shortThumbnail}>Image should in</Text>
-                          <Text style={AccountStyle.shortThumbnail2}>290px - 345px</Text>
+                          <Text style={AccountStyle.shortThumbnail}>{t('ImageShouldBeIn')}</Text>
+                          <Text style={AccountStyle.shortThumbnail2}>{t('ImageDimensions')}</Text>
                         </View>
                         <View style={AccountStyle.pointsCover}>
                           <View style={AccountStyle.markCover}>
@@ -624,7 +627,7 @@ const AccountScreen = (props) => {
                               resizeMode='contain'
                             />
                           </View>
-                          <Text style={AccountStyle.shortThumbnail}>Image With Transparent Background</Text>
+                          <Text style={AccountStyle.shortThumbnail}>{t('ImageWithTransparentBackground')}</Text>
                         </View>
 
                       </View>
@@ -640,7 +643,7 @@ const AccountScreen = (props) => {
                       type="profile"
                     />
                     <CustomDropdown
-                      heading={"Specialization"}
+                      heading={t('specialization')}
                       placeholder={t('Select')}
                       selectedValue={specialization}
                       onValueChange={setSpecialization}
@@ -649,8 +652,8 @@ const AccountScreen = (props) => {
                       type="specialization"
                     />
                     <CustomTextInput
-                      heading={"Fees"}
-                      placeholder={"Enter Fees"}
+                      heading={t('Fees')}
+                      placeholder={t('EnterFees')}
                       value={fees}
                       onChangeText={setFees}
                       type="fees"
@@ -659,8 +662,8 @@ const AccountScreen = (props) => {
                       isEditable={false}
                     />
                     <CustomTextInput
-                      heading={"Years of Experience"}
-                      placeholder={"Enter Experience"}
+                      heading={t('YearsOfExperience')}
+                      placeholder={t('EnterExperience')}
                       value={experience}
                       onChangeText={setExperience}
                       type="experience"
@@ -670,8 +673,8 @@ const AccountScreen = (props) => {
                     />
                     <View style={{ width: '100%', marginVertical: '1%' }}>
                       <AddressInput
-                        heading={"Language Known"}
-                        placeholder={"Enter Languages"}
+                        heading={t('LanguageKnown')}
+                        placeholder={t('EnterLanguages')}
                         value={language}
                         onChangeText={setLanguage}
                         width='100%'
@@ -681,8 +684,8 @@ const AccountScreen = (props) => {
                     </View>
                     <View style={{ width: '100%', marginVertical: '1%' }}>
                       <AddressInput
-                        heading={"Profile Description"}
-                        placeholder={"I am Doctor"}
+                        heading={t('ProfileDescription')}
+                        placeholder={t('EnterDescription')}
                         value={description}
                         onChangeText={setDescription}
                         width='100%'
@@ -691,8 +694,8 @@ const AccountScreen = (props) => {
                     </View>
                     {props?.isVerified == 1 &&
                       <DownloadButton
-                        heading={"CV"}
-                        title={"CV.pdf"}
+                        heading={t('CV')}
+                        title={t('CVPDF')}
                         onPress={() => downloadFile(FILE_BASE_URL + "" + props?.userData?.cv)}
                         width='100%'
                         textStyle={AccountStyle.textStyle}
@@ -748,8 +751,8 @@ const AccountScreen = (props) => {
                       required={true}
                     />
                     <CustomTextInput
-                      heading={"Account Holder Name"}
-                      placeholder={"Enter Account Holder Name"}
+                      heading={t('AccountHolderName')}
+                      placeholder={t('EnterAccountHolderName')}
                       value={fullName}
                       onChangeText={setFullName}
                       type="text"
@@ -819,8 +822,8 @@ const AccountScreen = (props) => {
                     }
                     {showIban && (
                       <CustomTextInput
-                        heading='IBAN'
-                        placeholder='Enter IBAN'
+                        heading={t('IBAN')}
+                        placeholder={t('EnterIBAN')}
                         value={iban}
                         onChangeText={setIban}
                         type="text"
@@ -829,8 +832,8 @@ const AccountScreen = (props) => {
                     )}
                     {showSirenNo && (
                       <CustomTextInput
-                        heading='Siren No'
-                        placeholder='Enter Siren No'
+                        heading={t('SirenNo')}
+                        placeholder={t('EnterSirenNo')}
                         value={sirenNo}
                         onChangeText={setSirenNo}
                         type="text"
@@ -847,7 +850,7 @@ const AccountScreen = (props) => {
               {
                 (selectedStep <= 2) ?
                   <CustomButton
-                    title={"Next"}
+                    title={t('Next')}
                     onPress={() => {
                       if (selectedStep < 3) {
                         setSelectedStep(prev => prev + 1);
@@ -925,8 +928,8 @@ const AccountScreen = (props) => {
         }
       />
       <SuccessModal
-        heading={'Success'}
-        subHeading={'Profile Updated SuccessFully'}
+        heading={t('Success')}
+        subHeading={t('ProfileUpdatedSuccessfully')}
         isModalOpen={successModalVisible}
         onClose={() => {
           setSuccessModalVisible(false)

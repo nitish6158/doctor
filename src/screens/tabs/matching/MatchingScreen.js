@@ -151,7 +151,7 @@ const MatchingScreen = (props) => {
                     </Text>
                     <View style={{ flexDirection: 'row', }}>
                         <Text style={MatchingStyles.subTitle}>{item.clinicName}</Text>
-                        <Text style={MatchingStyles.subTitle}> | {item.experience} Years</Text>
+                        <Text style={MatchingStyles.subTitle}> | {item.experience} {t('Years')}</Text>
                     </View>
                 </View>
             </View>

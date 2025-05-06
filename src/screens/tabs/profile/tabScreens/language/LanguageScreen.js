@@ -54,14 +54,14 @@ const LanguageScreen = (props) => {
                     />
                 </TouchableOpacity>
                 <View style={LanguageStyles.tabNameContainer}>
-                    <Text style={LanguageStyles.tabName}>Language</Text>
+                    <Text style={LanguageStyles.tabName}>{t('Language')}</Text>
                 </View>
             </View>
 
             <View style={LanguageStyles.bottomView}>
                 <FloatingBackgroundCard>
                     <View style={LanguageStyles.textContainer}>
-                        <Text style={LanguageStyles.heading}>Choose Your Preferred Language</Text>
+                        <Text style={LanguageStyles.heading}>{t('ChoosePreferredLanguage')}</Text>
                     </View>
                     <View style={LanguageStyles.bottomView}>
                         <LanguageSelectionButton
@@ -99,7 +99,7 @@ const LanguageScreen = (props) => {
                             }}
                         />
                         <CustomButton
-                            title="Change Language"
+                            title={t('ChangeLanguage')}
                             onPress={handleLanguage}
                             backgroundColor={Colors.blue}
                             textColor={Colors.white}

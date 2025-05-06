@@ -103,7 +103,7 @@ const AboutScreen = (props) => {
           />
         </TouchableOpacity>
         <View style={AboutStyles.tabNameContainer}>
-          <Text style={AboutStyles.tabName}>About</Text>
+          <Text style={AboutStyles.tabName}>{t('About')}</Text>
         </View>
       </View>
 
@@ -116,11 +116,11 @@ const AboutScreen = (props) => {
               </View>
               <View>
                 <Text style={AboutStyles.appTitle}>
-                  Medicine
+                  {t('Medicine')}
                   <Text style={AboutStyles.appTitleDot}>.</Text>
                 </Text>
                 <Text style={[AboutStyles.appSubTitle]}>
-                  Doctor
+                  {t('Doctor')}
                 </Text>
               </View>
 
@@ -130,7 +130,7 @@ const AboutScreen = (props) => {
                   Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
                 </Text>
               </View>
-              <Text style={AboutStyles.faqTitle}>Frequently Asked Question</Text>
+              <Text style={AboutStyles.faqTitle}>{t('FrequentlyAskedQuestion')}</Text>
               <FlatList
                 data={faqList}
                 renderItem={renderItem}

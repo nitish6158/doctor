@@ -231,7 +231,7 @@ const BankFormScreen = (props) => {
                       />
                     </TouchableOpacity>
                     <View style={BankFormStyles.tabNameContainer}>
-                      <Text style={BankFormStyles.tabName}>Add Bank Details</Text>
+                      <Text style={BankFormStyles.tabName}>{t('AddBankDetails')}</Text>
                     </View>
                   </View>
 
@@ -363,8 +363,8 @@ const BankFormScreen = (props) => {
                             />}
                             {showIban && (
                                 <CustomTextInput
-                                    heading='IBAN'
-                                    placeholder='EnterIBAN'
+                                    heading={t('IBAN')}
+                                    placeholder={t('EnterIBAN')}
                                     value={iban}
                                     onChangeText={setIban}
                                     type="text"
@@ -375,8 +375,8 @@ const BankFormScreen = (props) => {
 
                             {showSirenNo && (
                                 <CustomTextInput
-                                    heading='SirenNo'
-                                    placeholder='EnterSirenNo'
+                                    heading={t('SirenNo')}
+                                    placeholder={t('EnterSirenNo')}
                                     value={sirenNo}
                                     onChangeText={setSirenNo}
                                     type="text"

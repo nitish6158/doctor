@@ -33,24 +33,24 @@ const ChangePasswordScreen = (props) => {
 
     const handleChangePassword = async () => {
         if (!currentPassword) {
-            ToastMsg('Please enter current password', 'bottom');
+            ToastMsg(t('EnterCurrentPassword'), 'bottom');
             return;
         }
         if (!newPassword) {
-            ToastMsg('Please enter new password', 'bottom');
+            ToastMsg(t('EnterNewPassword'), 'bottom');
             return;
         }
         if (!validatePassword(newPassword)) {
-            ToastMsg('Password must be at least 8 characters long, contain at least one uppercase letter, one lowercase letter, and one special character (.@#$%^&+=)', 'bottom');
+            ToastMsg(t('InvalidPassword'),'bottom');
             return false;
         }
         if (!confirmPassword) {
-            ToastMsg('Please enter confirm password', 'bottom');
+            ToastMsg(t('EnterConfirmPassword'), 'bottom');
             return;
         }
 
         if (newPassword !== confirmPassword) {
-            ToastMsg('New password and confirm password should be same', 'bottom');
+            ToastMsg(t('PasswordMismatch'), 'bottom');
             return;
         }
 
@@ -109,7 +109,7 @@ const ChangePasswordScreen = (props) => {
                     <Image source={Images.back_Icon} style={ChangePasswordStyles.backIcon} />
                 </TouchableOpacity>
                 <View style={ChangePasswordStyles.tabNameContainer}>
-                    <Text style={ChangePasswordStyles.tabName}>Change Password</Text>
+                    <Text style={ChangePasswordStyles.tabName}>{t('ChangePassword')}</Text>
                 </View>
             </View>
 
@@ -121,12 +121,12 @@ const ChangePasswordScreen = (props) => {
                                 source={Images.changePasswordIcon}
                                 style={ChangePasswordStyles.lockImage}
                             />
-                            <Text style={ChangePasswordStyles.changePasswordText}>Change Password</Text>
+                            <Text style={ChangePasswordStyles.changePasswordText}>{t('ChangePassword')}</Text>
 
                             <View style={ChangePasswordStyles.inputWrapper}>
                                 <CustomTextInput
-                                    heading="Current Password"
-                                    placeholder="Enter Current Password"
+                                    heading={t('CurrentPassword')}
+                                    placeholder={t('EnterCurrentPassword')}
                                     value={currentPassword}
                                     onChangeText={setCurrentPassword}
                                     type="password"
@@ -136,8 +136,8 @@ const ChangePasswordScreen = (props) => {
 
                             <View style={ChangePasswordStyles.inputWrapper}>
                                 <CustomTextInput
-                                    heading="New Password"
-                                    placeholder="Enter New Password"
+                                    heading={t('NewPassword')}
+                                    placeholder={t('EnterNewPassword')}
                                     value={newPassword}
                                     onChangeText={setNewPassword}
                                     type="password"
@@ -147,8 +147,8 @@ const ChangePasswordScreen = (props) => {
 
                             <View style={ChangePasswordStyles.inputWrapper}>
                                 <CustomTextInput
-                                    heading="Confirm New Password"
-                                    placeholder="Confirm New Password"
+                                    heading={t('ConfirmNewPassword')}
+                                    placeholder={t('EnterNewPassword')}
                                     value={confirmPassword}
                                     onChangeText={setConfirmPassword}
                                     type="password"
@@ -157,7 +157,7 @@ const ChangePasswordScreen = (props) => {
                             </View>
 
                             <CustomButton
-                                title="Change Password"
+                                title={t('ChangePassword')}
                                 onPress={()=>{handleChangePassword()}}
                                 backgroundColor={Colors.blue}
                                 textColor={Colors.white}
@@ -166,8 +166,8 @@ const ChangePasswordScreen = (props) => {
                             />
 
                             <SuccessModal
-                                heading={'change password'}
-                                subHeading={'Password change successfully'}
+                                heading={t('ChangePassword')}
+                                subHeading={t('PasswordChangedSuccessfully')}
                                 isModalOpen={isModal}
                                 onClose={() => {
                                     setIsmodal(false)

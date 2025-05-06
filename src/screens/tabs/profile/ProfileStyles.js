@@ -20,7 +20,7 @@ export const ProfileStyles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: Colors.red,
-        width: '30%',
+        width: '35%',
         paddingVertical: '3%'
     },
     logoutText: {

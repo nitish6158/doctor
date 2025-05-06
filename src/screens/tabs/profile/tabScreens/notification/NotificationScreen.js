@@ -129,7 +129,7 @@ const NotificationScreen = (props) => {
                     <Image source={Images.back_Icon} style={NotificationStyles.backIcon} />
                 </TouchableOpacity>
                 <View style={NotificationStyles.tabNameContainer}>
-                    <Text style={NotificationStyles.tabName}>Notification</Text>
+                    <Text style={NotificationStyles.tabName}>{t('Notification')}</Text>
                 </View>
             </View>
 

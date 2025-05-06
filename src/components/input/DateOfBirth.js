@@ -3,8 +3,10 @@ import { View, Text, StyleSheet, TouchableOpacity, Image, Alert } from 'react-na
 import { Picker } from '@react-native-picker/picker';
 import { Colors, Fonts, ResponsiveFont, WindowHeight as hp, WindowWidth as wp } from '../../assets';
 import { Images } from '../../assets';
+import { useTranslation } from '../customhooks';
 
 export const DateOfBirth = ({ onDateChange }) => {
+    const t=useTranslation();
     const [day, setDay] = useState('Day');
     const [month, setMonth] = useState('Month');
     const [year, setYear] = useState('Year');
@@ -35,7 +37,7 @@ export const DateOfBirth = ({ onDateChange }) => {
     return (
         <View style={styles.wrapper}>
             <View style={styles.header}>
-                <Text style={styles.label}>Date of Birth</Text>
+                <Text style={styles.label}>{t('DateOfBirth')}</Text>
                 <TouchableOpacity>
                     <Image
                         source={Images.editBlack}

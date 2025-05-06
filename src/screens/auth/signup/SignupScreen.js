@@ -128,7 +128,7 @@ const SignupScreen = (props) => {
             return false;
         }
         if (!uploadMedicalDocument) {
-            ToastMsg('Please select MRN document', 'bottom');
+            ToastMsg(t('SelectMRNDocument'), 'bottom');
             return false;
         }
         if (profile == '') {
@@ -137,7 +137,7 @@ const SignupScreen = (props) => {
         }
 
         if (profile=='OTHER' && otherProfile == '' ) {
-            ToastMsg('Please enter profile name', 'bottom');
+            ToastMsg(t('EnterProfileName'), 'bottom');
             return false;
         }
 
@@ -146,7 +146,7 @@ const SignupScreen = (props) => {
             return false;
         }
         if (selectedSector == '') {
-            ToastMsg('Please select sector', 'bottom');
+            ToastMsg(t('SelectSector'), 'bottom');
             return false;
         }
 
@@ -498,7 +498,7 @@ const SignupScreen = (props) => {
                         {step === 2 && (
                             <>
                                 <UploadFileButton
-                                    heading={"CV must include doctor's photo"}
+                                    heading={t('CVMustIncludePhoto')}
                                     title={t('UploadCV')}
                                     onPress={handleFileUpload}
                                     width='100%'
@@ -506,8 +506,8 @@ const SignupScreen = (props) => {
                                     required={true}
                                 />
                                 <UploadFileButton
-                                    heading={'MRN Document'}
-                                    title={'Upload Your MRN Document'}
+                                    heading={t('MRNDocument')}
+                                    title={t('UploadMRNDocument')}
                                     onPress={handleDocumentUpload}
                                     width='100%'
                                     fileurl={uploadMedicalDocument}
@@ -526,8 +526,8 @@ const SignupScreen = (props) => {
                                 />
                                 {profile?.toLowerCase() === 'other' &&
                                     <CustomTextInput
-                                        heading={'Profile Name'}
-                                        placeholder={'Enter Profile Name'}
+                                        heading={t('ProfileName')}
+                                        placeholder={t('EnterProfileName')}
                                         value={otherProfile}
                                         onChangeText={setOtherProfile}
                                         type="text"
@@ -536,7 +536,7 @@ const SignupScreen = (props) => {
                                     />
                                 }
                                 <CustomDropdown
-                                    heading={'Select Specialization'}
+                                    heading={t('SelectSpecialization')}
                                     placeholder={t('Select')}
                                     selectedValue={specialization}
                                     onValueChange={setSpecialization}
@@ -549,7 +549,7 @@ const SignupScreen = (props) => {
                                 <View style={{ marginVertical: '1%' }}>
                                     <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                                         <Text style={SignupStyles.label}>
-                                            {'Select Sector'}
+                                            {t('SelectSector1')}
                                         </Text>
                                         <Text style={SignupStyles.label3}>*</Text>
                                     </View>

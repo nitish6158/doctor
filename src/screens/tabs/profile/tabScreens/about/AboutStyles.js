@@ -25,7 +25,7 @@ export const AboutStyles = StyleSheet.create({
     color: Colors.white,
   },
   tabNameContainer: {
-    width: '65%',
+    width: '53%',
     alignItems: 'center',
     alignItems: 'flex-start',
   },

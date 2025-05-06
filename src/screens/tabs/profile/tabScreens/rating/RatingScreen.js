@@ -65,7 +65,7 @@ const RatingScreen = (props) => {
                         style={RatingStyles.avatar}
                     />
                     <View style={RatingStyles.textContainer}>
-                        <Text style={RatingStyles.userName}>Anonymous</Text>
+                        <Text style={RatingStyles.userName}>{t('Anonymous')}</Text>
                         <View style={RatingStyles.starRow}>
                             {[...Array(5)].map((_, index) => (
                                 <Image
@@ -107,7 +107,7 @@ const RatingScreen = (props) => {
                     />
                 </TouchableOpacity>
                 <View style={RatingStyles.tabNameContainer}>
-                    <Text style={RatingStyles.tabName}>My Rating</Text>
+                    <Text style={RatingStyles.tabName}>{t('MyRating')}</Text>
                 </View>
             </View>
 
